@@ -15,10 +15,10 @@ const Navbar = () => {
                 
                 {/* Botões visíveis em telas maiores */}
                 <div className="hidden sm:flex space-x-4">
-                    <button className="bg-white border border-black hover:bg-black hover:text-white text-black px-4 py-2 rounded text-base">
+                    <button className="bg-white border border-black hover:bg-black hover:text-white text-black px-4 py-2 text-base">
                         Criar Usuário
                     </button>
-                    <button className="bg-white border border-black hover:bg-black hover:text-white text-black px-4 py-2 rounded text-base">
+                    <button className="bg-white border border-black hover:bg-black hover:text-white text-black px-4 py-2 text-base">
                         Login
                     </button>
                 </div>
@@ -36,10 +36,10 @@ const Navbar = () => {
             {/* Menu dropdown para mobile */}
             {isMenuOpen && (
                 <div className="sm:hidden bg-white border-t border-black px-4 py-3 flex flex-col space-y-2">
-                    <button className="bg-white border border-black hover:bg-black hover:text-white text-black px-3 py-1 rounded text-sm w-full text-left">
+                    <button className="bg-white border border-black hover:bg-black hover:text-white text-black px-3 py-1 text-sm w-full text-left">
                         Criar Usuário
                     </button>
-                    <button className="bg-white border border-black hover:bg-black hover:text-white text-black px-3 py-1 rounded text-sm w-full text-left">
+                    <button className="bg-white border border-black hover:bg-black hover:text-white text-black px-3 py-1 text-sm w-full text-left">
                         Login
                     </button>
                 </div>
