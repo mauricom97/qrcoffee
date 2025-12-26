@@ -35,7 +35,7 @@ const Navbar = () => {
             
             {/* Menu dropdown para mobile */}
             {isMenuOpen && (
-                <div className="sm:hidden bg-red-50 border-t border-black px-4 py-3 flex flex-col space-y-2">
+                <div className="sm:hidden bg-white border-t border-black px-4 py-3 flex flex-col space-y-2">
                     <button className="bg-white border border-black hover:bg-black hover:text-white text-black px-3 py-1 rounded text-sm w-full text-left">
                         Criar Usuário
                     </button>

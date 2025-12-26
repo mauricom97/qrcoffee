@@ -13,7 +13,7 @@ const WelcomePage = () => {
     return (
         <div>
             {/* Seção de Boas-Vindas (já existente) */}
-            <section className="min-h-screen bg-white">
+            <section className="bg-white">
                 <Navbar />
                 <div className={`flex flex-col mt-16 sm:mt-20 md:flex-row items-center justify-center p-4 sm:p-8 md:p-20 space-y-8 md:space-y-0 md:space-x-10 transition-opacity duration-1000 ${textVisible ? "opacity-100" : "opacity-0"}`}>
                     {/* Imagem à esquerda */}
