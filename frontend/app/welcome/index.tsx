@@ -13,7 +13,7 @@ const WelcomePage = () => {
     return (
         <div>
             {/* Seção de Boas-Vindas (já existente) */}
-            <section className="min-h-screen bg-yellow-50">
+            <section className="min-h-screen bg-white">
                 <Navbar />
                 <div className={`flex flex-col mt-16 sm:mt-20 md:flex-row items-center justify-center p-4 sm:p-8 md:p-20 space-y-8 md:space-y-0 md:space-x-10 transition-opacity duration-1000 ${textVisible ? "opacity-100" : "opacity-0"}`}>
                     {/* Imagem à esquerda */}
@@ -61,7 +61,7 @@ const WelcomePage = () => {
             </section>
 
             {/* Seção "Feedbacks" */}
-            <section id="feedbacks" className="py-12 sm:py-16 md:py-20 bg-yellow-50">
+            <section id="feedbacks" className="py-12 sm:py-16 md:py-20 bg-white">
                 <div className="container mx-auto px-4 sm:px-8 md:px-20">
                     <h2 className="text-2xl sm:text-3xl font-bold text-center text-black mb-8 md:mb-10">Feedbacks dos Nossos Clientes</h2>
                     <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6 sm:gap-8">

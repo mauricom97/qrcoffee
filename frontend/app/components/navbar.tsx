@@ -9,7 +9,7 @@ const Navbar = () => {
     };
 
     return (
-        <nav className="fixed top-0 left-0 w-full bg-red-50 border border-black text-black shadow-md z-50">
+        <nav className="fixed top-0 left-0 w-full bg-white border border-black text-black shadow-md z-50">
             <div className="container mx-auto px-4 sm:px-6 md:px-8 py-3 flex justify-between items-center">
                 <div className="text-base sm:text-lg font-bold border border-black p-2 sm:p-3">QRC</div>
                 
