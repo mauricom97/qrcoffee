@@ -1,5 +1,5 @@
 'use client'
-import Navbar from "../components/navbar";
+import Navbar from "components/navbar";
 import { useEffect, useState } from "react";
 
 const WelcomePage = () => {
