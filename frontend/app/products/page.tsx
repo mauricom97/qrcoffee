@@ -8,34 +8,113 @@ interface Product {
   price: number;
   category: string;
   active: boolean;
+  images?: string[];
 }
 
 export default function ProductsPage() {
   const [products, setProducts] = useState<Product[]>([]);
+  const [showForm, setShowForm] = useState(false);
+  const [editingProduct, setEditingProduct] = useState<Product | null>(null);
   const [newProduct, setNewProduct] = useState({
     name: '',
     price: 0,
     category: '',
     active: true,
+    images: [] as string[],
   });
+  const [showImages, setShowImages] = useState<number | null>(null);
 
   useEffect(() => {
     setProducts([
-      { id: 1, name: 'Espresso', price: 6.5, category: 'Drinks', active: true },
-      { id: 2, name: 'Cappuccino', price: 9.9, category: 'Drinks', active: true },
-      { id: 3, name: 'Cheese Bread', price: 5.0, category: 'Food', active: false },
+      { 
+        id: 1, 
+        name: 'Espresso', 
+        price: 6.5, 
+        category: 'Drinks', 
+        active: true,
+        images: ['https://picsum.photos/seed/espresso1/400/300', 'https://picsum.photos/seed/espresso2/400/300'] 
+      },
+      { 
+        id: 2, 
+        name: 'Cappuccino', 
+        price: 9.9, 
+        category: 'Drinks', 
+        active: true,
+        images: ['https://picsum.photos/seed/cappuccino1/400/300', 'https://picsum.photos/seed/cappuccino2/400/300'] 
+      },
+      { 
+        id: 3, 
+        name: 'Cheese Bread', 
+        price: 5.0, 
+        category: 'Food', 
+        active: false,
+        images: ['https://picsum.photos/seed/cheesebread1/400/300', 'https://picsum.photos/seed/cheesebread2/400/300'] 
+      },
     ]);
   }, []);
 
-  const handleAddProduct = () => {
+  const resetForm = () => {
+    setNewProduct({ name: '', price: 0, category: '', active: true, images: [] });
+    setEditingProduct(null);
+    setShowForm(false);
+  };
+
+  const handleEdit = (product: Product) => {
+    setEditingProduct(product);
+    setNewProduct({
+      name: product.name,
+      price: product.price,
+      category: product.category,
+      active: product.active,
+      images: product.images || [],
+    });
+    setShowForm(true);
+  };
+
+  const handleImageUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const files = e.target.files;
+    if (files) {
+      const readers = Array.from(files).map((file) => {
+        return new Promise<string>((resolve) => {
+          const reader = new FileReader();
+          reader.onload = () => resolve(reader.result as string);
+          reader.readAsDataURL(file);
+        });
+      });
+
+      Promise.all(readers).then((newImages) => {
+        setNewProduct((prev) => ({
+          ...prev,
+          images: [...prev.images, ...newImages],
+        }));
+      });
+    }
+  };
+
+  const removeImage = (index: number) => {
+    setNewProduct((prev) => ({
+      ...prev,
+      images: prev.images.filter((_, i) => i !== index),
+    }));
+  };
+
+  const handleSaveProduct = () => {
     if (!newProduct.name || newProduct.price <= 0) return;
 
-    setProducts((prev) => [
-      ...prev,
-      { id: Date.now(), ...newProduct },
-    ]);
+    const productData = {
+      id: editingProduct ? editingProduct.id : Date.now(),
+      ...newProduct,
+    };
 
-    setNewProduct({ name: '', price: 0, category: '', active: true });
+    if (editingProduct) {
+      setProducts((prev) =>
+        prev.map((p) => (p.id === editingProduct.id ? productData : p))
+      );
+    } else {
+      setProducts((prev) => [...prev, productData]);
+    }
+
+    resetForm();
   };
 
   const toggleStatus = (id: number) => {
@@ -50,6 +129,8 @@ export default function ProductsPage() {
     setProducts((prev) => prev.filter((p) => p.id !== id));
   };
 
+  const selectedProduct = products.find((p) => p.id === showImages);
+
   return (
     <div className="min-h-screen bg-zinc-50 p-4 md:p-8">
       <div className="mx-auto max-w-6xl space-y-8">
@@ -63,73 +144,121 @@ export default function ProductsPage() {
           </p>
         </header>
 
-        {/* Add product */}
-        <section className="text-black rounded-2xl bg-white p-4 shadow-sm md:p-6">
-          <h2 className="mb-4 text-lg font-medium text-zinc-800">
-            Adicionar novos produtos
-          </h2>
+        {/* Add/Edit product button */}
+        <button
+          onClick={() => {
+            if (showForm) {
+              resetForm();
+            } else {
+              resetForm();
+              setShowForm(true);
+            }
+          }}
+          className="rounded-lg bg-zinc-900 px-4 py-2 text-sm font-medium text-white hover:bg-zinc-800 transition"
+        >
+          {showForm ? 'Cancelar' : 'Adicionar Produto'}
+        </button>
 
-          <div className="grid gap-4 md:grid-cols-5">
-            <input
-              type="text"
-              placeholder="Nome do produto"
-              value={newProduct.name}
-              onChange={(e) =>
-                setNewProduct({ ...newProduct, name: e.target.value })
-              }
-              className="rounded-lg border border-zinc-200 px-3 py-2 text-sm focus:outline-none focus:border-zinc-400"
-            />
+        {showForm && (
+          <section className="text-black rounded-2xl bg-white p-4 shadow-sm md:p-6">
+            <h2 className="mb-4 text-lg font-medium text-zinc-800">
+              {editingProduct ? 'Editar Produto' : 'Adicionar Novo Produto'}
+            </h2>
 
-            <input
-              type="number"
-              min={1}
-              placeholder="Price"
-              value={newProduct.price}
-              onChange={(e) =>
-                setNewProduct({
-                  ...newProduct,
-                  price: parseFloat(e.target.value),
-                })
-              }
-              className="rounded-lg border border-zinc-200 px-3 py-2 text-sm focus:outline-none focus:border-zinc-400"
-            />
-
-            <input
-              type="text"
-              placeholder="Categoria"
-              value={newProduct.category}
-              onChange={(e) =>
-                setNewProduct({
-                  ...newProduct,
-                  category: e.target.value,
-                })
-              }
-              className="rounded-lg border border-zinc-200 px-3 py-2 text-sm focus:outline-none focus:border-zinc-400"
-            />
-
-            <label className="flex items-center gap-2 text-sm text-zinc-700">
+            <div className="grid gap-4 md:grid-cols-4">
               <input
-                type="checkbox"
-                checked={newProduct.active}
+                type="text"
+                placeholder="Nome do produto"
+                value={newProduct.name}
+                onChange={(e) =>
+                  setNewProduct({ ...newProduct, name: e.target.value })
+                }
+                className="rounded-lg border border-zinc-200 px-3 py-2 text-sm focus:outline-none focus:border-zinc-400"
+              />
+
+              <input
+                type="number"
+                min={1}
+                placeholder="Preço"
+                value={newProduct.price}
                 onChange={(e) =>
                   setNewProduct({
                     ...newProduct,
-                    active: e.target.checked,
+                    price: parseFloat(e.target.value),
                   })
                 }
-                className="h-4 w-4 rounded border-zinc-300"
+                className="rounded-lg border border-zinc-200 px-3 py-2 text-sm focus:outline-none focus:border-zinc-400"
               />
-              Ativo
-            </label>
+
+              <input
+                type="text"
+                placeholder="Categoria"
+                value={newProduct.category}
+                onChange={(e) =>
+                  setNewProduct({
+                    ...newProduct,
+                    category: e.target.value,
+                  })
+                }
+                className="rounded-lg border border-zinc-200 px-3 py-2 text-sm focus:outline-none focus:border-zinc-400"
+              />
+
+              <label className="flex items-center gap-2 text-sm text-zinc-700">
+                <input
+                  type="checkbox"
+                  checked={newProduct.active}
+                  onChange={(e) =>
+                    setNewProduct({
+                      ...newProduct,
+                      active: e.target.checked,
+                    })
+                  }
+                  className="h-4 w-4 rounded border-zinc-300"
+                />
+                Ativo
+              </label>
+            </div>
+
+            <div className="mt-4">
+              <label className="block text-sm font-medium text-zinc-800 mb-2">
+                Upload de Imagens
+              </label>
+              <input
+                type="file"
+                multiple
+                accept="image/*"
+                onChange={handleImageUpload}
+                className="rounded-lg border border-zinc-200 px-3 py-2 text-sm w-full"
+              />
+              {newProduct.images.length > 0 && (
+                <div className="mt-4 grid grid-cols-3 gap-4">
+                  {newProduct.images.map((img, index) => (
+                    <div key={index} className="relative">
+                      <img
+                        src={img}
+                        alt={`Imagem ${index + 1}`}
+                        className="h-24 w-full object-cover rounded-lg"
+                      />
+                      <button
+                        onClick={() => removeImage(index)}
+                        className="absolute top-0 right-0 bg-red-500 text-white px-2 py-1 text-xs rounded-full"
+                      >
+                        X
+                      </button>
+                    </div>
+                  ))}
+                </div>
+              )}
+            </div>
 
             <button
-              onClick={handleAddProduct}
-              className="rounded-lg bg-zinc-900 px-4 py-2 text-sm font-medium text-white hover:bg-zinc-800 transition"
+              onClick={handleSaveProduct}
+              className="mt-4 rounded-lg bg-zinc-900 px-4 py-2 text-sm font-medium text-white hover:bg-zinc-800 transition w-full md:w-auto"
             >
-              Adicionar produto
+              {editingProduct ? 'Atualizar Produto' : 'Adicionar Produto'}
             </button>
-          </div>
-        </section>
+          </section>
+        )}
 
         {/* Products list */}
         <section className="rounded-2xl bg-white p-4 shadow-sm md:p-6">
@@ -148,14 +277,14 @@ export default function ProductsPage() {
                     {product.name}
                   </h3>
                   <p className="text-sm text-zinc-500">
-                    Category: {product.category || '—'}
+                    Categoria: {product.category || '—'}
                   </p>
                   <p className="text-lg font-semibold text-zinc-900">
                     R$ {product.price.toFixed(2)}
                   </p>
                 </div>
 
-                <div className="mt-4 flex items-center justify-between">
+                <div className="mt-4 flex items-center justify-between flex-wrap gap-2">
                   <span
                     className={`rounded-full px-3 py-1 text-xs font-medium ${
                       product.active
@@ -166,7 +295,7 @@ export default function ProductsPage() {
                     {product.active ? 'Ativo' : 'Inativo'}
                   </span>
 
-                  <div className="flex gap-2">
+                  <div className="flex gap-2 flex-wrap">
                     <button
                       onClick={() => toggleStatus(product.id)}
                       className="rounded-lg border border-zinc-200 px-3 py-1 text-xs hover:bg-zinc-100 transition"
@@ -179,6 +308,20 @@ export default function ProductsPage() {
                       className="rounded-lg border border-red-200 px-3 py-1 text-xs text-red-600 hover:bg-red-50 transition"
                     >
                       Delete
+                    </button>
+
+                    <button
+                      onClick={() => setShowImages(product.id)}
+                      className="rounded-lg border border-blue-200 px-3 py-1 text-xs text-blue-600 hover:bg-blue-50 transition"
+                    >
+                      Mostrar imagens
+                    </button>
+
+                    <button
+                      onClick={() => handleEdit(product)}
+                      className="rounded-lg border border-green-200 px-3 py-1 text-xs text-green-600 hover:bg-green-50 transition"
+                    >
+                      Editar
                     </button>
                   </div>
                 </div>
@@ -193,6 +336,40 @@ export default function ProductsPage() {
           )}
         </section>
       </div>
+
+      {showImages !== null && selectedProduct && (
+        <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
+          <div className="bg-white p-6 rounded-2xl shadow-xl max-w-4xl w-full max-h-[80vh] overflow-y-auto">
+            <h2 className="text-xl font-semibold text-zinc-800 mb-4">
+              Imagens de {selectedProduct.name}
+            </h2>
+            
+            {selectedProduct.images && selectedProduct.images.length > 0 ? (
+              <div className="flex overflow-x-auto gap-4 pb-4">
+                {selectedProduct.images.map((img, idx) => (
+                  <img
+                    key={idx}
+                    src={img}
+                    alt={`Imagem ${idx + 1} de ${selectedProduct.name}`}
+                    className="h-64 object-contain flex-shrink-0 rounded-lg"
+                  />
+                ))}
+              </div>
+            ) : (
+              <p className="text-sm text-zinc-500">
+                Nenhuma imagem disponível para este produto.
+              </p>
+            )}
+            
+            <button
+              onClick={() => setShowImages(null)}
+              className="mt-6 w-full rounded-lg bg-zinc-900 px-4 py-2 text-sm font-medium text-white hover:bg-zinc-800 transition"
+            >
+              Fechar
+            </button>
+          </div>
+        </div>
+      )}
     </div>
   );
 }
