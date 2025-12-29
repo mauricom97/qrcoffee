@@ -1,80 +1,196 @@
 'use client';
-import { useEffect, useState } from "react";
-import { LineChart, Line, CartesianGrid, XAxis, YAxis, Tooltip, BarChart, Bar, Legend } from "recharts";
 
-const data = [
-    { name: 'Apr', uv: 278, pv: 3908, amt: 2000 },
-    { name: 'May', uv: 189, pv: 4800, amt: 2181 },
-];
+import { useState } from 'react';
+import {
+  LineChart,
+  Line,
+  CartesianGrid,
+  XAxis,
+  YAxis,
+  Tooltip,
+  BarChart,
+  Bar,
+  Legend,
+  ResponsiveContainer,
+} from 'recharts';
 
-const Dashboard = () => {
-    const [innerWidth, setInnerWidth] = useState(0);
-
-    useEffect(() => {
-        // Set the innerWidth on the client side
-        setInnerWidth(window.innerWidth);
-
-        // Optional: Add a resize listener to update the width dynamically
-        const handleResize = () => setInnerWidth(window.innerWidth);
-        window.addEventListener("resize", handleResize);
-
-        return () => {
-            window.removeEventListener("resize", handleResize);
-        };
-    }, []);
-
-    return (
-        <div className="flex flex-col items-center justify-center min-h-screen min-w-screen bg-gray-200 max-w-7xl p-4 md:p-6">
-            <h1 className="text-3xl md:text-4xl font-bold text-gray-800 mb-6 text-center">Nossas métricas</h1>
-            
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-6 w-full max-w-7xl">
-                {/* Card 1: Line Chart */}
-                <div className="bg-white shadow-md rounded-lg p-4">
-                    <h2 className="text-lg md:text-xl font-semibold text-gray-700 mb-4 text-center">Monthly Performance</h2>
-                    <div className="w-full overflow-x-auto">
-                        {innerWidth > 0 && (
-                            <LineChart width={Math.min(400, innerWidth - 40)} height={200} data={data}>
-                                <Line type="monotone" dataKey="uv" stroke="#8884d8" />
-                                <CartesianGrid stroke="#ccc" />
-                                <XAxis dataKey="name" />
-                                <YAxis />
-                                <Tooltip />
-                            </LineChart>
-                        )}
-                    </div>
-                </div>
-
-                {/* Card 2: Bar Chart */}
-                <div className="bg-white shadow-md rounded-lg p-4">
-                    <h2 className="text-lg md:text-xl font-semibold text-gray-700 mb-4 text-center">User Engagement</h2>
-                    <div className="w-full overflow-x-auto">
-                        {innerWidth > 0 && (
-                            <BarChart width={Math.min(400, innerWidth - 40)} height={200} data={data}>
-                                <CartesianGrid strokeDasharray="3 3" />
-                                <XAxis dataKey="name" />
-                                <YAxis />
-                                <Tooltip />
-                                <Legend />
-                                <Bar dataKey="pv" fill="#8884d8" />
-                                <Bar dataKey="uv" fill="#82ca9d" />
-                            </BarChart>
-                        )}
-                    </div>
-                </div>
-
-                {/* Card 3: Metrics */}
-                <div className="bg-white shadow-md rounded-lg p-4 col-span-1 md:col-span-2">
-                    <h2 className="text-lg md:text-xl font-semibold text-gray-700 mb-4 text-center">Key Metrics</h2>
-                    <div className="flex flex-wrap justify-around gap-4">
-                        <div className="text-center">
-                            <p className="text-2xl md:text-3xl font-bold text-gray-800">120</p>
-                            <p className="text-sm md:text-base text-gray-600">New Users</p>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    );
+/* =======================
+   MOCK DE PERMISSÕES
+======================= */
+const userPermission = {
+  canViewAttendance: true,
+  canViewFinancial: true, // altere para testar
 };
 
-export default Dashboard;
+/* =======================
+   DADOS
+======================= */
+const attendanceData = [
+  { month: 'Jan', attendances: 300, avgTime: 15 },
+  { month: 'Feb', attendances: 320, avgTime: 14 },
+  { month: 'Mar', attendances: 290, avgTime: 16 },
+  { month: 'Apr', attendances: 340, avgTime: 13 },
+  { month: 'May', attendances: 310, avgTime: 15 },
+  { month: 'Jun', attendances: 360, avgTime: 12 },
+];
+
+const financialData = [
+  { month: 'Jan', revenue: 12000, expenses: 8000 },
+  { month: 'Feb', revenue: 13500, expenses: 8500 },
+  { month: 'Mar', revenue: 11000, expenses: 7800 },
+  { month: 'Apr', revenue: 15000, expenses: 9000 },
+  { month: 'May', revenue: 14500, expenses: 8800 },
+  { month: 'Jun', revenue: 16000, expenses: 9500 },
+];
+
+export default function Dashboard() {
+  const [activeTab, setActiveTab] = useState<'attendance' | 'financial'>(
+    userPermission.canViewAttendance ? 'attendance' : 'financial'
+  );
+
+  return (
+    <div className="min-h-screen bg-zinc-100 p-4 md:p-8">
+      <div className="mx-auto max-w-7xl space-y-6">
+        {/* Header */}
+        <header>
+          <h1 className="text-2xl md:text-3xl font-semibold text-zinc-800">
+            Dashboard
+          </h1>
+          <p className="text-sm text-zinc-500">
+            Acompanhamento de métricas do sistema
+          </p>
+        </header>
+
+        {/* Tabs */}
+        <div className="flex gap-2">
+          {userPermission.canViewAttendance && (
+            <button
+              onClick={() => setActiveTab('attendance')}
+              className={`rounded-lg px-4 py-2 text-sm font-medium transition ${
+                activeTab === 'attendance'
+                  ? 'bg-zinc-900 text-white'
+                  : 'bg-white text-zinc-600 hover:bg-zinc-200'
+              }`}
+            >
+              Atendimento
+            </button>
+          )}
+
+          {userPermission.canViewFinancial && (
+            <button
+              onClick={() => setActiveTab('financial')}
+              className={`rounded-lg px-4 py-2 text-sm font-medium transition ${
+                activeTab === 'financial'
+                  ? 'bg-zinc-900 text-white'
+                  : 'bg-white text-zinc-600 hover:bg-zinc-200'
+              }`}
+            >
+              Financeiro
+            </button>
+          )}
+        </div>
+
+        {/* =======================
+           ATENDIMENTO
+        ======================= */}
+        {activeTab === 'attendance' && userPermission.canViewAttendance && (
+          <section className="grid grid-cols-1 md:grid-cols-2 gap-6">
+            {/* Atendimentos */}
+            <div className="rounded-2xl bg-white p-4 shadow-sm">
+              <h2 className="mb-4 text-lg font-medium text-zinc-800">
+                Atendimentos Mensais
+              </h2>
+
+              <ResponsiveContainer width="100%" height={300}>
+                <LineChart data={attendanceData}>
+                  <Line
+                    type="monotone"
+                    dataKey="attendances"
+                    stroke="#6366f1"
+                    strokeWidth={2}
+                  />
+                  <CartesianGrid stroke="#e5e7eb" />
+                  <XAxis dataKey="month" />
+                  <YAxis />
+                  <Tooltip />
+                </LineChart>
+              </ResponsiveContainer>
+            </div>
+
+            {/* Tempo médio */}
+            <div className="rounded-2xl bg-white p-4 shadow-sm">
+              <h2 className="mb-4 text-lg font-medium text-zinc-800">
+                Tempo Médio de Atendimento
+              </h2>
+
+              <ResponsiveContainer width="100%" height={300}>
+                <BarChart data={attendanceData}>
+                  <Bar dataKey="avgTime" fill="#22c55e" />
+                  <CartesianGrid stroke="#e5e7eb" />
+                  <XAxis dataKey="month" />
+                  <YAxis />
+                  <Tooltip />
+                </BarChart>
+              </ResponsiveContainer>
+            </div>
+          </section>
+        )}
+
+        {/* =======================
+           FINANCEIRO
+        ======================= */}
+        {activeTab === 'financial' && userPermission.canViewFinancial && (
+          <section className="grid grid-cols-1 md:grid-cols-2 gap-6">
+            {/* Receita */}
+            <div className="rounded-2xl bg-white p-4 shadow-sm">
+              <h2 className="mb-4 text-lg font-medium text-zinc-800">
+                Receita Mensal
+              </h2>
+
+              <ResponsiveContainer width="100%" height={300}>
+                <LineChart data={financialData}>
+                  <Line
+                    type="monotone"
+                    dataKey="revenue"
+                    stroke="#0ea5e9"
+                    strokeWidth={2}
+                  />
+                  <CartesianGrid stroke="#e5e7eb" />
+                  <XAxis dataKey="month" />
+                  <YAxis />
+                  <Tooltip />
+                </LineChart>
+              </ResponsiveContainer>
+            </div>
+
+            {/* Despesas */}
+            <div className="rounded-2xl bg-white p-4 shadow-sm">
+              <h2 className="mb-4 text-lg font-medium text-zinc-800">
+                Despesas Mensais
+              </h2>
+
+              <ResponsiveContainer width="100%" height={300}>
+                <BarChart data={financialData}>
+                  <Bar dataKey="expenses" fill="#ef4444" />
+                  <CartesianGrid stroke="#e5e7eb" />
+                  <XAxis dataKey="month" />
+                  <YAxis />
+                  <Tooltip />
+                  <Legend />
+                </BarChart>
+              </ResponsiveContainer>
+            </div>
+          </section>
+        )}
+
+        {/* Sem permissão */}
+        {!userPermission.canViewAttendance &&
+          !userPermission.canViewFinancial && (
+            <div className="rounded-xl bg-yellow-50 p-4 text-yellow-700">
+              Você não possui permissão para visualizar métricas.
+            </div>
+          )}
+      </div>
+    </div>
+  );
+}

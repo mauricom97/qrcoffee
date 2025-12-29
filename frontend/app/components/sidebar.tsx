@@ -4,6 +4,10 @@ import { HiOutlineDeviceTablet, HiMenu, HiX } from "react-icons/hi";
 import { LuTableOfContents } from "react-icons/lu";
 import { FaHome, FaPhone } from "react-icons/fa";
 import { MdOutlineTableBar } from "react-icons/md";
+import { FaMoneyBillWave } from "react-icons/fa";
+import { GrCafeteria } from "react-icons/gr";
+
+
 
 const Sidebar = () => {
     const [isOpen, setIsOpen] = useState(false);
@@ -36,11 +40,18 @@ const Sidebar = () => {
                     src="https://media.licdn.com/dms/image/v2/D4D03AQFIh2dcQ-8QPw/profile-displayphoto-crop_800_800/B4DZqKR5eRIgAQ-/0/1763256540932?e=1768435200&v=beta&t=lBC0r0UhBP9kVw5Ktbey1OxiMWl4NDpM9NtOwAIGgXU"
                     alt="Profile"
                 />
+                <h1 className="">QRCOFFEE</h1>
                 <ul className="space-y-4 w-full">
                     <Link href="/dashboard">
                         <li className="flex items-center space-x-3 hover:bg-stone-300 p-3 rounded-md cursor-pointer">
                             <FaHome className="text-xl" />
                             <span className="text-lg font-medium">Dashboard</span>
+                        </li>
+                    </Link>
+                    <Link href="/products">
+                        <li className="flex items-center space-x-3 hover:bg-stone-300 p-3 rounded-md cursor-pointer">
+                            <GrCafeteria  className="text-xl" />
+                            <span className="text-lg font-medium">Produtos</span>
                         </li>
                     </Link>
                     <Link href="/tables">
@@ -49,7 +60,7 @@ const Sidebar = () => {
                             <span className="text-lg font-medium">Mesas</span>
                         </li>
                     </Link>
-                    <Link href={"/tabs"}>
+                    <Link href="/tabs">
                         <li className="flex items-center space-x-3 hover:bg-stone-300 p-3 rounded-md cursor-pointer">
                             <HiOutlineDeviceTablet className="text-xl" />
                             <span className="text-lg font-medium">Comandas</span>
@@ -63,12 +74,13 @@ const Sidebar = () => {
                         </li>
                     </Link>
 
-
-
+                    <Link href="/cashier">
                     <li className="flex items-center space-x-3 hover:bg-stone-300 p-3 rounded-md cursor-pointer">
-                        <FaPhone className="text-xl" />
-                        <span className="text-lg font-medium">Contact</span>
+                        <FaMoneyBillWave className="text-xl" />
+                        <span className="text-lg font-medium">Caixa</span>
                     </li>
+                    </Link>
+
                 </ul>
             </div>
         </>

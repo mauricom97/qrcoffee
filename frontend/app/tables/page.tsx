@@ -20,8 +20,8 @@ interface Mesa {
 const TableManager: React.FC = () => {
     
     const [mesas, setMesas] = useState<Mesa[]>([]);
-    const [numero, setNumero] = useState<number>(0);
-    const [descricao, setDescricao] = useState<string>('');
+    const [numero, setNumero] = useState<number>(1);
+    const [descricao, setDescricao] = useState<string>('Nenhuma descrição informada.');
     const [comandaDescription, setComandaDescription] = useState<string>('');
 
     const addMesa = () => {
@@ -87,6 +87,7 @@ const TableManager: React.FC = () => {
                         type="number"
                         placeholder="Número da Mesa"
                         value={numero}
+                        min={1}
                         onChange={(e) => setNumero(Number(e.target.value))}
                         className="border rounded-lg p-2 flex-1"
                     />
