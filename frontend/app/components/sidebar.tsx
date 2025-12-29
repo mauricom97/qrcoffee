@@ -6,6 +6,8 @@ import { FaHome, FaPhone } from "react-icons/fa";
 import { MdOutlineTableBar } from "react-icons/md";
 import { FaMoneyBillWave } from "react-icons/fa";
 import { GrCafeteria } from "react-icons/gr";
+import { FaBox } from "react-icons/fa";
+
 
 
 
@@ -79,6 +81,12 @@ const Sidebar = () => {
                         <FaMoneyBillWave className="text-xl" />
                         <span className="text-lg font-medium">Caixa</span>
                     </li>
+                    </Link>
+
+                    <Link href="/stock">
+                    <li className="flex items-center space-x-3 hover:bg-stone-300 p-3 rounded-md cursor-pointer">
+                        <FaBox  className="text-xl" />
+                        <span className="text-lg font-medium">Estoque</span>                    </li>
                     </Link>
 
                 </ul>

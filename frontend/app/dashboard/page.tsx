@@ -50,7 +50,7 @@ export default function Dashboard() {
 
   return (
     <div className="min-h-screen bg-zinc-100 p-4 md:p-8">
-      <div className="mx-auto max-w-7xl space-y-6">
+      <div className="mx-auto max-w-7xl space-y-6 mt-15">
         {/* Header */}
         <header>
           <h1 className="text-2xl md:text-3xl font-semibold text-zinc-800">
