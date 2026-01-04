@@ -25,32 +25,20 @@ export default function ProductsPage() {
   const [showImages, setShowImages] = useState<number | null>(null);
 
   useEffect(() => {
-    setProducts([
-      { 
-        id: 1, 
-        name: 'Espresso', 
-        price: 6.5, 
-        category: 'Drinks', 
-        active: true,
-        images: ['https://picsum.photos/seed/espresso1/400/300', 'https://picsum.photos/seed/espresso2/400/300'] 
-      },
-      { 
-        id: 2, 
-        name: 'Cappuccino', 
-        price: 9.9, 
-        category: 'Drinks', 
-        active: true,
-        images: ['https://picsum.photos/seed/cappuccino1/400/300', 'https://picsum.photos/seed/cappuccino2/400/300'] 
-      },
-      { 
-        id: 3, 
-        name: 'Cheese Bread', 
-        price: 5.0, 
-        category: 'Food', 
-        active: false,
-        images: ['https://picsum.photos/seed/cheesebread1/400/300', 'https://picsum.photos/seed/cheesebread2/400/300'] 
-      },
-    ]);
+    async function fetchProducts() {
+      try {
+        const response = await fetch('http://localhost:3352/products/all');
+        if (!response.ok) {
+          throw new Error(`HTTP error! status: ${response.status}`);
+        }
+        const data: Product[] = await response.json();
+        setProducts(data);
+      } catch (error) {
+        console.error('Failed to fetch products:', error);
+      }
+    }
+
+    fetchProducts();
   }, []);
 
   const resetForm = () => {
