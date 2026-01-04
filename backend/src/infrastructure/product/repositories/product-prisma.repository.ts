@@ -5,8 +5,8 @@ import { Module } from '@nestjs/common'
 const prisma = new PrismaService()
 
 export class ProductPrismaRepository {
-  async save(product: Product): Promise<void> {
-    await prisma.client.product.create({
+  async save(product: Product): Promise<Product> {
+    return await prisma.client.product.create({
       data: {
         uuid: product.uuid,
         name: product.name,
