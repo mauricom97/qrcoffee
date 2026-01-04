@@ -4,9 +4,10 @@ import { Product } from '@domain/product/entities/product.entity';
 import { Price } from '@domain/product/value-objects/price.vo';
 
 interface CreateProductInput {
-  id: string;
+  uuid: string;
   name: string;
   price: number;
+  active: boolean;
 }
 
 export class CreateProductUseCase {
@@ -14,9 +15,10 @@ export class CreateProductUseCase {
 
   async execute(input: CreateProductInput): Promise<void> {
     const product = new Product(
-      input.id,
+      input.uuid,
       input.name,
-      new Price(input.price),
+      input.price,
+      input.active,
       'default-category-uuid'
     );
 

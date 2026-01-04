@@ -5,7 +5,8 @@ export class Product {
   constructor(
     public readonly uuid: string,
     public name: string,
-    public price: Price,
+    public price: number,
+    public active: boolean,
     public categoryUuid: string,
   ) {
     if (!name) {
