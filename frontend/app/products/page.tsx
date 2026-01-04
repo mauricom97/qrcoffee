@@ -99,6 +99,7 @@ export default function ProductsPage() {
         prev.map((p) => (p.id === editingProduct.id ? productData : p))
       );
     } else {
+      createProduct(productData);
       setProducts((prev) => [...prev, productData]);
     }
 
@@ -111,6 +112,28 @@ export default function ProductsPage() {
         p.id === id ? { ...p, active: !p.active } : p
       )
     );
+  };
+
+  const createProduct = async (product: { name: string; price: number; active: boolean }) => {
+    try {
+      const response = await fetch('http://localhost:3352/products', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(product),
+      });
+  
+      if (!response.ok) {
+        throw new Error(`Failed to create product: ${response.statusText}`);
+      }
+  
+      const data = await response.json();
+      console.log('Product created successfully:', data);
+      return data;
+    } catch (error) {
+      console.error('Error creating product:', error);
+    }
   };
 
   const deleteProduct = (id: number) => {
