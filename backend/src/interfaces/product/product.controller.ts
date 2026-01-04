@@ -1,6 +1,7 @@
 // interfaces/product/product.controller.ts
-import { Body, Controller, Get, Post } from '@nestjs/common';
+import { Body, Controller, Delete, Get, Post } from '@nestjs/common';
 import { CreateProductUseCase } from '@/application/product/use-cases/create-product.usecase';
+import { DestroyProductUseCase } from '@/application/product/use-cases/destroy-product.usecase';
 import { randomUUID } from 'crypto';
 import { CreateProductDto } from './dto/create-product.dto';
 
@@ -8,6 +9,7 @@ import { CreateProductDto } from './dto/create-product.dto';
 export class ProductController {
   constructor(
     private readonly createProductUseCase: CreateProductUseCase,
+    private readonly destroyProductUseCase: DestroyProductUseCase,
   ) {}
 
   @Post()
@@ -23,5 +25,10 @@ export class ProductController {
   @Get()
   async findAll() {
     return { message: 'List of products' };
+  }
+
+  @Delete()
+  async destroy(@Body() dto: { uuid: string }) {
+    return await this.destroyProductUseCase.execute({ uuid: dto.uuid });
   }
 }

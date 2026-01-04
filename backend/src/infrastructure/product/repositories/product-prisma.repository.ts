@@ -20,6 +20,12 @@ export class ProductPrismaRepository {
   async findAll(): Promise<Product[]> {
     return await prisma.client.product.findMany()
   }
+
+  async destroy(uuid: string): Promise<void> {
+    await prisma.client.product.delete({
+      where: { uuid },
+    })
+  }
 }
 
 @Module({

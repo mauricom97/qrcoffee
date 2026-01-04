@@ -3,6 +3,7 @@ import { Module } from '@nestjs/common'
 import { ProductController } from './product.controller'
 import { CreateProductUseCase } from '@application/product/use-cases/create-product.usecase'
 import { FindAllProductUseCase } from '@application/product/use-cases/find-all-product.usecase'
+import { DestroyProductUseCase } from '@application/product/use-cases/destroy-product.usecase'
 import { ProductPrismaRepository } from '@infrastructure/product/repositories/product-prisma.repository'
 import { PrismaService } from '@infrastructure/prisma/prisma.service'
 
@@ -22,6 +23,11 @@ import { PrismaService } from '@infrastructure/prisma/prisma.service'
     {
       provide: FindAllProductUseCase,
       useFactory: (repo) => new FindAllProductUseCase(repo),
+      inject: ['ProductRepository'],
+    },
+    {
+      provide: DestroyProductUseCase,
+      useFactory: (repo) => new DestroyProductUseCase(repo),
       inject: ['ProductRepository'],
     },
   ],

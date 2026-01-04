@@ -3,7 +3,7 @@
 import { useEffect, useState } from 'react';
 
 interface Product {
-  id: number;
+  uuid: string;
   name: string;
   price: number;
   category: string;
@@ -16,13 +16,16 @@ export default function ProductsPage() {
   const [showForm, setShowForm] = useState(false);
   const [editingProduct, setEditingProduct] = useState<Product | null>(null);
   const [newProduct, setNewProduct] = useState({
+    uuid: '',
     name: '',
     price: 0,
     category: '',
     active: true,
     images: [] as string[],
   });
-  const [showImages, setShowImages] = useState<number | null>(null);
+  const [showImages, setShowImages] = useState<string | null>(null);
+  const [showDeleteModal, setShowDeleteModal] = useState(false);
+  const [productToDelete, setProductToDelete] = useState<string | null>(null);
 
   useEffect(() => {
     async function fetchProducts() {
@@ -42,7 +45,7 @@ export default function ProductsPage() {
   }, []);
 
   const resetForm = () => {
-    setNewProduct({ name: '', price: 0, category: '', active: true, images: [] });
+    setNewProduct({ uuid: '', name: '', price: 0, category: '', active: true, images: [] });
     setEditingProduct(null);
     setShowForm(false);
   };
@@ -50,6 +53,7 @@ export default function ProductsPage() {
   const handleEdit = (product: Product) => {
     setEditingProduct(product);
     setNewProduct({
+      uuid: '',
       name: product.name,
       price: product.price,
       category: product.category,
@@ -90,13 +94,13 @@ export default function ProductsPage() {
     if (!newProduct.name || newProduct.price <= 0) return;
 
     const productData = {
-      id: editingProduct ? editingProduct.id : Date.now(),
+      id: editingProduct ? editingProduct.uuid : Date.now(),
       ...newProduct,
     };
 
     if (editingProduct) {
       setProducts((prev) =>
-        prev.map((p) => (p.id === editingProduct.id ? productData : p))
+        prev.map((p) => (p.uuid === editingProduct.uuid ? productData : p))
       );
     } else {
       createProduct(productData);
@@ -106,10 +110,10 @@ export default function ProductsPage() {
     resetForm();
   };
 
-  const toggleStatus = (id: number) => {
+  const toggleStatus = (uuid: string) => {
     setProducts((prev) =>
       prev.map((p) =>
-        p.id === id ? { ...p, active: !p.active } : p
+        p.uuid === uuid ? { ...p, active: !p.active } : p
       )
     );
   };
@@ -123,11 +127,11 @@ export default function ProductsPage() {
         },
         body: JSON.stringify(product),
       });
-  
+
       if (!response.ok) {
         throw new Error(`Failed to create product: ${response.statusText}`);
       }
-  
+
       const data = await response.json();
       console.log('Product created successfully:', data);
       return data;
@@ -136,11 +140,31 @@ export default function ProductsPage() {
     }
   };
 
-  const deleteProduct = (id: number) => {
-    setProducts((prev) => prev.filter((p) => p.id !== id));
+  const deleteProduct = (uuid: string) => {
+    setProducts((prev) => prev.filter((p) => p.uuid !== uuid));
+    destroyProduct(uuid);
+  };
+  const destroyProduct = async (uuid: string) => {
+    try {
+      const response = await fetch(`http://localhost:3352/products`, {
+        method: 'DELETE',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ uuid })
+      });
+
+      if (!response.ok) {
+        throw new Error(`Failed to delete product: ${response.statusText}`);
+      }
+
+      console.log('Product deleted successfully');
+    } catch (error) {
+      console.error('Error deleting product:', error);
+    }
   };
 
-  const selectedProduct = products.find((p) => p.id === showImages);
+  const selectedProduct = products.find((p) => p.uuid === showImages);
 
   return (
     <div className="min-h-screen bg-zinc-50 p-4 md:p-8">
@@ -280,7 +304,7 @@ export default function ProductsPage() {
           <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
             {products.map((product) => (
               <div
-                key={product.id}
+                key={product.uuid}
                 className="rounded-xl border border-zinc-200 p-4 flex flex-col justify-between"
               >
                 <div className="space-y-1">
@@ -297,32 +321,34 @@ export default function ProductsPage() {
 
                 <div className="mt-4 flex items-center justify-between flex-wrap gap-2">
                   <span
-                    className={`rounded-full px-3 py-1 text-xs font-medium ${
-                      product.active
+                    className={`rounded-full px-3 py-1 text-xs font-medium ${product.active
                         ? 'bg-emerald-100 text-emerald-700'
                         : 'bg-zinc-100 text-zinc-500'
-                    }`}
+                      }`}
                   >
                     {product.active ? 'Ativo' : 'Inativo'}
                   </span>
 
                   <div className="flex gap-2 flex-wrap">
                     <button
-                      onClick={() => toggleStatus(product.id)}
+                      onClick={() => toggleStatus(product.uuid)}
                       className="rounded-lg border border-zinc-200 px-3 py-1 text-xs hover:bg-zinc-100 transition"
                     >
                       Mudar status
                     </button>
 
                     <button
-                      onClick={() => deleteProduct(product.id)}
+                      onClick={() => {
+                        setProductToDelete(product.uuid);
+                        setShowDeleteModal(true);
+                      }}
                       className="rounded-lg border border-red-200 px-3 py-1 text-xs text-red-600 hover:bg-red-50 transition"
                     >
                       Delete
                     </button>
 
                     <button
-                      onClick={() => setShowImages(product.id)}
+                      onClick={() => setShowImages(product.uuid)}
                       className="rounded-lg border border-blue-200 px-3 py-1 text-xs text-blue-600 hover:bg-blue-50 transition"
                     >
                       Mostrar imagens
@@ -354,7 +380,7 @@ export default function ProductsPage() {
             <h2 className="text-xl font-semibold text-zinc-800 mb-4">
               Imagens de {selectedProduct.name}
             </h2>
-            
+
             {selectedProduct.images && selectedProduct.images.length > 0 ? (
               <div className="flex overflow-x-auto gap-4 pb-4">
                 {selectedProduct.images.map((img, idx) => (
@@ -371,13 +397,47 @@ export default function ProductsPage() {
                 Nenhuma imagem disponível para este produto.
               </p>
             )}
-            
+
             <button
               onClick={() => setShowImages(null)}
               className="mt-6 w-full rounded-lg bg-zinc-900 px-4 py-2 text-sm font-medium text-white hover:bg-zinc-800 transition"
             >
               Fechar
             </button>
+          </div>
+        </div>
+      )}
+
+      {showDeleteModal && productToDelete && (
+        <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
+          <div className="bg-white p-6 rounded-2xl shadow-xl max-w-md w-full">
+            <h2 className="text-xl font-semibold text-zinc-800 mb-4">
+              Confirmar Exclusão
+            </h2>
+            <p className="text-sm text-zinc-600 mb-6">
+              Tem certeza que deseja excluir o produto {products.find(p => p.uuid === productToDelete)?.name}?
+            </p>
+            <div className="flex gap-4">
+              <button
+                onClick={() => {
+                  setShowDeleteModal(false);
+                  setProductToDelete(null);
+                }}
+                className="flex-1 rounded-lg bg-zinc-200 px-4 py-2 text-sm font-medium text-zinc-800 hover:bg-zinc-300 transition"
+              >
+                Cancelar
+              </button>
+              <button
+                onClick={() => {
+                  deleteProduct(productToDelete);
+                  setShowDeleteModal(false);
+                  setProductToDelete(null);
+                }}
+                className="flex-1 rounded-lg bg-red-600 px-4 py-2 text-sm font-medium text-white hover:bg-red-700 transition"
+              >
+                Excluir
+              </button>
+            </div>
           </div>
         </div>
       )}
