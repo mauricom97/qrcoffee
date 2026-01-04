@@ -12,5 +12,11 @@ export class Product {
     if (!name) {
       throw new Error('Product name is required');
     }
+    if(!price) {
+      throw new Error('Product price is required');
+    }
+    if (!active) {
+      this.active = false;
+    }
   }
 }

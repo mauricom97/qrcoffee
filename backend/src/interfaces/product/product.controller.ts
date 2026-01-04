@@ -1,5 +1,5 @@
 // interfaces/product/product.controller.ts
-import { Body, Controller, Post } from '@nestjs/common';
+import { Body, Controller, Get, Post } from '@nestjs/common';
 import { CreateProductUseCase } from '@/application/product/use-cases/create-product.usecase';
 import { randomUUID } from 'crypto';
 import { CreateProductDto } from './dto/create-product.dto';
@@ -12,13 +12,16 @@ export class ProductController {
 
   @Post()
   async create(@Body() dto: CreateProductDto) {
-    await this.createProductUseCase.execute({
+    return await this.createProductUseCase.execute({
       uuid: randomUUID(),
       name: dto.name,
       price: dto.price,
       active: dto.active,
     });
+  }
 
-    return { message: 'Product created successfully' };
+  @Get()
+  async findAll() {
+    return { message: 'List of products' };
   }
 }

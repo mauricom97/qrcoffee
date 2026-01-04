@@ -1,12 +1,10 @@
 // src/infrastructure/product/repositories/product-prisma.repository.ts
-import { ProductRepository } from '@domain/product/repositories/product.repository'
 import { Product } from '@domain/product/entities/product.entity'
 import { PrismaService } from '@infrastructure/prisma/prisma.service'
 import { Module } from '@nestjs/common'
 const prisma = new PrismaService()
 
-export class ProductPrismaRepository implements ProductRepository {
-  constructor(private readonly prisma: PrismaService) {}
+export class ProductPrismaRepository {
   async save(product: Product): Promise<void> {
     await prisma.client.product.create({
       data: {
@@ -17,6 +15,10 @@ export class ProductPrismaRepository implements ProductRepository {
         categoryUuid: product.categoryUuid
       },
     })
+  }
+
+  async findAll(): Promise<Product[]> {
+    return await prisma.client.product.findMany()
   }
 }
 
