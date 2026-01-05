@@ -35,6 +35,7 @@ export default function ProductsPage() {
           throw new Error(`HTTP error! status: ${response.status}`);
         }
         const data: Product[] = await response.json();
+        console.log(data)
         setProducts(data);
       } catch (error) {
         console.error('Failed to fetch products:', error);
@@ -141,6 +142,7 @@ export default function ProductsPage() {
   };
 
   const deleteProduct = (uuid: string) => {
+    alert(uuid)
     setProducts((prev) => prev.filter((p) => p.uuid !== uuid));
     destroyProduct(uuid);
   };
