@@ -19,6 +19,8 @@ export class ProductController {
       name: dto.name,
       price: dto.price,
       active: dto.active,
+      description: dto.description,
+      categoryUuid: dto.categoryUuid
     });
   }
 
