@@ -1008,6 +1008,7 @@ export namespace Prisma {
     name: string | null
     price: number | null
     active: boolean | null
+    description: string | null
     categoryUuid: string | null
   }
 
@@ -1016,6 +1017,7 @@ export namespace Prisma {
     name: string | null
     price: number | null
     active: boolean | null
+    description: string | null
     categoryUuid: string | null
   }
 
@@ -1024,6 +1026,7 @@ export namespace Prisma {
     name: number
     price: number
     active: number
+    description: number
     categoryUuid: number
     _all: number
   }
@@ -1042,6 +1045,7 @@ export namespace Prisma {
     name?: true
     price?: true
     active?: true
+    description?: true
     categoryUuid?: true
   }
 
@@ -1050,6 +1054,7 @@ export namespace Prisma {
     name?: true
     price?: true
     active?: true
+    description?: true
     categoryUuid?: true
   }
 
@@ -1058,6 +1063,7 @@ export namespace Prisma {
     name?: true
     price?: true
     active?: true
+    description?: true
     categoryUuid?: true
     _all?: true
   }
@@ -1153,6 +1159,7 @@ export namespace Prisma {
     name: string
     price: number
     active: boolean
+    description: string
     categoryUuid: string
     _count: ProductCountAggregateOutputType | null
     _avg: ProductAvgAggregateOutputType | null
@@ -1180,6 +1187,7 @@ export namespace Prisma {
     name?: boolean
     price?: boolean
     active?: boolean
+    description?: boolean
     categoryUuid?: boolean
     category?: boolean | CategoryDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["product"]>
@@ -1189,6 +1197,7 @@ export namespace Prisma {
     name?: boolean
     price?: boolean
     active?: boolean
+    description?: boolean
     categoryUuid?: boolean
     category?: boolean | CategoryDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["product"]>
@@ -1198,6 +1207,7 @@ export namespace Prisma {
     name?: boolean
     price?: boolean
     active?: boolean
+    description?: boolean
     categoryUuid?: boolean
     category?: boolean | CategoryDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["product"]>
@@ -1207,10 +1217,11 @@ export namespace Prisma {
     name?: boolean
     price?: boolean
     active?: boolean
+    description?: boolean
     categoryUuid?: boolean
   }
 
-  export type ProductOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"uuid" | "name" | "price" | "active" | "categoryUuid", ExtArgs["result"]["product"]>
+  export type ProductOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"uuid" | "name" | "price" | "active" | "description" | "categoryUuid", ExtArgs["result"]["product"]>
   export type ProductInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     category?: boolean | CategoryDefaultArgs<ExtArgs>
   }
@@ -1231,6 +1242,7 @@ export namespace Prisma {
       name: string
       price: number
       active: boolean
+      description: string
       categoryUuid: string
     }, ExtArgs["result"]["product"]>
     composites: {}
@@ -1660,6 +1672,7 @@ export namespace Prisma {
     readonly name: FieldRef<"Product", 'String'>
     readonly price: FieldRef<"Product", 'Float'>
     readonly active: FieldRef<"Product", 'Boolean'>
+    readonly description: FieldRef<"Product", 'String'>
     readonly categoryUuid: FieldRef<"Product", 'String'>
   }
     
@@ -3125,6 +3138,7 @@ export namespace Prisma {
     name: 'name',
     price: 'price',
     active: 'active',
+    description: 'description',
     categoryUuid: 'categoryUuid'
   };
 
@@ -3220,6 +3234,7 @@ export namespace Prisma {
     name?: StringFilter<"Product"> | string
     price?: FloatFilter<"Product"> | number
     active?: BoolFilter<"Product"> | boolean
+    description?: StringFilter<"Product"> | string
     categoryUuid?: StringFilter<"Product"> | string
     category?: XOR<CategoryScalarRelationFilter, CategoryWhereInput>
   }
@@ -3229,6 +3244,7 @@ export namespace Prisma {
     name?: SortOrder
     price?: SortOrder
     active?: SortOrder
+    description?: SortOrder
     categoryUuid?: SortOrder
     category?: CategoryOrderByWithRelationInput
   }
@@ -3241,6 +3257,7 @@ export namespace Prisma {
     name?: StringFilter<"Product"> | string
     price?: FloatFilter<"Product"> | number
     active?: BoolFilter<"Product"> | boolean
+    description?: StringFilter<"Product"> | string
     categoryUuid?: StringFilter<"Product"> | string
     category?: XOR<CategoryScalarRelationFilter, CategoryWhereInput>
   }, "uuid">
@@ -3250,6 +3267,7 @@ export namespace Prisma {
     name?: SortOrder
     price?: SortOrder
     active?: SortOrder
+    description?: SortOrder
     categoryUuid?: SortOrder
     _count?: ProductCountOrderByAggregateInput
     _avg?: ProductAvgOrderByAggregateInput
@@ -3266,6 +3284,7 @@ export namespace Prisma {
     name?: StringWithAggregatesFilter<"Product"> | string
     price?: FloatWithAggregatesFilter<"Product"> | number
     active?: BoolWithAggregatesFilter<"Product"> | boolean
+    description?: StringWithAggregatesFilter<"Product"> | string
     categoryUuid?: StringWithAggregatesFilter<"Product"> | string
   }
 
@@ -3314,6 +3333,7 @@ export namespace Prisma {
     name: string
     price: number
     active?: boolean
+    description: string
     category: CategoryCreateNestedOneWithoutProductsInput
   }
 
@@ -3322,6 +3342,7 @@ export namespace Prisma {
     name: string
     price: number
     active?: boolean
+    description: string
     categoryUuid: string
   }
 
@@ -3330,6 +3351,7 @@ export namespace Prisma {
     name?: StringFieldUpdateOperationsInput | string
     price?: FloatFieldUpdateOperationsInput | number
     active?: BoolFieldUpdateOperationsInput | boolean
+    description?: StringFieldUpdateOperationsInput | string
     category?: CategoryUpdateOneRequiredWithoutProductsNestedInput
   }
 
@@ -3338,6 +3360,7 @@ export namespace Prisma {
     name?: StringFieldUpdateOperationsInput | string
     price?: FloatFieldUpdateOperationsInput | number
     active?: BoolFieldUpdateOperationsInput | boolean
+    description?: StringFieldUpdateOperationsInput | string
     categoryUuid?: StringFieldUpdateOperationsInput | string
   }
 
@@ -3346,6 +3369,7 @@ export namespace Prisma {
     name: string
     price: number
     active?: boolean
+    description: string
     categoryUuid: string
   }
 
@@ -3354,6 +3378,7 @@ export namespace Prisma {
     name?: StringFieldUpdateOperationsInput | string
     price?: FloatFieldUpdateOperationsInput | number
     active?: BoolFieldUpdateOperationsInput | boolean
+    description?: StringFieldUpdateOperationsInput | string
   }
 
   export type ProductUncheckedUpdateManyInput = {
@@ -3361,6 +3386,7 @@ export namespace Prisma {
     name?: StringFieldUpdateOperationsInput | string
     price?: FloatFieldUpdateOperationsInput | number
     active?: BoolFieldUpdateOperationsInput | boolean
+    description?: StringFieldUpdateOperationsInput | string
     categoryUuid?: StringFieldUpdateOperationsInput | string
   }
 
@@ -3444,6 +3470,7 @@ export namespace Prisma {
     name?: SortOrder
     price?: SortOrder
     active?: SortOrder
+    description?: SortOrder
     categoryUuid?: SortOrder
   }
 
@@ -3456,6 +3483,7 @@ export namespace Prisma {
     name?: SortOrder
     price?: SortOrder
     active?: SortOrder
+    description?: SortOrder
     categoryUuid?: SortOrder
   }
 
@@ -3464,6 +3492,7 @@ export namespace Prisma {
     name?: SortOrder
     price?: SortOrder
     active?: SortOrder
+    description?: SortOrder
     categoryUuid?: SortOrder
   }
 
@@ -3733,6 +3762,7 @@ export namespace Prisma {
     name: string
     price: number
     active?: boolean
+    description: string
   }
 
   export type ProductUncheckedCreateWithoutCategoryInput = {
@@ -3740,6 +3770,7 @@ export namespace Prisma {
     name: string
     price: number
     active?: boolean
+    description: string
   }
 
   export type ProductCreateOrConnectWithoutCategoryInput = {
@@ -3776,6 +3807,7 @@ export namespace Prisma {
     name?: StringFilter<"Product"> | string
     price?: FloatFilter<"Product"> | number
     active?: BoolFilter<"Product"> | boolean
+    description?: StringFilter<"Product"> | string
     categoryUuid?: StringFilter<"Product"> | string
   }
 
@@ -3784,6 +3816,7 @@ export namespace Prisma {
     name: string
     price: number
     active?: boolean
+    description: string
   }
 
   export type ProductUpdateWithoutCategoryInput = {
@@ -3791,6 +3824,7 @@ export namespace Prisma {
     name?: StringFieldUpdateOperationsInput | string
     price?: FloatFieldUpdateOperationsInput | number
     active?: BoolFieldUpdateOperationsInput | boolean
+    description?: StringFieldUpdateOperationsInput | string
   }
 
   export type ProductUncheckedUpdateWithoutCategoryInput = {
@@ -3798,6 +3832,7 @@ export namespace Prisma {
     name?: StringFieldUpdateOperationsInput | string
     price?: FloatFieldUpdateOperationsInput | number
     active?: BoolFieldUpdateOperationsInput | boolean
+    description?: StringFieldUpdateOperationsInput | string
   }
 
   export type ProductUncheckedUpdateManyWithoutCategoryInput = {
@@ -3805,6 +3840,7 @@ export namespace Prisma {
     name?: StringFieldUpdateOperationsInput | string
     price?: FloatFieldUpdateOperationsInput | number
     active?: BoolFieldUpdateOperationsInput | boolean
+    description?: StringFieldUpdateOperationsInput | string
   }
 
 

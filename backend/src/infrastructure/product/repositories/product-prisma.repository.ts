@@ -11,7 +11,8 @@ export class ProductPrismaRepository {
         uuid: product.uuid,
         name: product.name,
         price: product.price,
-        active: true,
+        description: product.description,
+        active: product.active,
         categoryUuid: product.categoryUuid
       },
     })

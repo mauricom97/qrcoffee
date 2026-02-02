@@ -12,7 +12,8 @@ export class CreateProductUseCase {
       input.name,
       input.price,
       input.active,
-      'default-category-uuid'
+      input.description,
+      input.categoryUuid
     );
     return await this.productRepository.save(product);
   }
