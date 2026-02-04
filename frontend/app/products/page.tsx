@@ -202,55 +202,61 @@ export default function ProductsPage() {
 
             <div className="grid gap-4 md:grid-cols-4">
               <input
-                type="text"
-                placeholder="Nome do produto"
-                value={newProduct.name}
-                onChange={(e) =>
-                  setNewProduct({ ...newProduct, name: e.target.value })
-                }
-                className="rounded-lg border border-zinc-200 px-3 py-2 text-sm focus:outline-none focus:border-zinc-400"
+              type="text"
+              placeholder="Nome do produto"
+              value={newProduct.name}
+              onChange={(e) =>
+                setNewProduct({ ...newProduct, name: e.target.value })
+              }
+              className="rounded-lg border border-zinc-200 px-3 py-2 text-sm focus:outline-none focus:border-zinc-400"
               />
 
               <input
-                type="number"
-                min={1}
-                placeholder="Preço"
-                value={newProduct.price}
-                onChange={(e) =>
-                  setNewProduct({
-                    ...newProduct,
-                    price: parseFloat(e.target.value),
-                  })
-                }
-                className="rounded-lg border border-zinc-200 px-3 py-2 text-sm focus:outline-none focus:border-zinc-400"
+              type="number"
+              min={1}
+              placeholder="Preço"
+              value={newProduct.price}
+              onChange={(e) =>
+                setNewProduct({
+                ...newProduct,
+                price: parseFloat(e.target.value),
+                })
+              }
+              className="rounded-lg border border-zinc-200 px-3 py-2 text-sm focus:outline-none focus:border-zinc-400"
               />
 
-              <input
-                type="text"
-                placeholder="Categoria"
-                value={newProduct.category}
-                onChange={(e) =>
-                  setNewProduct({
-                    ...newProduct,
-                    category: e.target.value,
-                  })
-                }
-                className="rounded-lg border border-zinc-200 px-3 py-2 text-sm focus:outline-none focus:border-zinc-400"
-              />
+              <select
+              value={newProduct.category}
+              onChange={(e) =>
+                setNewProduct({
+                ...newProduct,
+                category: e.target.value,
+                })
+              }
+              className="rounded-lg border border-zinc-200 px-3 py-2 text-sm focus:outline-none focus:border-zinc-400"
+              >
+              <option value="" disabled>
+                Selecione uma categoria
+              </option>
+              <option value="Bebidas">Bebidas</option>
+              <option value="Comidas">Comidas</option>
+              <option value="Sobremesas">Sobremesas</option>
+              <option value="Lanches">Lanches</option>
+              </select>
 
               <label className="flex items-center gap-2 text-sm text-zinc-700">
-                <input
-                  type="checkbox"
-                  checked={newProduct.active}
-                  onChange={(e) =>
-                    setNewProduct({
-                      ...newProduct,
-                      active: e.target.checked,
-                    })
-                  }
-                  className="h-4 w-4 rounded border-zinc-300"
-                />
-                Ativo
+              <input
+                type="checkbox"
+                checked={newProduct.active}
+                onChange={(e) =>
+                setNewProduct({
+                  ...newProduct,
+                  active: e.target.checked,
+                })
+                }
+                className="h-4 w-4 rounded border-zinc-300"
+              />
+              Ativo
               </label>
             </div>
 
