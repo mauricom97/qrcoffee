@@ -11,6 +11,11 @@ interface Product {
   images?: string[];
 }
 
+interface Category {
+  uuid: string,
+  name: string
+}
+
 export default function ProductsPage() {
   const [products, setProducts] = useState<Product[]>([]);
   const [showForm, setShowForm] = useState(false);
@@ -26,6 +31,7 @@ export default function ProductsPage() {
   const [showImages, setShowImages] = useState<string | null>(null);
   const [showDeleteModal, setShowDeleteModal] = useState(false);
   const [productToDelete, setProductToDelete] = useState<string | null>(null);
+  const [categories, setCategories] = useState<Category[]>([])
 
   useEffect(() => {
     async function fetchProducts() {
@@ -41,6 +47,19 @@ export default function ProductsPage() {
       }
     }
 
+    async function fetchCategories() {
+      try {
+        const response = await fetch('http://localhost:3352/categories/all');
+        if (!response.ok) {
+          throw new Error(`HTTP error! status: ${response.status}`);
+        }
+        const data: Category[] = await response.json();
+        setCategories(data);
+      } catch (error) {
+        console.error('Failed to fetch products:', error);
+      }
+    }
+    fetchCategories();
     fetchProducts();
   }, []);
 
@@ -202,61 +221,62 @@ export default function ProductsPage() {
 
             <div className="grid gap-4 md:grid-cols-4">
               <input
-              type="text"
-              placeholder="Nome do produto"
-              value={newProduct.name}
-              onChange={(e) =>
-                setNewProduct({ ...newProduct, name: e.target.value })
-              }
-              className="rounded-lg border border-zinc-200 px-3 py-2 text-sm focus:outline-none focus:border-zinc-400"
+                type="text"
+                placeholder="Nome do produto"
+                value={newProduct.name}
+                onChange={(e) =>
+                  setNewProduct({ ...newProduct, name: e.target.value })
+                }
+                className="rounded-lg border border-zinc-200 px-3 py-2 text-sm focus:outline-none focus:border-zinc-400"
               />
 
               <input
-              type="number"
-              min={1}
-              placeholder="Preço"
-              value={newProduct.price}
-              onChange={(e) =>
-                setNewProduct({
-                ...newProduct,
-                price: parseFloat(e.target.value),
-                })
-              }
-              className="rounded-lg border border-zinc-200 px-3 py-2 text-sm focus:outline-none focus:border-zinc-400"
+                type="number"
+                min={1}
+                placeholder="Preço"
+                value={newProduct.price}
+                onChange={(e) =>
+                  setNewProduct({
+                    ...newProduct,
+                    price: parseFloat(e.target.value),
+                  })
+                }
+                className="rounded-lg border border-zinc-200 px-3 py-2 text-sm focus:outline-none focus:border-zinc-400"
               />
 
               <select
-              value={newProduct.category}
-              onChange={(e) =>
-                setNewProduct({
-                ...newProduct,
-                category: e.target.value,
-                })
-              }
-              className="rounded-lg border border-zinc-200 px-3 py-2 text-sm focus:outline-none focus:border-zinc-400"
+                value={newProduct.category}
+                onChange={(e) =>
+                  setNewProduct({
+                    ...newProduct,
+                    category: e.target.value,
+                  })
+                }
+                className="rounded-lg border border-zinc-200 px-3 py-2 text-sm focus:outline-none focus:border-zinc-400"
               >
-              <option value="" disabled>
-                Selecione uma categoria
-              </option>
-              <option value="Bebidas">Bebidas</option>
-              <option value="Comidas">Comidas</option>
-              <option value="Sobremesas">Sobremesas</option>
-              <option value="Lanches">Lanches</option>
+                <option value="" disabled>
+                  Selecione uma categoria
+                </option>
+                {categories.map((category) => (
+                  <option key={category.uuid} value={category.name}>
+                    {category.name}
+                  </option>
+                ))}
               </select>
 
               <label className="flex items-center gap-2 text-sm text-zinc-700">
-              <input
-                type="checkbox"
-                checked={newProduct.active}
-                onChange={(e) =>
-                setNewProduct({
-                  ...newProduct,
-                  active: e.target.checked,
-                })
-                }
-                className="h-4 w-4 rounded border-zinc-300"
-              />
-              Ativo
+                <input
+                  type="checkbox"
+                  checked={newProduct.active}
+                  onChange={(e) =>
+                    setNewProduct({
+                      ...newProduct,
+                      active: e.target.checked,
+                    })
+                  }
+                  className="h-4 w-4 rounded border-zinc-300"
+                />
+                Ativo
               </label>
             </div>
 
@@ -301,7 +321,42 @@ export default function ProductsPage() {
           </section>
         )}
 
-        {/* Products list */}
+        <section className="rounded-2xl bg-white p-4 shadow-sm md:p-6">
+          <h2 className="mb-4 text-lg font-medium text-zinc-800">Filtros</h2>
+          <div className="grid gap-4 md:grid-cols-2">
+            <input
+              type="text"
+              placeholder="Buscar por nome"
+              onChange={(e) => {
+                const searchTerm = e.target.value.toLowerCase();
+                setProducts((prev) =>
+                  prev.filter((product) =>
+                    product.name.toLowerCase().includes(searchTerm)
+                  )
+                );
+              }}
+              className="rounded-lg border border-zinc-200 px-3 py-2 text-sm focus:outline-none focus:border-zinc-400"
+            />
+            <select
+              onChange={(e) => {
+                const selectedCategory = e.target.value;
+                setProducts((prev) =>
+                  selectedCategory
+                    ? prev.filter((product) => product.category === selectedCategory)
+                    : prev
+                );
+              }}
+              className="rounded-lg border border-zinc-200 px-3 py-2 text-sm focus:outline-none focus:border-zinc-400"
+            >
+              <option value="">Todas as categorias</option>
+              {categories.map((category) => (
+                <option key={category.uuid} value={category.name}>
+                  {category.name}
+                </option>
+              ))}
+            </select>
+          </div>
+        </section>
         <section className="rounded-2xl bg-white p-4 shadow-sm md:p-6">
           <h2 className="mb-4 text-lg font-medium text-zinc-800">
             Lista de produtos
@@ -320,6 +375,9 @@ export default function ProductsPage() {
                   <p className="text-sm text-zinc-500">
                     Categoria: {product.category || '—'}
                   </p>
+                  <p className="text-sm text-zinc-500">
+                    Descrição: {product.description || '—'}
+                  </p>
                   <p className="text-lg font-semibold text-zinc-900">
                     R$ {product.price.toFixed(2)}
                   </p>
@@ -328,8 +386,8 @@ export default function ProductsPage() {
                 <div className="mt-4 flex items-center justify-between flex-wrap gap-2">
                   <span
                     className={`rounded-full px-3 py-1 text-xs font-medium ${product.active
-                        ? 'bg-emerald-100 text-emerald-700'
-                        : 'bg-zinc-100 text-zinc-500'
+                      ? 'bg-emerald-100 text-emerald-700'
+                      : 'bg-zinc-100 text-zinc-500'
                       }`}
                   >
                     {product.active ? 'Ativo' : 'Inativo'}
