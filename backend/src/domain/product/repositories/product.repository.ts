@@ -23,8 +23,15 @@ export class ProductPrismaRepository {
   }
 
   async findAll(): Promise<Product[]> {
-    return this.prisma.client.product.findMany({
-      include: { category: true },
+    return await this.prisma.client.product.findMany({
+      include: {
+        category: {
+          select: {
+            uuid: true,
+            name: true,
+          },
+        },
+      },
     });
   }
 
