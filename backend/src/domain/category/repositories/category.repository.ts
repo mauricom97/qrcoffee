@@ -22,6 +22,6 @@ export class CategoryRepository {
   async destroy(uuid: string): Promise<Category> {
     return this.prisma.client.category.delete({
       where: { uuid: uuid },
-    })
+    });
   }
 }

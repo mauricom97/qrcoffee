@@ -1,8 +1,8 @@
 // src/infrastructure/product/repositories/product-prisma.repository.ts
-import { Product } from '@domain/product/entities/product.entity'
-import { PrismaService } from '@infrastructure/prisma/prisma.service'
-import { Module } from '@nestjs/common'
-const prisma = new PrismaService()
+import { Product } from '@domain/product/entities/product.entity';
+import { PrismaService } from '@infrastructure/prisma/prisma.service';
+import { Module } from '@nestjs/common';
+const prisma = new PrismaService();
 
 export class ProductPrismaRepository {
   async save(product: Product): Promise<Product> {
@@ -13,19 +13,31 @@ export class ProductPrismaRepository {
         price: product.price,
         description: product.description,
         active: product.active,
-        categoryUuid: product.categoryUuid
+        categoryUuid: product.categoryUuid,
       },
-    })
+    });
+  }
+
+  async saveMany(products: Product[]): Promise<any> {
+    const data = products.map((product) => ({
+      uuid: product.uuid,
+      name: product.name,
+      price: product.price,
+      description: product.description,
+      active: product.active,
+      categoryUuid: product.categoryUuid,
+    }));
+    return await prisma.client.product.createMany({ data });
   }
 
   async findAll(): Promise<Product[]> {
-    return await prisma.client.product.findMany()
+    return await prisma.client.product.findMany();
   }
 
   async destroy(uuid: string): Promise<void> {
     await prisma.client.product.delete({
       where: { uuid },
-    })
+    });
   }
 }
 
