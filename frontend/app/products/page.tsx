@@ -1,19 +1,20 @@
-'use client';
+"use client";
 
-import { useEffect, useState } from 'react';
+import { useEffect, useState } from "react";
 
 interface Product {
   uuid: string;
   name: string;
   price: number;
+  description?: string;
   category: string;
   active: boolean;
   images?: string[];
 }
 
 interface Category {
-  uuid: string,
-  name: string
+  uuid: string;
+  name: string;
 }
 
 export default function ProductsPage() {
@@ -21,50 +22,57 @@ export default function ProductsPage() {
   const [showForm, setShowForm] = useState(false);
   const [editingProduct, setEditingProduct] = useState<Product | null>(null);
   const [newProduct, setNewProduct] = useState({
-    uuid: '',
-    name: '',
+    uuid: "",
+    name: "",
     price: 0,
-    category: '',
+    category: "",
     active: true,
     images: [] as string[],
   });
   const [showImages, setShowImages] = useState<string | null>(null);
   const [showDeleteModal, setShowDeleteModal] = useState(false);
   const [productToDelete, setProductToDelete] = useState<string | null>(null);
-  const [categories, setCategories] = useState<Category[]>([])
+  const [categories, setCategories] = useState<Category[]>([]);
 
+  async function fetchProducts() {
+    try {
+      const response = await fetch("http://localhost:3352/products/all");
+      if (!response.ok) {
+        throw new Error(`HTTP error! status: ${response.status}`);
+      }
+      const data: Product[] = await response.json();
+      setProducts(data);
+    } catch (error) {
+      console.error("Failed to fetch products:", error);
+    }
+  }
+
+  async function fetchCategories() {
+    try {
+      const response = await fetch("http://localhost:3352/categories/all");
+      if (!response.ok) {
+        throw new Error(`HTTP error! status: ${response.status}`);
+      }
+      const data: Category[] = await response.json();
+      setCategories(data);
+    } catch (error) {
+      console.error("Failed to fetch products:", error);
+    }
+  }
   useEffect(() => {
-    async function fetchProducts() {
-      try {
-        const response = await fetch('http://localhost:3352/products/all');
-        if (!response.ok) {
-          throw new Error(`HTTP error! status: ${response.status}`);
-        }
-        const data: Product[] = await response.json();
-        setProducts(data);
-      } catch (error) {
-        console.error('Failed to fetch products:', error);
-      }
-    }
-
-    async function fetchCategories() {
-      try {
-        const response = await fetch('http://localhost:3352/categories/all');
-        if (!response.ok) {
-          throw new Error(`HTTP error! status: ${response.status}`);
-        }
-        const data: Category[] = await response.json();
-        setCategories(data);
-      } catch (error) {
-        console.error('Failed to fetch products:', error);
-      }
-    }
     fetchCategories();
     fetchProducts();
   }, []);
 
   const resetForm = () => {
-    setNewProduct({ uuid: '', name: '', price: 0, category: '', active: true, images: [] });
+    setNewProduct({
+      uuid: "",
+      name: "",
+      price: 0,
+      category: "",
+      active: true,
+      images: [],
+    });
     setEditingProduct(null);
     setShowForm(false);
   };
@@ -72,7 +80,7 @@ export default function ProductsPage() {
   const handleEdit = (product: Product) => {
     setEditingProduct(product);
     setNewProduct({
-      uuid: '',
+      uuid: "",
       name: product.name,
       price: product.price,
       category: product.category,
@@ -119,7 +127,7 @@ export default function ProductsPage() {
 
     if (editingProduct) {
       setProducts((prev) =>
-        prev.map((p) => (p.uuid === editingProduct.uuid ? productData : p))
+        prev.map((p) => (p.uuid === editingProduct.uuid ? productData : p)),
       );
     } else {
       createProduct(productData);
@@ -131,18 +139,20 @@ export default function ProductsPage() {
 
   const toggleStatus = (uuid: string) => {
     setProducts((prev) =>
-      prev.map((p) =>
-        p.uuid === uuid ? { ...p, active: !p.active } : p
-      )
+      prev.map((p) => (p.uuid === uuid ? { ...p, active: !p.active } : p)),
     );
   };
 
-  const createProduct = async (product: { name: string; price: number; active: boolean }) => {
+  const createProduct = async (product: {
+    name: string;
+    price: number;
+    active: boolean;
+  }) => {
     try {
-      const response = await fetch('http://localhost:3352/products', {
-        method: 'POST',
+      const response = await fetch("http://localhost:3352/products", {
+        method: "POST",
         headers: {
-          'Content-Type': 'application/json',
+          "Content-Type": "application/json",
         },
         body: JSON.stringify(product),
       });
@@ -152,10 +162,10 @@ export default function ProductsPage() {
       }
 
       const data = await response.json();
-      console.log('Product created successfully:', data);
+      console.log("Product created successfully:", data);
       return data;
     } catch (error) {
-      console.error('Error creating product:', error);
+      console.error("Error creating product:", error);
     }
   };
 
@@ -166,20 +176,20 @@ export default function ProductsPage() {
   const destroyProduct = async (uuid: string) => {
     try {
       const response = await fetch(`http://localhost:3352/products`, {
-        method: 'DELETE',
+        method: "DELETE",
         headers: {
-          'Content-Type': 'application/json',
+          "Content-Type": "application/json",
         },
-        body: JSON.stringify({ uuid })
+        body: JSON.stringify({ uuid }),
       });
 
       if (!response.ok) {
         throw new Error(`Failed to delete product: ${response.statusText}`);
       }
 
-      console.log('Product deleted successfully');
+      console.log("Product deleted successfully");
     } catch (error) {
-      console.error('Error deleting product:', error);
+      console.error("Error deleting product:", error);
     }
   };
 
@@ -190,9 +200,7 @@ export default function ProductsPage() {
       <div className="mx-auto max-w-6xl space-y-8">
         {/* Header */}
         <header>
-          <h1 className="text-2xl font-semibold text-zinc-800">
-            Produtos
-          </h1>
+          <h1 className="text-2xl font-semibold text-zinc-800">Produtos</h1>
           <p className="text-sm text-zinc-500">
             Gerenciador de produtos a serem vendidos no estabelecimento.
           </p>
@@ -210,13 +218,13 @@ export default function ProductsPage() {
           }}
           className="rounded-lg bg-zinc-900 px-4 py-2 text-sm font-medium text-white hover:bg-zinc-800 transition"
         >
-          {showForm ? 'Cancelar' : 'Adicionar Produto'}
+          {showForm ? "Cancelar" : "Adicionar Produto"}
         </button>
 
         {showForm && (
           <section className="text-black rounded-2xl bg-white p-4 shadow-sm md:p-6">
             <h2 className="mb-4 text-lg font-medium text-zinc-800">
-              {editingProduct ? 'Editar Produto' : 'Adicionar Novo Produto'}
+              {editingProduct ? "Editar Produto" : "Adicionar Novo Produto"}
             </h2>
 
             <div className="grid gap-4 md:grid-cols-4">
@@ -316,7 +324,7 @@ export default function ProductsPage() {
               onClick={handleSaveProduct}
               className="mt-4 rounded-lg bg-zinc-900 px-4 py-2 text-sm font-medium text-white hover:bg-zinc-800 transition w-full md:w-auto"
             >
-              {editingProduct ? 'Atualizar Produto' : 'Adicionar Produto'}
+              {editingProduct ? "Atualizar Produto" : "Adicionar Produto"}
             </button>
           </section>
         )}
@@ -329,11 +337,12 @@ export default function ProductsPage() {
               placeholder="Buscar por nome"
               onChange={(e) => {
                 const searchTerm = e.target.value.toLowerCase();
-                setProducts((prev) =>
-                  prev.filter((product) =>
-                    product.name.toLowerCase().includes(searchTerm)
-                  )
-                );
+                setProducts((prev) => {
+                  if (searchTerm === "") fetchProducts();
+                  return prev.filter((product) =>
+                    product.name.toLowerCase().includes(searchTerm),
+                  );
+                });
               }}
               className="rounded-lg border border-zinc-200 px-3 py-2 text-sm focus:outline-none focus:border-zinc-400"
             />
@@ -342,8 +351,10 @@ export default function ProductsPage() {
                 const selectedCategory = e.target.value;
                 setProducts((prev) =>
                   selectedCategory
-                    ? prev.filter((product) => product.category === selectedCategory)
-                    : prev
+                    ? prev.filter(
+                        (product) => product.category === selectedCategory,
+                      )
+                    : prev,
                 );
               }}
               className="rounded-lg border border-zinc-200 px-3 py-2 text-sm focus:outline-none focus:border-zinc-400"
@@ -369,14 +380,12 @@ export default function ProductsPage() {
                 className="rounded-xl border border-zinc-200 p-4 flex flex-col justify-between"
               >
                 <div className="space-y-1">
-                  <h3 className="font-medium text-zinc-800">
-                    {product.name}
-                  </h3>
+                  <h3 className="font-medium text-zinc-800">{product.name}</h3>
                   <p className="text-sm text-zinc-500">
-                    Categoria: {product.category || '—'}
+                    Categoria: {product.category || "—"}
                   </p>
                   <p className="text-sm text-zinc-500">
-                    Descrição: {product.description || '—'}
+                    Descrição: {product.description || "—"}
                   </p>
                   <p className="text-lg font-semibold text-zinc-900">
                     R$ {product.price.toFixed(2)}
@@ -385,12 +394,13 @@ export default function ProductsPage() {
 
                 <div className="mt-4 flex items-center justify-between flex-wrap gap-2">
                   <span
-                    className={`rounded-full px-3 py-1 text-xs font-medium ${product.active
-                      ? 'bg-emerald-100 text-emerald-700'
-                      : 'bg-zinc-100 text-zinc-500'
-                      }`}
+                    className={`rounded-full px-3 py-1 text-xs font-medium ${
+                      product.active
+                        ? "bg-emerald-100 text-emerald-700"
+                        : "bg-zinc-100 text-zinc-500"
+                    }`}
                   >
-                    {product.active ? 'Ativo' : 'Inativo'}
+                    {product.active ? "Ativo" : "Inativo"}
                   </span>
 
                   <div className="flex gap-2 flex-wrap">
@@ -431,9 +441,7 @@ export default function ProductsPage() {
           </div>
 
           {products.length === 0 && (
-            <p className="text-sm text-zinc-500">
-              No products registered.
-            </p>
+            <p className="text-sm text-zinc-500">No products registered.</p>
           )}
         </section>
       </div>
@@ -479,7 +487,8 @@ export default function ProductsPage() {
               Confirmar Exclusão
             </h2>
             <p className="text-sm text-zinc-600 mb-6">
-              Tem certeza que deseja excluir o produto {products.find(p => p.uuid === productToDelete)?.name}?
+              Tem certeza que deseja excluir o produto{" "}
+              {products.find((p) => p.uuid === productToDelete)?.name}?
             </p>
             <div className="flex gap-4">
               <button

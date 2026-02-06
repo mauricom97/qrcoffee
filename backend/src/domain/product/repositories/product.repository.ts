@@ -6,8 +6,21 @@ import { PrismaService } from '../../../infrastructure/prisma/prisma.service';
 export interface ProductRepository {
   save(product: Product): Promise<void>;
   saveMany(products: Product[]): Promise<void>;
-  findAll(): Promise<Product[]>;
+  findAll(): Promise<ProductWithCategoryDto[]>;
   destroy(uuid: string): Promise<void>;
+}
+
+export class ProductWithCategoryDto {
+  uuid: string;
+  name: string;
+  price: number;
+  active: boolean;
+  description: string;
+  categoryUuid: string;
+  category: {
+    uuid: string;
+    name: string;
+  };
 }
 
 @Injectable()
@@ -22,15 +35,10 @@ export class ProductPrismaRepository {
     return this.prisma.client.product.createMany({ data: products });
   }
 
-  async findAll(): Promise<Product[]> {
+  async findAll(): Promise<ProductWithCategoryDto[]> {
     return await this.prisma.client.product.findMany({
       include: {
-        category: {
-          select: {
-            uuid: true,
-            name: true,
-          },
-        },
+        category: true,
       },
     });
   }
