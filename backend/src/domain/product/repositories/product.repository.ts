@@ -6,20 +6,22 @@ import { PrismaService } from '../../../infrastructure/prisma/prisma.service';
 export interface ProductRepository {
   save(product: Product): Promise<void>;
   saveMany(products: Product[]): Promise<void>;
+  update(product: Product): Promise<void>;
   findAll(): Promise<ProductWithCategoryDto[]>;
+  findById(uuid: string): Promise<Product | null>;
   destroy(uuid: string): Promise<void>;
 }
 
 export class ProductWithCategoryDto {
-  uuid: string;
-  name: string;
-  price: number;
-  active: boolean;
-  description: string;
-  categoryUuid: string;
-  category: {
-    uuid: string;
-    name: string;
+  uuid?: string;
+  name?: string;
+  price?: number;
+  active?: boolean;
+  description?: string;
+  categoryUuid?: string;
+  category?: {
+    uuid?: string;
+    name?: string;
   };
 }
 
@@ -35,11 +37,24 @@ export class ProductPrismaRepository {
     return this.prisma.client.product.createMany({ data: products });
   }
 
+  async update(product: Product): Promise<Product> {
+    return this.prisma.client.product.update({
+      where: { uuid: product.uuid },
+      data: product,
+    });
+  }
+
   async findAll(): Promise<ProductWithCategoryDto[]> {
     return await this.prisma.client.product.findMany({
       include: {
         category: true,
       },
+    });
+  }
+
+  async findById(uuid: string): Promise<Product | null> {
+    return this.prisma.client.product.findUnique({
+      where: { uuid: uuid },
     });
   }
 

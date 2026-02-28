@@ -1,9 +1,11 @@
 // src/interfaces/http/product.controller.ts
-import { Body, Controller, Delete, Get, Post, Query } from '@nestjs/common';
+import { Body, Controller, Delete, Get, Post, Put } from '@nestjs/common';
 import { CreateProductUseCase } from '@/application/product/use-cases/create-product.usecase';
 import { CreateManyProductsUseCase } from '@/application/product/use-cases/create-many-product.usecase';
 import { FindAllProductUseCase } from '@/application/product/use-cases/find-all-product.usecase';
 import { DestroyProductUseCase } from '@/application/product/use-cases/destroy-product.usecase';
+import { UpdateProductUseCase } from '@/application/product/use-cases/update-product.usecase';
+import { UpdateProductDTO } from '@/interfaces/product/dto/update-product.dto'
 @Controller('products')
 export class ProductController {
   constructor(
@@ -11,7 +13,8 @@ export class ProductController {
     private readonly createManyProductsUseCase: CreateManyProductsUseCase,
     private readonly findAllProductUseCase: FindAllProductUseCase,
     private readonly destroyProductUseCase: DestroyProductUseCase,
-  ) {}
+    // private readonly updateProductUseCase: UpdateProductUseCase,
+  ) { }
 
   @Post()
   async create(@Body() body: any) {
@@ -21,6 +24,12 @@ export class ProductController {
   @Post('/many')
   async createMany(@Body() body: any) {
     return await this.createManyProductsUseCase.execute(body);
+  }
+
+  @Put()
+  update(@Body() body: UpdateProductDTO) {
+    console.log(body);
+    // return await this.updateProductUseCase.execute(body);
   }
 
   @Get('/all')
