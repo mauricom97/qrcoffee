@@ -6,7 +6,7 @@ import { PrismaService } from '../../../infrastructure/prisma/prisma.service';
 export interface ProductRepository {
   save(product: Product): Promise<void>;
   saveMany(products: Product[]): Promise<void>;
-  update(product: Product): Promise<void>;
+  update(product: any): Promise<void>;
   findAll(): Promise<ProductWithCategoryDto[]>;
   findById(uuid: string): Promise<Product | null>;
   destroy(uuid: string): Promise<void>;

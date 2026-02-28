@@ -36,7 +36,7 @@ export default function ProductsPage() {
 
   async function fetchProducts() {
     try {
-      const response = await fetch(process.env.NEXT_PUBLIC_BASE_API_URL+"/products/all");
+      const response = await fetch(process.env.NEXT_PUBLIC_BASE_API_URL + "/products/all");
       if (!response.ok) {
         throw new Error(`HTTP error! status: ${response.status}`);
       }
@@ -49,7 +49,7 @@ export default function ProductsPage() {
 
   async function fetchCategories() {
     try {
-      const response = await fetch(process.env.NEXT_PUBLIC_BASE_API_URL+"/categories/all");
+      const response = await fetch(process.env.NEXT_PUBLIC_BASE_API_URL + "/categories/all");
       if (!response.ok) {
         throw new Error(`HTTP error! status: ${response.status}`);
       }
@@ -78,6 +78,10 @@ export default function ProductsPage() {
   };
 
   const handleEdit = (product: Product) => {
+    window.scrollTo({
+      top: 0,
+      behavior: 'smooth'
+    });
     setEditingProduct(product);
     setNewProduct({
       name: product.name,
@@ -118,7 +122,6 @@ export default function ProductsPage() {
   };
 
   const handleSaveProduct = () => {
-    alert(JSON.stringify(newProduct));
     if (!newProduct.name || newProduct.price <= 0) return;
 
     const productData = {
@@ -130,6 +133,7 @@ export default function ProductsPage() {
       setProducts((prev) =>
         prev.map((p) => (p.uuid === editingProduct.uuid ? productData : p)),
       );
+      updateProduct(editingProduct.uuid, productData);
     } else {
       createProduct(productData);
       setProducts((prev) => [...prev, productData]);
@@ -142,6 +146,8 @@ export default function ProductsPage() {
     setProducts((prev) =>
       prev.map((p) => (p.uuid === uuid ? { ...p, active: !p.active } : p)),
     );
+    updateProduct(uuid, { active: !products.find((p) => p.uuid === uuid)?.active });
+
   };
 
   const createProduct = async (product: {
@@ -150,7 +156,7 @@ export default function ProductsPage() {
     active: boolean;
   }) => {
     try {
-      const response = await fetch(process.env.NEXT_PUBLIC_BASE_API_URL+"/products", {
+      const response = await fetch(process.env.NEXT_PUBLIC_BASE_API_URL + "/products", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -170,27 +176,30 @@ export default function ProductsPage() {
     }
   };
 
-  const updateProduct = async (product: Product) => {
+  const updateProduct = async (uuid: string, updatedData: Partial<Product>) => {
     try {
-      const response = await fetch(process.env.NEXT_PUBLIC_BASE_API_URL+"/products", {
+      const response = await fetch(`${process.env.NEXT_PUBLIC_BASE_API_URL}/products?uuid=${uuid}`, {
         method: "PUT",
         headers: {
           "Content-Type": "application/json",
         },
-        body: JSON.stringify(product),
+        body: JSON.stringify(updatedData),
       });
 
       if (!response.ok) {
-        throw new Error(`Failed to update product: ${response.statusText}`);
+        throw new Error(`HTTP error! status: ${response.status}`);
       }
 
-      const data = await response.json();
-      console.log("Product updated successfully:", data);
-      return data;
+      const updatedProduct = await response.json();
+      setProducts((prevProducts) =>
+        prevProducts.map((product) =>
+          product.uuid === uuid ? { ...product, ...updatedProduct } : product
+        )
+      );
     } catch (error) {
-      console.error("Error updating product:", error);
+      console.error("Failed to update product:", error);
     }
-  };
+  }
 
   const deleteProduct = (uuid: string) => {
     setProducts((prev) => prev.filter((p) => p.uuid !== uuid));
@@ -198,7 +207,7 @@ export default function ProductsPage() {
   };
   const destroyProduct = async (uuid: string) => {
     try {
-      const response = await fetch(process.env.NEXT_PUBLIC_BASE_API_URL+"/products", {
+      const response = await fetch(process.env.NEXT_PUBLIC_BASE_API_URL + "/products", {
         method: "DELETE",
         headers: {
           "Content-Type": "application/json",
@@ -378,7 +387,7 @@ export default function ProductsPage() {
                   );
                 });
               }}
-              className="rounded-lg border border-zinc-200 px-3 py-2 text-sm focus:outline-none focus:border-zinc-400"
+              className="rounded-lg text-zinc-800 border border-zinc-200 px-3 py-2 focus:outline-none focus:border-zinc-400"
             />
             <select
               onChange={(e) => {
@@ -386,12 +395,12 @@ export default function ProductsPage() {
                 setProducts((prev) =>
                   selectedCategory
                     ? prev.filter(
-                        (product) => product?.category === selectedCategory,
-                      )
+                      (product) => product?.category === selectedCategory,
+                    )
                     : prev,
                 );
               }}
-              className="rounded-lg border border-zinc-200 px-3 py-2 text-sm focus:outline-none focus:border-zinc-400"
+              className="rounded-lg text-zinc-800 border border-zinc-200 px-3 py-2 text-sm focus:outline-none focus:border-zinc-400"
             >
               <option value="">Todas as categorias</option>
               {categories.map((category) => (
@@ -433,11 +442,10 @@ export default function ProductsPage() {
 
                 <div className="mt-4 flex items-center justify-between flex-wrap gap-2">
                   <span
-                    className={`rounded-full px-3 py-1 text-xs font-medium ${
-                      product.active
+                    className={`rounded-full px-3 py-1 text-xs font-medium ${product.active
                         ? "bg-emerald-100 text-emerald-700"
                         : "bg-zinc-100 text-zinc-500"
-                    }`}
+                      }`}
                   >
                     {product.active ? "Ativo" : "Inativo"}
                   </span>
@@ -445,7 +453,7 @@ export default function ProductsPage() {
                   <div className="flex gap-2 flex-wrap">
                     <button
                       onClick={() => toggleStatus(product.uuid)}
-                      className="rounded-lg border border-zinc-200 px-3 py-1 text-xs hover:bg-zinc-100 transition"
+                      className="rounded-lg border border-yellow-500 px-3 py-1 text-xs text-yellow-500 hover:bg-zinc-100 transition"
                     >
                       Mudar status
                     </button>
@@ -457,7 +465,7 @@ export default function ProductsPage() {
                       }}
                       className="rounded-lg border border-red-200 px-3 py-1 text-xs text-red-600 hover:bg-red-50 transition"
                     >
-                      Delete
+                      Excluir
                     </button>
 
                     <button

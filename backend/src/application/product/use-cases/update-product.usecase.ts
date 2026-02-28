@@ -1,11 +1,13 @@
 import { ProductRepository } from '@domain/product/repositories/product.repository';
-// import { Product } from '@domain/product/entities/product.entity';
 import { UpdateProductDTO } from '@interfaces/product/dto/update-product.dto';
 
 export class UpdateProductUseCase {
   constructor(private readonly productRepository: ProductRepository) { }
 
-  // async execute(input: UpdateProductDTO): Promise<void> {
+  async execute(dataForUpdate: UpdateProductDTO, uuid: string) {
 
-  // await this.productRepository.update();
+    const updateUser = await this.productRepository.update({dataForUpdate, uuid});
+
+    return updateUser;
+  }
 }

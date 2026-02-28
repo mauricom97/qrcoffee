@@ -34,6 +34,19 @@ export class ProductPrismaRepository {
     return await prisma.client.product.findMany();
   }
 
+  async update({ dataForUpdate, uuid }: { dataForUpdate: Partial<Product>; uuid: string }) {
+    return await prisma.client.product.update({
+      where: { uuid },
+      data: {
+        name: dataForUpdate.name,
+        price: dataForUpdate.price,
+        description: dataForUpdate.description,
+        active: dataForUpdate.active,
+        categoryUuid: dataForUpdate.categoryUuid,
+      },
+    });
+  }
+
   async destroy(uuid: string): Promise<void> {
     await prisma.client.product.delete({
       where: { uuid },
