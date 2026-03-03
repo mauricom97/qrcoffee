@@ -2,7 +2,7 @@
 import { Body, Controller, Delete, Get, Post, Put, Query } from '@nestjs/common';
 import { CreateProductUseCase } from '@/application/product/use-cases/create-product.usecase';
 import { CreateManyProductsUseCase } from '@/application/product/use-cases/create-many-product.usecase';
-import { FindAllProductUseCase } from '@/application/product/use-cases/find-all-product.usecase';
+import { FindAllProductUseCase } from '@/application/product/use-cases/find-product.usecase';
 import { DestroyProductUseCase } from '@/application/product/use-cases/destroy-product.usecase';
 import { UpdateProductUseCase } from '@/application/product/use-cases/update-product.usecase';
 import { UpdateProductDTO } from '@/interfaces/product/dto/update-product.dto'

@@ -31,7 +31,16 @@ export class ProductPrismaRepository {
   }
 
   async findAll(): Promise<Product[]> {
-    return await prisma.client.product.findMany();
+    return await prisma.client.product.findMany({
+      include: {
+        category: {
+          select: {
+            uuid: true,
+            name: true,
+          },
+        },
+      },
+    });
   }
 
   async update({ dataForUpdate, uuid }: { dataForUpdate: Partial<Product>; uuid: string }) {

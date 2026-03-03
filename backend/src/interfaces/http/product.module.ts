@@ -4,7 +4,7 @@ import { ProductController } from './product.controller';
 import { CreateProductUseCase } from '@application/product/use-cases/create-product.usecase';
 import { CreateManyProductsUseCase } from '@application/product/use-cases/create-many-product.usecase';
 import { UpdateProductUseCase } from '@application/product/use-cases/update-product.usecase';
-import { FindAllProductUseCase } from '@application/product/use-cases/find-all-product.usecase';
+import { FindAllProductUseCase } from '@/application/product/use-cases/find-product.usecase';
 import { DestroyProductUseCase } from '@application/product/use-cases/destroy-product.usecase';
 import { ProductPrismaRepository } from '@infrastructure/product/repositories/product-prisma.repository';
 import { PrismaService } from '@infrastructure/prisma/prisma.service';

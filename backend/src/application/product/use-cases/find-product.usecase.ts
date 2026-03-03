@@ -2,9 +2,11 @@
 import { ProductRepository } from '@domain/product/repositories/product.repository';
 
 export class FindAllProductUseCase {
-  constructor(private readonly productRepository: ProductRepository) {}
+  constructor(private readonly productRepository: ProductRepository) { }
 
   async execute(): Promise<any> {
-    return await this.productRepository.findAll();
+    return await this.productRepository.findAll({
+      limit: 1,
+    });
   }
 }
