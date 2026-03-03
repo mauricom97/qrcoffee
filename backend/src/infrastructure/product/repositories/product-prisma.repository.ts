@@ -1,4 +1,3 @@
-// src/infrastructure/product/repositories/product-prisma.repository.ts
 import { Product } from '@domain/product/entities/product.entity';
 import { PrismaService } from '@infrastructure/prisma/prisma.service';
 import { Module } from '@nestjs/common';
@@ -30,8 +29,27 @@ export class ProductPrismaRepository {
     return await prisma.client.product.createMany({ data });
   }
 
-  async findAll(): Promise<Product[]> {
+  async findAll(filters): Promise<Product[]> {
     return await prisma.client.product.findMany({
+      where: {
+        categoryUuid: filters.categoryUuid,
+        OR: filters.name && filters.name.length >= 3
+          ? [
+            {
+              name: {
+                contains: filters.name,
+                mode: 'insensitive',
+              },
+            },
+            {
+              description: {
+                contains: filters.name,
+                mode: 'insensitive',
+              },
+            },
+          ]
+          : undefined,
+      },
       include: {
         category: {
           select: {
@@ -67,4 +85,4 @@ export class ProductPrismaRepository {
   providers: [PrismaService, ProductPrismaRepository],
   exports: [ProductPrismaRepository],
 })
-export class ProductModule {}
+export class ProductModule { }

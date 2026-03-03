@@ -4,9 +4,9 @@ import { ProductRepository } from '@domain/product/repositories/product.reposito
 export class FindAllProductUseCase {
   constructor(private readonly productRepository: ProductRepository) { }
 
-  async execute(): Promise<any> {
+  async execute(filters): Promise<any> {
     return await this.productRepository.findAll({
-      limit: 1,
+      ...filters,
     });
   }
 }

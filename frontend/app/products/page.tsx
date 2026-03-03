@@ -10,6 +10,10 @@ interface Product {
   categoryUuid: string;
   active: boolean;
   images?: string[];
+  category?: {
+    uuid: string;
+    name: string;
+  };
 }
 
 interface Category {
@@ -36,7 +40,9 @@ export default function ProductsPage() {
 
   async function fetchProducts() {
     try {
-      const response = await fetch(process.env.NEXT_PUBLIC_BASE_API_URL + "/products/all");
+      const response = await fetch(
+        process.env.NEXT_PUBLIC_BASE_API_URL + "/products/all"
+      );
       if (!response.ok) {
         throw new Error(`HTTP error! status: ${response.status}`);
       }
@@ -49,7 +55,9 @@ export default function ProductsPage() {
 
   async function fetchCategories() {
     try {
-      const response = await fetch(process.env.NEXT_PUBLIC_BASE_API_URL + "/categories/all");
+      const response = await fetch(
+        process.env.NEXT_PUBLIC_BASE_API_URL + "/categories/all"
+      );
       if (!response.ok) {
         throw new Error(`HTTP error! status: ${response.status}`);
       }
@@ -80,7 +88,7 @@ export default function ProductsPage() {
   const handleEdit = (product: Product) => {
     window.scrollTo({
       top: 0,
-      behavior: 'smooth'
+      behavior: "smooth",
     });
     setEditingProduct(product);
     setNewProduct({
@@ -131,7 +139,7 @@ export default function ProductsPage() {
 
     if (editingProduct) {
       setProducts((prev) =>
-        prev.map((p) => (p.uuid === editingProduct.uuid ? productData : p)),
+        prev.map((p) => (p.uuid === editingProduct.uuid ? productData : p))
       );
       updateProduct(editingProduct.uuid, productData);
     } else {
@@ -144,10 +152,11 @@ export default function ProductsPage() {
 
   const toggleStatus = (uuid: string) => {
     setProducts((prev) =>
-      prev.map((p) => (p.uuid === uuid ? { ...p, active: !p.active } : p)),
+      prev.map((p) => (p.uuid === uuid ? { ...p, active: !p.active } : p))
     );
-    updateProduct(uuid, { active: !products.find((p) => p.uuid === uuid)?.active });
-
+    updateProduct(uuid, {
+      active: !products.find((p) => p.uuid === uuid)?.active,
+    });
   };
 
   const createProduct = async (product: {
@@ -156,13 +165,16 @@ export default function ProductsPage() {
     active: boolean;
   }) => {
     try {
-      const response = await fetch(process.env.NEXT_PUBLIC_BASE_API_URL + "/products", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(product),
-      });
+      const response = await fetch(
+        process.env.NEXT_PUBLIC_BASE_API_URL + "/products",
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify(product),
+        }
+      );
 
       if (!response.ok) {
         throw new Error(`Failed to create product: ${response.statusText}`);
@@ -178,13 +190,16 @@ export default function ProductsPage() {
 
   const updateProduct = async (uuid: string, updatedData: Partial<Product>) => {
     try {
-      const response = await fetch(`${process.env.NEXT_PUBLIC_BASE_API_URL}/products?uuid=${uuid}`, {
-        method: "PUT",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(updatedData),
-      });
+      const response = await fetch(
+        `${process.env.NEXT_PUBLIC_BASE_API_URL}/products?uuid=${uuid}`,
+        {
+          method: "PUT",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify(updatedData),
+        }
+      );
 
       if (!response.ok) {
         throw new Error(`HTTP error! status: ${response.status}`);
@@ -199,7 +214,7 @@ export default function ProductsPage() {
     } catch (error) {
       console.error("Failed to update product:", error);
     }
-  }
+  };
 
   const deleteProduct = (uuid: string) => {
     setProducts((prev) => prev.filter((p) => p.uuid !== uuid));
@@ -207,13 +222,16 @@ export default function ProductsPage() {
   };
   const destroyProduct = async (uuid: string) => {
     try {
-      const response = await fetch(process.env.NEXT_PUBLIC_BASE_API_URL + "/products", {
-        method: "DELETE",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({ uuid }),
-      });
+      const response = await fetch(
+        process.env.NEXT_PUBLIC_BASE_API_URL + "/products",
+        {
+          method: "DELETE",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({ uuid }),
+        }
+      );
 
       if (!response.ok) {
         throw new Error(`Failed to delete product: ${response.statusText}`);
@@ -226,6 +244,14 @@ export default function ProductsPage() {
   };
 
   const selectedProduct = products.find((p) => p.uuid === showImages);
+
+  // Função para agrupar produtos por categoria
+  const groupedProducts = categories.map((category) => ({
+    categoryName: category.name,
+    products: products.filter(
+      (product) => product.categoryUuid === category.uuid
+    ),
+  }));
 
   return (
     <div className="min-h-screen bg-zinc-50 p-4 md:p-8">
@@ -378,27 +404,56 @@ export default function ProductsPage() {
             <input
               type="text"
               placeholder="Buscar por nome"
-              onChange={(e) => {
-                const searchTerm = e.target.value.toLowerCase();
-                setProducts((prev) => {
-                  if (searchTerm === "") fetchProducts();
-                  return prev.filter((product) =>
-                    product.name.toLowerCase().includes(searchTerm),
-                  );
-                });
+              onChange={async (e) => {
+                const searchTerm = e.target.value.trim();
+                if (searchTerm === "") {
+                  fetchProducts(); // Recarrega todos os produtos se o campo estiver vazio
+                } else {
+                  try {
+                    const response = await fetch(
+                      `${process.env.NEXT_PUBLIC_BASE_API_URL}/products/all?name=${searchTerm}`
+                    );
+
+                    if (!response.ok) {
+                      throw new Error(`HTTP error! status: ${response.status}`);
+                    }
+
+                    const filteredProducts: Product[] = await response.json();
+                    setProducts(filteredProducts); // Atualiza a lista de produtos com os resultados da pesquisa
+                  } catch (error) {
+                    console.error("Failed to fetch products by name:", error);
+                  }
+                }
               }}
               className="rounded-lg text-zinc-800 border border-zinc-200 px-3 py-2 focus:outline-none focus:border-zinc-400"
             />
             <select
-              onChange={(e) => {
+              onChange={async (e) => {
                 const selectedCategory = e.target.value;
-                setProducts((prev) =>
-                  selectedCategory
-                    ? prev.filter(
-                      (product) => product?.category === selectedCategory,
-                    )
-                    : prev,
-                );
+                if (selectedCategory) {
+                  try {
+                    const categoryUuid = categories.find(
+                      (cat) => cat.name === selectedCategory
+                    )?.uuid;
+                    const response = await fetch(
+                      `${process.env.NEXT_PUBLIC_BASE_API_URL}/products/all?categoryUuid=${categoryUuid}`
+                    );
+
+                    if (!response.ok) {
+                      throw new Error(`HTTP error! status: ${response.status}`);
+                    }
+
+                    const filteredProducts: Product[] = await response.json();
+                    setProducts(filteredProducts);
+                  } catch (error) {
+                    console.error(
+                      "Failed to fetch products by category:",
+                      error
+                    );
+                  }
+                } else {
+                  fetchProducts(); // Recarrega todos os produtos se nenhuma categoria for selecionada
+                }
               }}
               className="rounded-lg text-zinc-800 border border-zinc-200 px-3 py-2 text-sm focus:outline-none focus:border-zinc-400"
             >
@@ -411,84 +466,92 @@ export default function ProductsPage() {
             </select>
           </div>
         </section>
+
         <section className="rounded-2xl bg-white p-4 shadow-sm md:p-6">
-          <h2 className="mb-4 text-lg font-medium text-zinc-800">
-            Lista de produtos
-          </h2>
-
-          <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
-            {products.map((product) => (
-              <div
-                key={product.uuid}
-                className="rounded-xl border border-zinc-200 p-4 flex flex-col justify-between"
-              >
-                <div className="space-y-1">
-                  <h3 className="font-medium text-zinc-800 font-semibold">
-                    {product.name}
-                  </h3>
-                  <p className="text-sm text-zinc-500 font-semibold">
-                    Categoria: {product?.category || "—"}
-                  </p>
-                  <p className="text-sm text-zinc-500 font-semibold">
-                    Descrição:{" "}
-                    <span className="font-normal">
-                      {product.description || "—"}
-                    </span>
-                  </p>
-                  <p className="text-lg font-semibold text-zinc-900">
-                    R$ {product.price.toFixed(2)}
-                  </p>
-                </div>
-
-                <div className="mt-4 flex items-center justify-between flex-wrap gap-2">
-                  <span
-                    className={`rounded-full px-3 py-1 text-xs font-medium ${product.active
-                        ? "bg-emerald-100 text-emerald-700"
-                        : "bg-zinc-100 text-zinc-500"
-                      }`}
+          {groupedProducts.map((group) => (
+            <div key={group.categoryName} className="mb-8">
+              <h3 className="text-xl font-semibold text-zinc-800 mb-4">
+                {group.categoryName}
+              </h3>
+              <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+                {group.products.map((product) => (
+                  <div
+                    key={product.uuid}
+                    className="rounded-xl border border-zinc-200 p-4 flex flex-col justify-between"
                   >
-                    {product.active ? "Ativo" : "Inativo"}
-                  </span>
+                    <div className="space-y-1">
+                      <h3 className="font-medium text-zinc-800 font-semibold">
+                        {product.name}
+                      </h3>
+                      <p className="text-sm text-zinc-500 font-semibold">
+                        Descrição:{" "}
+                        <span className="font-normal">
+                          {product.description || "—"}
+                        </span>
+                      </p>
+                      <p className="text-lg font-semibold text-zinc-900">
+                        R$ {product.price.toFixed(2)}
+                      </p>
+                    </div>
 
-                  <div className="flex gap-2 flex-wrap">
-                    <button
-                      onClick={() => toggleStatus(product.uuid)}
-                      className="rounded-lg border border-yellow-500 px-3 py-1 text-xs text-yellow-500 hover:bg-zinc-100 transition"
-                    >
-                      Mudar status
-                    </button>
+                    <div className="mt-4 flex items-center justify-between flex-wrap gap-2">
+                      <span
+                        className={`rounded-full px-3 py-1 text-xs font-medium ${
+                          product.active
+                            ? "bg-emerald-100 text-emerald-700"
+                            : "bg-zinc-100 text-zinc-500"
+                        }`}
+                      >
+                        {product.active ? "Ativo" : "Inativo"}
+                      </span>
 
-                    <button
-                      onClick={() => {
-                        setProductToDelete(product.uuid);
-                        setShowDeleteModal(true);
-                      }}
-                      className="rounded-lg border border-red-200 px-3 py-1 text-xs text-red-600 hover:bg-red-50 transition"
-                    >
-                      Excluir
-                    </button>
+                      <div className="flex gap-2 flex-wrap">
+                        <button
+                          onClick={() => toggleStatus(product.uuid)}
+                          className="rounded-lg border border-yellow-500 px-3 py-1 text-xs text-yellow-500 hover:bg-zinc-100 transition"
+                        >
+                          Mudar status
+                        </button>
 
-                    <button
-                      onClick={() => setShowImages(product.uuid)}
-                      className="rounded-lg border border-blue-200 px-3 py-1 text-xs text-blue-600 hover:bg-blue-50 transition"
-                    >
-                      Mostrar imagens
-                    </button>
+                        <button
+                          onClick={() => {
+                            setProductToDelete(product.uuid);
+                            setShowDeleteModal(true);
+                          }}
+                          className="rounded-lg border border-red-200 px-3 py-1 text-xs text-red-600 hover:bg-red-50 transition"
+                        >
+                          Excluir
+                        </button>
 
-                    <button
-                      onClick={() => handleEdit(product)}
-                      className="rounded-lg border border-green-200 px-3 py-1 text-xs text-green-600 hover:bg-green-50 transition"
-                    >
-                      Editar
-                    </button>
+                        <button
+                          onClick={() => setShowImages(product.uuid)}
+                          className="rounded-lg border border-blue-200 px-3 py-1 text-xs text-blue-600 hover:bg-blue-50 transition"
+                        >
+                          Mostrar imagens
+                        </button>
+
+                        <button
+                          onClick={() => handleEdit(product)}
+                          className="rounded-lg border border-green-200 px-3 py-1 text-xs text-green-600 hover:bg-green-50 transition"
+                        >
+                          Editar
+                        </button>
+                      </div>
+                    </div>
                   </div>
-                </div>
+                ))}
               </div>
-            ))}
-          </div>
+
+              {group.products.length === 0 && (
+                <p className="text-sm text-zinc-500">
+                  Nenhum produto nesta categoria.
+                </p>
+              )}
+            </div>
+          ))}
 
           {products.length === 0 && (
-            <p className="text-sm text-zinc-500">No products registered.</p>
+            <p className="text-sm text-zinc-500">Nenhum produto registrado.</p>
           )}
         </section>
       </div>

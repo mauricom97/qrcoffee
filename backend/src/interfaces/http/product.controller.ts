@@ -32,8 +32,15 @@ export class ProductController {
   }
 
   @Get('/all')
-  async findAll() {
-    return await this.findAllProductUseCase.execute();
+  async findAll(
+    @Query('categoryUuid') categoryUuid: string,
+    @Query('name') name: string,
+  ) {
+    const filter = {
+      categoryUuid,
+      name,
+    };
+    return await this.findAllProductUseCase.execute(filter);
   }
 
   @Delete()
