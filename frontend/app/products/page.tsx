@@ -1,20 +1,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
-
-interface Product {
-  uuid: string;
-  name: string;
-  price: number;
-  description?: string;
-  categoryUuid: string;
-  active: boolean;
-  images?: string[];
-  category?: {
-    uuid: string;
-    name: string;
-  };
-}
+import { Product } from "./interfaces/product.interface";
 
 interface Category {
   uuid: string;
@@ -38,6 +25,34 @@ export default function ProductsPage() {
   const [showDeleteModal, setShowDeleteModal] = useState(false);
   const [productToDelete, setProductToDelete] = useState<string | null>(null);
   const [categories, setCategories] = useState<Category[]>([]);
+
+  const [showCategoryModal, setShowCategoryModal] = useState(false);
+  const [newCategoryName, setNewCategoryName] = useState("");
+
+  async function createCategory(name: string) {
+    try {
+      const response = await fetch(
+        process.env.NEXT_PUBLIC_BASE_API_URL + "/categories",
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({ name }),
+        }
+      );
+      
+      if (!response.ok) {
+        throw new Error(`Failed to create category: ${response.statusText}`);
+      }
+
+      const data = await response.json();
+      console.log("Category created successfully:", data);
+      return data;
+    } catch (error) {
+      console.error("Error creating category:", error);
+    }
+  }
 
   async function fetchProducts() {
     try {
@@ -334,6 +349,54 @@ export default function ProductsPage() {
                   </option>
                 ))}
               </select>
+
+              <button
+                onClick={() => setShowCategoryModal(true)}
+                className="rounded-lg bg-blue-500 px-4 py-2 text-sm font-medium text-white hover:bg-blue-400 transition"
+              >
+                Criar Categoria
+              </button>
+
+              {showCategoryModal && (
+                <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
+                  <div className="bg-white p-6 rounded-2xl shadow-xl max-w-md w-full">
+                    <h2 className="text-xl font-semibold text-zinc-800 mb-4">
+                      Criar Nova Categoria
+                    </h2>
+                    <input
+                      type="text"
+                      placeholder="Nome da categoria"
+                      value={newCategoryName}
+                      onChange={(e) => setNewCategoryName(e.target.value)}
+                      className="w-full rounded-lg border border-zinc-200 px-3 py-2 text-sm focus:outline-none focus:border-zinc-400 mb-4"
+                    />
+                    <div className="flex gap-4">
+                      <button
+                        onClick={() => {
+                          setShowCategoryModal(false);
+                          setNewCategoryName("");
+                        }}
+                        className="flex-1 rounded-lg bg-zinc-200 px-4 py-2 text-sm font-medium text-zinc-800 hover:bg-zinc-300 transition"
+                      >
+                        Cancelar
+                      </button>
+                      <button
+                        onClick={async () => {
+                          if (newCategoryName.trim()) {
+                            await createCategory(newCategoryName.trim());
+                            setShowCategoryModal(false);
+                            setNewCategoryName("");
+                            fetchCategories();
+                          }
+                        }}
+                        className="flex-1 rounded-lg bg-blue-600 px-4 py-2 text-sm font-medium text-white hover:bg-blue-700 transition"
+                      >
+                        Criar Categoria
+                      </button>
+                    </div>
+                  </div>
+                </div>
+              )}
 
               <label className="flex items-center gap-2 text-sm text-zinc-700">
                 <input
