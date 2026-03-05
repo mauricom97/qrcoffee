@@ -9,13 +9,16 @@ datasource db {
 }
 
 model Product {
-  uuid         String   @id @default(uuid())
-  name         String
-  price        Float
-  active       Boolean  @default(true)
-  description  String
+  uuid        String  @id @default(uuid())
+  name        String
+  price       Float
+  active      Boolean @default(true)
+  description String
+
   categoryUuid String
   category     Category @relation(fields: [categoryUuid], references: [uuid])
+
+  @@index([categoryUuid])
 }
 
 model Category {

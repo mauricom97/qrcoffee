@@ -2,7 +2,7 @@
 import { Module } from '@nestjs/common';
 import { ProductController } from '@interfaces/product/product.controller';
 import { CreateProductUseCase } from '@/application/product/use-cases/create-product.usecase';
-import { FindAllProductUseCase } from '@/application/product/use-cases/find-all-product.usecase';
+import { FindAllProductUseCase } from '@/application/product/use-cases/find-product.usecase';
 import { ProductPrismaRepository } from '../product/repositories/product-prisma.repository';
 import { PrismaService } from '../prisma/prisma.service';
 @Module({

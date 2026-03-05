@@ -14,9 +14,13 @@ model Product {
   price        Float
   active       Boolean  @default(true)
   description  String
+
   categoryUuid String
   category     Category @relation(fields: [categoryUuid], references: [uuid])
+
+  @@index([categoryUuid])
 }
+
 
 model Category {
   uuid     String    @id @default(uuid())
