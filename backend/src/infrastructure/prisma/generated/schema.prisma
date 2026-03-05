@@ -26,3 +26,8 @@ model Category {
   name     String
   products Product[]
 }
+
+model Table {
+  uuid   String @id @default(uuid())
+  number Int
+}

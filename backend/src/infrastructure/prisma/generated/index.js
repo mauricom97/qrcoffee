@@ -107,6 +107,11 @@ exports.Prisma.CategoryScalarFieldEnum = {
   name: 'name'
 };
 
+exports.Prisma.TableScalarFieldEnum = {
+  uuid: 'uuid',
+  number: 'number'
+};
+
 exports.Prisma.SortOrder = {
   asc: 'asc',
   desc: 'desc'
@@ -120,7 +125,8 @@ exports.Prisma.QueryMode = {
 
 exports.Prisma.ModelName = {
   Product: 'Product',
-  Category: 'Category'
+  Category: 'Category',
+  Table: 'Table'
 };
 /**
  * Create the Client
@@ -130,10 +136,10 @@ const config = {
   "clientVersion": "7.2.0",
   "engineVersion": "0c8ef2ce45c83248ab3df073180d5eda9e8be7a3",
   "activeProvider": "postgresql",
-  "inlineSchema": "generator client {\n  provider = \"prisma-client-js\"\n  output   = \"../src/infrastructure/prisma/generated\"\n}\n\ndatasource db {\n  provider     = \"postgresql\"\n  relationMode = \"prisma\"\n}\n\nmodel Product {\n  uuid        String  @id @default(uuid())\n  name        String\n  price       Float\n  active      Boolean @default(true)\n  description String\n\n  categoryUuid String\n  category     Category @relation(fields: [categoryUuid], references: [uuid])\n\n  @@index([categoryUuid])\n}\n\nmodel Category {\n  uuid     String    @id @default(uuid())\n  name     String\n  products Product[]\n}\n"
+  "inlineSchema": "generator client {\n  provider = \"prisma-client-js\"\n  output   = \"../src/infrastructure/prisma/generated\"\n}\n\ndatasource db {\n  provider     = \"postgresql\"\n  relationMode = \"prisma\"\n}\n\nmodel Product {\n  uuid        String  @id @default(uuid())\n  name        String\n  price       Float\n  active      Boolean @default(true)\n  description String\n\n  categoryUuid String\n  category     Category @relation(fields: [categoryUuid], references: [uuid])\n\n  @@index([categoryUuid])\n}\n\nmodel Category {\n  uuid     String    @id @default(uuid())\n  name     String\n  products Product[]\n}\n\nmodel Table {\n  uuid   String @id @default(uuid())\n  number Int\n}\n"
 }
 
-config.runtimeDataModel = JSON.parse("{\"models\":{\"Product\":{\"fields\":[{\"name\":\"uuid\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"name\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"price\",\"kind\":\"scalar\",\"type\":\"Float\"},{\"name\":\"active\",\"kind\":\"scalar\",\"type\":\"Boolean\"},{\"name\":\"description\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"categoryUuid\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"category\",\"kind\":\"object\",\"type\":\"Category\",\"relationName\":\"CategoryToProduct\"}],\"dbName\":null},\"Category\":{\"fields\":[{\"name\":\"uuid\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"name\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"products\",\"kind\":\"object\",\"type\":\"Product\",\"relationName\":\"CategoryToProduct\"}],\"dbName\":null}},\"enums\":{},\"types\":{}}")
+config.runtimeDataModel = JSON.parse("{\"models\":{\"Product\":{\"fields\":[{\"name\":\"uuid\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"name\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"price\",\"kind\":\"scalar\",\"type\":\"Float\"},{\"name\":\"active\",\"kind\":\"scalar\",\"type\":\"Boolean\"},{\"name\":\"description\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"categoryUuid\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"category\",\"kind\":\"object\",\"type\":\"Category\",\"relationName\":\"CategoryToProduct\"}],\"dbName\":null},\"Category\":{\"fields\":[{\"name\":\"uuid\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"name\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"products\",\"kind\":\"object\",\"type\":\"Product\",\"relationName\":\"CategoryToProduct\"}],\"dbName\":null},\"Table\":{\"fields\":[{\"name\":\"uuid\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"number\",\"kind\":\"scalar\",\"type\":\"Int\"}],\"dbName\":null}},\"enums\":{},\"types\":{}}")
 defineDmmfProperty(exports.Prisma, config.runtimeDataModel)
 config.compilerWasm = {
       getRuntime: async () => require('./query_compiler_bg.js'),

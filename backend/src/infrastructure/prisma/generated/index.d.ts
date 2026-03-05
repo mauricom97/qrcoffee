@@ -23,6 +23,11 @@ export type Product = $Result.DefaultSelection<Prisma.$ProductPayload>
  * 
  */
 export type Category = $Result.DefaultSelection<Prisma.$CategoryPayload>
+/**
+ * Model Table
+ * 
+ */
+export type Table = $Result.DefaultSelection<Prisma.$TablePayload>
 
 /**
  * ##  Prisma Client ʲˢ
@@ -160,6 +165,16 @@ export class PrismaClient<
     * ```
     */
   get category(): Prisma.CategoryDelegate<ExtArgs, ClientOptions>;
+
+  /**
+   * `prisma.table`: Exposes CRUD operations for the **Table** model.
+    * Example usage:
+    * ```ts
+    * // Fetch zero or more Tables
+    * const tables = await prisma.table.findMany()
+    * ```
+    */
+  get table(): Prisma.TableDelegate<ExtArgs, ClientOptions>;
 }
 
 export namespace Prisma {
@@ -595,7 +610,8 @@ export namespace Prisma {
 
   export const ModelName: {
     Product: 'Product',
-    Category: 'Category'
+    Category: 'Category',
+    Table: 'Table'
   };
 
   export type ModelName = (typeof ModelName)[keyof typeof ModelName]
@@ -611,7 +627,7 @@ export namespace Prisma {
       omit: GlobalOmitOptions
     }
     meta: {
-      modelProps: "product" | "category"
+      modelProps: "product" | "category" | "table"
       txIsolationLevel: Prisma.TransactionIsolationLevel
     }
     model: {
@@ -763,6 +779,80 @@ export namespace Prisma {
           }
         }
       }
+      Table: {
+        payload: Prisma.$TablePayload<ExtArgs>
+        fields: Prisma.TableFieldRefs
+        operations: {
+          findUnique: {
+            args: Prisma.TableFindUniqueArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$TablePayload> | null
+          }
+          findUniqueOrThrow: {
+            args: Prisma.TableFindUniqueOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$TablePayload>
+          }
+          findFirst: {
+            args: Prisma.TableFindFirstArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$TablePayload> | null
+          }
+          findFirstOrThrow: {
+            args: Prisma.TableFindFirstOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$TablePayload>
+          }
+          findMany: {
+            args: Prisma.TableFindManyArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$TablePayload>[]
+          }
+          create: {
+            args: Prisma.TableCreateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$TablePayload>
+          }
+          createMany: {
+            args: Prisma.TableCreateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          createManyAndReturn: {
+            args: Prisma.TableCreateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$TablePayload>[]
+          }
+          delete: {
+            args: Prisma.TableDeleteArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$TablePayload>
+          }
+          update: {
+            args: Prisma.TableUpdateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$TablePayload>
+          }
+          deleteMany: {
+            args: Prisma.TableDeleteManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateMany: {
+            args: Prisma.TableUpdateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateManyAndReturn: {
+            args: Prisma.TableUpdateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$TablePayload>[]
+          }
+          upsert: {
+            args: Prisma.TableUpsertArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$TablePayload>
+          }
+          aggregate: {
+            args: Prisma.TableAggregateArgs<ExtArgs>
+            result: $Utils.Optional<AggregateTable>
+          }
+          groupBy: {
+            args: Prisma.TableGroupByArgs<ExtArgs>
+            result: $Utils.Optional<TableGroupByOutputType>[]
+          }
+          count: {
+            args: Prisma.TableCountArgs<ExtArgs>
+            result: $Utils.Optional<TableCountAggregateOutputType> | number
+          }
+        }
+      }
     }
   } & {
     other: {
@@ -873,6 +963,7 @@ export namespace Prisma {
   export type GlobalOmitConfig = {
     product?: ProductOmit
     category?: CategoryOmit
+    table?: TableOmit
   }
 
   /* Types for Logging */
@@ -3120,6 +3211,996 @@ export namespace Prisma {
 
 
   /**
+   * Model Table
+   */
+
+  export type AggregateTable = {
+    _count: TableCountAggregateOutputType | null
+    _avg: TableAvgAggregateOutputType | null
+    _sum: TableSumAggregateOutputType | null
+    _min: TableMinAggregateOutputType | null
+    _max: TableMaxAggregateOutputType | null
+  }
+
+  export type TableAvgAggregateOutputType = {
+    number: number | null
+  }
+
+  export type TableSumAggregateOutputType = {
+    number: number | null
+  }
+
+  export type TableMinAggregateOutputType = {
+    uuid: string | null
+    number: number | null
+  }
+
+  export type TableMaxAggregateOutputType = {
+    uuid: string | null
+    number: number | null
+  }
+
+  export type TableCountAggregateOutputType = {
+    uuid: number
+    number: number
+    _all: number
+  }
+
+
+  export type TableAvgAggregateInputType = {
+    number?: true
+  }
+
+  export type TableSumAggregateInputType = {
+    number?: true
+  }
+
+  export type TableMinAggregateInputType = {
+    uuid?: true
+    number?: true
+  }
+
+  export type TableMaxAggregateInputType = {
+    uuid?: true
+    number?: true
+  }
+
+  export type TableCountAggregateInputType = {
+    uuid?: true
+    number?: true
+    _all?: true
+  }
+
+  export type TableAggregateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which Table to aggregate.
+     */
+    where?: TableWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of Tables to fetch.
+     */
+    orderBy?: TableOrderByWithRelationInput | TableOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the start position
+     */
+    cursor?: TableWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` Tables from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` Tables.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Count returned Tables
+    **/
+    _count?: true | TableCountAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to average
+    **/
+    _avg?: TableAvgAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to sum
+    **/
+    _sum?: TableSumAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the minimum value
+    **/
+    _min?: TableMinAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the maximum value
+    **/
+    _max?: TableMaxAggregateInputType
+  }
+
+  export type GetTableAggregateType<T extends TableAggregateArgs> = {
+        [P in keyof T & keyof AggregateTable]: P extends '_count' | 'count'
+      ? T[P] extends true
+        ? number
+        : GetScalarType<T[P], AggregateTable[P]>
+      : GetScalarType<T[P], AggregateTable[P]>
+  }
+
+
+
+
+  export type TableGroupByArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: TableWhereInput
+    orderBy?: TableOrderByWithAggregationInput | TableOrderByWithAggregationInput[]
+    by: TableScalarFieldEnum[] | TableScalarFieldEnum
+    having?: TableScalarWhereWithAggregatesInput
+    take?: number
+    skip?: number
+    _count?: TableCountAggregateInputType | true
+    _avg?: TableAvgAggregateInputType
+    _sum?: TableSumAggregateInputType
+    _min?: TableMinAggregateInputType
+    _max?: TableMaxAggregateInputType
+  }
+
+  export type TableGroupByOutputType = {
+    uuid: string
+    number: number
+    _count: TableCountAggregateOutputType | null
+    _avg: TableAvgAggregateOutputType | null
+    _sum: TableSumAggregateOutputType | null
+    _min: TableMinAggregateOutputType | null
+    _max: TableMaxAggregateOutputType | null
+  }
+
+  type GetTableGroupByPayload<T extends TableGroupByArgs> = Prisma.PrismaPromise<
+    Array<
+      PickEnumerable<TableGroupByOutputType, T['by']> &
+        {
+          [P in ((keyof T) & (keyof TableGroupByOutputType))]: P extends '_count'
+            ? T[P] extends boolean
+              ? number
+              : GetScalarType<T[P], TableGroupByOutputType[P]>
+            : GetScalarType<T[P], TableGroupByOutputType[P]>
+        }
+      >
+    >
+
+
+  export type TableSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    uuid?: boolean
+    number?: boolean
+  }, ExtArgs["result"]["table"]>
+
+  export type TableSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    uuid?: boolean
+    number?: boolean
+  }, ExtArgs["result"]["table"]>
+
+  export type TableSelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    uuid?: boolean
+    number?: boolean
+  }, ExtArgs["result"]["table"]>
+
+  export type TableSelectScalar = {
+    uuid?: boolean
+    number?: boolean
+  }
+
+  export type TableOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"uuid" | "number", ExtArgs["result"]["table"]>
+
+  export type $TablePayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    name: "Table"
+    objects: {}
+    scalars: $Extensions.GetPayloadResult<{
+      uuid: string
+      number: number
+    }, ExtArgs["result"]["table"]>
+    composites: {}
+  }
+
+  type TableGetPayload<S extends boolean | null | undefined | TableDefaultArgs> = $Result.GetResult<Prisma.$TablePayload, S>
+
+  type TableCountArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> =
+    Omit<TableFindManyArgs, 'select' | 'include' | 'distinct' | 'omit'> & {
+      select?: TableCountAggregateInputType | true
+    }
+
+  export interface TableDelegate<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> {
+    [K: symbol]: { types: Prisma.TypeMap<ExtArgs>['model']['Table'], meta: { name: 'Table' } }
+    /**
+     * Find zero or one Table that matches the filter.
+     * @param {TableFindUniqueArgs} args - Arguments to find a Table
+     * @example
+     * // Get one Table
+     * const table = await prisma.table.findUnique({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUnique<T extends TableFindUniqueArgs>(args: SelectSubset<T, TableFindUniqueArgs<ExtArgs>>): Prisma__TableClient<$Result.GetResult<Prisma.$TablePayload<ExtArgs>, T, "findUnique", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find one Table that matches the filter or throw an error with `error.code='P2025'`
+     * if no matches were found.
+     * @param {TableFindUniqueOrThrowArgs} args - Arguments to find a Table
+     * @example
+     * // Get one Table
+     * const table = await prisma.table.findUniqueOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUniqueOrThrow<T extends TableFindUniqueOrThrowArgs>(args: SelectSubset<T, TableFindUniqueOrThrowArgs<ExtArgs>>): Prisma__TableClient<$Result.GetResult<Prisma.$TablePayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first Table that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {TableFindFirstArgs} args - Arguments to find a Table
+     * @example
+     * // Get one Table
+     * const table = await prisma.table.findFirst({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirst<T extends TableFindFirstArgs>(args?: SelectSubset<T, TableFindFirstArgs<ExtArgs>>): Prisma__TableClient<$Result.GetResult<Prisma.$TablePayload<ExtArgs>, T, "findFirst", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first Table that matches the filter or
+     * throw `PrismaKnownClientError` with `P2025` code if no matches were found.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {TableFindFirstOrThrowArgs} args - Arguments to find a Table
+     * @example
+     * // Get one Table
+     * const table = await prisma.table.findFirstOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirstOrThrow<T extends TableFindFirstOrThrowArgs>(args?: SelectSubset<T, TableFindFirstOrThrowArgs<ExtArgs>>): Prisma__TableClient<$Result.GetResult<Prisma.$TablePayload<ExtArgs>, T, "findFirstOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find zero or more Tables that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {TableFindManyArgs} args - Arguments to filter and select certain fields only.
+     * @example
+     * // Get all Tables
+     * const tables = await prisma.table.findMany()
+     * 
+     * // Get first 10 Tables
+     * const tables = await prisma.table.findMany({ take: 10 })
+     * 
+     * // Only select the `uuid`
+     * const tableWithUuidOnly = await prisma.table.findMany({ select: { uuid: true } })
+     * 
+     */
+    findMany<T extends TableFindManyArgs>(args?: SelectSubset<T, TableFindManyArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$TablePayload<ExtArgs>, T, "findMany", GlobalOmitOptions>>
+
+    /**
+     * Create a Table.
+     * @param {TableCreateArgs} args - Arguments to create a Table.
+     * @example
+     * // Create one Table
+     * const Table = await prisma.table.create({
+     *   data: {
+     *     // ... data to create a Table
+     *   }
+     * })
+     * 
+     */
+    create<T extends TableCreateArgs>(args: SelectSubset<T, TableCreateArgs<ExtArgs>>): Prisma__TableClient<$Result.GetResult<Prisma.$TablePayload<ExtArgs>, T, "create", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Create many Tables.
+     * @param {TableCreateManyArgs} args - Arguments to create many Tables.
+     * @example
+     * // Create many Tables
+     * const table = await prisma.table.createMany({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     *     
+     */
+    createMany<T extends TableCreateManyArgs>(args?: SelectSubset<T, TableCreateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Create many Tables and returns the data saved in the database.
+     * @param {TableCreateManyAndReturnArgs} args - Arguments to create many Tables.
+     * @example
+     * // Create many Tables
+     * const table = await prisma.table.createManyAndReturn({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Create many Tables and only return the `uuid`
+     * const tableWithUuidOnly = await prisma.table.createManyAndReturn({
+     *   select: { uuid: true },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    createManyAndReturn<T extends TableCreateManyAndReturnArgs>(args?: SelectSubset<T, TableCreateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$TablePayload<ExtArgs>, T, "createManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Delete a Table.
+     * @param {TableDeleteArgs} args - Arguments to delete one Table.
+     * @example
+     * // Delete one Table
+     * const Table = await prisma.table.delete({
+     *   where: {
+     *     // ... filter to delete one Table
+     *   }
+     * })
+     * 
+     */
+    delete<T extends TableDeleteArgs>(args: SelectSubset<T, TableDeleteArgs<ExtArgs>>): Prisma__TableClient<$Result.GetResult<Prisma.$TablePayload<ExtArgs>, T, "delete", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Update one Table.
+     * @param {TableUpdateArgs} args - Arguments to update one Table.
+     * @example
+     * // Update one Table
+     * const table = await prisma.table.update({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    update<T extends TableUpdateArgs>(args: SelectSubset<T, TableUpdateArgs<ExtArgs>>): Prisma__TableClient<$Result.GetResult<Prisma.$TablePayload<ExtArgs>, T, "update", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Delete zero or more Tables.
+     * @param {TableDeleteManyArgs} args - Arguments to filter Tables to delete.
+     * @example
+     * // Delete a few Tables
+     * const { count } = await prisma.table.deleteMany({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     * 
+     */
+    deleteMany<T extends TableDeleteManyArgs>(args?: SelectSubset<T, TableDeleteManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more Tables.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {TableUpdateManyArgs} args - Arguments to update one or more rows.
+     * @example
+     * // Update many Tables
+     * const table = await prisma.table.updateMany({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    updateMany<T extends TableUpdateManyArgs>(args: SelectSubset<T, TableUpdateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more Tables and returns the data updated in the database.
+     * @param {TableUpdateManyAndReturnArgs} args - Arguments to update many Tables.
+     * @example
+     * // Update many Tables
+     * const table = await prisma.table.updateManyAndReturn({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Update zero or more Tables and only return the `uuid`
+     * const tableWithUuidOnly = await prisma.table.updateManyAndReturn({
+     *   select: { uuid: true },
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    updateManyAndReturn<T extends TableUpdateManyAndReturnArgs>(args: SelectSubset<T, TableUpdateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$TablePayload<ExtArgs>, T, "updateManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Create or update one Table.
+     * @param {TableUpsertArgs} args - Arguments to update or create a Table.
+     * @example
+     * // Update or create a Table
+     * const table = await prisma.table.upsert({
+     *   create: {
+     *     // ... data to create a Table
+     *   },
+     *   update: {
+     *     // ... in case it already exists, update
+     *   },
+     *   where: {
+     *     // ... the filter for the Table we want to update
+     *   }
+     * })
+     */
+    upsert<T extends TableUpsertArgs>(args: SelectSubset<T, TableUpsertArgs<ExtArgs>>): Prisma__TableClient<$Result.GetResult<Prisma.$TablePayload<ExtArgs>, T, "upsert", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+
+    /**
+     * Count the number of Tables.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {TableCountArgs} args - Arguments to filter Tables to count.
+     * @example
+     * // Count the number of Tables
+     * const count = await prisma.table.count({
+     *   where: {
+     *     // ... the filter for the Tables we want to count
+     *   }
+     * })
+    **/
+    count<T extends TableCountArgs>(
+      args?: Subset<T, TableCountArgs>,
+    ): Prisma.PrismaPromise<
+      T extends $Utils.Record<'select', any>
+        ? T['select'] extends true
+          ? number
+          : GetScalarType<T['select'], TableCountAggregateOutputType>
+        : number
+    >
+
+    /**
+     * Allows you to perform aggregations operations on a Table.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {TableAggregateArgs} args - Select which aggregations you would like to apply and on what fields.
+     * @example
+     * // Ordered by age ascending
+     * // Where email contains prisma.io
+     * // Limited to the 10 users
+     * const aggregations = await prisma.user.aggregate({
+     *   _avg: {
+     *     age: true,
+     *   },
+     *   where: {
+     *     email: {
+     *       contains: "prisma.io",
+     *     },
+     *   },
+     *   orderBy: {
+     *     age: "asc",
+     *   },
+     *   take: 10,
+     * })
+    **/
+    aggregate<T extends TableAggregateArgs>(args: Subset<T, TableAggregateArgs>): Prisma.PrismaPromise<GetTableAggregateType<T>>
+
+    /**
+     * Group by Table.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {TableGroupByArgs} args - Group by arguments.
+     * @example
+     * // Group by city, order by createdAt, get count
+     * const result = await prisma.user.groupBy({
+     *   by: ['city', 'createdAt'],
+     *   orderBy: {
+     *     createdAt: true
+     *   },
+     *   _count: {
+     *     _all: true
+     *   },
+     * })
+     * 
+    **/
+    groupBy<
+      T extends TableGroupByArgs,
+      HasSelectOrTake extends Or<
+        Extends<'skip', Keys<T>>,
+        Extends<'take', Keys<T>>
+      >,
+      OrderByArg extends True extends HasSelectOrTake
+        ? { orderBy: TableGroupByArgs['orderBy'] }
+        : { orderBy?: TableGroupByArgs['orderBy'] },
+      OrderFields extends ExcludeUnderscoreKeys<Keys<MaybeTupleToUnion<T['orderBy']>>>,
+      ByFields extends MaybeTupleToUnion<T['by']>,
+      ByValid extends Has<ByFields, OrderFields>,
+      HavingFields extends GetHavingFields<T['having']>,
+      HavingValid extends Has<ByFields, HavingFields>,
+      ByEmpty extends T['by'] extends never[] ? True : False,
+      InputErrors extends ByEmpty extends True
+      ? `Error: "by" must not be empty.`
+      : HavingValid extends False
+      ? {
+          [P in HavingFields]: P extends ByFields
+            ? never
+            : P extends string
+            ? `Error: Field "${P}" used in "having" needs to be provided in "by".`
+            : [
+                Error,
+                'Field ',
+                P,
+                ` in "having" needs to be provided in "by"`,
+              ]
+        }[HavingFields]
+      : 'take' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "take", you also need to provide "orderBy"'
+      : 'skip' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "skip", you also need to provide "orderBy"'
+      : ByValid extends True
+      ? {}
+      : {
+          [P in OrderFields]: P extends ByFields
+            ? never
+            : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+        }[OrderFields]
+    >(args: SubsetIntersection<T, TableGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetTableGroupByPayload<T> : Prisma.PrismaPromise<InputErrors>
+  /**
+   * Fields of the Table model
+   */
+  readonly fields: TableFieldRefs;
+  }
+
+  /**
+   * The delegate class that acts as a "Promise-like" for Table.
+   * Why is this prefixed with `Prisma__`?
+   * Because we want to prevent naming conflicts as mentioned in
+   * https://github.com/prisma/prisma-client-js/issues/707
+   */
+  export interface Prisma__TableClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
+    readonly [Symbol.toStringTag]: "PrismaPromise"
+    /**
+     * Attaches callbacks for the resolution and/or rejection of the Promise.
+     * @param onfulfilled The callback to execute when the Promise is resolved.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of which ever callback is executed.
+     */
+    then<TResult1 = T, TResult2 = never>(onfulfilled?: ((value: T) => TResult1 | PromiseLike<TResult1>) | undefined | null, onrejected?: ((reason: any) => TResult2 | PromiseLike<TResult2>) | undefined | null): $Utils.JsPromise<TResult1 | TResult2>
+    /**
+     * Attaches a callback for only the rejection of the Promise.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of the callback.
+     */
+    catch<TResult = never>(onrejected?: ((reason: any) => TResult | PromiseLike<TResult>) | undefined | null): $Utils.JsPromise<T | TResult>
+    /**
+     * Attaches a callback that is invoked when the Promise is settled (fulfilled or rejected). The
+     * resolved value cannot be modified from the callback.
+     * @param onfinally The callback to execute when the Promise is settled (fulfilled or rejected).
+     * @returns A Promise for the completion of the callback.
+     */
+    finally(onfinally?: (() => void) | undefined | null): $Utils.JsPromise<T>
+  }
+
+
+
+
+  /**
+   * Fields of the Table model
+   */
+  interface TableFieldRefs {
+    readonly uuid: FieldRef<"Table", 'String'>
+    readonly number: FieldRef<"Table", 'Int'>
+  }
+    
+
+  // Custom InputTypes
+  /**
+   * Table findUnique
+   */
+  export type TableFindUniqueArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Table
+     */
+    select?: TableSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Table
+     */
+    omit?: TableOmit<ExtArgs> | null
+    /**
+     * Filter, which Table to fetch.
+     */
+    where: TableWhereUniqueInput
+  }
+
+  /**
+   * Table findUniqueOrThrow
+   */
+  export type TableFindUniqueOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Table
+     */
+    select?: TableSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Table
+     */
+    omit?: TableOmit<ExtArgs> | null
+    /**
+     * Filter, which Table to fetch.
+     */
+    where: TableWhereUniqueInput
+  }
+
+  /**
+   * Table findFirst
+   */
+  export type TableFindFirstArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Table
+     */
+    select?: TableSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Table
+     */
+    omit?: TableOmit<ExtArgs> | null
+    /**
+     * Filter, which Table to fetch.
+     */
+    where?: TableWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of Tables to fetch.
+     */
+    orderBy?: TableOrderByWithRelationInput | TableOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for Tables.
+     */
+    cursor?: TableWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` Tables from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` Tables.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of Tables.
+     */
+    distinct?: TableScalarFieldEnum | TableScalarFieldEnum[]
+  }
+
+  /**
+   * Table findFirstOrThrow
+   */
+  export type TableFindFirstOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Table
+     */
+    select?: TableSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Table
+     */
+    omit?: TableOmit<ExtArgs> | null
+    /**
+     * Filter, which Table to fetch.
+     */
+    where?: TableWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of Tables to fetch.
+     */
+    orderBy?: TableOrderByWithRelationInput | TableOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for Tables.
+     */
+    cursor?: TableWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` Tables from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` Tables.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of Tables.
+     */
+    distinct?: TableScalarFieldEnum | TableScalarFieldEnum[]
+  }
+
+  /**
+   * Table findMany
+   */
+  export type TableFindManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Table
+     */
+    select?: TableSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Table
+     */
+    omit?: TableOmit<ExtArgs> | null
+    /**
+     * Filter, which Tables to fetch.
+     */
+    where?: TableWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of Tables to fetch.
+     */
+    orderBy?: TableOrderByWithRelationInput | TableOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for listing Tables.
+     */
+    cursor?: TableWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` Tables from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` Tables.
+     */
+    skip?: number
+    distinct?: TableScalarFieldEnum | TableScalarFieldEnum[]
+  }
+
+  /**
+   * Table create
+   */
+  export type TableCreateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Table
+     */
+    select?: TableSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Table
+     */
+    omit?: TableOmit<ExtArgs> | null
+    /**
+     * The data needed to create a Table.
+     */
+    data: XOR<TableCreateInput, TableUncheckedCreateInput>
+  }
+
+  /**
+   * Table createMany
+   */
+  export type TableCreateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to create many Tables.
+     */
+    data: TableCreateManyInput | TableCreateManyInput[]
+    skipDuplicates?: boolean
+  }
+
+  /**
+   * Table createManyAndReturn
+   */
+  export type TableCreateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Table
+     */
+    select?: TableSelectCreateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the Table
+     */
+    omit?: TableOmit<ExtArgs> | null
+    /**
+     * The data used to create many Tables.
+     */
+    data: TableCreateManyInput | TableCreateManyInput[]
+    skipDuplicates?: boolean
+  }
+
+  /**
+   * Table update
+   */
+  export type TableUpdateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Table
+     */
+    select?: TableSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Table
+     */
+    omit?: TableOmit<ExtArgs> | null
+    /**
+     * The data needed to update a Table.
+     */
+    data: XOR<TableUpdateInput, TableUncheckedUpdateInput>
+    /**
+     * Choose, which Table to update.
+     */
+    where: TableWhereUniqueInput
+  }
+
+  /**
+   * Table updateMany
+   */
+  export type TableUpdateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to update Tables.
+     */
+    data: XOR<TableUpdateManyMutationInput, TableUncheckedUpdateManyInput>
+    /**
+     * Filter which Tables to update
+     */
+    where?: TableWhereInput
+    /**
+     * Limit how many Tables to update.
+     */
+    limit?: number
+  }
+
+  /**
+   * Table updateManyAndReturn
+   */
+  export type TableUpdateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Table
+     */
+    select?: TableSelectUpdateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the Table
+     */
+    omit?: TableOmit<ExtArgs> | null
+    /**
+     * The data used to update Tables.
+     */
+    data: XOR<TableUpdateManyMutationInput, TableUncheckedUpdateManyInput>
+    /**
+     * Filter which Tables to update
+     */
+    where?: TableWhereInput
+    /**
+     * Limit how many Tables to update.
+     */
+    limit?: number
+  }
+
+  /**
+   * Table upsert
+   */
+  export type TableUpsertArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Table
+     */
+    select?: TableSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Table
+     */
+    omit?: TableOmit<ExtArgs> | null
+    /**
+     * The filter to search for the Table to update in case it exists.
+     */
+    where: TableWhereUniqueInput
+    /**
+     * In case the Table found by the `where` argument doesn't exist, create a new Table with this data.
+     */
+    create: XOR<TableCreateInput, TableUncheckedCreateInput>
+    /**
+     * In case the Table was found with the provided `where` argument, update it with this data.
+     */
+    update: XOR<TableUpdateInput, TableUncheckedUpdateInput>
+  }
+
+  /**
+   * Table delete
+   */
+  export type TableDeleteArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Table
+     */
+    select?: TableSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Table
+     */
+    omit?: TableOmit<ExtArgs> | null
+    /**
+     * Filter which Table to delete.
+     */
+    where: TableWhereUniqueInput
+  }
+
+  /**
+   * Table deleteMany
+   */
+  export type TableDeleteManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which Tables to delete
+     */
+    where?: TableWhereInput
+    /**
+     * Limit how many Tables to delete.
+     */
+    limit?: number
+  }
+
+  /**
+   * Table without action
+   */
+  export type TableDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Table
+     */
+    select?: TableSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Table
+     */
+    omit?: TableOmit<ExtArgs> | null
+  }
+
+
+  /**
    * Enums
    */
 
@@ -3151,6 +4232,14 @@ export namespace Prisma {
   };
 
   export type CategoryScalarFieldEnum = (typeof CategoryScalarFieldEnum)[keyof typeof CategoryScalarFieldEnum]
+
+
+  export const TableScalarFieldEnum: {
+    uuid: 'uuid',
+    number: 'number'
+  };
+
+  export type TableScalarFieldEnum = (typeof TableScalarFieldEnum)[keyof typeof TableScalarFieldEnum]
 
 
   export const SortOrder: {
@@ -3328,6 +4417,45 @@ export namespace Prisma {
     name?: StringWithAggregatesFilter<"Category"> | string
   }
 
+  export type TableWhereInput = {
+    AND?: TableWhereInput | TableWhereInput[]
+    OR?: TableWhereInput[]
+    NOT?: TableWhereInput | TableWhereInput[]
+    uuid?: StringFilter<"Table"> | string
+    number?: IntFilter<"Table"> | number
+  }
+
+  export type TableOrderByWithRelationInput = {
+    uuid?: SortOrder
+    number?: SortOrder
+  }
+
+  export type TableWhereUniqueInput = Prisma.AtLeast<{
+    uuid?: string
+    AND?: TableWhereInput | TableWhereInput[]
+    OR?: TableWhereInput[]
+    NOT?: TableWhereInput | TableWhereInput[]
+    number?: IntFilter<"Table"> | number
+  }, "uuid">
+
+  export type TableOrderByWithAggregationInput = {
+    uuid?: SortOrder
+    number?: SortOrder
+    _count?: TableCountOrderByAggregateInput
+    _avg?: TableAvgOrderByAggregateInput
+    _max?: TableMaxOrderByAggregateInput
+    _min?: TableMinOrderByAggregateInput
+    _sum?: TableSumOrderByAggregateInput
+  }
+
+  export type TableScalarWhereWithAggregatesInput = {
+    AND?: TableScalarWhereWithAggregatesInput | TableScalarWhereWithAggregatesInput[]
+    OR?: TableScalarWhereWithAggregatesInput[]
+    NOT?: TableScalarWhereWithAggregatesInput | TableScalarWhereWithAggregatesInput[]
+    uuid?: StringWithAggregatesFilter<"Table"> | string
+    number?: IntWithAggregatesFilter<"Table"> | number
+  }
+
   export type ProductCreateInput = {
     uuid?: string
     name: string
@@ -3427,6 +4555,41 @@ export namespace Prisma {
   export type CategoryUncheckedUpdateManyInput = {
     uuid?: StringFieldUpdateOperationsInput | string
     name?: StringFieldUpdateOperationsInput | string
+  }
+
+  export type TableCreateInput = {
+    uuid?: string
+    number: number
+  }
+
+  export type TableUncheckedCreateInput = {
+    uuid?: string
+    number: number
+  }
+
+  export type TableUpdateInput = {
+    uuid?: StringFieldUpdateOperationsInput | string
+    number?: IntFieldUpdateOperationsInput | number
+  }
+
+  export type TableUncheckedUpdateInput = {
+    uuid?: StringFieldUpdateOperationsInput | string
+    number?: IntFieldUpdateOperationsInput | number
+  }
+
+  export type TableCreateManyInput = {
+    uuid?: string
+    number: number
+  }
+
+  export type TableUpdateManyMutationInput = {
+    uuid?: StringFieldUpdateOperationsInput | string
+    number?: IntFieldUpdateOperationsInput | number
+  }
+
+  export type TableUncheckedUpdateManyInput = {
+    uuid?: StringFieldUpdateOperationsInput | string
+    number?: IntFieldUpdateOperationsInput | number
   }
 
   export type StringFilter<$PrismaModel = never> = {
@@ -3567,6 +4730,56 @@ export namespace Prisma {
     name?: SortOrder
   }
 
+  export type IntFilter<$PrismaModel = never> = {
+    equals?: number | IntFieldRefInput<$PrismaModel>
+    in?: number[] | ListIntFieldRefInput<$PrismaModel>
+    notIn?: number[] | ListIntFieldRefInput<$PrismaModel>
+    lt?: number | IntFieldRefInput<$PrismaModel>
+    lte?: number | IntFieldRefInput<$PrismaModel>
+    gt?: number | IntFieldRefInput<$PrismaModel>
+    gte?: number | IntFieldRefInput<$PrismaModel>
+    not?: NestedIntFilter<$PrismaModel> | number
+  }
+
+  export type TableCountOrderByAggregateInput = {
+    uuid?: SortOrder
+    number?: SortOrder
+  }
+
+  export type TableAvgOrderByAggregateInput = {
+    number?: SortOrder
+  }
+
+  export type TableMaxOrderByAggregateInput = {
+    uuid?: SortOrder
+    number?: SortOrder
+  }
+
+  export type TableMinOrderByAggregateInput = {
+    uuid?: SortOrder
+    number?: SortOrder
+  }
+
+  export type TableSumOrderByAggregateInput = {
+    number?: SortOrder
+  }
+
+  export type IntWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: number | IntFieldRefInput<$PrismaModel>
+    in?: number[] | ListIntFieldRefInput<$PrismaModel>
+    notIn?: number[] | ListIntFieldRefInput<$PrismaModel>
+    lt?: number | IntFieldRefInput<$PrismaModel>
+    lte?: number | IntFieldRefInput<$PrismaModel>
+    gt?: number | IntFieldRefInput<$PrismaModel>
+    gte?: number | IntFieldRefInput<$PrismaModel>
+    not?: NestedIntWithAggregatesFilter<$PrismaModel> | number
+    _count?: NestedIntFilter<$PrismaModel>
+    _avg?: NestedFloatFilter<$PrismaModel>
+    _sum?: NestedIntFilter<$PrismaModel>
+    _min?: NestedIntFilter<$PrismaModel>
+    _max?: NestedIntFilter<$PrismaModel>
+  }
+
   export type CategoryCreateNestedOneWithoutProductsInput = {
     create?: XOR<CategoryCreateWithoutProductsInput, CategoryUncheckedCreateWithoutProductsInput>
     connectOrCreate?: CategoryCreateOrConnectWithoutProductsInput
@@ -3637,6 +4850,14 @@ export namespace Prisma {
     update?: ProductUpdateWithWhereUniqueWithoutCategoryInput | ProductUpdateWithWhereUniqueWithoutCategoryInput[]
     updateMany?: ProductUpdateManyWithWhereWithoutCategoryInput | ProductUpdateManyWithWhereWithoutCategoryInput[]
     deleteMany?: ProductScalarWhereInput | ProductScalarWhereInput[]
+  }
+
+  export type IntFieldUpdateOperationsInput = {
+    set?: number
+    increment?: number
+    decrement?: number
+    multiply?: number
+    divide?: number
   }
 
   export type NestedStringFilter<$PrismaModel = never> = {
@@ -3719,6 +4940,22 @@ export namespace Prisma {
     _count?: NestedIntFilter<$PrismaModel>
     _min?: NestedBoolFilter<$PrismaModel>
     _max?: NestedBoolFilter<$PrismaModel>
+  }
+
+  export type NestedIntWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: number | IntFieldRefInput<$PrismaModel>
+    in?: number[] | ListIntFieldRefInput<$PrismaModel>
+    notIn?: number[] | ListIntFieldRefInput<$PrismaModel>
+    lt?: number | IntFieldRefInput<$PrismaModel>
+    lte?: number | IntFieldRefInput<$PrismaModel>
+    gt?: number | IntFieldRefInput<$PrismaModel>
+    gte?: number | IntFieldRefInput<$PrismaModel>
+    not?: NestedIntWithAggregatesFilter<$PrismaModel> | number
+    _count?: NestedIntFilter<$PrismaModel>
+    _avg?: NestedFloatFilter<$PrismaModel>
+    _sum?: NestedIntFilter<$PrismaModel>
+    _min?: NestedIntFilter<$PrismaModel>
+    _max?: NestedIntFilter<$PrismaModel>
   }
 
   export type CategoryCreateWithoutProductsInput = {
