@@ -26,6 +26,7 @@ export default function ProductsPage() {
   const [showForm, setShowForm] = useState(false);
   const [editingProduct, setEditingProduct] = useState<Product | null>(null);
   const [newProduct, setNewProduct] = useState({
+    uuid: "",
     name: "",
     price: 0,
     categoryUuid: "",
@@ -74,6 +75,7 @@ export default function ProductsPage() {
 
   const resetForm = () => {
     setNewProduct({
+      uuid: "",
       name: "",
       price: 0,
       categoryUuid: "",
@@ -92,6 +94,7 @@ export default function ProductsPage() {
     });
     setEditingProduct(product);
     setNewProduct({
+      uuid: product.uuid,
       name: product.name,
       price: product.price,
       categoryUuid: product.categoryUuid,
@@ -245,13 +248,15 @@ export default function ProductsPage() {
 
   const selectedProduct = products.find((p) => p.uuid === showImages);
 
-  // Função para agrupar produtos por categoria
-  const groupedProducts = categories.map((category) => ({
-    categoryName: category.name,
-    products: products.filter(
-      (product) => product.categoryUuid === category.uuid
-    ),
-  }));
+  // Função para agrupar produtos por categoria, filtrando categorias vazias
+  const groupedProducts = categories
+    .map((category) => ({
+      categoryName: category.name,
+      products: products.filter(
+        (product) => product.categoryUuid === category.uuid
+      ),
+    }))
+    .filter((group) => group.products.length > 0); // Filtra categorias sem produtos
 
   return (
     <div className="min-h-screen bg-zinc-50 p-4 md:p-8">
