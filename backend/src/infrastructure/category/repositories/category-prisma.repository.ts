@@ -8,7 +8,6 @@ export class CategoryPrismaRepository {
   async save(category: Category): Promise<Category> {
     return await prisma.client.category.create({
       data: {
-        uuid: category.uuid,
         name: category.name
       },
     })
