@@ -4,6 +4,7 @@ export class CreateProductDto {
   price: number;
   active: boolean;
   description: string;
-  categoryUuid: string
+  categoryUuid: string;
+  companyUuid: string;
 }
   

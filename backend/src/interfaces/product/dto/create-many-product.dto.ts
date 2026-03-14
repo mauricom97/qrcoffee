@@ -5,6 +5,7 @@ export class CreateManyProductDto extends Array<{
   active: boolean;
   description: string;
   categoryUuid: string;
+  companyUuid: string;
 }> {}
 
 export class CreateProductDto {

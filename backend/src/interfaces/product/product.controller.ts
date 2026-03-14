@@ -20,7 +20,8 @@ export class ProductController {
       price: dto.price,
       active: dto.active,
       description: dto.description,
-      categoryUuid: dto.categoryUuid
+      categoryUuid: dto.categoryUuid,
+      companyUuid: dto.companyUuid,
     });
   }
 

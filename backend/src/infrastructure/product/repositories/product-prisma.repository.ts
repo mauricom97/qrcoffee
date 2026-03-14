@@ -13,6 +13,7 @@ export class ProductPrismaRepository {
         description: product.description,
         active: product.active,
         categoryUuid: product.categoryUuid,
+        companyUuid: product.companyUuid,
       },
     });
   }
@@ -25,6 +26,7 @@ export class ProductPrismaRepository {
       description: product.description,
       active: product.active,
       categoryUuid: product.categoryUuid,
+      companyUuid: product.companyUuid,
     }));
     return await prisma.client.product.createMany({ data });
   }

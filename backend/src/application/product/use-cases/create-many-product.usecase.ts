@@ -15,6 +15,7 @@ export class CreateManyProductsUseCase {
           productData.active,
           productData.description,
           productData.categoryUuid,
+          productData.companyUuid,
         ),
     );
     await this.productRepository.saveMany(products);

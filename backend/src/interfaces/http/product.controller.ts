@@ -20,13 +20,15 @@ export class ProductController {
   ) { }
 
   @Post()
-  async create(@CompanyUuid() _companyUuid: string, @Body() body: any) {
-    return await this.createProductUseCase.execute(body);
+  async create(@CompanyUuid() companyUuid: string, @Body() body: any) {
+    return await this.createProductUseCase.execute({ ...body, companyUuid });
   }
 
   @Post('/many')
-  async createMany(@CompanyUuid() _companyUuid: string, @Body() body: any) {
-    return await this.createManyProductsUseCase.execute(body);
+  async createMany(@CompanyUuid() companyUuid: string, @Body() body: any) {
+    const items = Array.isArray(body) ? body : body.products ?? [];
+    const withCompany = items.map((item: any) => ({ ...item, companyUuid }));
+    return await this.createManyProductsUseCase.execute(withCompany);
   }
 
   @Put()

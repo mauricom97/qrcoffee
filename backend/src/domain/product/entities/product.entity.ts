@@ -6,6 +6,7 @@ export class Product {
     public active: boolean,
     public description: string,
     public categoryUuid: string,
+    public companyUuid: string,
   ) {
     if (!name) {
       throw new Error('Product name is required');

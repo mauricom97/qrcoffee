@@ -9,12 +9,13 @@ datasource db {
 }
 
 model Company {
-  uuid      String   @id @default(uuid())
+  uuid      String    @id @default(uuid())
   name      String
-  createdAt DateTime @default(now())
+  createdAt DateTime  @default(now())
   users     User[]
   tables    Table[]
   categories Category[]
+  products  Product[]
 }
 
 model User {
@@ -39,9 +40,12 @@ model Product {
 
   categoryUuid String
   category     Category   @relation(fields: [categoryUuid], references: [uuid])
+  companyUuid  String
+  company      Company    @relation(fields: [companyUuid], references: [uuid], onDelete: Cascade)
   orderItems   OrderItem[]
 
   @@index([categoryUuid])
+  @@index([companyUuid])
 }
 
 model Category {

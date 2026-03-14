@@ -1,18 +1,27 @@
+"use client";
+
 import { useState } from "react";
 import Link from "next/link";
-import { HiOutlineDeviceTablet, HiMenu, HiX } from "react-icons/hi";
+import { useRouter } from "next/navigation";
+import { HiOutlineDeviceTablet, HiMenu, HiX, HiOutlineLogout } from "react-icons/hi";
 import { LuTableOfContents } from "react-icons/lu";
 import { FaHome, FaPhone } from "react-icons/fa";
 import { MdOutlineTableBar } from "react-icons/md";
 import { FaMoneyBillWave } from "react-icons/fa";
 import { GrCafeteria } from "react-icons/gr";
 import { FaBox } from "react-icons/fa";
-
-
-
+import { useAuth } from "../contexts/AuthContext";
 
 const Sidebar = () => {
     const [isOpen, setIsOpen] = useState(false);
+    const { logout } = useAuth();
+    const router = useRouter();
+
+    const handleLogout = () => {
+        logout();
+        setIsOpen(false);
+        router.push("/");
+    };
 
     return (
         <>
@@ -89,6 +98,15 @@ const Sidebar = () => {
                         <span className="text-lg font-medium">Estoque</span>                    </li>
                     </Link>
 
+                    <li className="mt-4 pt-4 border-t border-stone-300">
+                        <button
+                            onClick={handleLogout}
+                            className="flex items-center space-x-3 hover:bg-stone-300 p-3 rounded-md cursor-pointer w-full text-left"
+                        >
+                            <HiOutlineLogout className="text-xl" />
+                            <span className="text-lg font-medium">Sair</span>
+                        </button>
+                    </li>
                 </ul>
             </div>
         </>

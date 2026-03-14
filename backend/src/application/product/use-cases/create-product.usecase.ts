@@ -14,6 +14,7 @@ export class CreateProductUseCase {
       input.active,
       input.description,
       input.categoryUuid,
+      input.companyUuid,
     );
     return await this.productRepository.save(product);
   }
