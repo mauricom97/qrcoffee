@@ -8,6 +8,26 @@ datasource db {
   relationMode = "prisma"
 }
 
+model Company {
+  uuid      String   @id @default(uuid())
+  name      String
+  createdAt DateTime @default(now())
+  users     User[]
+}
+
+model User {
+  uuid         String   @id @default(uuid())
+  email        String   @unique
+  passwordHash String
+  name         String
+  companyUuid  String
+  company      Company  @relation(fields: [companyUuid], references: [uuid], onDelete: Cascade)
+  createdAt    DateTime @default(now())
+
+  @@index([companyUuid])
+  @@index([email])
+}
+
 model Product {
   uuid        String      @id @default(uuid())
   name        String
