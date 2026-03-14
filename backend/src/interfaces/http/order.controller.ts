@@ -9,6 +9,7 @@ import {
   Post,
   Query,
   NotFoundException,
+  UseGuards,
 } from '@nestjs/common';
 import { CreateOrderUseCase } from '@application/order/use-cases/create-order.usecase';
 import { FindAllOrderUseCase } from '@application/order/use-cases/find-order.usecase';
@@ -16,8 +17,11 @@ import { FindOneOrderUseCase } from '@application/order/use-cases/find-one-order
 import { UpdateOrderUseCase } from '@application/order/use-cases/update-order.usecase';
 import { DeleteOrderUseCase } from '@application/order/use-cases/delete-order.usecase';
 import { OrderStatus } from '@domain/order/entities/order.entity';
+import { JwtAuthGuard } from './guards/jwt-auth.guard';
+import { CompanyUuid } from './decorators/company.decorator';
 
 @Controller('orders')
+@UseGuards(JwtAuthGuard)
 export class OrderController {
   constructor(
     private readonly createOrderUseCase: CreateOrderUseCase,
@@ -29,6 +33,7 @@ export class OrderController {
 
   @Post()
   async create(
+    @CompanyUuid() companyUuid: string,
     @Body()
     body: {
       tableUuid: string;
@@ -36,22 +41,26 @@ export class OrderController {
       items: { productUuid: string; quantity: number; unitPrice: number }[];
     },
   ) {
-    const order = await this.createOrderUseCase.execute(body);
-    const full = await this.findOneOrderUseCase.execute(order.uuid);
+    const order = await this.createOrderUseCase.execute({ ...body, companyUuid });
+    const full = await this.findOneOrderUseCase.execute(order.uuid, companyUuid);
     return full ?? order;
   }
 
   @Get()
   async findAll(
+    @CompanyUuid() companyUuid: string,
     @Query('tableUuid') tableUuid?: string,
     @Query('status') status?: string,
   ) {
-    return await this.findAllOrderUseCase.execute({ tableUuid, status });
+    return await this.findAllOrderUseCase.execute({ tableUuid, status, companyUuid });
   }
 
   @Get(':uuid')
-  async findOne(@Param('uuid', ParseUUIDPipe) uuid: string) {
-    const order = await this.findOneOrderUseCase.execute(uuid);
+  async findOne(
+    @Param('uuid', ParseUUIDPipe) uuid: string,
+    @CompanyUuid() companyUuid: string,
+  ) {
+    const order = await this.findOneOrderUseCase.execute(uuid, companyUuid);
     if (!order) throw new NotFoundException('Pedido não encontrado');
     return order;
   }
@@ -59,15 +68,19 @@ export class OrderController {
   @Patch(':uuid')
   async update(
     @Param('uuid', ParseUUIDPipe) uuid: string,
+    @CompanyUuid() companyUuid: string,
     @Body() body: { status?: OrderStatus },
   ) {
-    const order = await this.updateOrderUseCase.execute(uuid, body);
+    const order = await this.updateOrderUseCase.execute(uuid, body, companyUuid);
     if (!order) throw new NotFoundException('Pedido não encontrado');
     return order;
   }
 
   @Delete(':uuid')
-  async delete(@Param('uuid', ParseUUIDPipe) uuid: string) {
-    await this.deleteOrderUseCase.execute(uuid);
+  async delete(
+    @Param('uuid', ParseUUIDPipe) uuid: string,
+    @CompanyUuid() companyUuid: string,
+  ) {
+    await this.deleteOrderUseCase.execute(uuid, companyUuid);
   }
 }

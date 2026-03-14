@@ -13,12 +13,14 @@ export interface CreateOrderInput {
   tableUuid: string;
   status?: OrderStatus;
   items: CreateOrderItemInput[];
+  companyUuid?: string;
 }
 
 export class CreateOrderUseCase {
   constructor(private readonly orderRepository: OrderRepository) {}
 
   async execute(input: CreateOrderInput): Promise<Order> {
+    const companyUuid = input.companyUuid;
     const orderUuid = crypto.randomUUID();
     const items = input.items.map(
       (item) =>
@@ -37,6 +39,6 @@ export class CreateOrderUseCase {
       new Date(),
       items,
     );
-    return await this.orderRepository.save(order);
+    return await this.orderRepository.save(order, companyUuid);
   }
 }

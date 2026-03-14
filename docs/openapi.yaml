@@ -1,0 +1,682 @@
+openapi: 3.0.3
+info:
+  title: QR Coffee API
+  description: API REST do backend QR Coffee - gestão de pedidos, mesas, produtos e dashboard.
+  version: 1.0.0
+
+servers:
+  - url: http://localhost:3352
+    description: Servidor local
+
+tags:
+  - name: Auth
+    description: Autenticação (registro, login, me)
+  - name: Categories
+    description: Categorias de produtos
+  - name: Products
+    description: Produtos
+  - name: Tables
+    description: Mesas
+  - name: Orders
+    description: Pedidos
+  - name: Comandas
+    description: Comandas (pedidos por mesa / resumo)
+  - name: Dashboard
+    description: Estatísticas de atendimento e financeiro
+
+components:
+  securitySchemes:
+    bearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
+
+  schemas:
+    AuthResult:
+      type: object
+      properties:
+        accessToken:
+          type: string
+        user:
+          $ref: '#/components/schemas/UserInfo'
+    UserInfo:
+      type: object
+      properties:
+        uuid: { type: string, format: uuid }
+        email: { type: string, format: email }
+        name: { type: string }
+        companyUuid: { type: string, format: uuid }
+        companyName: { type: string }
+    RegisterInput:
+      type: object
+      required: [companyName, userName, email, password]
+      properties:
+        companyName: { type: string }
+        userName: { type: string }
+        email: { type: string, format: email }
+        password: { type: string }
+    LoginInput:
+      type: object
+      required: [email, password]
+      properties:
+        email: { type: string, format: email }
+        password: { type: string }
+    Category:
+      type: object
+      properties:
+        uuid: { type: string, format: uuid }
+        name: { type: string }
+    CreateCategoryInput:
+      type: object
+      required: [name]
+      properties:
+        name: { type: string }
+    Product:
+      type: object
+      properties:
+        uuid: { type: string, format: uuid }
+        name: { type: string }
+        price: { type: number }
+        active: { type: boolean }
+        description: { type: string }
+        categoryUuid: { type: string, format: uuid }
+    CreateProductInput:
+      type: object
+      required: [uuid, name, price, active, description, categoryUuid]
+      properties:
+        uuid: { type: string, format: uuid }
+        name: { type: string }
+        price: { type: number }
+        active: { type: boolean }
+        description: { type: string }
+        categoryUuid: { type: string, format: uuid }
+    UpdateProductInput:
+      type: object
+      properties:
+        name: { type: string }
+        price: { type: string }
+        active: { type: boolean }
+        description: { type: string }
+        stock: { type: number }
+        categoryUuid: { type: string, format: uuid }
+    Table:
+      type: object
+      properties:
+        uuid: { type: string, format: uuid }
+        number: { type: integer }
+        description: { type: string }
+        qrCode: { type: string }
+    CreateTableInput:
+      type: object
+      required: [number]
+      properties:
+        number: { type: integer }
+        description: { type: string }
+        qrCode: { type: string }
+    UpdateTableInput:
+      type: object
+      properties:
+        number: { type: integer }
+        description: { type: string }
+        qrCode: { type: string }
+    OrderStatus:
+      type: string
+      enum: [PENDING, PREPARING, READY, DELIVERED]
+    OrderItemInput:
+      type: object
+      required: [productUuid, quantity, unitPrice]
+      properties:
+        productUuid: { type: string, format: uuid }
+        quantity: { type: number }
+        unitPrice: { type: number }
+    OrderItemDto:
+      type: object
+      properties:
+        uuid: { type: string, format: uuid }
+        productUuid: { type: string, format: uuid }
+        productName: { type: string }
+        quantity: { type: number }
+        unitPrice: { type: number }
+    Order:
+      type: object
+      properties:
+        uuid: { type: string, format: uuid }
+        tableUuid: { type: string, format: uuid }
+        tableNumber: { type: number }
+        status: { $ref: '#/components/schemas/OrderStatus' }
+        createdAt: { type: string, format: date-time }
+        items:
+          type: array
+          items: { $ref: '#/components/schemas/OrderItemDto' }
+    CreateOrderInput:
+      type: object
+      required: [tableUuid, items]
+      properties:
+        tableUuid: { type: string, format: uuid }
+        status: { $ref: '#/components/schemas/OrderStatus' }
+        items:
+          type: array
+          items: { $ref: '#/components/schemas/OrderItemInput' }
+    UpdateOrderInput:
+      type: object
+      properties:
+        status: { $ref: '#/components/schemas/OrderStatus' }
+    ComandaSummaryTable:
+      type: object
+      properties:
+        tableUuid: { type: string, format: uuid }
+        tableNumber: { type: integer }
+        orders: { type: array, items: { $ref: '#/components/schemas/Order' } }
+        total: { type: number }
+    ComandaSummary:
+      type: object
+      properties:
+        tables: { type: array, items: { $ref: '#/components/schemas/ComandaSummaryTable' } }
+        grandTotal: { type: number }
+    AttendancePoint:
+      type: object
+      properties:
+        label: { type: string }
+        period: { type: string }
+        total: { type: number }
+        delivered: { type: number }
+        pending: { type: number }
+    AttendanceSummary:
+      type: object
+      properties:
+        totalOrders: { type: number }
+        deliveredOrders: { type: number }
+        pendingOrders: { type: number }
+        lastPeriodLabel: { type: string }
+    FinancialPoint:
+      type: object
+      properties:
+        label: { type: string }
+        period: { type: string }
+        revenue: { type: number }
+        orderCount: { type: number }
+    FinancialSummary:
+      type: object
+      properties:
+        totalRevenue: { type: number }
+        orderCount: { type: number }
+        lastPeriodLabel: { type: string }
+
+paths:
+  /auth/register:
+    post:
+      tags: [Auth]
+      summary: Registrar empresa e usuário
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema: { $ref: '#/components/schemas/RegisterInput' }
+      responses:
+        '201':
+          description: Registro realizado
+          content:
+            application/json:
+              schema: { $ref: '#/components/schemas/AuthResult' }
+        '409':
+          description: E-mail já cadastrado
+
+  /auth/login:
+    post:
+      tags: [Auth]
+      summary: Login
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema: { $ref: '#/components/schemas/LoginInput' }
+      responses:
+        '200':
+          description: Login realizado
+          content:
+            application/json:
+              schema: { $ref: '#/components/schemas/AuthResult' }
+        '401':
+          description: E-mail ou senha inválidos
+
+  /auth/me:
+    get:
+      tags: [Auth]
+      summary: Dados do usuário autenticado
+      security: [{ bearerAuth: [] }]
+      responses:
+        '200':
+          description: Dados do usuário
+          content:
+            application/json:
+              schema: { $ref: '#/components/schemas/UserInfo' }
+        '401':
+          description: Não autorizado
+
+  /categories:
+    post:
+      tags: [Categories]
+      summary: Criar categoria
+      security: [{ bearerAuth: [] }]
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema: { $ref: '#/components/schemas/CreateCategoryInput' }
+      responses:
+        '201':
+          description: Categoria criada
+          content:
+            application/json:
+              schema: { $ref: '#/components/schemas/Category' }
+  /categories/all:
+    get:
+      tags: [Categories]
+      summary: Listar todas as categorias
+      security: [{ bearerAuth: [] }]
+      responses:
+        '200':
+          description: Lista de categorias
+          content:
+            application/json:
+              schema:
+                type: array
+                items: { $ref: '#/components/schemas/Category' }
+
+  /products:
+    post:
+      tags: [Products]
+      summary: Criar produto
+      security: [{ bearerAuth: [] }]
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema: { $ref: '#/components/schemas/CreateProductInput' }
+      responses:
+        '201':
+          description: Produto criado
+          content:
+            application/json:
+              schema: { $ref: '#/components/schemas/Product' }
+    put:
+      tags: [Products]
+      summary: Atualizar produto
+      security: [{ bearerAuth: [] }]
+      parameters:
+        - name: uuid
+          in: query
+          required: true
+          schema: { type: string, format: uuid }
+      requestBody:
+        content:
+          application/json:
+            schema: { $ref: '#/components/schemas/UpdateProductInput' }
+      responses:
+        '200':
+          description: Produto atualizado
+          content:
+            application/json:
+              schema: { $ref: '#/components/schemas/Product' }
+    delete:
+      tags: [Products]
+      summary: Excluir produto(s)
+      security: [{ bearerAuth: [] }]
+      requestBody:
+        content:
+          application/json:
+            schema: { type: object }
+      responses:
+        '200':
+          description: Excluído
+  /products/many:
+    post:
+      tags: [Products]
+      summary: Criar vários produtos
+      security: [{ bearerAuth: [] }]
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: array
+              items: { $ref: '#/components/schemas/CreateProductInput' }
+      responses:
+        '201':
+          description: Produtos criados
+  /products/all:
+    get:
+      tags: [Products]
+      summary: Listar produtos
+      security: [{ bearerAuth: [] }]
+      parameters:
+        - name: categoryUuid
+          in: query
+          schema: { type: string, format: uuid }
+        - name: name
+          in: query
+          schema: { type: string }
+      responses:
+        '200':
+          description: Lista de produtos
+          content:
+            application/json:
+              schema:
+                type: array
+                items: { $ref: '#/components/schemas/Product' }
+
+  /tables:
+    post:
+      tags: [Tables]
+      summary: Criar mesa
+      security: [{ bearerAuth: [] }]
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema: { $ref: '#/components/schemas/CreateTableInput' }
+      responses:
+        '201':
+          description: Mesa criada
+          content:
+            application/json:
+              schema: { $ref: '#/components/schemas/Table' }
+    get:
+      tags: [Tables]
+      summary: Listar mesas
+      security: [{ bearerAuth: [] }]
+      responses:
+        '200':
+          description: Lista de mesas
+          content:
+            application/json:
+              schema:
+                type: array
+                items: { $ref: '#/components/schemas/Table' }
+  /tables/{uuid}:
+    parameters:
+      - name: uuid
+        in: path
+        required: true
+        schema: { type: string, format: uuid }
+    get:
+      tags: [Tables]
+      summary: Buscar mesa por UUID
+      security: [{ bearerAuth: [] }]
+      responses:
+        '200':
+          description: Mesa
+          content:
+            application/json:
+              schema: { $ref: '#/components/schemas/Table' }
+        '404':
+          description: Mesa não encontrada
+    patch:
+      tags: [Tables]
+      summary: Atualizar mesa
+      security: [{ bearerAuth: [] }]
+      requestBody:
+        content:
+          application/json:
+            schema: { $ref: '#/components/schemas/UpdateTableInput' }
+      responses:
+        '200':
+          description: Mesa atualizada
+          content:
+            application/json:
+              schema: { $ref: '#/components/schemas/Table' }
+        '404':
+          description: Mesa não encontrada
+    delete:
+      tags: [Tables]
+      summary: Excluir mesa
+      security: [{ bearerAuth: [] }]
+      responses:
+        '200':
+          description: Excluída
+        '404':
+          description: Mesa não encontrada
+
+  /orders:
+    post:
+      tags: [Orders]
+      summary: Criar pedido
+      security: [{ bearerAuth: [] }]
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema: { $ref: '#/components/schemas/CreateOrderInput' }
+      responses:
+        '201':
+          description: Pedido criado
+          content:
+            application/json:
+              schema: { $ref: '#/components/schemas/Order' }
+    get:
+      tags: [Orders]
+      summary: Listar pedidos
+      security: [{ bearerAuth: [] }]
+      parameters:
+        - name: tableUuid
+          in: query
+          schema: { type: string, format: uuid }
+        - name: status
+          in: query
+          schema: { $ref: '#/components/schemas/OrderStatus' }
+      responses:
+        '200':
+          description: Lista de pedidos
+          content:
+            application/json:
+              schema:
+                type: array
+                items: { $ref: '#/components/schemas/Order' }
+  /orders/{uuid}:
+    parameters:
+      - name: uuid
+        in: path
+        required: true
+        schema: { type: string, format: uuid }
+    get:
+      tags: [Orders]
+      summary: Buscar pedido por UUID
+      security: [{ bearerAuth: [] }]
+      responses:
+        '200':
+          description: Pedido
+          content:
+            application/json:
+              schema: { $ref: '#/components/schemas/Order' }
+        '404':
+          description: Pedido não encontrado
+    patch:
+      tags: [Orders]
+      summary: Atualizar status do pedido
+      security: [{ bearerAuth: [] }]
+      requestBody:
+        content:
+          application/json:
+            schema: { $ref: '#/components/schemas/UpdateOrderInput' }
+      responses:
+        '200':
+          description: Pedido atualizado
+          content:
+            application/json:
+              schema: { $ref: '#/components/schemas/Order' }
+        '404':
+          description: Pedido não encontrado
+    delete:
+      tags: [Orders]
+      summary: Excluir pedido
+      security: [{ bearerAuth: [] }]
+      responses:
+        '200':
+          description: Excluído
+        '404':
+          description: Pedido não encontrado
+
+  /comandas:
+    get:
+      tags: [Comandas]
+      summary: Listar comandas
+      security: [{ bearerAuth: [] }]
+      parameters:
+        - name: tableUuid
+          in: query
+          schema: { type: string, format: uuid }
+        - name: status
+          in: query
+          schema: { $ref: '#/components/schemas/OrderStatus' }
+      responses:
+        '200':
+          description: Lista de comandas (pedidos)
+          content:
+            application/json:
+              schema:
+                type: array
+                items: { $ref: '#/components/schemas/Order' }
+  /comandas/summary:
+    get:
+      tags: [Comandas]
+      summary: Resumo de comandas por mesa
+      security: [{ bearerAuth: [] }]
+      parameters:
+        - name: tableUuid
+          in: query
+          schema: { type: string, format: uuid }
+        - name: status
+          in: query
+          schema: { $ref: '#/components/schemas/OrderStatus' }
+      responses:
+        '200':
+          description: Resumo por mesa e total geral
+          content:
+            application/json:
+              schema: { $ref: '#/components/schemas/ComandaSummary' }
+  /comandas/{uuid}:
+    parameters:
+      - name: uuid
+        in: path
+        required: true
+        schema: { type: string, format: uuid }
+    get:
+      tags: [Comandas]
+      summary: Buscar comanda por UUID
+      security: [{ bearerAuth: [] }]
+      responses:
+        '200':
+          description: Comanda (pedido)
+          content:
+            application/json:
+              schema: { $ref: '#/components/schemas/Order' }
+        '404':
+          description: Comanda não encontrada
+    patch:
+      tags: [Comandas]
+      summary: Atualizar status da comanda
+      security: [{ bearerAuth: [] }]
+      requestBody:
+        content:
+          application/json:
+            schema: { $ref: '#/components/schemas/UpdateOrderInput' }
+      responses:
+        '200':
+          description: Comanda atualizada
+          content:
+            application/json:
+              schema: { $ref: '#/components/schemas/Order' }
+        '404':
+          description: Comanda não encontrada
+    delete:
+      tags: [Comandas]
+      summary: Excluir comanda
+      security: [{ bearerAuth: [] }]
+      responses:
+        '200':
+          description: Excluída
+        '404':
+          description: Comanda não encontrada
+
+  /dashboard/attendance:
+    get:
+      tags: [Dashboard]
+      summary: Estatísticas de atendimento por período
+      security: [{ bearerAuth: [] }]
+      parameters:
+        - name: period
+          in: query
+          schema: { type: string, enum: [day, month] }
+        - name: from
+          in: query
+          schema: { type: string }
+        - name: to
+          in: query
+          schema: { type: string }
+      responses:
+        '200':
+          description: Série de pontos de atendimento
+          content:
+            application/json:
+              schema:
+                type: array
+                items: { $ref: '#/components/schemas/AttendancePoint' }
+  /dashboard/attendance/summary:
+    get:
+      tags: [Dashboard]
+      summary: Resumo de atendimento
+      security: [{ bearerAuth: [] }]
+      parameters:
+        - name: from
+          in: query
+          schema: { type: string }
+        - name: to
+          in: query
+          schema: { type: string }
+      responses:
+        '200':
+          description: Resumo (total, entregues, pendentes)
+          content:
+            application/json:
+              schema: { $ref: '#/components/schemas/AttendanceSummary' }
+  /dashboard/financial:
+    get:
+      tags: [Dashboard]
+      summary: Estatísticas financeiras por período
+      security: [{ bearerAuth: [] }]
+      parameters:
+        - name: period
+          in: query
+          schema: { type: string, enum: [day, month] }
+        - name: from
+          in: query
+          schema: { type: string }
+        - name: to
+          in: query
+          schema: { type: string }
+      responses:
+        '200':
+          description: Série de pontos financeiros
+          content:
+            application/json:
+              schema:
+                type: array
+                items: { $ref: '#/components/schemas/FinancialPoint' }
+  /dashboard/financial/summary:
+    get:
+      tags: [Dashboard]
+      summary: Resumo financeiro
+      security: [{ bearerAuth: [] }]
+      parameters:
+        - name: from
+          in: query
+          schema: { type: string }
+        - name: to
+          in: query
+          schema: { type: string }
+      responses:
+        '200':
+          description: Resumo (receita total, quantidade de pedidos)
+          content:
+            application/json:
+              schema: { $ref: '#/components/schemas/FinancialSummary' }

@@ -1,29 +1,27 @@
-// src/interfaces/http/product.controller.ts
-import { Body, Controller, Delete, Get, Post, Query } from '@nestjs/common'
+import { Body, Controller, Get, Post, UseGuards } from '@nestjs/common';
 import { CreateCategoryUseCase } from '@/application/category/use-cases/create-category-usecase';
 import { FindAllCategoryUseCase } from '@/application/category/use-cases/find-all-category.usecase';
-// import { DestroyCategoryUseCase } from '@/application/product/use-cases/destroy-product.usecase';
+import { JwtAuthGuard } from './guards/jwt-auth.guard';
+import { CompanyUuid } from './decorators/company.decorator';
+
 @Controller('categories')
+@UseGuards(JwtAuthGuard)
 export class CategoryController {
   constructor(
     private readonly createCategoryUseCase: CreateCategoryUseCase,
     private readonly findAllCategoryUseCase: FindAllCategoryUseCase,
-    // private readonly destroyCategoryUseCase: DestroyCategoryUseCase,
-
-  ) { }
+  ) {}
 
   @Post()
-  async create(@Body() body: any) {
-    return await this.createCategoryUseCase.execute(body)
+  async create(
+    @CompanyUuid() companyUuid: string,
+    @Body() body: { name: string },
+  ) {
+    return await this.createCategoryUseCase.execute({ ...body, companyUuid });
   }
 
   @Get('/all')
-  async findAll() {
-    return await this.findAllCategoryUseCase.execute()
+  async findAll(@CompanyUuid() companyUuid: string) {
+    return await this.findAllCategoryUseCase.execute(companyUuid);
   }
-
-  //   @Delete()
-  //   async destroy(@Body() body: any) {
-  //     return await this.destroyCategoryUseCase.execute(body)
-  //   }
 }

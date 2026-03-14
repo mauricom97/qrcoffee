@@ -3,6 +3,7 @@ import { OrderRepository, OrderListDto } from '@domain/order/repositories/order.
 export interface FindOrderFilters {
   tableUuid?: string;
   status?: string;
+  companyUuid?: string;
 }
 
 export class FindAllOrderUseCase {

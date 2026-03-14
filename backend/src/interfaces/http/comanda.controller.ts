@@ -8,6 +8,7 @@ import {
   Query,
   Body,
   NotFoundException,
+  UseGuards,
 } from '@nestjs/common';
 import { FindAllOrderUseCase } from '@application/order/use-cases/find-order.usecase';
 import { FindOneOrderUseCase } from '@application/order/use-cases/find-one-order.usecase';
@@ -15,8 +16,11 @@ import { UpdateOrderUseCase } from '@application/order/use-cases/update-order.us
 import { DeleteOrderUseCase } from '@application/order/use-cases/delete-order.usecase';
 import { OrderStatus } from '@domain/order/entities/order.entity';
 import { OrderListDto } from '@domain/order/repositories/order.repository';
+import { JwtAuthGuard } from './guards/jwt-auth.guard';
+import { CompanyUuid } from './decorators/company.decorator';
 
 @Controller('comandas')
+@UseGuards(JwtAuthGuard)
 export class ComandaController {
   constructor(
     private readonly findAllOrderUseCase: FindAllOrderUseCase,
@@ -27,18 +31,20 @@ export class ComandaController {
 
   @Get()
   async findAll(
+    @CompanyUuid() companyUuid: string,
     @Query('tableUuid') tableUuid?: string,
     @Query('status') status?: string,
   ) {
-    return await this.findAllOrderUseCase.execute({ tableUuid, status });
+    return await this.findAllOrderUseCase.execute({ tableUuid, status, companyUuid });
   }
 
   @Get('summary')
   async getSummary(
+    @CompanyUuid() companyUuid: string,
     @Query('tableUuid') tableUuid?: string,
     @Query('status') status?: string,
   ) {
-    const orders = await this.findAllOrderUseCase.execute({ tableUuid, status });
+    const orders = await this.findAllOrderUseCase.execute({ tableUuid, status, companyUuid });
     const byTable = new Map<
       string,
       { tableNumber: number; orders: OrderListDto[]; total: number }
@@ -75,8 +81,11 @@ export class ComandaController {
   }
 
   @Get(':uuid')
-  async findOne(@Param('uuid', ParseUUIDPipe) uuid: string) {
-    const comanda = await this.findOneOrderUseCase.execute(uuid);
+  async findOne(
+    @Param('uuid', ParseUUIDPipe) uuid: string,
+    @CompanyUuid() companyUuid: string,
+  ) {
+    const comanda = await this.findOneOrderUseCase.execute(uuid, companyUuid);
     if (!comanda) throw new NotFoundException('Comanda não encontrada');
     return comanda;
   }
@@ -84,15 +93,19 @@ export class ComandaController {
   @Patch(':uuid')
   async update(
     @Param('uuid', ParseUUIDPipe) uuid: string,
+    @CompanyUuid() companyUuid: string,
     @Body() body: { status?: OrderStatus },
   ) {
-    const comanda = await this.updateOrderUseCase.execute(uuid, body);
+    const comanda = await this.updateOrderUseCase.execute(uuid, body, companyUuid);
     if (!comanda) throw new NotFoundException('Comanda não encontrada');
     return comanda;
   }
 
   @Delete(':uuid')
-  async remove(@Param('uuid', ParseUUIDPipe) uuid: string) {
-    await this.deleteOrderUseCase.execute(uuid);
+  async remove(
+    @Param('uuid', ParseUUIDPipe) uuid: string,
+    @CompanyUuid() companyUuid: string,
+  ) {
+    await this.deleteOrderUseCase.execute(uuid, companyUuid);
   }
 }

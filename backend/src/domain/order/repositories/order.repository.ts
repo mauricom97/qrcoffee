@@ -18,9 +18,9 @@ export interface OrderListDto {
 }
 
 export interface OrderRepository {
-  save(order: Order): Promise<Order>;
-  findAll(filters?: { tableUuid?: string; status?: string }): Promise<OrderListDto[]>;
-  findById(uuid: string): Promise<OrderListDto | null>;
+  save(order: Order, companyUuid?: string): Promise<Order>;
+  findAll(filters?: { tableUuid?: string; status?: string; companyUuid?: string }): Promise<OrderListDto[]>;
+  findById(uuid: string, companyUuid?: string): Promise<OrderListDto | null>;
   update(order: Order): Promise<void>;
-  destroy(uuid: string): Promise<void>;
+  destroy(uuid: string, companyUuid?: string): Promise<void>;
 }

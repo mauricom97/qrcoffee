@@ -8,15 +8,21 @@ import { Injectable } from '@nestjs/common';
 export class OrderPrismaRepository {
   constructor(private readonly prisma: PrismaService) {}
 
-  async save(order: Order): Promise<Order> {
+  async save(order: Order, companyUuid?: string): Promise<Order> {
     const client = this.prisma.client as any;
+    if (companyUuid) {
+      const table = await client.table.findFirst({
+        where: { uuid: order.tableUuid, companyUuid },
+      });
+      if (!table) throw new Error('Mesa não encontrada ou não pertence à sua empresa');
+    }
     await client.order.create({
       data: {
         uuid: order.uuid,
         tableUuid: order.tableUuid,
         status: order.status,
         items: {
-          create: order.items.map((item) => ({
+          create: order.items.map((item: any) => ({
             uuid: item.uuid,
             productUuid: item.productUuid,
             quantity: item.quantity,
@@ -28,11 +34,12 @@ export class OrderPrismaRepository {
     return order;
   }
 
-  async findAll(filters?: { tableUuid?: string; status?: string }): Promise<OrderListDto[]> {
+  async findAll(filters?: { tableUuid?: string; status?: string; companyUuid?: string }): Promise<OrderListDto[]> {
     const client = this.prisma.client as any;
     const where: any = {};
     if (filters?.tableUuid) where.tableUuid = filters.tableUuid;
     if (filters?.status) where.status = filters.status;
+    if (filters?.companyUuid) where.table = { companyUuid: filters.companyUuid };
 
     const rows = await client.order.findMany({
       where,
@@ -42,10 +49,12 @@ export class OrderPrismaRepository {
     return rows.map((row: any) => this.toListDto(row));
   }
 
-  async findById(uuid: string): Promise<OrderListDto | null> {
+  async findById(uuid: string, companyUuid?: string): Promise<OrderListDto | null> {
     const client = this.prisma.client as any;
-    const row = await client.order.findUnique({
-      where: { uuid },
+    const where: any = { uuid };
+    if (companyUuid) where.table = { companyUuid };
+    const row = await client.order.findFirst({
+      where,
       include: { table: true, items: { include: { product: true } } },
     });
     if (!row) return null;
@@ -60,8 +69,14 @@ export class OrderPrismaRepository {
     });
   }
 
-  async destroy(uuid: string): Promise<void> {
+  async destroy(uuid: string, companyUuid?: string): Promise<void> {
     const client = this.prisma.client as any;
+    if (companyUuid) {
+      const order = await client.order.findFirst({
+        where: { uuid, table: { companyUuid } },
+      });
+      if (!order) return;
+    }
     await client.order.delete({ where: { uuid } });
   }
 

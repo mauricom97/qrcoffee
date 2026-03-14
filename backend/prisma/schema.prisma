@@ -13,6 +13,8 @@ model Company {
   name      String
   createdAt DateTime @default(now())
   users     User[]
+  tables    Table[]
+  categories Category[]
 }
 
 model User {
@@ -43,17 +45,26 @@ model Product {
 }
 
 model Category {
-  uuid     String    @id @default(uuid())
-  name     String
-  products Product[]
+  uuid        String    @id @default(uuid())
+  name        String
+  companyUuid  String
+  company     Company   @relation(fields: [companyUuid], references: [uuid], onDelete: Cascade)
+  products    Product[]
+
+  @@index([companyUuid])
 }
 
 model Table {
   uuid        String  @id @default(uuid())
-  number      Int     @unique
+  number      Int
   qrCode      String  @default("")
   description String  @default("")
+  companyUuid String
+  company     Company @relation(fields: [companyUuid], references: [uuid], onDelete: Cascade)
   orders      Order[]
+
+  @@unique([companyUuid, number])
+  @@index([companyUuid])
 }
 
 model Order {

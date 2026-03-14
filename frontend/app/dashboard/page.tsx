@@ -15,6 +15,7 @@ import {
   AreaChart,
   Area,
 } from 'recharts';
+import { getAuthHeaders } from 'contexts/AuthContext';
 
 const API_URL =
   process.env.NEXT_PUBLIC_BASE_API_URL || 'http://localhost:3352';
@@ -88,10 +89,12 @@ export default function Dashboard() {
     setError(null);
     Promise.all([
       fetch(
-        `${API_URL}/dashboard/attendance?period=${period}`
+        `${API_URL}/dashboard/attendance?period=${period}`,
+        { headers: getAuthHeaders() }
       ).then((r) => (r.ok ? r.json() : Promise.reject(new Error('Erro ao carregar atendimentos')))),
       fetch(
-        `${API_URL}/dashboard/attendance/summary`
+        `${API_URL}/dashboard/attendance/summary`,
+        { headers: getAuthHeaders() }
       ).then((r) => (r.ok ? r.json() : Promise.reject(new Error('Erro ao carregar resumo')))),
     ])
       .then(([stats, summary]) => {
@@ -108,10 +111,12 @@ export default function Dashboard() {
     setError(null);
     Promise.all([
       fetch(
-        `${API_URL}/dashboard/financial?period=${period}`
+        `${API_URL}/dashboard/financial?period=${period}`,
+        { headers: getAuthHeaders() }
       ).then((r) => (r.ok ? r.json() : Promise.reject(new Error('Erro ao carregar financeiro')))),
       fetch(
-        `${API_URL}/dashboard/financial/summary`
+        `${API_URL}/dashboard/financial/summary`,
+        { headers: getAuthHeaders() }
       ).then((r) => (r.ok ? r.json() : Promise.reject(new Error('Erro ao carregar resumo')))),
     ])
       .then(([stats, summary]) => {

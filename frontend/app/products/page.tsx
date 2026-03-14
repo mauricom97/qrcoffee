@@ -2,6 +2,7 @@
 
 import { useEffect, useState } from "react";
 import { Product } from "./interfaces/product.interface";
+import { getAuthHeaders } from "contexts/AuthContext";
 
 interface Category {
   uuid: string;
@@ -37,6 +38,7 @@ export default function ProductsPage() {
           method: "POST",
           headers: {
             "Content-Type": "application/json",
+            ...getAuthHeaders(),
           },
           body: JSON.stringify({ name }),
         }
@@ -57,7 +59,8 @@ export default function ProductsPage() {
   async function fetchProducts() {
     try {
       const response = await fetch(
-        process.env.NEXT_PUBLIC_BASE_API_URL + "/products/all"
+        process.env.NEXT_PUBLIC_BASE_API_URL + "/products/all",
+        { headers: getAuthHeaders() }
       );
       if (!response.ok) {
         throw new Error(`HTTP error! status: ${response.status}`);
@@ -72,7 +75,8 @@ export default function ProductsPage() {
   async function fetchCategories() {
     try {
       const response = await fetch(
-        process.env.NEXT_PUBLIC_BASE_API_URL + "/categories/all"
+        process.env.NEXT_PUBLIC_BASE_API_URL + "/categories/all",
+        { headers: getAuthHeaders() }
       );
       if (!response.ok) {
         throw new Error(`HTTP error! status: ${response.status}`);
@@ -189,6 +193,7 @@ export default function ProductsPage() {
           method: "POST",
           headers: {
             "Content-Type": "application/json",
+            ...getAuthHeaders(),
           },
           body: JSON.stringify(product),
         }
@@ -214,6 +219,7 @@ export default function ProductsPage() {
           method: "PUT",
           headers: {
             "Content-Type": "application/json",
+            ...getAuthHeaders(),
           },
           body: JSON.stringify(updatedData),
         }
@@ -246,6 +252,7 @@ export default function ProductsPage() {
           method: "DELETE",
           headers: {
             "Content-Type": "application/json",
+            ...getAuthHeaders(),
           },
           body: JSON.stringify({ uuid }),
         }
@@ -479,7 +486,8 @@ export default function ProductsPage() {
                 } else {
                   try {
                     const response = await fetch(
-                      `${process.env.NEXT_PUBLIC_BASE_API_URL}/products/all?name=${searchTerm}`
+                      `${process.env.NEXT_PUBLIC_BASE_API_URL}/products/all?name=${searchTerm}`,
+                      { headers: getAuthHeaders() }
                     );
 
                     if (!response.ok) {
@@ -504,7 +512,8 @@ export default function ProductsPage() {
                       (cat) => cat.name === selectedCategory
                     )?.uuid;
                     const response = await fetch(
-                      `${process.env.NEXT_PUBLIC_BASE_API_URL}/products/all?categoryUuid=${categoryUuid}`
+                      `${process.env.NEXT_PUBLIC_BASE_API_URL}/products/all?categoryUuid=${categoryUuid}`,
+                      { headers: getAuthHeaders() }
                     );
 
                     if (!response.ok) {

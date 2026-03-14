@@ -29,27 +29,24 @@ export class ProductPrismaRepository {
     return await prisma.client.product.createMany({ data });
   }
 
-  async findAll(filters): Promise<Product[]> {
+  async findAll(filters: {
+    categoryUuid?: string;
+    name?: string;
+    companyUuid?: string;
+  }): Promise<Product[]> {
+    const where: any = {};
+    if (filters.companyUuid) {
+      where.category = { companyUuid: filters.companyUuid };
+    }
+    if (filters.categoryUuid) where.categoryUuid = filters.categoryUuid;
+    if (filters.name && filters.name.length >= 3) {
+      where.OR = [
+        { name: { contains: filters.name, mode: 'insensitive' } },
+        { description: { contains: filters.name, mode: 'insensitive' } },
+      ];
+    }
     return await prisma.client.product.findMany({
-      where: {
-        categoryUuid: filters.categoryUuid,
-        OR: filters.name && filters.name.length >= 3
-          ? [
-            {
-              name: {
-                contains: filters.name,
-                mode: 'insensitive',
-              },
-            },
-            {
-              description: {
-                contains: filters.name,
-                mode: 'insensitive',
-              },
-            },
-          ]
-          : undefined,
-      },
+      where,
       include: {
         category: {
           select: {

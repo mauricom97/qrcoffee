@@ -30,12 +30,13 @@ export class DashboardService {
     period: DashboardPeriod = 'month',
     from?: string,
     to?: string,
+    companyUuid?: string,
   ): Promise<AttendancePoint[]> {
     const { start, end } = this.getDateRange(period, from, to);
+    const where: any = { createdAt: { gte: start, lte: end } };
+    if (companyUuid) where.table = { companyUuid };
     const orders = await this.client.order.findMany({
-      where: {
-        createdAt: { gte: start, lte: end },
-      },
+      where,
       select: { createdAt: true, status: true },
       orderBy: { createdAt: 'asc' },
     });
@@ -60,6 +61,7 @@ export class DashboardService {
     period: DashboardPeriod = 'month',
     from?: string,
     to?: string,
+    companyUuid?: string,
   ): Promise<FinancialPoint[]> {
     const { start, end } = this.getDateRange(period, from, to);
     const allKeys = this.getAllPeriodKeys(period, start, end);
@@ -68,11 +70,13 @@ export class DashboardService {
       grouped[key] = { revenue: 0, orderCount: 0 };
     }
 
+    const where: any = {
+      createdAt: { gte: start, lte: end },
+      status: 'DELIVERED',
+    };
+    if (companyUuid) where.table = { companyUuid };
     const orders = await this.client.order.findMany({
-      where: {
-        createdAt: { gte: start, lte: end },
-        status: 'DELIVERED',
-      },
+      where,
       include: { items: true },
       orderBy: { createdAt: 'asc' },
     });
@@ -90,15 +94,21 @@ export class DashboardService {
     return this.toFinancialSeries(period, grouped);
   }
 
-  async getAttendanceSummary(from?: string, to?: string): Promise<{
+  async getAttendanceSummary(
+    from?: string,
+    to?: string,
+    companyUuid?: string,
+  ): Promise<{
     totalOrders: number;
     deliveredOrders: number;
     pendingOrders: number;
     lastPeriodLabel: string;
   }> {
     const { start, end } = this.getDateRange('month', from, to);
+    const where: any = { createdAt: { gte: start, lte: end } };
+    if (companyUuid) where.table = { companyUuid };
     const orders = await this.client.order.findMany({
-      where: { createdAt: { gte: start, lte: end } },
+      where,
       select: { status: true },
     });
     const delivered = orders.filter((o: any) => o.status === 'DELIVERED').length;
@@ -110,14 +120,20 @@ export class DashboardService {
     };
   }
 
-  async getFinancialSummary(from?: string, to?: string): Promise<{
+  async getFinancialSummary(
+    from?: string,
+    to?: string,
+    companyUuid?: string,
+  ): Promise<{
     totalRevenue: number;
     orderCount: number;
     lastPeriodLabel: string;
   }> {
     const { start, end } = this.getDateRange('month', from, to);
+    const where: any = { createdAt: { gte: start, lte: end }, status: 'DELIVERED' };
+    if (companyUuid) where.table = { companyUuid };
     const orders = await this.client.order.findMany({
-      where: { createdAt: { gte: start, lte: end }, status: 'DELIVERED' },
+      where,
       include: { items: true },
     });
     let totalRevenue = 0;

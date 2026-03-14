@@ -10,8 +10,8 @@ export interface UpdateOrderInput {
 export class UpdateOrderUseCase {
   constructor(private readonly orderRepository: OrderRepository) {}
 
-  async execute(uuid: string, input: UpdateOrderInput): Promise<OrderListDto | null> {
-    const existing = await this.orderRepository.findById(uuid);
+  async execute(uuid: string, input: UpdateOrderInput, companyUuid?: string): Promise<OrderListDto | null> {
+    const existing = await this.orderRepository.findById(uuid, companyUuid);
     if (!existing) return null;
 
     const items = existing.items.map(
@@ -25,6 +25,6 @@ export class UpdateOrderUseCase {
       items,
     );
     await this.orderRepository.update(order);
-    return await this.orderRepository.findById(uuid);
+    return await this.orderRepository.findById(uuid, companyUuid);
   }
 }

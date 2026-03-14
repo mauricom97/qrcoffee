@@ -4,6 +4,7 @@ import React, { useState, useEffect, useCallback } from "react";
 import QRCode from "react-qr-code";
 import * as QRCodeLib from "qrcode";
 import { Mesa } from "./interfaces/table.interface";
+import { getAuthHeaders } from "contexts/AuthContext";
 
 const API_URL = process.env.NEXT_PUBLIC_BASE_API_URL || "http://localhost:3352";
 
@@ -20,7 +21,7 @@ const TableManager: React.FC = () => {
 
   const loadMesas = useCallback(async () => {
     try {
-      const response = await fetch(`${API_URL}/tables`);
+      const response = await fetch(`${API_URL}/tables`, { headers: getAuthHeaders() });
       if (!response.ok) throw new Error("Erro ao buscar mesas do servidor.");
       const data: Mesa[] = await response.json();
       setMesas(data.map((m) => ({ ...m, comandas: m.comandas ?? [] })));
@@ -40,7 +41,7 @@ const TableManager: React.FC = () => {
     try {
       const response = await fetch(`${API_URL}/tables`, {
         method: "POST",
-        headers: { "Content-Type": "application/json" },
+        headers: { "Content-Type": "application/json", ...getAuthHeaders() },
         body: JSON.stringify({
           number: numeroMesa,
           description: descricao,
@@ -73,7 +74,7 @@ const TableManager: React.FC = () => {
     try {
       const response = await fetch(`${API_URL}/tables/${editingMesa.uuid}`, {
         method: "PATCH",
-        headers: { "Content-Type": "application/json" },
+        headers: { "Content-Type": "application/json", ...getAuthHeaders() },
         body: JSON.stringify({
           number: editNumber,
           description: editDescricao,
@@ -93,6 +94,7 @@ const TableManager: React.FC = () => {
     try {
       const response = await fetch(`${API_URL}/tables/${mesa.uuid}`, {
         method: "DELETE",
+        headers: getAuthHeaders(),
       });
       if (!response.ok) throw new Error("Erro ao excluir mesa.");
       await loadMesas();

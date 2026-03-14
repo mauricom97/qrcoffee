@@ -82,7 +82,6 @@ export class AuthService {
   async validateUserByUuid(uuid: string) {
     return this.prisma.client.user.findUnique({
       where: { uuid },
-      include: { company: true },
       select: {
         uuid: true,
         email: true,

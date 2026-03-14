@@ -5,6 +5,7 @@ interface CreateTable {
     number: number;
     description?: string;
     qrCode?: string;
+    companyUuid: string;
 }
 export class CreateTableUseCase {
     constructor(private readonly tableRepository: TableRepository) { }
@@ -15,8 +16,9 @@ export class CreateTableUseCase {
             uuid,
             number: body.number,
             description: body.description,
-            qrCode: body.qrCode
+            qrCode: body.qrCode,
+            companyUuid: body.companyUuid,
         };
-        return await this.tableRepository.save(table);
+        return await this.tableRepository.save(table as any);
     }
 }

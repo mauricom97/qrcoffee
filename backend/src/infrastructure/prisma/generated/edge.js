@@ -92,6 +92,21 @@ exports.Prisma.TransactionIsolationLevel = makeStrictEnum({
   Serializable: 'Serializable'
 });
 
+exports.Prisma.CompanyScalarFieldEnum = {
+  uuid: 'uuid',
+  name: 'name',
+  createdAt: 'createdAt'
+};
+
+exports.Prisma.UserScalarFieldEnum = {
+  uuid: 'uuid',
+  email: 'email',
+  passwordHash: 'passwordHash',
+  name: 'name',
+  companyUuid: 'companyUuid',
+  createdAt: 'createdAt'
+};
+
 exports.Prisma.ProductScalarFieldEnum = {
   uuid: 'uuid',
   name: 'name',
@@ -103,14 +118,16 @@ exports.Prisma.ProductScalarFieldEnum = {
 
 exports.Prisma.CategoryScalarFieldEnum = {
   uuid: 'uuid',
-  name: 'name'
+  name: 'name',
+  companyUuid: 'companyUuid'
 };
 
 exports.Prisma.TableScalarFieldEnum = {
   uuid: 'uuid',
   number: 'number',
   qrCode: 'qrCode',
-  description: 'description'
+  description: 'description',
+  companyUuid: 'companyUuid'
 };
 
 exports.Prisma.OrderScalarFieldEnum = {
@@ -140,6 +157,8 @@ exports.Prisma.QueryMode = {
 
 
 exports.Prisma.ModelName = {
+  Company: 'Company',
+  User: 'User',
   Product: 'Product',
   Category: 'Category',
   Table: 'Table',
@@ -154,10 +173,10 @@ const config = {
   "clientVersion": "7.2.0",
   "engineVersion": "0c8ef2ce45c83248ab3df073180d5eda9e8be7a3",
   "activeProvider": "postgresql",
-  "inlineSchema": "generator client {\n  provider = \"prisma-client-js\"\n  output   = \"../src/infrastructure/prisma/generated\"\n}\n\ndatasource db {\n  provider     = \"postgresql\"\n  relationMode = \"prisma\"\n}\n\nmodel Product {\n  uuid        String  @id @default(uuid())\n  name        String\n  price       Float\n  active      Boolean @default(true)\n  description String\n\n  categoryUuid String\n  category     Category    @relation(fields: [categoryUuid], references: [uuid])\n  orderItems   OrderItem[]\n\n  @@index([categoryUuid])\n}\n\nmodel Category {\n  uuid     String    @id @default(uuid())\n  name     String\n  products Product[]\n}\n\nmodel Table {\n  uuid        String  @id @default(uuid())\n  number      Int     @unique\n  qrCode      String  @default(\"\")\n  description String  @default(\"\")\n  orders      Order[]\n}\n\nmodel Order {\n  uuid      String      @id @default(uuid())\n  tableUuid String\n  table     Table       @relation(fields: [tableUuid], references: [uuid])\n  status    String      @default(\"PENDING\") // PENDING | PREPARING | READY | DELIVERED\n  createdAt DateTime    @default(now())\n  items     OrderItem[]\n\n  @@index([tableUuid])\n  @@index([status])\n}\n\nmodel OrderItem {\n  uuid        String  @id @default(uuid())\n  orderUuid   String\n  order       Order   @relation(fields: [orderUuid], references: [uuid], onDelete: Cascade)\n  productUuid String\n  product     Product @relation(fields: [productUuid], references: [uuid])\n  quantity    Int\n  unitPrice   Float // preço no momento do pedido\n\n  @@index([orderUuid])\n  @@index([productUuid])\n}\n"
+  "inlineSchema": "generator client {\n  provider = \"prisma-client-js\"\n  output   = \"../src/infrastructure/prisma/generated\"\n}\n\ndatasource db {\n  provider     = \"postgresql\"\n  relationMode = \"prisma\"\n}\n\nmodel Company {\n  uuid       String     @id @default(uuid())\n  name       String\n  createdAt  DateTime   @default(now())\n  users      User[]\n  tables     Table[]\n  categories Category[]\n}\n\nmodel User {\n  uuid         String   @id @default(uuid())\n  email        String   @unique\n  passwordHash String\n  name         String\n  companyUuid  String\n  company      Company  @relation(fields: [companyUuid], references: [uuid], onDelete: Cascade)\n  createdAt    DateTime @default(now())\n\n  @@index([companyUuid])\n  @@index([email])\n}\n\nmodel Product {\n  uuid        String  @id @default(uuid())\n  name        String\n  price       Float\n  active      Boolean @default(true)\n  description String\n\n  categoryUuid String\n  category     Category    @relation(fields: [categoryUuid], references: [uuid])\n  orderItems   OrderItem[]\n\n  @@index([categoryUuid])\n}\n\nmodel Category {\n  uuid        String    @id @default(uuid())\n  name        String\n  companyUuid String\n  company     Company   @relation(fields: [companyUuid], references: [uuid], onDelete: Cascade)\n  products    Product[]\n\n  @@index([companyUuid])\n}\n\nmodel Table {\n  uuid        String  @id @default(uuid())\n  number      Int\n  qrCode      String  @default(\"\")\n  description String  @default(\"\")\n  companyUuid String\n  company     Company @relation(fields: [companyUuid], references: [uuid], onDelete: Cascade)\n  orders      Order[]\n\n  @@unique([companyUuid, number])\n  @@index([companyUuid])\n}\n\nmodel Order {\n  uuid      String      @id @default(uuid())\n  tableUuid String\n  table     Table       @relation(fields: [tableUuid], references: [uuid])\n  status    String      @default(\"PENDING\") // PENDING | PREPARING | READY | DELIVERED\n  createdAt DateTime    @default(now())\n  items     OrderItem[]\n\n  @@index([tableUuid])\n  @@index([status])\n}\n\nmodel OrderItem {\n  uuid        String  @id @default(uuid())\n  orderUuid   String\n  order       Order   @relation(fields: [orderUuid], references: [uuid], onDelete: Cascade)\n  productUuid String\n  product     Product @relation(fields: [productUuid], references: [uuid])\n  quantity    Int\n  unitPrice   Float // preço no momento do pedido\n\n  @@index([orderUuid])\n  @@index([productUuid])\n}\n"
 }
 
-config.runtimeDataModel = JSON.parse("{\"models\":{\"Product\":{\"fields\":[{\"name\":\"uuid\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"name\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"price\",\"kind\":\"scalar\",\"type\":\"Float\"},{\"name\":\"active\",\"kind\":\"scalar\",\"type\":\"Boolean\"},{\"name\":\"description\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"categoryUuid\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"category\",\"kind\":\"object\",\"type\":\"Category\",\"relationName\":\"CategoryToProduct\"},{\"name\":\"orderItems\",\"kind\":\"object\",\"type\":\"OrderItem\",\"relationName\":\"OrderItemToProduct\"}],\"dbName\":null},\"Category\":{\"fields\":[{\"name\":\"uuid\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"name\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"products\",\"kind\":\"object\",\"type\":\"Product\",\"relationName\":\"CategoryToProduct\"}],\"dbName\":null},\"Table\":{\"fields\":[{\"name\":\"uuid\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"number\",\"kind\":\"scalar\",\"type\":\"Int\"},{\"name\":\"qrCode\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"description\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"orders\",\"kind\":\"object\",\"type\":\"Order\",\"relationName\":\"OrderToTable\"}],\"dbName\":null},\"Order\":{\"fields\":[{\"name\":\"uuid\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"tableUuid\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"table\",\"kind\":\"object\",\"type\":\"Table\",\"relationName\":\"OrderToTable\"},{\"name\":\"status\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"createdAt\",\"kind\":\"scalar\",\"type\":\"DateTime\"},{\"name\":\"items\",\"kind\":\"object\",\"type\":\"OrderItem\",\"relationName\":\"OrderToOrderItem\"}],\"dbName\":null},\"OrderItem\":{\"fields\":[{\"name\":\"uuid\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"orderUuid\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"order\",\"kind\":\"object\",\"type\":\"Order\",\"relationName\":\"OrderToOrderItem\"},{\"name\":\"productUuid\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"product\",\"kind\":\"object\",\"type\":\"Product\",\"relationName\":\"OrderItemToProduct\"},{\"name\":\"quantity\",\"kind\":\"scalar\",\"type\":\"Int\"},{\"name\":\"unitPrice\",\"kind\":\"scalar\",\"type\":\"Float\"}],\"dbName\":null}},\"enums\":{},\"types\":{}}")
+config.runtimeDataModel = JSON.parse("{\"models\":{\"Company\":{\"fields\":[{\"name\":\"uuid\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"name\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"createdAt\",\"kind\":\"scalar\",\"type\":\"DateTime\"},{\"name\":\"users\",\"kind\":\"object\",\"type\":\"User\",\"relationName\":\"CompanyToUser\"},{\"name\":\"tables\",\"kind\":\"object\",\"type\":\"Table\",\"relationName\":\"CompanyToTable\"},{\"name\":\"categories\",\"kind\":\"object\",\"type\":\"Category\",\"relationName\":\"CategoryToCompany\"}],\"dbName\":null},\"User\":{\"fields\":[{\"name\":\"uuid\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"email\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"passwordHash\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"name\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"companyUuid\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"company\",\"kind\":\"object\",\"type\":\"Company\",\"relationName\":\"CompanyToUser\"},{\"name\":\"createdAt\",\"kind\":\"scalar\",\"type\":\"DateTime\"}],\"dbName\":null},\"Product\":{\"fields\":[{\"name\":\"uuid\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"name\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"price\",\"kind\":\"scalar\",\"type\":\"Float\"},{\"name\":\"active\",\"kind\":\"scalar\",\"type\":\"Boolean\"},{\"name\":\"description\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"categoryUuid\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"category\",\"kind\":\"object\",\"type\":\"Category\",\"relationName\":\"CategoryToProduct\"},{\"name\":\"orderItems\",\"kind\":\"object\",\"type\":\"OrderItem\",\"relationName\":\"OrderItemToProduct\"}],\"dbName\":null},\"Category\":{\"fields\":[{\"name\":\"uuid\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"name\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"companyUuid\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"company\",\"kind\":\"object\",\"type\":\"Company\",\"relationName\":\"CategoryToCompany\"},{\"name\":\"products\",\"kind\":\"object\",\"type\":\"Product\",\"relationName\":\"CategoryToProduct\"}],\"dbName\":null},\"Table\":{\"fields\":[{\"name\":\"uuid\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"number\",\"kind\":\"scalar\",\"type\":\"Int\"},{\"name\":\"qrCode\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"description\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"companyUuid\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"company\",\"kind\":\"object\",\"type\":\"Company\",\"relationName\":\"CompanyToTable\"},{\"name\":\"orders\",\"kind\":\"object\",\"type\":\"Order\",\"relationName\":\"OrderToTable\"}],\"dbName\":null},\"Order\":{\"fields\":[{\"name\":\"uuid\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"tableUuid\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"table\",\"kind\":\"object\",\"type\":\"Table\",\"relationName\":\"OrderToTable\"},{\"name\":\"status\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"createdAt\",\"kind\":\"scalar\",\"type\":\"DateTime\"},{\"name\":\"items\",\"kind\":\"object\",\"type\":\"OrderItem\",\"relationName\":\"OrderToOrderItem\"}],\"dbName\":null},\"OrderItem\":{\"fields\":[{\"name\":\"uuid\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"orderUuid\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"order\",\"kind\":\"object\",\"type\":\"Order\",\"relationName\":\"OrderToOrderItem\"},{\"name\":\"productUuid\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"product\",\"kind\":\"object\",\"type\":\"Product\",\"relationName\":\"OrderItemToProduct\"},{\"name\":\"quantity\",\"kind\":\"scalar\",\"type\":\"Int\"},{\"name\":\"unitPrice\",\"kind\":\"scalar\",\"type\":\"Float\"}],\"dbName\":null}},\"enums\":{},\"types\":{}}")
 defineDmmfProperty(exports.Prisma, config.runtimeDataModel)
 config.compilerWasm = {
   getRuntime: async () => require('./query_compiler_bg.js'),

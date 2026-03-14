@@ -10,8 +10,8 @@ export interface UpdateTableInput {
 export class UpdateTableUseCase {
     constructor(private readonly tableRepository: TableRepository) {}
 
-    async execute(uuid: string, body: UpdateTableInput): Promise<Table | null> {
-        const existing = await this.tableRepository.findById(uuid);
+    async execute(uuid: string, body: UpdateTableInput, companyUuid?: string): Promise<Table | null> {
+        const existing = await this.tableRepository.findById(uuid, companyUuid);
         if (!existing) return null;
 
         const table = new Table(

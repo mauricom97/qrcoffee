@@ -3,7 +3,7 @@ import { CategoryRepository } from '@domain/category/repositories/category.repos
 export class FindAllCategoryUseCase {
   constructor(private readonly categoryRepository: CategoryRepository) {}
 
-  async execute(): Promise<any> {
-    return await this.categoryRepository.findAll();
+  async execute(companyUuid?: string): Promise<any> {
+    return await this.categoryRepository.findAll(companyUuid);
   }
 }

@@ -7,27 +7,30 @@ import { Injectable } from '@nestjs/common';
 export class TablePrismaRepository {
     constructor(private readonly prisma: PrismaService) {}
 
-    async save(table: Table): Promise<Table> {
-        return await this.prisma.client.table.create({
+    async save(table: Table & { companyUuid?: string }): Promise<void> {
+        await this.prisma.client.table.create({
             data: {
                 uuid: table.uuid,
                 number: table.number,
-                description: table.description,
-                qrCode: table.qrCode,
+                description: table.description ?? '',
+                qrCode: table.qrCode ?? '',
+                companyUuid: (table as any).companyUuid!,
             },
         });
     }
 
-    async findAll(_filters?: unknown): Promise<Table[]> {
-        return await this.prisma.client.table.findMany();
+    async findAll(filters?: { companyUuid?: string }): Promise<Table[]> {
+        const where = filters?.companyUuid ? { companyUuid: filters.companyUuid } : {};
+        const rows = await this.prisma.client.table.findMany({ where, orderBy: { number: 'asc' } });
+        return rows.map((row) => new Table(row.uuid, row.number, row.description ?? undefined, row.qrCode ?? undefined, row.companyUuid));
     }
 
-    async findById(uuid: string): Promise<Table | null> {
-        const row = await this.prisma.client.table.findUnique({
-            where: { uuid },
-        });
+    async findById(uuid: string, companyUuid?: string): Promise<Table | null> {
+        const where: any = { uuid };
+        if (companyUuid) where.companyUuid = companyUuid;
+        const row = await this.prisma.client.table.findFirst({ where });
         if (!row) return null;
-        return new Table(row.uuid, row.number, row.description ?? undefined, row.qrCode ?? undefined);
+        return new Table(row.uuid, row.number, row.description ?? undefined, row.qrCode ?? undefined, row.companyUuid);
     }
 
     async update(table: Table): Promise<void> {
@@ -41,10 +44,10 @@ export class TablePrismaRepository {
         });
     }
 
-    async destroy(uuid: string): Promise<void> {
-        await this.prisma.client.table.delete({
-            where: { uuid },
-        });
+    async destroy(uuid: string, companyUuid?: string): Promise<void> {
+        const where: any = { uuid };
+        if (companyUuid) where.companyUuid = companyUuid;
+        await this.prisma.client.table.deleteMany({ where });
     }
 }
 

@@ -22,8 +22,15 @@ type AuthContextType = {
   fetchUser: () => Promise<void>;
 };
 
-const STORAGE_TOKEN = 'qrcoffee_token';
+export const STORAGE_TOKEN = 'qrcoffee_token';
 const STORAGE_USER = 'qrcoffee_user';
+
+/** Headers com token para usar nas requisições à API (tables, products, orders, dashboard, etc.) */
+export function getAuthHeaders(): HeadersInit {
+  if (typeof window === 'undefined') return {};
+  const token = window.localStorage.getItem(STORAGE_TOKEN);
+  return token ? { Authorization: `Bearer ${token}` } : {};
+}
 
 const AuthContext = createContext<AuthContextType | null>(null);
 

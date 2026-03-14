@@ -15,6 +15,7 @@ import {
   OrderStatus,
 } from "../orders/interfaces/order.interface";
 import { Mesa } from "../tables/interfaces/table.interface";
+import { getAuthHeaders } from "contexts/AuthContext";
 
 const API_URL =
   process.env.NEXT_PUBLIC_BASE_API_URL || "http://localhost:3352";
@@ -68,7 +69,7 @@ export default function TabPage() {
       if (statusFilter) params.set("status", statusFilter);
       if (tableFilter) params.set("tableUuid", tableFilter);
       const url = `${API_URL}/comandas${params.toString() ? `?${params}` : ""}`;
-      const res = await fetch(url);
+      const res = await fetch(url, { headers: getAuthHeaders() });
       if (!res.ok) throw new Error("Erro ao carregar comandas.");
       const data: OrderDto[] = await res.json();
       setComandas(Array.isArray(data) ? data : []);
@@ -81,7 +82,7 @@ export default function TabPage() {
 
   const loadTables = useCallback(async () => {
     try {
-      const res = await fetch(`${API_URL}/tables`);
+      const res = await fetch(`${API_URL}/tables`, { headers: getAuthHeaders() });
       if (!res.ok) return;
       const data: Mesa[] = await res.json();
       setTables(Array.isArray(data) ? data : []);
@@ -101,7 +102,7 @@ export default function TabPage() {
     try {
       const res = await fetch(`${API_URL}/comandas/${comanda.uuid}`, {
         method: "PATCH",
-        headers: { "Content-Type": "application/json" },
+        headers: { "Content-Type": "application/json", ...getAuthHeaders() },
         body: JSON.stringify({ status }),
       });
       if (!res.ok) throw new Error("Erro ao atualizar status.");

@@ -11,6 +11,7 @@ import {
 } from "react-icons/fa";
 import { OrderDto, OrderStatus } from "./interfaces/order.interface";
 import { Mesa } from "../tables/interfaces/table.interface";
+import { getAuthHeaders } from "contexts/AuthContext";
 
 const API_URL = process.env.NEXT_PUBLIC_BASE_API_URL || "http://localhost:3352";
 
@@ -55,7 +56,7 @@ export default function OrdersPage() {
       const url = statusFilter
         ? `${API_URL}/orders?status=${statusFilter}`
         : `${API_URL}/orders`;
-      const res = await fetch(url);
+      const res = await fetch(url, { headers: getAuthHeaders() });
       if (!res.ok) throw new Error("Erro ao carregar pedidos.");
       const data: OrderDto[] = await res.json();
       setOrders(Array.isArray(data) ? data : []);
@@ -67,7 +68,7 @@ export default function OrdersPage() {
 
   const loadTables = useCallback(async () => {
     try {
-      const res = await fetch(`${API_URL}/tables`);
+      const res = await fetch(`${API_URL}/tables`, { headers: getAuthHeaders() });
       if (!res.ok) return;
       const data: Mesa[] = await res.json();
       setTables(Array.isArray(data) ? data : []);
@@ -78,7 +79,7 @@ export default function OrdersPage() {
 
   const loadProducts = useCallback(async () => {
     try {
-      const res = await fetch(`${API_URL}/products/all`);
+      const res = await fetch(`${API_URL}/products/all`, { headers: getAuthHeaders() });
       if (!res.ok) return;
       const data = await res.json();
       setProducts(Array.isArray(data) ? data : []);
@@ -134,7 +135,7 @@ export default function OrdersPage() {
     try {
       const res = await fetch(`${API_URL}/orders`, {
         method: "POST",
-        headers: { "Content-Type": "application/json" },
+        headers: { "Content-Type": "application/json", ...getAuthHeaders() },
         body: JSON.stringify({
           tableUuid,
           status: newStatus,
@@ -162,7 +163,7 @@ export default function OrdersPage() {
     try {
       const res = await fetch(`${API_URL}/orders/${order.uuid}`, {
         method: "PATCH",
-        headers: { "Content-Type": "application/json" },
+        headers: { "Content-Type": "application/json", ...getAuthHeaders() },
         body: JSON.stringify({ status }),
       });
       if (!res.ok) throw new Error("Erro ao atualizar status.");
@@ -177,6 +178,7 @@ export default function OrdersPage() {
     try {
       const res = await fetch(`${API_URL}/orders/${order.uuid}`, {
         method: "DELETE",
+        headers: getAuthHeaders(),
       });
       if (!res.ok) throw new Error("Erro ao excluir.");
       await loadOrders();
