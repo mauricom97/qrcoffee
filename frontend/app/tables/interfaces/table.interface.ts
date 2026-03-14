@@ -1,8 +1,8 @@
 import { Comanda } from "../../orders/interfaces/order.interface";
 export interface Mesa {
-  id: number;
-  numero: number;
-  descricao: string;
-  comandas: Comanda[];
+  uuid: string;
+  number: number;
+  description: string;
+  comandas?: Comanda[];
   qrCode: string;
 }

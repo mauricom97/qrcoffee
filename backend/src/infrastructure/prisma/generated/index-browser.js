@@ -136,7 +136,24 @@ exports.Prisma.CategoryScalarFieldEnum = {
 
 exports.Prisma.TableScalarFieldEnum = {
   uuid: 'uuid',
-  number: 'number'
+  number: 'number',
+  qrCode: 'qrCode',
+  description: 'description'
+};
+
+exports.Prisma.OrderScalarFieldEnum = {
+  uuid: 'uuid',
+  tableUuid: 'tableUuid',
+  status: 'status',
+  createdAt: 'createdAt'
+};
+
+exports.Prisma.OrderItemScalarFieldEnum = {
+  uuid: 'uuid',
+  orderUuid: 'orderUuid',
+  productUuid: 'productUuid',
+  quantity: 'quantity',
+  unitPrice: 'unitPrice'
 };
 
 exports.Prisma.SortOrder = {
@@ -153,7 +170,9 @@ exports.Prisma.QueryMode = {
 exports.Prisma.ModelName = {
   Product: 'Product',
   Category: 'Category',
-  Table: 'Table'
+  Table: 'Table',
+  Order: 'Order',
+  OrderItem: 'OrderItem'
 };
 
 /**

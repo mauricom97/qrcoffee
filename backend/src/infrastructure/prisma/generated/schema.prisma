@@ -16,7 +16,8 @@ model Product {
   description String
 
   categoryUuid String
-  category     Category @relation(fields: [categoryUuid], references: [uuid])
+  category     Category    @relation(fields: [categoryUuid], references: [uuid])
+  orderItems   OrderItem[]
 
   @@index([categoryUuid])
 }
@@ -28,6 +29,34 @@ model Category {
 }
 
 model Table {
-  uuid   String @id @default(uuid())
-  number Int
+  uuid        String  @id @default(uuid())
+  number      Int     @unique
+  qrCode      String  @default("")
+  description String  @default("")
+  orders      Order[]
+}
+
+model Order {
+  uuid      String      @id @default(uuid())
+  tableUuid String
+  table     Table       @relation(fields: [tableUuid], references: [uuid])
+  status    String      @default("PENDING") // PENDING | PREPARING | READY | DELIVERED
+  createdAt DateTime    @default(now())
+  items     OrderItem[]
+
+  @@index([tableUuid])
+  @@index([status])
+}
+
+model OrderItem {
+  uuid        String  @id @default(uuid())
+  orderUuid   String
+  order       Order   @relation(fields: [orderUuid], references: [uuid], onDelete: Cascade)
+  productUuid String
+  product     Product @relation(fields: [productUuid], references: [uuid])
+  quantity    Int
+  unitPrice   Float // preço no momento do pedido
+
+  @@index([orderUuid])
+  @@index([productUuid])
 }

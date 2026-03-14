@@ -1,285 +1,458 @@
-'use client';
+"use client";
 
-import { useState } from 'react';
-import { FaTable, FaClipboardList, FaCheckCircle, FaHourglassHalf, FaPlus, FaEdit } from 'react-icons/fa'; // Adicione FaEdit para o botão de editar
+import { useState, useEffect, useCallback } from "react";
+import {
+  FaTable,
+  FaCheckCircle,
+  FaHourglassHalf,
+  FaPlus,
+  FaTrash,
+  FaClipboardList,
+} from "react-icons/fa";
+import { OrderDto, OrderStatus } from "./interfaces/order.interface";
+import { Mesa } from "../tables/interfaces/table.interface";
 
-const initialOrders = [
-    {
-        id: 1,
-        mesa: 5,
-        comanda: 'A1',
-        status: 'Preparando',
-        items: [
-            { name: 'Café Expresso', quantity: 2 },
-            { name: 'Croissant', quantity: 1 },
-        ],
-    },
-    {
-        id: 2,
-        mesa: 12,
-        comanda: 'B3',
-        status: 'Pronto',
-        items: [
-            { name: 'Cappuccino', quantity: 1 },
-            { name: 'Pão de Queijo', quantity: 3 },
-        ],
-    },
-    // Adicione mais pedidos aqui se necessário
-];
+const API_URL = process.env.NEXT_PUBLIC_BASE_API_URL || "http://localhost:3352";
+
+const STATUS_LABELS: Record<OrderStatus, string> = {
+  PENDING: "Pendente",
+  PREPARING: "Preparando",
+  READY: "Pronto",
+  DELIVERED: "Entregue",
+};
+
+interface ProductOption {
+  uuid: string;
+  name: string;
+  price: number;
+}
+
+interface NewOrderItem {
+  productUuid: string;
+  productName: string;
+  quantity: number;
+  unitPrice: number;
+}
 
 export default function OrdersPage() {
-    const [orders, setOrders] = useState(initialOrders);
-    const [showForm, setShowForm] = useState(false);
-    const [editingOrder, setEditingOrder] = useState<{
-        id: number;
-        mesa: number;
-        comanda: string;
-        status: string;
-        items: { name: string; quantity: number }[];
-    } | null>(null);
-    const [newMesa, setNewMesa] = useState('');
-    const [newComanda, setNewComanda] = useState('');
-    const [newStatus, setNewStatus] = useState('Preparando');
-    const [newItems, setNewItems] = useState<{ name: string; quantity: number }[]>([]);
-    const [itemName, setItemName] = useState('');
-    const [itemQuantity, setItemQuantity] = useState(1);
+  const [orders, setOrders] = useState<OrderDto[]>([]);
+  const [tables, setTables] = useState<Mesa[]>([]);
+  const [products, setProducts] = useState<ProductOption[]>([]);
+  const [loading, setLoading] = useState(true);
+  const [statusFilter, setStatusFilter] = useState<string>("");
+  const [showForm, setShowForm] = useState(false);
+  const [saving, setSaving] = useState(false);
+  const [error, setError] = useState<string | null>(null);
 
-    const resetForm = () => {
-        setNewMesa('');
-        setNewComanda('');
-        setNewStatus('Preparando');
-        setNewItems([]);
-        setItemName('');
-        setItemQuantity(1);
-        setEditingOrder(null);
-        setShowForm(false);
-    };
+  const [tableUuid, setTableUuid] = useState("");
+  const [newStatus, setNewStatus] = useState<OrderStatus>("PENDING");
+  const [newItems, setNewItems] = useState<NewOrderItem[]>([]);
+  const [selectedProductUuid, setSelectedProductUuid] = useState("");
+  const [itemQuantity, setItemQuantity] = useState(1);
 
-    interface OrderItem {
-        name: string;
-        quantity: number;
+  const loadOrders = useCallback(async () => {
+    try {
+      const url = statusFilter
+        ? `${API_URL}/orders?status=${statusFilter}`
+        : `${API_URL}/orders`;
+      const res = await fetch(url);
+      if (!res.ok) throw new Error("Erro ao carregar pedidos.");
+      const data: OrderDto[] = await res.json();
+      setOrders(Array.isArray(data) ? data : []);
+    } catch (e) {
+      console.error(e);
+      setError("Não foi possível carregar os pedidos.");
     }
+  }, [statusFilter]);
 
-    interface Order {
-        id: number;
-        mesa: number;
-        comanda: string;
-        status: string;
-        items: OrderItem[];
+  const loadTables = useCallback(async () => {
+    try {
+      const res = await fetch(`${API_URL}/tables`);
+      if (!res.ok) return;
+      const data: Mesa[] = await res.json();
+      setTables(Array.isArray(data) ? data : []);
+    } catch (e) {
+      console.error(e);
     }
+  }, []);
 
-    const handleEdit = (order: Order): void => {
-        setEditingOrder(order);
-        setNewMesa(order.mesa.toString());
-        setNewComanda(order.comanda);
-        setNewStatus(order.status);
-        setNewItems(order.items);
-        setShowForm(true);
-    };
+  const loadProducts = useCallback(async () => {
+    try {
+      const res = await fetch(`${API_URL}/products/all`);
+      if (!res.ok) return;
+      const data = await res.json();
+      setProducts(Array.isArray(data) ? data : []);
+    } catch (e) {
+      console.error(e);
+    }
+  }, []);
 
-    const addItem = () => {
-        if (itemName.trim() && itemQuantity > 0) {
-            setNewItems([...newItems, { name: itemName.trim(), quantity: itemQuantity }]);
-            setItemName('');
-            setItemQuantity(1);
-        }
-    };
-
-    const removeItem = (index: number): void => {
-        const updatedItems = newItems.filter((_, i) => i !== index);
-        setNewItems(updatedItems);
-    };
-
-    const handleSaveOrder = () => {
-        if (!newMesa || !newComanda || newItems.length === 0) {
-            alert('Preencha todos os campos obrigatórios: Mesa, Comanda e pelo menos um item.');
-            return;
-        }
-
-        const orderData = {
-            id: editingOrder ? editingOrder.id : orders.length + 1,
-            mesa: parseInt(newMesa),
-            comanda: newComanda,
-            status: newStatus,
-            items: newItems,
-        };
-
-        if (editingOrder) {
-            const updatedOrders = orders.map((order) =>
-                order.id === editingOrder.id ? orderData : order
-            );
-            setOrders(updatedOrders);
-        } else {
-            setOrders([...orders, orderData]);
-        }
-
-        resetForm();
-    };
-
-    return (
-        <div className="min-h-screen bg-gradient-to-br from-gray-100 to-gray-200 p-4 md:p-8">
-            <h1 className="text-3xl md:text-4xl font-bold text-center mb-8 text-gray-800">Pedidos do Estabelecimento</h1>
-            
-            <div className="max-w-5xl mx-auto mb-8">
-                <button
-                    onClick={() => {
-                        if (showForm && editingOrder) {
-                            resetForm();
-                        } else {
-                            resetForm();
-                            setShowForm(true);
-                        }
-                    }}
-                    className="bg-blue-500 text-white px-4 py-2 rounded-lg flex items-center gap-2 hover:bg-blue-600 transition-colors"
-                >
-                    <FaPlus /> {showForm && !editingOrder ? 'Cancelar' : 'Adicionar Pedido'}
-                </button>
-                
-                {showForm && (
-                    <div className="bg-white shadow-lg rounded-xl p-6 border border-gray-200 mt-4">
-                        <h2 className="text-xl font-semibold text-gray-900 mb-4">
-                            {editingOrder ? `Editar Pedido #${editingOrder.id}` : 'Novo Pedido'}
-                        </h2>
-                        
-                        <div className="space-y-4">
-                            <div>
-                                <label className="block text-gray-700 font-medium mb-1">Mesa</label>
-                                <input
-                                    type="number"
-                                    value={newMesa}
-                                    onChange={(e) => setNewMesa(e.target.value)}
-                                    className="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
-                                    placeholder="Número da mesa"
-                                />
-                            </div>
-                            
-                            <div>
-                                <label className="block text-gray-700 font-medium mb-1">Comanda</label>
-                                <input
-                                    type="text"
-                                    value={newComanda}
-                                    onChange={(e) => setNewComanda(e.target.value)}
-                                    className="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
-                                    placeholder="Código da comanda"
-                                />
-                            </div>
-                            
-                            <div>
-                                <label className="block text-gray-700 font-medium mb-1">Status</label>
-                                <select
-                                    value={newStatus}
-                                    onChange={(e) => setNewStatus(e.target.value)}
-                                    className="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
-                                >
-                                    <option value="Preparando">Preparando</option>
-                                    <option value="Pronto">Pronto</option>
-                                </select>
-                            </div>
-                            
-                            <div>
-                                <label className="block text-gray-700 font-medium mb-1">Adicionar Item</label>
-                                <div className="flex gap-4 mb-2">
-                                    <input
-                                        type="text"
-                                        value={itemName}
-                                        onChange={(e) => setItemName(e.target.value)}
-                                        className="flex-1 px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
-                                        placeholder="Nome do produto"
-                                    />
-                                    <input
-                                        type="number"
-                                        value={itemQuantity}
-                                        onChange={(e) => setItemQuantity(parseInt(e.target.value) || 1)}
-                                        className="w-20 px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
-                                        min="1"
-                                    />
-                                    <button
-                                        onClick={addItem}
-                                        className="bg-green-500 text-white px-4 py-2 rounded-lg hover:bg-green-600 transition-colors"
-                                    >
-                                        Adicionar
-                                    </button>
-                                </div>
-                                
-                                {newItems.length > 0 && (
-                                    <ul className="space-y-2 mt-2">
-                                        {newItems.map((item, index) => (
-                                            <li key={index} className="flex justify-between items-center text-gray-700">
-                                                <span>{item.name} x{item.quantity}</span>
-                                                <button
-                                                    onClick={() => removeItem(index)}
-                                                    className="text-red-500 hover:text-red-700"
-                                                >
-                                                    Remover
-                                                </button>
-                                            </li>
-                                        ))}
-                                    </ul>
-                                )}
-                            </div>
-                            
-                            <button
-                                onClick={handleSaveOrder}
-                                className="bg-blue-500 text-white px-4 py-2 rounded-lg w-full hover:bg-blue-600 transition-colors"
-                            >
-                                {editingOrder ? 'Atualizar Pedido' : 'Salvar Pedido'}
-                            </button>
-                        </div>
-                    </div>
-                )}
-            </div>
-            
-            <div className="max-w-5xl mx-auto grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-                {orders.map((order) => (
-                    <div
-                        key={order.id}
-                        className="bg-white shadow-lg rounded-xl p-6 border border-gray-200 hover:shadow-xl transition-shadow duration-300"
-                    >
-                        <div className="flex justify-between items-center mb-4">
-                            <h2 className="text-xl font-semibold text-gray-900">Pedido #{order.id}</h2>
-                            <div className="flex items-center gap-4">
-                                <span
-                                    className={`px-4 py-2 rounded-full text-sm font-medium flex items-center gap-2 ${
-                                        order.status === 'Pronto'
-                                            ? 'bg-green-100 text-green-800'
-                                            : 'bg-yellow-100 text-yellow-800'
-                                    }`}
-                                >
-                                    {order.status === 'Pronto' ? <FaCheckCircle /> : <FaHourglassHalf />}
-                                    {order.status}
-                                </span>
-                                <button
-                                    onClick={() => handleEdit(order)}
-                                    className="text-blue-500 hover:text-blue-700"
-                                >
-                                    <FaEdit />
-                                </button>
-                            </div>
-                        </div>
-                        <div className="mb-4 space-y-2">
-                            <div className="flex items-center gap-2 text-gray-700">
-                                <FaTable className="text-lg" />
-                                <span className="font-medium">Mesa: {order.mesa}</span>
-                            </div>
-                            <div className="flex items-center gap-2 text-gray-700">
-                                <FaClipboardList className="text-lg" />
-                                <span className="font-medium">Comanda: {order.comanda}</span>
-                            </div>
-                        </div>
-                        <ul className="space-y-3">
-                            {order.items.map((item, index) => (
-                                <li
-                                    key={index}
-                                    className="flex justify-between items-center text-gray-700 border-b pb-3 last:border-b-0 last:pb-0"
-                                >
-                                    <span className="font-medium">{item.name}</span>
-                                    <span className="text-sm bg-gray-100 px-2 py-1 rounded-full">x{item.quantity}</span>
-                                </li>
-                            ))}
-                        </ul>
-                    </div>
-                ))}
-            </div>
-        </div>
+  useEffect(() => {
+    setLoading(true);
+    Promise.all([loadOrders(), loadTables(), loadProducts()]).finally(() =>
+      setLoading(false)
     );
+  }, [loadOrders, loadTables, loadProducts]);
+
+  const resetForm = () => {
+    setTableUuid("");
+    setNewStatus("PENDING");
+    setNewItems([]);
+    setSelectedProductUuid("");
+    setItemQuantity(1);
+    setShowForm(false);
+    setError(null);
+  };
+
+  const addItem = () => {
+    const product = products.find((p) => p.uuid === selectedProductUuid);
+    if (!product || itemQuantity < 1) return;
+    setNewItems((prev) => [
+      ...prev,
+      {
+        productUuid: product.uuid,
+        productName: product.name,
+        quantity: itemQuantity,
+        unitPrice: product.price,
+      },
+    ]);
+    setSelectedProductUuid("");
+    setItemQuantity(1);
+  };
+
+  const removeItem = (index: number) => {
+    setNewItems((prev) => prev.filter((_, i) => i !== index));
+  };
+
+  const handleCreateOrder = async () => {
+    if (!tableUuid || newItems.length === 0) {
+      setError("Selecione a mesa e adicione pelo menos um item.");
+      return;
+    }
+    setSaving(true);
+    setError(null);
+    try {
+      const res = await fetch(`${API_URL}/orders`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          tableUuid,
+          status: newStatus,
+          items: newItems.map((i) => ({
+            productUuid: i.productUuid,
+            quantity: i.quantity,
+            unitPrice: i.unitPrice,
+          })),
+        }),
+      });
+      if (!res.ok) {
+        const err = await res.json().catch(() => ({}));
+        throw new Error(err?.message || "Erro ao criar pedido.");
+      }
+      resetForm();
+      await loadOrders();
+    } catch (e) {
+      setError(e instanceof Error ? e.message : "Erro ao salvar pedido.");
+    } finally {
+      setSaving(false);
+    }
+  };
+
+  const handleUpdateStatus = async (order: OrderDto, status: OrderStatus) => {
+    try {
+      const res = await fetch(`${API_URL}/orders/${order.uuid}`, {
+        method: "PATCH",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ status }),
+      });
+      if (!res.ok) throw new Error("Erro ao atualizar status.");
+      await loadOrders();
+    } catch (e) {
+      console.error(e);
+    }
+  };
+
+  const handleDelete = async (order: OrderDto) => {
+    if (!confirm(`Excluir pedido da mesa ${order.tableNumber}?`)) return;
+    try {
+      const res = await fetch(`${API_URL}/orders/${order.uuid}`, {
+        method: "DELETE",
+      });
+      if (!res.ok) throw new Error("Erro ao excluir.");
+      await loadOrders();
+    } catch (e) {
+      console.error(e);
+    }
+  };
+
+  const statusColor = (status: OrderStatus) => {
+    switch (status) {
+      case "DELIVERED":
+        return "bg-emerald-100 text-emerald-800";
+      case "READY":
+        return "bg-green-100 text-green-800";
+      case "PREPARING":
+        return "bg-amber-100 text-amber-800";
+      default:
+        return "bg-zinc-100 text-zinc-800";
+    }
+  };
+
+  return (
+    <div className="min-h-screen bg-zinc-50 p-4 md:p-8">
+      <div className="mx-auto max-w-6xl space-y-8">
+        <header>
+          <h1 className="text-2xl font-semibold text-zinc-800">Pedidos</h1>
+          <p className="text-sm text-zinc-500">
+            Gerencie os pedidos por mesa e status.
+          </p>
+        </header>
+
+        <div className="flex flex-col sm:flex-row gap-4 items-start sm:items-center justify-between">
+          <div className="flex gap-2 flex-wrap">
+            <button
+              onClick={() => setStatusFilter("")}
+              className={`rounded-lg px-3 py-1.5 text-sm border ${
+                !statusFilter
+                  ? "bg-zinc-800 text-white border-zinc-800"
+                  : "bg-white text-zinc-700 border-zinc-300 hover:bg-zinc-50"
+              }`}
+            >
+              Todos
+            </button>
+            {(["PENDING", "PREPARING", "READY", "DELIVERED"] as OrderStatus[]).map(
+              (s) => (
+                <button
+                  key={s}
+                  onClick={() => setStatusFilter(s)}
+                  className={`rounded-lg px-3 py-1.5 text-sm border ${
+                    statusFilter === s
+                      ? "bg-zinc-800 text-white border-zinc-800"
+                      : "bg-white text-zinc-700 border-zinc-300 hover:bg-zinc-50"
+                  }`}
+                >
+                  {STATUS_LABELS[s]}
+                </button>
+              )
+            )}
+          </div>
+          <button
+            onClick={() => {
+              resetForm();
+              setShowForm(true);
+            }}
+            className="bg-white text-black border border-black hover:bg-black hover:text-white rounded-lg px-4 py-2 flex items-center gap-2 shrink-0"
+          >
+            <FaPlus /> Novo pedido
+          </button>
+        </div>
+
+        {showForm && (
+          <div className="bg-white shadow-md rounded-lg p-6 text-black border border-zinc-200">
+            <h2 className="text-xl font-semibold mb-4">Novo pedido</h2>
+            {error && (
+              <p className="mb-4 text-sm text-red-600 bg-red-50 p-2 rounded">
+                {error}
+              </p>
+            )}
+            <div className="space-y-4">
+              <div>
+                <label className="block text-sm font-medium text-zinc-700 mb-1">
+                  Mesa
+                </label>
+                <select
+                  value={tableUuid}
+                  onChange={(e) => setTableUuid(e.target.value)}
+                  className="w-full border border-zinc-300 rounded-lg p-2"
+                >
+                  <option value="">Selecione a mesa</option>
+                  {tables.map((t) => (
+                    <option key={t.uuid} value={t.uuid}>
+                      Mesa {t.number}
+                      {t.description ? ` — ${t.description}` : ""}
+                    </option>
+                  ))}
+                </select>
+              </div>
+              <div>
+                <label className="block text-sm font-medium text-zinc-700 mb-1">
+                  Status inicial
+                </label>
+                <select
+                  value={newStatus}
+                  onChange={(e) => setNewStatus(e.target.value as OrderStatus)}
+                  className="w-full border border-zinc-300 rounded-lg p-2"
+                >
+                  {(Object.keys(STATUS_LABELS) as OrderStatus[]).map((s) => (
+                    <option key={s} value={s}>
+                      {STATUS_LABELS[s]}
+                    </option>
+                  ))}
+                </select>
+              </div>
+              <div>
+                <label className="block text-sm font-medium text-zinc-700 mb-1">
+                  Itens
+                </label>
+                <div className="flex flex-wrap gap-2 mb-2">
+                  <select
+                    value={selectedProductUuid}
+                    onChange={(e) => setSelectedProductUuid(e.target.value)}
+                    className="flex-1 min-w-[180px] border border-zinc-300 rounded-lg p-2"
+                  >
+                    <option value="">Produto</option>
+                    {products.map((p) => (
+                      <option key={p.uuid} value={p.uuid}>
+                        {p.name} — R$ {p.price.toFixed(2)}
+                      </option>
+                    ))}
+                  </select>
+                  <input
+                    type="number"
+                    min={1}
+                    value={itemQuantity}
+                    onChange={(e) =>
+                      setItemQuantity(Math.max(1, parseInt(e.target.value) || 1))
+                    }
+                    className="w-20 border border-zinc-300 rounded-lg p-2"
+                  />
+                  <button
+                    type="button"
+                    onClick={addItem}
+                    className="bg-zinc-100 hover:bg-zinc-200 text-zinc-800 rounded-lg px-4 py-2"
+                  >
+                    Adicionar
+                  </button>
+                </div>
+                {newItems.length > 0 && (
+                  <ul className="border border-zinc-200 rounded-lg divide-y divide-zinc-100">
+                    {newItems.map((item, i) => (
+                      <li
+                        key={i}
+                        className="flex justify-between items-center px-3 py-2 text-sm"
+                      >
+                        <span>
+                          {item.productName} × {item.quantity} — R${" "}
+                          {(item.unitPrice * item.quantity).toFixed(2)}
+                        </span>
+                        <button
+                          type="button"
+                          onClick={() => removeItem(i)}
+                          className="text-red-600 hover:text-red-700"
+                        >
+                          Remover
+                        </button>
+                      </li>
+                    ))}
+                  </ul>
+                )}
+              </div>
+              <div className="flex gap-2 pt-2">
+                <button
+                  onClick={handleCreateOrder}
+                  disabled={saving}
+                  className="flex-1 bg-black text-white rounded-lg py-2 hover:bg-zinc-800 disabled:opacity-50"
+                >
+                  {saving ? "Salvando…" : "Criar pedido"}
+                </button>
+                <button
+                  onClick={resetForm}
+                  className="flex-1 bg-zinc-200 text-zinc-800 rounded-lg py-2 hover:bg-zinc-300"
+                >
+                  Cancelar
+                </button>
+              </div>
+            </div>
+          </div>
+        )}
+
+        {loading ? (
+          <p className="text-zinc-500">Carregando pedidos…</p>
+        ) : (
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+            {orders.map((order) => (
+              <div
+                key={order.uuid}
+                className="bg-white shadow-md rounded-lg p-5 border border-zinc-200 text-black"
+              >
+                <div className="flex justify-between items-start mb-4">
+                  <div className="flex items-center gap-2">
+                    <FaTable className="text-zinc-500" />
+                    <span className="font-semibold">Mesa {order.tableNumber}</span>
+                  </div>
+                  <span
+                    className={`px-3 py-1 rounded-full text-xs font-medium ${statusColor(
+                      order.status
+                    )}`}
+                  >
+                    {order.status === "READY" || order.status === "DELIVERED" ? (
+                      <FaCheckCircle className="inline mr-1" />
+                    ) : (
+                      <FaHourglassHalf className="inline mr-1" />
+                    )}
+                    {STATUS_LABELS[order.status]}
+                  </span>
+                </div>
+                <p className="text-xs text-zinc-500 mb-3">
+                  {new Date(order.createdAt).toLocaleString("pt-BR")}
+                </p>
+                <ul className="space-y-2 mb-4">
+                  {order.items.map((item) => (
+                    <li
+                      key={item.uuid}
+                      className="flex justify-between text-sm border-b border-zinc-100 pb-2 last:border-0"
+                    >
+                      <span>
+                        {item.productName} × {item.quantity}
+                      </span>
+                      <span className="text-zinc-600">
+                        R$ {(item.unitPrice * item.quantity).toFixed(2)}
+                      </span>
+                    </li>
+                  ))}
+                </ul>
+                <div className="flex flex-wrap gap-2 items-center justify-between pt-2 border-t border-zinc-100">
+                  <div className="flex flex-wrap gap-1">
+                    {(["PENDING", "PREPARING", "READY", "DELIVERED"] as OrderStatus[])
+                      .filter((s) => s !== order.status)
+                      .map((s) => (
+                        <button
+                          key={s}
+                          onClick={() => handleUpdateStatus(order, s)}
+                          className="text-xs bg-zinc-100 hover:bg-zinc-200 text-zinc-700 rounded px-2 py-1"
+                        >
+                          → {STATUS_LABELS[s]}
+                        </button>
+                      ))}
+                  </div>
+                  <button
+                    onClick={() => handleDelete(order)}
+                    className="text-red-600 hover:text-red-700 p-1"
+                    title="Excluir pedido"
+                  >
+                    <FaTrash />
+                  </button>
+                </div>
+              </div>
+            ))}
+          </div>
+        )}
+
+        {!loading && orders.length === 0 && (
+          <div className="bg-white rounded-lg border border-zinc-200 p-8 text-center text-zinc-500">
+            <FaClipboardList className="mx-auto text-4xl mb-2 opacity-50" />
+            <p>Nenhum pedido encontrado.</p>
+            {statusFilter && (
+              <button
+                onClick={() => setStatusFilter("")}
+                className="mt-2 text-zinc-700 underline"
+              >
+                Ver todos
+              </button>
+            )}
+          </div>
+        )}
+      </div>
+    </div>
+  );
 }
