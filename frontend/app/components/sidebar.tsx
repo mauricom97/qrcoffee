@@ -16,7 +16,7 @@ const Sidebar = () => {
     const [isOpen, setIsOpen] = useState(false);
     const { logout } = useAuth();
     const router = useRouter();
-
+    const { user } = useAuth() || { companyName: '' };
     const handleLogout = () => {
         logout();
         setIsOpen(false);
@@ -46,12 +46,8 @@ const Sidebar = () => {
                 className={`shadow-lg w-64 h-full z-30 bg-white text-black from-blue-500 to-blue-700 rounded-r-lg p-6 fixed top-0 left-0 flex flex-col items-center transform ${isOpen ? "translate-x-0" : "-translate-x-full"
                     } transition-transform duration-300 ease-in-out`}
             >
-                <img
-                    className="w-24 h-24 rounded-full border-4 border-white shadow-md mb-6"
-                    src="https://media.licdn.com/dms/image/v2/D4D03AQFIh2dcQ-8QPw/profile-displayphoto-crop_800_800/B4DZqKR5eRIgAQ-/0/1763256540932?e=1768435200&v=beta&t=lBC0r0UhBP9kVw5Ktbey1OxiMWl4NDpM9NtOwAIGgXU"
-                    alt="Profile"
-                />
-                <h1 className="">QRCOFFEE</h1>
+
+                <h1 className="uppercase text-2xl font-bold text-center mb-6">{user?.companyName || ''}</h1>
                 <ul className="space-y-4 w-full">
                     <Link href="/dashboard">
                         <li className="flex items-center space-x-3 hover:bg-stone-300 p-3 rounded-md cursor-pointer">
