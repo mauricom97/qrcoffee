@@ -52,7 +52,7 @@ const Navbar = () => {
         <nav className="fixed top-0 left-0 w-full bg-white border border-black text-black shadow-md z-50">
             <div className="container mx-auto px-4 sm:px-6 md:px-8 py-3 flex justify-between items-center">
                 <Link href="/" className="text-base sm:text-lg font-bold border border-black p-2 sm:p-3 hover:bg-black hover:text-white transition-colors">
-                    QRC
+                    <p className="uppercase font-bold">Super Atendimento</p>
                 </Link>
                 
                 <div className="hidden sm:flex items-center space-x-4">
