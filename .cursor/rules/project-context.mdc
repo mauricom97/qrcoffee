@@ -1,0 +1,15 @@
+---
+description: Contexto do projeto Super Atendimento
+alwaysApply: true
+---
+
+# Projeto: Super Atendimento
+
+O sistema **Super Atendimento** (qrcoffee) é uma solução de atendimento para estabelecimentos que inclui:
+
+- **Comandas digitais** — gestão de comandas por mesa/dispositivo
+- **Status de pedido** — acompanhamento do ciclo de vida dos pedidos
+- **Painel do atendente** — interface para equipe gerenciar pedidos e atendimento
+- **Pedidos via QR code ou garçom humano** — canais flexíveis de entrada de pedidos
+
+Ao trabalhar neste projeto, considere esse contexto para manter consistência nas funcionalidades, nomenclatura e fluxos de usuário.
