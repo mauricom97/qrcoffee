@@ -1,5 +1,5 @@
 export class CreateProductDto {
-  uuid: string;
+  uuid?: string;
   name: string;
   price: number;
   active: boolean;
