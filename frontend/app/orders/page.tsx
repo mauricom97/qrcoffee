@@ -8,6 +8,7 @@ import {
   FaPlus,
   FaTrash,
   FaClipboardList,
+  FaFileInvoice,
 } from "react-icons/fa";
 import { OrderDto, OrderStatus } from "./interfaces/order.interface";
 import { Mesa } from "../tables/interfaces/table.interface";
@@ -50,6 +51,8 @@ export default function OrdersPage() {
   const [newItems, setNewItems] = useState<NewOrderItem[]>([]);
   const [selectedProductUuid, setSelectedProductUuid] = useState("");
   const [itemQuantity, setItemQuantity] = useState(1);
+  const [emittingOrderUuid, setEmittingOrderUuid] = useState<string | null>(null);
+  const [invoiceByOrder, setInvoiceByOrder] = useState<Record<string, { status: string; nfceKey?: string; pdfUrl?: string }>>({});
 
   const loadOrders = useCallback(async () => {
     try {
@@ -59,7 +62,20 @@ export default function OrdersPage() {
       const res = await fetch(url, { headers: getAuthHeaders() });
       if (!res.ok) throw new Error("Erro ao carregar pedidos.");
       const data: OrderDto[] = await res.json();
-      setOrders(Array.isArray(data) ? data : []);
+      const list = Array.isArray(data) ? data : [];
+      setOrders(list);
+      const deliveredOrReady = list.filter((o) => o.status === "READY" || o.status === "DELIVERED");
+      for (const o of deliveredOrReady) {
+        try {
+          const invRes = await fetch(`${API_URL}/invoices/order/${o.uuid}`, { headers: getAuthHeaders() });
+          if (invRes.ok) {
+            const inv = await invRes.json();
+            if (inv) setInvoiceByOrder((prev) => ({ ...prev, [o.uuid]: inv }));
+          }
+        } catch {
+          /* ignora */
+        }
+      }
     } catch (e) {
       console.error(e);
       setError("Não foi possível carregar os pedidos.");
@@ -94,6 +110,7 @@ export default function OrdersPage() {
       setLoading(false)
     );
   }, [loadOrders, loadTables, loadProducts]);
+
 
   const resetForm = () => {
     setTableUuid("");
@@ -170,6 +187,44 @@ export default function OrdersPage() {
       await loadOrders();
     } catch (e) {
       console.error(e);
+    }
+  };
+
+  const fetchInvoiceForOrder = async (orderUuid: string) => {
+    try {
+      const res = await fetch(`${API_URL}/invoices/order/${orderUuid}`, { headers: getAuthHeaders() });
+      if (res.ok) {
+        const data = await res.json();
+        if (data) {
+          setInvoiceByOrder((prev) => ({ ...prev, [orderUuid]: data }));
+        }
+      }
+    } catch (e) {
+      console.error(e);
+    }
+  };
+
+  const handleEmitInvoice = async (order: OrderDto) => {
+    setEmittingOrderUuid(order.uuid);
+    try {
+      const res = await fetch(`${API_URL}/invoices/order/${order.uuid}/emit`, {
+        method: "POST",
+        headers: getAuthHeaders(),
+      });
+      if (!res.ok) {
+        const err = await res.json().catch(() => ({}));
+        const msg = err?.message || "Erro ao emitir NFC-e";
+        if (msg.includes("já possui") || msg.includes("já tem")) {
+          await fetchInvoiceForOrder(order.uuid);
+        }
+        throw new Error(msg);
+      }
+      const data = await res.json();
+      setInvoiceByOrder((prev) => ({ ...prev, [order.uuid]: data }));
+    } catch (e) {
+      alert(e instanceof Error ? e.message : "Erro ao emitir NFC-e. Configure os dados fiscais em Dados Fiscais.");
+    } finally {
+      setEmittingOrderUuid(null);
     }
   };
 
@@ -427,13 +482,44 @@ export default function OrdersPage() {
                         </button>
                       ))}
                   </div>
-                  <button
-                    onClick={() => handleDelete(order)}
-                    className="text-red-600 hover:text-red-700 p-1"
-                    title="Excluir pedido"
-                  >
-                    <FaTrash />
-                  </button>
+                  <div className="flex items-center gap-1">
+                    {(order.status === "READY" || order.status === "DELIVERED") && (
+                      invoiceByOrder[order.uuid]?.status === "AUTHORIZED" ? (
+                        invoiceByOrder[order.uuid]?.pdfUrl ? (
+                          <a
+                            href={invoiceByOrder[order.uuid].pdfUrl}
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            className="text-xs bg-emerald-100 hover:bg-emerald-200 text-emerald-800 rounded px-2 py-1 flex items-center gap-1"
+                            title="Ver NFC-e (PDF)"
+                          >
+                            <FaFileInvoice /> NFC-e emitida
+                          </a>
+                        ) : (
+                          <span className="text-xs bg-emerald-100 text-emerald-800 rounded px-2 py-1 flex items-center gap-1">
+                            <FaFileInvoice /> NFC-e emitida
+                          </span>
+                        )
+                      ) : (
+                        <button
+                          onClick={() => handleEmitInvoice(order)}
+                          disabled={emittingOrderUuid === order.uuid}
+                          className="text-xs bg-emerald-100 hover:bg-emerald-200 text-emerald-800 rounded px-2 py-1 flex items-center gap-1 disabled:opacity-50"
+                          title="Emitir NFC-e"
+                        >
+                          <FaFileInvoice />
+                          {emittingOrderUuid === order.uuid ? "Emitindo…" : "Emitir NFC-e"}
+                        </button>
+                      )
+                    )}
+                    <button
+                      onClick={() => handleDelete(order)}
+                      className="text-red-600 hover:text-red-700 p-1"
+                      title="Excluir pedido"
+                    >
+                      <FaTrash />
+                    </button>
+                  </div>
                 </div>
               </div>
             ))}

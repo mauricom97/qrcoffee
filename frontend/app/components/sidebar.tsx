@@ -10,6 +10,7 @@ import { MdOutlineTableBar } from "react-icons/md";
 import { FaMoneyBillWave } from "react-icons/fa";
 import { GrCafeteria } from "react-icons/gr";
 import { FaBox } from "react-icons/fa";
+import { HiDocumentText } from "react-icons/hi";
 import { useAuth } from "../contexts/AuthContext";
 
 const Sidebar = () => {
@@ -92,6 +93,13 @@ const Sidebar = () => {
                     <li className="flex items-center space-x-3 hover:bg-stone-300 p-3 rounded-md cursor-pointer">
                         <FaBox  className="text-xl" />
                         <span className="text-lg font-medium">Estoque</span>                    </li>
+                    </Link>
+
+                    <Link href="/settings/fiscal">
+                    <li className="flex items-center space-x-3 hover:bg-stone-300 p-3 rounded-md cursor-pointer">
+                        <HiDocumentText className="text-xl" />
+                        <span className="text-lg font-medium">Dados Fiscais</span>
+                    </li>
                     </Link>
 
                     <li className="mt-4 pt-4 border-t border-stone-300">

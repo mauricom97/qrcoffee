@@ -16,6 +16,32 @@ model Company {
   tables    Table[]
   categories Category[]
   products  Product[]
+  fiscalConfig CompanyFiscalConfig?
+  invoices  Invoice[]
+}
+
+model CompanyFiscalConfig {
+  uuid            String   @id @default(uuid())
+  companyUuid     String   @unique
+  company         Company  @relation(fields: [companyUuid], references: [uuid], onDelete: Cascade)
+  cnpj            String
+  razaoSocial     String
+  nomeFantasia    String?
+  logradouro      String
+  numero          String
+  complemento     String?
+  bairro          String
+  cidade          String
+  uf              String
+  cep             String
+  inscricaoEstadual String?
+  regimeTributario String  @default("1") // 1=Simples, 2=Simples Excesso, 3=Normal
+  provider        String   @default("mock") // mock, nuvemfiscal, nfeio
+  providerApiKey  String?  // chave da API do provedor (criptografada em prod)
+  ncmPadrao       String   @default("2203.00.00") // NCM para alimentos/bebidas
+  cfopPadrao      String   @default("5102") // CFOP venda mercadoria
+  createdAt       DateTime @default(now())
+  updatedAt       DateTime @updatedAt
 }
 
 model User {
@@ -78,8 +104,29 @@ model Order {
   status    String      @default("PENDING") // PENDING | PREPARING | READY | DELIVERED
   createdAt DateTime    @default(now())
   items     OrderItem[]
+  invoices  Invoice[]
 
   @@index([tableUuid])
+  @@index([status])
+}
+
+model Invoice {
+  uuid        String   @id @default(uuid())
+  orderUuid   String
+  order       Order    @relation(fields: [orderUuid], references: [uuid], onDelete: Cascade)
+  companyUuid String
+  company     Company  @relation(fields: [companyUuid], references: [uuid], onDelete: Cascade)
+  status      String   @default("PENDING") // PENDING | PROCESSING | AUTHORIZED | ERROR | CANCELLED
+  nfceKey     String?  // chave de acesso da NFC-e (44 dígitos)
+  providerId  String?  // ID retornado pelo provedor fiscal
+  errorMessage String? // mensagem de erro se status=ERROR
+  emittedAt   DateTime?
+  xmlUrl      String?
+  pdfUrl      String?
+  createdAt   DateTime @default(now())
+
+  @@index([orderUuid])
+  @@index([companyUuid])
   @@index([status])
 }
 

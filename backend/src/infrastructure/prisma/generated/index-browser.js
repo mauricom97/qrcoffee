@@ -126,6 +126,29 @@ exports.Prisma.CompanyScalarFieldEnum = {
   createdAt: 'createdAt'
 };
 
+exports.Prisma.CompanyFiscalConfigScalarFieldEnum = {
+  uuid: 'uuid',
+  companyUuid: 'companyUuid',
+  cnpj: 'cnpj',
+  razaoSocial: 'razaoSocial',
+  nomeFantasia: 'nomeFantasia',
+  logradouro: 'logradouro',
+  numero: 'numero',
+  complemento: 'complemento',
+  bairro: 'bairro',
+  cidade: 'cidade',
+  uf: 'uf',
+  cep: 'cep',
+  inscricaoEstadual: 'inscricaoEstadual',
+  regimeTributario: 'regimeTributario',
+  provider: 'provider',
+  providerApiKey: 'providerApiKey',
+  ncmPadrao: 'ncmPadrao',
+  cfopPadrao: 'cfopPadrao',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+};
+
 exports.Prisma.UserScalarFieldEnum = {
   uuid: 'uuid',
   email: 'email',
@@ -166,6 +189,20 @@ exports.Prisma.OrderScalarFieldEnum = {
   createdAt: 'createdAt'
 };
 
+exports.Prisma.InvoiceScalarFieldEnum = {
+  uuid: 'uuid',
+  orderUuid: 'orderUuid',
+  companyUuid: 'companyUuid',
+  status: 'status',
+  nfceKey: 'nfceKey',
+  providerId: 'providerId',
+  errorMessage: 'errorMessage',
+  emittedAt: 'emittedAt',
+  xmlUrl: 'xmlUrl',
+  pdfUrl: 'pdfUrl',
+  createdAt: 'createdAt'
+};
+
 exports.Prisma.OrderItemScalarFieldEnum = {
   uuid: 'uuid',
   orderUuid: 'orderUuid',
@@ -184,14 +221,21 @@ exports.Prisma.QueryMode = {
   insensitive: 'insensitive'
 };
 
+exports.Prisma.NullsOrder = {
+  first: 'first',
+  last: 'last'
+};
+
 
 exports.Prisma.ModelName = {
   Company: 'Company',
+  CompanyFiscalConfig: 'CompanyFiscalConfig',
   User: 'User',
   Product: 'Product',
   Category: 'Category',
   Table: 'Table',
   Order: 'Order',
+  Invoice: 'Invoice',
   OrderItem: 'OrderItem'
 };
 

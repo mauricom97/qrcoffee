@@ -19,6 +19,11 @@ export type PrismaPromise<T> = $Public.PrismaPromise<T>
  */
 export type Company = $Result.DefaultSelection<Prisma.$CompanyPayload>
 /**
+ * Model CompanyFiscalConfig
+ * 
+ */
+export type CompanyFiscalConfig = $Result.DefaultSelection<Prisma.$CompanyFiscalConfigPayload>
+/**
  * Model User
  * 
  */
@@ -43,6 +48,11 @@ export type Table = $Result.DefaultSelection<Prisma.$TablePayload>
  * 
  */
 export type Order = $Result.DefaultSelection<Prisma.$OrderPayload>
+/**
+ * Model Invoice
+ * 
+ */
+export type Invoice = $Result.DefaultSelection<Prisma.$InvoicePayload>
 /**
  * Model OrderItem
  * 
@@ -177,6 +187,16 @@ export class PrismaClient<
   get company(): Prisma.CompanyDelegate<ExtArgs, ClientOptions>;
 
   /**
+   * `prisma.companyFiscalConfig`: Exposes CRUD operations for the **CompanyFiscalConfig** model.
+    * Example usage:
+    * ```ts
+    * // Fetch zero or more CompanyFiscalConfigs
+    * const companyFiscalConfigs = await prisma.companyFiscalConfig.findMany()
+    * ```
+    */
+  get companyFiscalConfig(): Prisma.CompanyFiscalConfigDelegate<ExtArgs, ClientOptions>;
+
+  /**
    * `prisma.user`: Exposes CRUD operations for the **User** model.
     * Example usage:
     * ```ts
@@ -225,6 +245,16 @@ export class PrismaClient<
     * ```
     */
   get order(): Prisma.OrderDelegate<ExtArgs, ClientOptions>;
+
+  /**
+   * `prisma.invoice`: Exposes CRUD operations for the **Invoice** model.
+    * Example usage:
+    * ```ts
+    * // Fetch zero or more Invoices
+    * const invoices = await prisma.invoice.findMany()
+    * ```
+    */
+  get invoice(): Prisma.InvoiceDelegate<ExtArgs, ClientOptions>;
 
   /**
    * `prisma.orderItem`: Exposes CRUD operations for the **OrderItem** model.
@@ -670,11 +700,13 @@ export namespace Prisma {
 
   export const ModelName: {
     Company: 'Company',
+    CompanyFiscalConfig: 'CompanyFiscalConfig',
     User: 'User',
     Product: 'Product',
     Category: 'Category',
     Table: 'Table',
     Order: 'Order',
+    Invoice: 'Invoice',
     OrderItem: 'OrderItem'
   };
 
@@ -691,7 +723,7 @@ export namespace Prisma {
       omit: GlobalOmitOptions
     }
     meta: {
-      modelProps: "company" | "user" | "product" | "category" | "table" | "order" | "orderItem"
+      modelProps: "company" | "companyFiscalConfig" | "user" | "product" | "category" | "table" | "order" | "invoice" | "orderItem"
       txIsolationLevel: Prisma.TransactionIsolationLevel
     }
     model: {
@@ -766,6 +798,80 @@ export namespace Prisma {
           count: {
             args: Prisma.CompanyCountArgs<ExtArgs>
             result: $Utils.Optional<CompanyCountAggregateOutputType> | number
+          }
+        }
+      }
+      CompanyFiscalConfig: {
+        payload: Prisma.$CompanyFiscalConfigPayload<ExtArgs>
+        fields: Prisma.CompanyFiscalConfigFieldRefs
+        operations: {
+          findUnique: {
+            args: Prisma.CompanyFiscalConfigFindUniqueArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$CompanyFiscalConfigPayload> | null
+          }
+          findUniqueOrThrow: {
+            args: Prisma.CompanyFiscalConfigFindUniqueOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$CompanyFiscalConfigPayload>
+          }
+          findFirst: {
+            args: Prisma.CompanyFiscalConfigFindFirstArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$CompanyFiscalConfigPayload> | null
+          }
+          findFirstOrThrow: {
+            args: Prisma.CompanyFiscalConfigFindFirstOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$CompanyFiscalConfigPayload>
+          }
+          findMany: {
+            args: Prisma.CompanyFiscalConfigFindManyArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$CompanyFiscalConfigPayload>[]
+          }
+          create: {
+            args: Prisma.CompanyFiscalConfigCreateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$CompanyFiscalConfigPayload>
+          }
+          createMany: {
+            args: Prisma.CompanyFiscalConfigCreateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          createManyAndReturn: {
+            args: Prisma.CompanyFiscalConfigCreateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$CompanyFiscalConfigPayload>[]
+          }
+          delete: {
+            args: Prisma.CompanyFiscalConfigDeleteArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$CompanyFiscalConfigPayload>
+          }
+          update: {
+            args: Prisma.CompanyFiscalConfigUpdateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$CompanyFiscalConfigPayload>
+          }
+          deleteMany: {
+            args: Prisma.CompanyFiscalConfigDeleteManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateMany: {
+            args: Prisma.CompanyFiscalConfigUpdateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateManyAndReturn: {
+            args: Prisma.CompanyFiscalConfigUpdateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$CompanyFiscalConfigPayload>[]
+          }
+          upsert: {
+            args: Prisma.CompanyFiscalConfigUpsertArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$CompanyFiscalConfigPayload>
+          }
+          aggregate: {
+            args: Prisma.CompanyFiscalConfigAggregateArgs<ExtArgs>
+            result: $Utils.Optional<AggregateCompanyFiscalConfig>
+          }
+          groupBy: {
+            args: Prisma.CompanyFiscalConfigGroupByArgs<ExtArgs>
+            result: $Utils.Optional<CompanyFiscalConfigGroupByOutputType>[]
+          }
+          count: {
+            args: Prisma.CompanyFiscalConfigCountArgs<ExtArgs>
+            result: $Utils.Optional<CompanyFiscalConfigCountAggregateOutputType> | number
           }
         }
       }
@@ -1139,6 +1245,80 @@ export namespace Prisma {
           }
         }
       }
+      Invoice: {
+        payload: Prisma.$InvoicePayload<ExtArgs>
+        fields: Prisma.InvoiceFieldRefs
+        operations: {
+          findUnique: {
+            args: Prisma.InvoiceFindUniqueArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$InvoicePayload> | null
+          }
+          findUniqueOrThrow: {
+            args: Prisma.InvoiceFindUniqueOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$InvoicePayload>
+          }
+          findFirst: {
+            args: Prisma.InvoiceFindFirstArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$InvoicePayload> | null
+          }
+          findFirstOrThrow: {
+            args: Prisma.InvoiceFindFirstOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$InvoicePayload>
+          }
+          findMany: {
+            args: Prisma.InvoiceFindManyArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$InvoicePayload>[]
+          }
+          create: {
+            args: Prisma.InvoiceCreateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$InvoicePayload>
+          }
+          createMany: {
+            args: Prisma.InvoiceCreateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          createManyAndReturn: {
+            args: Prisma.InvoiceCreateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$InvoicePayload>[]
+          }
+          delete: {
+            args: Prisma.InvoiceDeleteArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$InvoicePayload>
+          }
+          update: {
+            args: Prisma.InvoiceUpdateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$InvoicePayload>
+          }
+          deleteMany: {
+            args: Prisma.InvoiceDeleteManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateMany: {
+            args: Prisma.InvoiceUpdateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateManyAndReturn: {
+            args: Prisma.InvoiceUpdateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$InvoicePayload>[]
+          }
+          upsert: {
+            args: Prisma.InvoiceUpsertArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$InvoicePayload>
+          }
+          aggregate: {
+            args: Prisma.InvoiceAggregateArgs<ExtArgs>
+            result: $Utils.Optional<AggregateInvoice>
+          }
+          groupBy: {
+            args: Prisma.InvoiceGroupByArgs<ExtArgs>
+            result: $Utils.Optional<InvoiceGroupByOutputType>[]
+          }
+          count: {
+            args: Prisma.InvoiceCountArgs<ExtArgs>
+            result: $Utils.Optional<InvoiceCountAggregateOutputType> | number
+          }
+        }
+      }
       OrderItem: {
         payload: Prisma.$OrderItemPayload<ExtArgs>
         fields: Prisma.OrderItemFieldRefs
@@ -1322,11 +1502,13 @@ export namespace Prisma {
   }
   export type GlobalOmitConfig = {
     company?: CompanyOmit
+    companyFiscalConfig?: CompanyFiscalConfigOmit
     user?: UserOmit
     product?: ProductOmit
     category?: CategoryOmit
     table?: TableOmit
     order?: OrderOmit
+    invoice?: InvoiceOmit
     orderItem?: OrderItemOmit
   }
 
@@ -1412,6 +1594,7 @@ export namespace Prisma {
     tables: number
     categories: number
     products: number
+    invoices: number
   }
 
   export type CompanyCountOutputTypeSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
@@ -1419,6 +1602,7 @@ export namespace Prisma {
     tables?: boolean | CompanyCountOutputTypeCountTablesArgs
     categories?: boolean | CompanyCountOutputTypeCountCategoriesArgs
     products?: boolean | CompanyCountOutputTypeCountProductsArgs
+    invoices?: boolean | CompanyCountOutputTypeCountInvoicesArgs
   }
 
   // Custom InputTypes
@@ -1458,6 +1642,13 @@ export namespace Prisma {
    */
   export type CompanyCountOutputTypeCountProductsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     where?: ProductWhereInput
+  }
+
+  /**
+   * CompanyCountOutputType without action
+   */
+  export type CompanyCountOutputTypeCountInvoicesArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: InvoiceWhereInput
   }
 
 
@@ -1560,10 +1751,12 @@ export namespace Prisma {
 
   export type OrderCountOutputType = {
     items: number
+    invoices: number
   }
 
   export type OrderCountOutputTypeSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     items?: boolean | OrderCountOutputTypeCountItemsArgs
+    invoices?: boolean | OrderCountOutputTypeCountInvoicesArgs
   }
 
   // Custom InputTypes
@@ -1582,6 +1775,13 @@ export namespace Prisma {
    */
   export type OrderCountOutputTypeCountItemsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     where?: OrderItemWhereInput
+  }
+
+  /**
+   * OrderCountOutputType without action
+   */
+  export type OrderCountOutputTypeCountInvoicesArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: InvoiceWhereInput
   }
 
 
@@ -1741,6 +1941,8 @@ export namespace Prisma {
     tables?: boolean | Company$tablesArgs<ExtArgs>
     categories?: boolean | Company$categoriesArgs<ExtArgs>
     products?: boolean | Company$productsArgs<ExtArgs>
+    fiscalConfig?: boolean | Company$fiscalConfigArgs<ExtArgs>
+    invoices?: boolean | Company$invoicesArgs<ExtArgs>
     _count?: boolean | CompanyCountOutputTypeDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["company"]>
 
@@ -1768,6 +1970,8 @@ export namespace Prisma {
     tables?: boolean | Company$tablesArgs<ExtArgs>
     categories?: boolean | Company$categoriesArgs<ExtArgs>
     products?: boolean | Company$productsArgs<ExtArgs>
+    fiscalConfig?: boolean | Company$fiscalConfigArgs<ExtArgs>
+    invoices?: boolean | Company$invoicesArgs<ExtArgs>
     _count?: boolean | CompanyCountOutputTypeDefaultArgs<ExtArgs>
   }
   export type CompanyIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {}
@@ -1780,6 +1984,8 @@ export namespace Prisma {
       tables: Prisma.$TablePayload<ExtArgs>[]
       categories: Prisma.$CategoryPayload<ExtArgs>[]
       products: Prisma.$ProductPayload<ExtArgs>[]
+      fiscalConfig: Prisma.$CompanyFiscalConfigPayload<ExtArgs> | null
+      invoices: Prisma.$InvoicePayload<ExtArgs>[]
     }
     scalars: $Extensions.GetPayloadResult<{
       uuid: string
@@ -2183,6 +2389,8 @@ export namespace Prisma {
     tables<T extends Company$tablesArgs<ExtArgs> = {}>(args?: Subset<T, Company$tablesArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$TablePayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     categories<T extends Company$categoriesArgs<ExtArgs> = {}>(args?: Subset<T, Company$categoriesArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$CategoryPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     products<T extends Company$productsArgs<ExtArgs> = {}>(args?: Subset<T, Company$productsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$ProductPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+    fiscalConfig<T extends Company$fiscalConfigArgs<ExtArgs> = {}>(args?: Subset<T, Company$fiscalConfigArgs<ExtArgs>>): Prisma__CompanyFiscalConfigClient<$Result.GetResult<Prisma.$CompanyFiscalConfigPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+    invoices<T extends Company$invoicesArgs<ExtArgs> = {}>(args?: Subset<T, Company$invoicesArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$InvoicePayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     /**
      * Attaches callbacks for the resolution and/or rejection of the Promise.
      * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -2699,6 +2907,49 @@ export namespace Prisma {
   }
 
   /**
+   * Company.fiscalConfig
+   */
+  export type Company$fiscalConfigArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the CompanyFiscalConfig
+     */
+    select?: CompanyFiscalConfigSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the CompanyFiscalConfig
+     */
+    omit?: CompanyFiscalConfigOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: CompanyFiscalConfigInclude<ExtArgs> | null
+    where?: CompanyFiscalConfigWhereInput
+  }
+
+  /**
+   * Company.invoices
+   */
+  export type Company$invoicesArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Invoice
+     */
+    select?: InvoiceSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Invoice
+     */
+    omit?: InvoiceOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: InvoiceInclude<ExtArgs> | null
+    where?: InvoiceWhereInput
+    orderBy?: InvoiceOrderByWithRelationInput | InvoiceOrderByWithRelationInput[]
+    cursor?: InvoiceWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: InvoiceScalarFieldEnum | InvoiceScalarFieldEnum[]
+  }
+
+  /**
    * Company without action
    */
   export type CompanyDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
@@ -2714,6 +2965,1259 @@ export namespace Prisma {
      * Choose, which related nodes to fetch as well
      */
     include?: CompanyInclude<ExtArgs> | null
+  }
+
+
+  /**
+   * Model CompanyFiscalConfig
+   */
+
+  export type AggregateCompanyFiscalConfig = {
+    _count: CompanyFiscalConfigCountAggregateOutputType | null
+    _min: CompanyFiscalConfigMinAggregateOutputType | null
+    _max: CompanyFiscalConfigMaxAggregateOutputType | null
+  }
+
+  export type CompanyFiscalConfigMinAggregateOutputType = {
+    uuid: string | null
+    companyUuid: string | null
+    cnpj: string | null
+    razaoSocial: string | null
+    nomeFantasia: string | null
+    logradouro: string | null
+    numero: string | null
+    complemento: string | null
+    bairro: string | null
+    cidade: string | null
+    uf: string | null
+    cep: string | null
+    inscricaoEstadual: string | null
+    regimeTributario: string | null
+    provider: string | null
+    providerApiKey: string | null
+    ncmPadrao: string | null
+    cfopPadrao: string | null
+    createdAt: Date | null
+    updatedAt: Date | null
+  }
+
+  export type CompanyFiscalConfigMaxAggregateOutputType = {
+    uuid: string | null
+    companyUuid: string | null
+    cnpj: string | null
+    razaoSocial: string | null
+    nomeFantasia: string | null
+    logradouro: string | null
+    numero: string | null
+    complemento: string | null
+    bairro: string | null
+    cidade: string | null
+    uf: string | null
+    cep: string | null
+    inscricaoEstadual: string | null
+    regimeTributario: string | null
+    provider: string | null
+    providerApiKey: string | null
+    ncmPadrao: string | null
+    cfopPadrao: string | null
+    createdAt: Date | null
+    updatedAt: Date | null
+  }
+
+  export type CompanyFiscalConfigCountAggregateOutputType = {
+    uuid: number
+    companyUuid: number
+    cnpj: number
+    razaoSocial: number
+    nomeFantasia: number
+    logradouro: number
+    numero: number
+    complemento: number
+    bairro: number
+    cidade: number
+    uf: number
+    cep: number
+    inscricaoEstadual: number
+    regimeTributario: number
+    provider: number
+    providerApiKey: number
+    ncmPadrao: number
+    cfopPadrao: number
+    createdAt: number
+    updatedAt: number
+    _all: number
+  }
+
+
+  export type CompanyFiscalConfigMinAggregateInputType = {
+    uuid?: true
+    companyUuid?: true
+    cnpj?: true
+    razaoSocial?: true
+    nomeFantasia?: true
+    logradouro?: true
+    numero?: true
+    complemento?: true
+    bairro?: true
+    cidade?: true
+    uf?: true
+    cep?: true
+    inscricaoEstadual?: true
+    regimeTributario?: true
+    provider?: true
+    providerApiKey?: true
+    ncmPadrao?: true
+    cfopPadrao?: true
+    createdAt?: true
+    updatedAt?: true
+  }
+
+  export type CompanyFiscalConfigMaxAggregateInputType = {
+    uuid?: true
+    companyUuid?: true
+    cnpj?: true
+    razaoSocial?: true
+    nomeFantasia?: true
+    logradouro?: true
+    numero?: true
+    complemento?: true
+    bairro?: true
+    cidade?: true
+    uf?: true
+    cep?: true
+    inscricaoEstadual?: true
+    regimeTributario?: true
+    provider?: true
+    providerApiKey?: true
+    ncmPadrao?: true
+    cfopPadrao?: true
+    createdAt?: true
+    updatedAt?: true
+  }
+
+  export type CompanyFiscalConfigCountAggregateInputType = {
+    uuid?: true
+    companyUuid?: true
+    cnpj?: true
+    razaoSocial?: true
+    nomeFantasia?: true
+    logradouro?: true
+    numero?: true
+    complemento?: true
+    bairro?: true
+    cidade?: true
+    uf?: true
+    cep?: true
+    inscricaoEstadual?: true
+    regimeTributario?: true
+    provider?: true
+    providerApiKey?: true
+    ncmPadrao?: true
+    cfopPadrao?: true
+    createdAt?: true
+    updatedAt?: true
+    _all?: true
+  }
+
+  export type CompanyFiscalConfigAggregateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which CompanyFiscalConfig to aggregate.
+     */
+    where?: CompanyFiscalConfigWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of CompanyFiscalConfigs to fetch.
+     */
+    orderBy?: CompanyFiscalConfigOrderByWithRelationInput | CompanyFiscalConfigOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the start position
+     */
+    cursor?: CompanyFiscalConfigWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` CompanyFiscalConfigs from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` CompanyFiscalConfigs.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Count returned CompanyFiscalConfigs
+    **/
+    _count?: true | CompanyFiscalConfigCountAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the minimum value
+    **/
+    _min?: CompanyFiscalConfigMinAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the maximum value
+    **/
+    _max?: CompanyFiscalConfigMaxAggregateInputType
+  }
+
+  export type GetCompanyFiscalConfigAggregateType<T extends CompanyFiscalConfigAggregateArgs> = {
+        [P in keyof T & keyof AggregateCompanyFiscalConfig]: P extends '_count' | 'count'
+      ? T[P] extends true
+        ? number
+        : GetScalarType<T[P], AggregateCompanyFiscalConfig[P]>
+      : GetScalarType<T[P], AggregateCompanyFiscalConfig[P]>
+  }
+
+
+
+
+  export type CompanyFiscalConfigGroupByArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: CompanyFiscalConfigWhereInput
+    orderBy?: CompanyFiscalConfigOrderByWithAggregationInput | CompanyFiscalConfigOrderByWithAggregationInput[]
+    by: CompanyFiscalConfigScalarFieldEnum[] | CompanyFiscalConfigScalarFieldEnum
+    having?: CompanyFiscalConfigScalarWhereWithAggregatesInput
+    take?: number
+    skip?: number
+    _count?: CompanyFiscalConfigCountAggregateInputType | true
+    _min?: CompanyFiscalConfigMinAggregateInputType
+    _max?: CompanyFiscalConfigMaxAggregateInputType
+  }
+
+  export type CompanyFiscalConfigGroupByOutputType = {
+    uuid: string
+    companyUuid: string
+    cnpj: string
+    razaoSocial: string
+    nomeFantasia: string | null
+    logradouro: string
+    numero: string
+    complemento: string | null
+    bairro: string
+    cidade: string
+    uf: string
+    cep: string
+    inscricaoEstadual: string | null
+    regimeTributario: string
+    provider: string
+    providerApiKey: string | null
+    ncmPadrao: string
+    cfopPadrao: string
+    createdAt: Date
+    updatedAt: Date
+    _count: CompanyFiscalConfigCountAggregateOutputType | null
+    _min: CompanyFiscalConfigMinAggregateOutputType | null
+    _max: CompanyFiscalConfigMaxAggregateOutputType | null
+  }
+
+  type GetCompanyFiscalConfigGroupByPayload<T extends CompanyFiscalConfigGroupByArgs> = Prisma.PrismaPromise<
+    Array<
+      PickEnumerable<CompanyFiscalConfigGroupByOutputType, T['by']> &
+        {
+          [P in ((keyof T) & (keyof CompanyFiscalConfigGroupByOutputType))]: P extends '_count'
+            ? T[P] extends boolean
+              ? number
+              : GetScalarType<T[P], CompanyFiscalConfigGroupByOutputType[P]>
+            : GetScalarType<T[P], CompanyFiscalConfigGroupByOutputType[P]>
+        }
+      >
+    >
+
+
+  export type CompanyFiscalConfigSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    uuid?: boolean
+    companyUuid?: boolean
+    cnpj?: boolean
+    razaoSocial?: boolean
+    nomeFantasia?: boolean
+    logradouro?: boolean
+    numero?: boolean
+    complemento?: boolean
+    bairro?: boolean
+    cidade?: boolean
+    uf?: boolean
+    cep?: boolean
+    inscricaoEstadual?: boolean
+    regimeTributario?: boolean
+    provider?: boolean
+    providerApiKey?: boolean
+    ncmPadrao?: boolean
+    cfopPadrao?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+    company?: boolean | CompanyDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["companyFiscalConfig"]>
+
+  export type CompanyFiscalConfigSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    uuid?: boolean
+    companyUuid?: boolean
+    cnpj?: boolean
+    razaoSocial?: boolean
+    nomeFantasia?: boolean
+    logradouro?: boolean
+    numero?: boolean
+    complemento?: boolean
+    bairro?: boolean
+    cidade?: boolean
+    uf?: boolean
+    cep?: boolean
+    inscricaoEstadual?: boolean
+    regimeTributario?: boolean
+    provider?: boolean
+    providerApiKey?: boolean
+    ncmPadrao?: boolean
+    cfopPadrao?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+    company?: boolean | CompanyDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["companyFiscalConfig"]>
+
+  export type CompanyFiscalConfigSelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    uuid?: boolean
+    companyUuid?: boolean
+    cnpj?: boolean
+    razaoSocial?: boolean
+    nomeFantasia?: boolean
+    logradouro?: boolean
+    numero?: boolean
+    complemento?: boolean
+    bairro?: boolean
+    cidade?: boolean
+    uf?: boolean
+    cep?: boolean
+    inscricaoEstadual?: boolean
+    regimeTributario?: boolean
+    provider?: boolean
+    providerApiKey?: boolean
+    ncmPadrao?: boolean
+    cfopPadrao?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+    company?: boolean | CompanyDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["companyFiscalConfig"]>
+
+  export type CompanyFiscalConfigSelectScalar = {
+    uuid?: boolean
+    companyUuid?: boolean
+    cnpj?: boolean
+    razaoSocial?: boolean
+    nomeFantasia?: boolean
+    logradouro?: boolean
+    numero?: boolean
+    complemento?: boolean
+    bairro?: boolean
+    cidade?: boolean
+    uf?: boolean
+    cep?: boolean
+    inscricaoEstadual?: boolean
+    regimeTributario?: boolean
+    provider?: boolean
+    providerApiKey?: boolean
+    ncmPadrao?: boolean
+    cfopPadrao?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+  }
+
+  export type CompanyFiscalConfigOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"uuid" | "companyUuid" | "cnpj" | "razaoSocial" | "nomeFantasia" | "logradouro" | "numero" | "complemento" | "bairro" | "cidade" | "uf" | "cep" | "inscricaoEstadual" | "regimeTributario" | "provider" | "providerApiKey" | "ncmPadrao" | "cfopPadrao" | "createdAt" | "updatedAt", ExtArgs["result"]["companyFiscalConfig"]>
+  export type CompanyFiscalConfigInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    company?: boolean | CompanyDefaultArgs<ExtArgs>
+  }
+  export type CompanyFiscalConfigIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    company?: boolean | CompanyDefaultArgs<ExtArgs>
+  }
+  export type CompanyFiscalConfigIncludeUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    company?: boolean | CompanyDefaultArgs<ExtArgs>
+  }
+
+  export type $CompanyFiscalConfigPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    name: "CompanyFiscalConfig"
+    objects: {
+      company: Prisma.$CompanyPayload<ExtArgs>
+    }
+    scalars: $Extensions.GetPayloadResult<{
+      uuid: string
+      companyUuid: string
+      cnpj: string
+      razaoSocial: string
+      nomeFantasia: string | null
+      logradouro: string
+      numero: string
+      complemento: string | null
+      bairro: string
+      cidade: string
+      uf: string
+      cep: string
+      inscricaoEstadual: string | null
+      regimeTributario: string
+      provider: string
+      providerApiKey: string | null
+      ncmPadrao: string
+      cfopPadrao: string
+      createdAt: Date
+      updatedAt: Date
+    }, ExtArgs["result"]["companyFiscalConfig"]>
+    composites: {}
+  }
+
+  type CompanyFiscalConfigGetPayload<S extends boolean | null | undefined | CompanyFiscalConfigDefaultArgs> = $Result.GetResult<Prisma.$CompanyFiscalConfigPayload, S>
+
+  type CompanyFiscalConfigCountArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> =
+    Omit<CompanyFiscalConfigFindManyArgs, 'select' | 'include' | 'distinct' | 'omit'> & {
+      select?: CompanyFiscalConfigCountAggregateInputType | true
+    }
+
+  export interface CompanyFiscalConfigDelegate<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> {
+    [K: symbol]: { types: Prisma.TypeMap<ExtArgs>['model']['CompanyFiscalConfig'], meta: { name: 'CompanyFiscalConfig' } }
+    /**
+     * Find zero or one CompanyFiscalConfig that matches the filter.
+     * @param {CompanyFiscalConfigFindUniqueArgs} args - Arguments to find a CompanyFiscalConfig
+     * @example
+     * // Get one CompanyFiscalConfig
+     * const companyFiscalConfig = await prisma.companyFiscalConfig.findUnique({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUnique<T extends CompanyFiscalConfigFindUniqueArgs>(args: SelectSubset<T, CompanyFiscalConfigFindUniqueArgs<ExtArgs>>): Prisma__CompanyFiscalConfigClient<$Result.GetResult<Prisma.$CompanyFiscalConfigPayload<ExtArgs>, T, "findUnique", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find one CompanyFiscalConfig that matches the filter or throw an error with `error.code='P2025'`
+     * if no matches were found.
+     * @param {CompanyFiscalConfigFindUniqueOrThrowArgs} args - Arguments to find a CompanyFiscalConfig
+     * @example
+     * // Get one CompanyFiscalConfig
+     * const companyFiscalConfig = await prisma.companyFiscalConfig.findUniqueOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUniqueOrThrow<T extends CompanyFiscalConfigFindUniqueOrThrowArgs>(args: SelectSubset<T, CompanyFiscalConfigFindUniqueOrThrowArgs<ExtArgs>>): Prisma__CompanyFiscalConfigClient<$Result.GetResult<Prisma.$CompanyFiscalConfigPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first CompanyFiscalConfig that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {CompanyFiscalConfigFindFirstArgs} args - Arguments to find a CompanyFiscalConfig
+     * @example
+     * // Get one CompanyFiscalConfig
+     * const companyFiscalConfig = await prisma.companyFiscalConfig.findFirst({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirst<T extends CompanyFiscalConfigFindFirstArgs>(args?: SelectSubset<T, CompanyFiscalConfigFindFirstArgs<ExtArgs>>): Prisma__CompanyFiscalConfigClient<$Result.GetResult<Prisma.$CompanyFiscalConfigPayload<ExtArgs>, T, "findFirst", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first CompanyFiscalConfig that matches the filter or
+     * throw `PrismaKnownClientError` with `P2025` code if no matches were found.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {CompanyFiscalConfigFindFirstOrThrowArgs} args - Arguments to find a CompanyFiscalConfig
+     * @example
+     * // Get one CompanyFiscalConfig
+     * const companyFiscalConfig = await prisma.companyFiscalConfig.findFirstOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirstOrThrow<T extends CompanyFiscalConfigFindFirstOrThrowArgs>(args?: SelectSubset<T, CompanyFiscalConfigFindFirstOrThrowArgs<ExtArgs>>): Prisma__CompanyFiscalConfigClient<$Result.GetResult<Prisma.$CompanyFiscalConfigPayload<ExtArgs>, T, "findFirstOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find zero or more CompanyFiscalConfigs that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {CompanyFiscalConfigFindManyArgs} args - Arguments to filter and select certain fields only.
+     * @example
+     * // Get all CompanyFiscalConfigs
+     * const companyFiscalConfigs = await prisma.companyFiscalConfig.findMany()
+     * 
+     * // Get first 10 CompanyFiscalConfigs
+     * const companyFiscalConfigs = await prisma.companyFiscalConfig.findMany({ take: 10 })
+     * 
+     * // Only select the `uuid`
+     * const companyFiscalConfigWithUuidOnly = await prisma.companyFiscalConfig.findMany({ select: { uuid: true } })
+     * 
+     */
+    findMany<T extends CompanyFiscalConfigFindManyArgs>(args?: SelectSubset<T, CompanyFiscalConfigFindManyArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$CompanyFiscalConfigPayload<ExtArgs>, T, "findMany", GlobalOmitOptions>>
+
+    /**
+     * Create a CompanyFiscalConfig.
+     * @param {CompanyFiscalConfigCreateArgs} args - Arguments to create a CompanyFiscalConfig.
+     * @example
+     * // Create one CompanyFiscalConfig
+     * const CompanyFiscalConfig = await prisma.companyFiscalConfig.create({
+     *   data: {
+     *     // ... data to create a CompanyFiscalConfig
+     *   }
+     * })
+     * 
+     */
+    create<T extends CompanyFiscalConfigCreateArgs>(args: SelectSubset<T, CompanyFiscalConfigCreateArgs<ExtArgs>>): Prisma__CompanyFiscalConfigClient<$Result.GetResult<Prisma.$CompanyFiscalConfigPayload<ExtArgs>, T, "create", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Create many CompanyFiscalConfigs.
+     * @param {CompanyFiscalConfigCreateManyArgs} args - Arguments to create many CompanyFiscalConfigs.
+     * @example
+     * // Create many CompanyFiscalConfigs
+     * const companyFiscalConfig = await prisma.companyFiscalConfig.createMany({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     *     
+     */
+    createMany<T extends CompanyFiscalConfigCreateManyArgs>(args?: SelectSubset<T, CompanyFiscalConfigCreateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Create many CompanyFiscalConfigs and returns the data saved in the database.
+     * @param {CompanyFiscalConfigCreateManyAndReturnArgs} args - Arguments to create many CompanyFiscalConfigs.
+     * @example
+     * // Create many CompanyFiscalConfigs
+     * const companyFiscalConfig = await prisma.companyFiscalConfig.createManyAndReturn({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Create many CompanyFiscalConfigs and only return the `uuid`
+     * const companyFiscalConfigWithUuidOnly = await prisma.companyFiscalConfig.createManyAndReturn({
+     *   select: { uuid: true },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    createManyAndReturn<T extends CompanyFiscalConfigCreateManyAndReturnArgs>(args?: SelectSubset<T, CompanyFiscalConfigCreateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$CompanyFiscalConfigPayload<ExtArgs>, T, "createManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Delete a CompanyFiscalConfig.
+     * @param {CompanyFiscalConfigDeleteArgs} args - Arguments to delete one CompanyFiscalConfig.
+     * @example
+     * // Delete one CompanyFiscalConfig
+     * const CompanyFiscalConfig = await prisma.companyFiscalConfig.delete({
+     *   where: {
+     *     // ... filter to delete one CompanyFiscalConfig
+     *   }
+     * })
+     * 
+     */
+    delete<T extends CompanyFiscalConfigDeleteArgs>(args: SelectSubset<T, CompanyFiscalConfigDeleteArgs<ExtArgs>>): Prisma__CompanyFiscalConfigClient<$Result.GetResult<Prisma.$CompanyFiscalConfigPayload<ExtArgs>, T, "delete", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Update one CompanyFiscalConfig.
+     * @param {CompanyFiscalConfigUpdateArgs} args - Arguments to update one CompanyFiscalConfig.
+     * @example
+     * // Update one CompanyFiscalConfig
+     * const companyFiscalConfig = await prisma.companyFiscalConfig.update({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    update<T extends CompanyFiscalConfigUpdateArgs>(args: SelectSubset<T, CompanyFiscalConfigUpdateArgs<ExtArgs>>): Prisma__CompanyFiscalConfigClient<$Result.GetResult<Prisma.$CompanyFiscalConfigPayload<ExtArgs>, T, "update", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Delete zero or more CompanyFiscalConfigs.
+     * @param {CompanyFiscalConfigDeleteManyArgs} args - Arguments to filter CompanyFiscalConfigs to delete.
+     * @example
+     * // Delete a few CompanyFiscalConfigs
+     * const { count } = await prisma.companyFiscalConfig.deleteMany({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     * 
+     */
+    deleteMany<T extends CompanyFiscalConfigDeleteManyArgs>(args?: SelectSubset<T, CompanyFiscalConfigDeleteManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more CompanyFiscalConfigs.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {CompanyFiscalConfigUpdateManyArgs} args - Arguments to update one or more rows.
+     * @example
+     * // Update many CompanyFiscalConfigs
+     * const companyFiscalConfig = await prisma.companyFiscalConfig.updateMany({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    updateMany<T extends CompanyFiscalConfigUpdateManyArgs>(args: SelectSubset<T, CompanyFiscalConfigUpdateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more CompanyFiscalConfigs and returns the data updated in the database.
+     * @param {CompanyFiscalConfigUpdateManyAndReturnArgs} args - Arguments to update many CompanyFiscalConfigs.
+     * @example
+     * // Update many CompanyFiscalConfigs
+     * const companyFiscalConfig = await prisma.companyFiscalConfig.updateManyAndReturn({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Update zero or more CompanyFiscalConfigs and only return the `uuid`
+     * const companyFiscalConfigWithUuidOnly = await prisma.companyFiscalConfig.updateManyAndReturn({
+     *   select: { uuid: true },
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    updateManyAndReturn<T extends CompanyFiscalConfigUpdateManyAndReturnArgs>(args: SelectSubset<T, CompanyFiscalConfigUpdateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$CompanyFiscalConfigPayload<ExtArgs>, T, "updateManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Create or update one CompanyFiscalConfig.
+     * @param {CompanyFiscalConfigUpsertArgs} args - Arguments to update or create a CompanyFiscalConfig.
+     * @example
+     * // Update or create a CompanyFiscalConfig
+     * const companyFiscalConfig = await prisma.companyFiscalConfig.upsert({
+     *   create: {
+     *     // ... data to create a CompanyFiscalConfig
+     *   },
+     *   update: {
+     *     // ... in case it already exists, update
+     *   },
+     *   where: {
+     *     // ... the filter for the CompanyFiscalConfig we want to update
+     *   }
+     * })
+     */
+    upsert<T extends CompanyFiscalConfigUpsertArgs>(args: SelectSubset<T, CompanyFiscalConfigUpsertArgs<ExtArgs>>): Prisma__CompanyFiscalConfigClient<$Result.GetResult<Prisma.$CompanyFiscalConfigPayload<ExtArgs>, T, "upsert", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+
+    /**
+     * Count the number of CompanyFiscalConfigs.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {CompanyFiscalConfigCountArgs} args - Arguments to filter CompanyFiscalConfigs to count.
+     * @example
+     * // Count the number of CompanyFiscalConfigs
+     * const count = await prisma.companyFiscalConfig.count({
+     *   where: {
+     *     // ... the filter for the CompanyFiscalConfigs we want to count
+     *   }
+     * })
+    **/
+    count<T extends CompanyFiscalConfigCountArgs>(
+      args?: Subset<T, CompanyFiscalConfigCountArgs>,
+    ): Prisma.PrismaPromise<
+      T extends $Utils.Record<'select', any>
+        ? T['select'] extends true
+          ? number
+          : GetScalarType<T['select'], CompanyFiscalConfigCountAggregateOutputType>
+        : number
+    >
+
+    /**
+     * Allows you to perform aggregations operations on a CompanyFiscalConfig.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {CompanyFiscalConfigAggregateArgs} args - Select which aggregations you would like to apply and on what fields.
+     * @example
+     * // Ordered by age ascending
+     * // Where email contains prisma.io
+     * // Limited to the 10 users
+     * const aggregations = await prisma.user.aggregate({
+     *   _avg: {
+     *     age: true,
+     *   },
+     *   where: {
+     *     email: {
+     *       contains: "prisma.io",
+     *     },
+     *   },
+     *   orderBy: {
+     *     age: "asc",
+     *   },
+     *   take: 10,
+     * })
+    **/
+    aggregate<T extends CompanyFiscalConfigAggregateArgs>(args: Subset<T, CompanyFiscalConfigAggregateArgs>): Prisma.PrismaPromise<GetCompanyFiscalConfigAggregateType<T>>
+
+    /**
+     * Group by CompanyFiscalConfig.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {CompanyFiscalConfigGroupByArgs} args - Group by arguments.
+     * @example
+     * // Group by city, order by createdAt, get count
+     * const result = await prisma.user.groupBy({
+     *   by: ['city', 'createdAt'],
+     *   orderBy: {
+     *     createdAt: true
+     *   },
+     *   _count: {
+     *     _all: true
+     *   },
+     * })
+     * 
+    **/
+    groupBy<
+      T extends CompanyFiscalConfigGroupByArgs,
+      HasSelectOrTake extends Or<
+        Extends<'skip', Keys<T>>,
+        Extends<'take', Keys<T>>
+      >,
+      OrderByArg extends True extends HasSelectOrTake
+        ? { orderBy: CompanyFiscalConfigGroupByArgs['orderBy'] }
+        : { orderBy?: CompanyFiscalConfigGroupByArgs['orderBy'] },
+      OrderFields extends ExcludeUnderscoreKeys<Keys<MaybeTupleToUnion<T['orderBy']>>>,
+      ByFields extends MaybeTupleToUnion<T['by']>,
+      ByValid extends Has<ByFields, OrderFields>,
+      HavingFields extends GetHavingFields<T['having']>,
+      HavingValid extends Has<ByFields, HavingFields>,
+      ByEmpty extends T['by'] extends never[] ? True : False,
+      InputErrors extends ByEmpty extends True
+      ? `Error: "by" must not be empty.`
+      : HavingValid extends False
+      ? {
+          [P in HavingFields]: P extends ByFields
+            ? never
+            : P extends string
+            ? `Error: Field "${P}" used in "having" needs to be provided in "by".`
+            : [
+                Error,
+                'Field ',
+                P,
+                ` in "having" needs to be provided in "by"`,
+              ]
+        }[HavingFields]
+      : 'take' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "take", you also need to provide "orderBy"'
+      : 'skip' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "skip", you also need to provide "orderBy"'
+      : ByValid extends True
+      ? {}
+      : {
+          [P in OrderFields]: P extends ByFields
+            ? never
+            : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+        }[OrderFields]
+    >(args: SubsetIntersection<T, CompanyFiscalConfigGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetCompanyFiscalConfigGroupByPayload<T> : Prisma.PrismaPromise<InputErrors>
+  /**
+   * Fields of the CompanyFiscalConfig model
+   */
+  readonly fields: CompanyFiscalConfigFieldRefs;
+  }
+
+  /**
+   * The delegate class that acts as a "Promise-like" for CompanyFiscalConfig.
+   * Why is this prefixed with `Prisma__`?
+   * Because we want to prevent naming conflicts as mentioned in
+   * https://github.com/prisma/prisma-client-js/issues/707
+   */
+  export interface Prisma__CompanyFiscalConfigClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
+    readonly [Symbol.toStringTag]: "PrismaPromise"
+    company<T extends CompanyDefaultArgs<ExtArgs> = {}>(args?: Subset<T, CompanyDefaultArgs<ExtArgs>>): Prisma__CompanyClient<$Result.GetResult<Prisma.$CompanyPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+    /**
+     * Attaches callbacks for the resolution and/or rejection of the Promise.
+     * @param onfulfilled The callback to execute when the Promise is resolved.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of which ever callback is executed.
+     */
+    then<TResult1 = T, TResult2 = never>(onfulfilled?: ((value: T) => TResult1 | PromiseLike<TResult1>) | undefined | null, onrejected?: ((reason: any) => TResult2 | PromiseLike<TResult2>) | undefined | null): $Utils.JsPromise<TResult1 | TResult2>
+    /**
+     * Attaches a callback for only the rejection of the Promise.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of the callback.
+     */
+    catch<TResult = never>(onrejected?: ((reason: any) => TResult | PromiseLike<TResult>) | undefined | null): $Utils.JsPromise<T | TResult>
+    /**
+     * Attaches a callback that is invoked when the Promise is settled (fulfilled or rejected). The
+     * resolved value cannot be modified from the callback.
+     * @param onfinally The callback to execute when the Promise is settled (fulfilled or rejected).
+     * @returns A Promise for the completion of the callback.
+     */
+    finally(onfinally?: (() => void) | undefined | null): $Utils.JsPromise<T>
+  }
+
+
+
+
+  /**
+   * Fields of the CompanyFiscalConfig model
+   */
+  interface CompanyFiscalConfigFieldRefs {
+    readonly uuid: FieldRef<"CompanyFiscalConfig", 'String'>
+    readonly companyUuid: FieldRef<"CompanyFiscalConfig", 'String'>
+    readonly cnpj: FieldRef<"CompanyFiscalConfig", 'String'>
+    readonly razaoSocial: FieldRef<"CompanyFiscalConfig", 'String'>
+    readonly nomeFantasia: FieldRef<"CompanyFiscalConfig", 'String'>
+    readonly logradouro: FieldRef<"CompanyFiscalConfig", 'String'>
+    readonly numero: FieldRef<"CompanyFiscalConfig", 'String'>
+    readonly complemento: FieldRef<"CompanyFiscalConfig", 'String'>
+    readonly bairro: FieldRef<"CompanyFiscalConfig", 'String'>
+    readonly cidade: FieldRef<"CompanyFiscalConfig", 'String'>
+    readonly uf: FieldRef<"CompanyFiscalConfig", 'String'>
+    readonly cep: FieldRef<"CompanyFiscalConfig", 'String'>
+    readonly inscricaoEstadual: FieldRef<"CompanyFiscalConfig", 'String'>
+    readonly regimeTributario: FieldRef<"CompanyFiscalConfig", 'String'>
+    readonly provider: FieldRef<"CompanyFiscalConfig", 'String'>
+    readonly providerApiKey: FieldRef<"CompanyFiscalConfig", 'String'>
+    readonly ncmPadrao: FieldRef<"CompanyFiscalConfig", 'String'>
+    readonly cfopPadrao: FieldRef<"CompanyFiscalConfig", 'String'>
+    readonly createdAt: FieldRef<"CompanyFiscalConfig", 'DateTime'>
+    readonly updatedAt: FieldRef<"CompanyFiscalConfig", 'DateTime'>
+  }
+    
+
+  // Custom InputTypes
+  /**
+   * CompanyFiscalConfig findUnique
+   */
+  export type CompanyFiscalConfigFindUniqueArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the CompanyFiscalConfig
+     */
+    select?: CompanyFiscalConfigSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the CompanyFiscalConfig
+     */
+    omit?: CompanyFiscalConfigOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: CompanyFiscalConfigInclude<ExtArgs> | null
+    /**
+     * Filter, which CompanyFiscalConfig to fetch.
+     */
+    where: CompanyFiscalConfigWhereUniqueInput
+  }
+
+  /**
+   * CompanyFiscalConfig findUniqueOrThrow
+   */
+  export type CompanyFiscalConfigFindUniqueOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the CompanyFiscalConfig
+     */
+    select?: CompanyFiscalConfigSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the CompanyFiscalConfig
+     */
+    omit?: CompanyFiscalConfigOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: CompanyFiscalConfigInclude<ExtArgs> | null
+    /**
+     * Filter, which CompanyFiscalConfig to fetch.
+     */
+    where: CompanyFiscalConfigWhereUniqueInput
+  }
+
+  /**
+   * CompanyFiscalConfig findFirst
+   */
+  export type CompanyFiscalConfigFindFirstArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the CompanyFiscalConfig
+     */
+    select?: CompanyFiscalConfigSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the CompanyFiscalConfig
+     */
+    omit?: CompanyFiscalConfigOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: CompanyFiscalConfigInclude<ExtArgs> | null
+    /**
+     * Filter, which CompanyFiscalConfig to fetch.
+     */
+    where?: CompanyFiscalConfigWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of CompanyFiscalConfigs to fetch.
+     */
+    orderBy?: CompanyFiscalConfigOrderByWithRelationInput | CompanyFiscalConfigOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for CompanyFiscalConfigs.
+     */
+    cursor?: CompanyFiscalConfigWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` CompanyFiscalConfigs from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` CompanyFiscalConfigs.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of CompanyFiscalConfigs.
+     */
+    distinct?: CompanyFiscalConfigScalarFieldEnum | CompanyFiscalConfigScalarFieldEnum[]
+  }
+
+  /**
+   * CompanyFiscalConfig findFirstOrThrow
+   */
+  export type CompanyFiscalConfigFindFirstOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the CompanyFiscalConfig
+     */
+    select?: CompanyFiscalConfigSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the CompanyFiscalConfig
+     */
+    omit?: CompanyFiscalConfigOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: CompanyFiscalConfigInclude<ExtArgs> | null
+    /**
+     * Filter, which CompanyFiscalConfig to fetch.
+     */
+    where?: CompanyFiscalConfigWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of CompanyFiscalConfigs to fetch.
+     */
+    orderBy?: CompanyFiscalConfigOrderByWithRelationInput | CompanyFiscalConfigOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for CompanyFiscalConfigs.
+     */
+    cursor?: CompanyFiscalConfigWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` CompanyFiscalConfigs from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` CompanyFiscalConfigs.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of CompanyFiscalConfigs.
+     */
+    distinct?: CompanyFiscalConfigScalarFieldEnum | CompanyFiscalConfigScalarFieldEnum[]
+  }
+
+  /**
+   * CompanyFiscalConfig findMany
+   */
+  export type CompanyFiscalConfigFindManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the CompanyFiscalConfig
+     */
+    select?: CompanyFiscalConfigSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the CompanyFiscalConfig
+     */
+    omit?: CompanyFiscalConfigOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: CompanyFiscalConfigInclude<ExtArgs> | null
+    /**
+     * Filter, which CompanyFiscalConfigs to fetch.
+     */
+    where?: CompanyFiscalConfigWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of CompanyFiscalConfigs to fetch.
+     */
+    orderBy?: CompanyFiscalConfigOrderByWithRelationInput | CompanyFiscalConfigOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for listing CompanyFiscalConfigs.
+     */
+    cursor?: CompanyFiscalConfigWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` CompanyFiscalConfigs from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` CompanyFiscalConfigs.
+     */
+    skip?: number
+    distinct?: CompanyFiscalConfigScalarFieldEnum | CompanyFiscalConfigScalarFieldEnum[]
+  }
+
+  /**
+   * CompanyFiscalConfig create
+   */
+  export type CompanyFiscalConfigCreateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the CompanyFiscalConfig
+     */
+    select?: CompanyFiscalConfigSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the CompanyFiscalConfig
+     */
+    omit?: CompanyFiscalConfigOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: CompanyFiscalConfigInclude<ExtArgs> | null
+    /**
+     * The data needed to create a CompanyFiscalConfig.
+     */
+    data: XOR<CompanyFiscalConfigCreateInput, CompanyFiscalConfigUncheckedCreateInput>
+  }
+
+  /**
+   * CompanyFiscalConfig createMany
+   */
+  export type CompanyFiscalConfigCreateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to create many CompanyFiscalConfigs.
+     */
+    data: CompanyFiscalConfigCreateManyInput | CompanyFiscalConfigCreateManyInput[]
+    skipDuplicates?: boolean
+  }
+
+  /**
+   * CompanyFiscalConfig createManyAndReturn
+   */
+  export type CompanyFiscalConfigCreateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the CompanyFiscalConfig
+     */
+    select?: CompanyFiscalConfigSelectCreateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the CompanyFiscalConfig
+     */
+    omit?: CompanyFiscalConfigOmit<ExtArgs> | null
+    /**
+     * The data used to create many CompanyFiscalConfigs.
+     */
+    data: CompanyFiscalConfigCreateManyInput | CompanyFiscalConfigCreateManyInput[]
+    skipDuplicates?: boolean
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: CompanyFiscalConfigIncludeCreateManyAndReturn<ExtArgs> | null
+  }
+
+  /**
+   * CompanyFiscalConfig update
+   */
+  export type CompanyFiscalConfigUpdateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the CompanyFiscalConfig
+     */
+    select?: CompanyFiscalConfigSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the CompanyFiscalConfig
+     */
+    omit?: CompanyFiscalConfigOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: CompanyFiscalConfigInclude<ExtArgs> | null
+    /**
+     * The data needed to update a CompanyFiscalConfig.
+     */
+    data: XOR<CompanyFiscalConfigUpdateInput, CompanyFiscalConfigUncheckedUpdateInput>
+    /**
+     * Choose, which CompanyFiscalConfig to update.
+     */
+    where: CompanyFiscalConfigWhereUniqueInput
+  }
+
+  /**
+   * CompanyFiscalConfig updateMany
+   */
+  export type CompanyFiscalConfigUpdateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to update CompanyFiscalConfigs.
+     */
+    data: XOR<CompanyFiscalConfigUpdateManyMutationInput, CompanyFiscalConfigUncheckedUpdateManyInput>
+    /**
+     * Filter which CompanyFiscalConfigs to update
+     */
+    where?: CompanyFiscalConfigWhereInput
+    /**
+     * Limit how many CompanyFiscalConfigs to update.
+     */
+    limit?: number
+  }
+
+  /**
+   * CompanyFiscalConfig updateManyAndReturn
+   */
+  export type CompanyFiscalConfigUpdateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the CompanyFiscalConfig
+     */
+    select?: CompanyFiscalConfigSelectUpdateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the CompanyFiscalConfig
+     */
+    omit?: CompanyFiscalConfigOmit<ExtArgs> | null
+    /**
+     * The data used to update CompanyFiscalConfigs.
+     */
+    data: XOR<CompanyFiscalConfigUpdateManyMutationInput, CompanyFiscalConfigUncheckedUpdateManyInput>
+    /**
+     * Filter which CompanyFiscalConfigs to update
+     */
+    where?: CompanyFiscalConfigWhereInput
+    /**
+     * Limit how many CompanyFiscalConfigs to update.
+     */
+    limit?: number
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: CompanyFiscalConfigIncludeUpdateManyAndReturn<ExtArgs> | null
+  }
+
+  /**
+   * CompanyFiscalConfig upsert
+   */
+  export type CompanyFiscalConfigUpsertArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the CompanyFiscalConfig
+     */
+    select?: CompanyFiscalConfigSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the CompanyFiscalConfig
+     */
+    omit?: CompanyFiscalConfigOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: CompanyFiscalConfigInclude<ExtArgs> | null
+    /**
+     * The filter to search for the CompanyFiscalConfig to update in case it exists.
+     */
+    where: CompanyFiscalConfigWhereUniqueInput
+    /**
+     * In case the CompanyFiscalConfig found by the `where` argument doesn't exist, create a new CompanyFiscalConfig with this data.
+     */
+    create: XOR<CompanyFiscalConfigCreateInput, CompanyFiscalConfigUncheckedCreateInput>
+    /**
+     * In case the CompanyFiscalConfig was found with the provided `where` argument, update it with this data.
+     */
+    update: XOR<CompanyFiscalConfigUpdateInput, CompanyFiscalConfigUncheckedUpdateInput>
+  }
+
+  /**
+   * CompanyFiscalConfig delete
+   */
+  export type CompanyFiscalConfigDeleteArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the CompanyFiscalConfig
+     */
+    select?: CompanyFiscalConfigSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the CompanyFiscalConfig
+     */
+    omit?: CompanyFiscalConfigOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: CompanyFiscalConfigInclude<ExtArgs> | null
+    /**
+     * Filter which CompanyFiscalConfig to delete.
+     */
+    where: CompanyFiscalConfigWhereUniqueInput
+  }
+
+  /**
+   * CompanyFiscalConfig deleteMany
+   */
+  export type CompanyFiscalConfigDeleteManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which CompanyFiscalConfigs to delete
+     */
+    where?: CompanyFiscalConfigWhereInput
+    /**
+     * Limit how many CompanyFiscalConfigs to delete.
+     */
+    limit?: number
+  }
+
+  /**
+   * CompanyFiscalConfig without action
+   */
+  export type CompanyFiscalConfigDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the CompanyFiscalConfig
+     */
+    select?: CompanyFiscalConfigSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the CompanyFiscalConfig
+     */
+    omit?: CompanyFiscalConfigOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: CompanyFiscalConfigInclude<ExtArgs> | null
   }
 
 
@@ -7286,6 +8790,7 @@ export namespace Prisma {
     createdAt?: boolean
     table?: boolean | TableDefaultArgs<ExtArgs>
     items?: boolean | Order$itemsArgs<ExtArgs>
+    invoices?: boolean | Order$invoicesArgs<ExtArgs>
     _count?: boolean | OrderCountOutputTypeDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["order"]>
 
@@ -7316,6 +8821,7 @@ export namespace Prisma {
   export type OrderInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     table?: boolean | TableDefaultArgs<ExtArgs>
     items?: boolean | Order$itemsArgs<ExtArgs>
+    invoices?: boolean | Order$invoicesArgs<ExtArgs>
     _count?: boolean | OrderCountOutputTypeDefaultArgs<ExtArgs>
   }
   export type OrderIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
@@ -7330,6 +8836,7 @@ export namespace Prisma {
     objects: {
       table: Prisma.$TablePayload<ExtArgs>
       items: Prisma.$OrderItemPayload<ExtArgs>[]
+      invoices: Prisma.$InvoicePayload<ExtArgs>[]
     }
     scalars: $Extensions.GetPayloadResult<{
       uuid: string
@@ -7732,6 +9239,7 @@ export namespace Prisma {
     readonly [Symbol.toStringTag]: "PrismaPromise"
     table<T extends TableDefaultArgs<ExtArgs> = {}>(args?: Subset<T, TableDefaultArgs<ExtArgs>>): Prisma__TableClient<$Result.GetResult<Prisma.$TablePayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
     items<T extends Order$itemsArgs<ExtArgs> = {}>(args?: Subset<T, Order$itemsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$OrderItemPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+    invoices<T extends Order$invoicesArgs<ExtArgs> = {}>(args?: Subset<T, Order$invoicesArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$InvoicePayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     /**
      * Attaches callbacks for the resolution and/or rejection of the Promise.
      * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -8185,6 +9693,30 @@ export namespace Prisma {
   }
 
   /**
+   * Order.invoices
+   */
+  export type Order$invoicesArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Invoice
+     */
+    select?: InvoiceSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Invoice
+     */
+    omit?: InvoiceOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: InvoiceInclude<ExtArgs> | null
+    where?: InvoiceWhereInput
+    orderBy?: InvoiceOrderByWithRelationInput | InvoiceOrderByWithRelationInput[]
+    cursor?: InvoiceWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: InvoiceScalarFieldEnum | InvoiceScalarFieldEnum[]
+  }
+
+  /**
    * Order without action
    */
   export type OrderDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
@@ -8200,6 +9732,1150 @@ export namespace Prisma {
      * Choose, which related nodes to fetch as well
      */
     include?: OrderInclude<ExtArgs> | null
+  }
+
+
+  /**
+   * Model Invoice
+   */
+
+  export type AggregateInvoice = {
+    _count: InvoiceCountAggregateOutputType | null
+    _min: InvoiceMinAggregateOutputType | null
+    _max: InvoiceMaxAggregateOutputType | null
+  }
+
+  export type InvoiceMinAggregateOutputType = {
+    uuid: string | null
+    orderUuid: string | null
+    companyUuid: string | null
+    status: string | null
+    nfceKey: string | null
+    providerId: string | null
+    errorMessage: string | null
+    emittedAt: Date | null
+    xmlUrl: string | null
+    pdfUrl: string | null
+    createdAt: Date | null
+  }
+
+  export type InvoiceMaxAggregateOutputType = {
+    uuid: string | null
+    orderUuid: string | null
+    companyUuid: string | null
+    status: string | null
+    nfceKey: string | null
+    providerId: string | null
+    errorMessage: string | null
+    emittedAt: Date | null
+    xmlUrl: string | null
+    pdfUrl: string | null
+    createdAt: Date | null
+  }
+
+  export type InvoiceCountAggregateOutputType = {
+    uuid: number
+    orderUuid: number
+    companyUuid: number
+    status: number
+    nfceKey: number
+    providerId: number
+    errorMessage: number
+    emittedAt: number
+    xmlUrl: number
+    pdfUrl: number
+    createdAt: number
+    _all: number
+  }
+
+
+  export type InvoiceMinAggregateInputType = {
+    uuid?: true
+    orderUuid?: true
+    companyUuid?: true
+    status?: true
+    nfceKey?: true
+    providerId?: true
+    errorMessage?: true
+    emittedAt?: true
+    xmlUrl?: true
+    pdfUrl?: true
+    createdAt?: true
+  }
+
+  export type InvoiceMaxAggregateInputType = {
+    uuid?: true
+    orderUuid?: true
+    companyUuid?: true
+    status?: true
+    nfceKey?: true
+    providerId?: true
+    errorMessage?: true
+    emittedAt?: true
+    xmlUrl?: true
+    pdfUrl?: true
+    createdAt?: true
+  }
+
+  export type InvoiceCountAggregateInputType = {
+    uuid?: true
+    orderUuid?: true
+    companyUuid?: true
+    status?: true
+    nfceKey?: true
+    providerId?: true
+    errorMessage?: true
+    emittedAt?: true
+    xmlUrl?: true
+    pdfUrl?: true
+    createdAt?: true
+    _all?: true
+  }
+
+  export type InvoiceAggregateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which Invoice to aggregate.
+     */
+    where?: InvoiceWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of Invoices to fetch.
+     */
+    orderBy?: InvoiceOrderByWithRelationInput | InvoiceOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the start position
+     */
+    cursor?: InvoiceWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` Invoices from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` Invoices.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Count returned Invoices
+    **/
+    _count?: true | InvoiceCountAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the minimum value
+    **/
+    _min?: InvoiceMinAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the maximum value
+    **/
+    _max?: InvoiceMaxAggregateInputType
+  }
+
+  export type GetInvoiceAggregateType<T extends InvoiceAggregateArgs> = {
+        [P in keyof T & keyof AggregateInvoice]: P extends '_count' | 'count'
+      ? T[P] extends true
+        ? number
+        : GetScalarType<T[P], AggregateInvoice[P]>
+      : GetScalarType<T[P], AggregateInvoice[P]>
+  }
+
+
+
+
+  export type InvoiceGroupByArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: InvoiceWhereInput
+    orderBy?: InvoiceOrderByWithAggregationInput | InvoiceOrderByWithAggregationInput[]
+    by: InvoiceScalarFieldEnum[] | InvoiceScalarFieldEnum
+    having?: InvoiceScalarWhereWithAggregatesInput
+    take?: number
+    skip?: number
+    _count?: InvoiceCountAggregateInputType | true
+    _min?: InvoiceMinAggregateInputType
+    _max?: InvoiceMaxAggregateInputType
+  }
+
+  export type InvoiceGroupByOutputType = {
+    uuid: string
+    orderUuid: string
+    companyUuid: string
+    status: string
+    nfceKey: string | null
+    providerId: string | null
+    errorMessage: string | null
+    emittedAt: Date | null
+    xmlUrl: string | null
+    pdfUrl: string | null
+    createdAt: Date
+    _count: InvoiceCountAggregateOutputType | null
+    _min: InvoiceMinAggregateOutputType | null
+    _max: InvoiceMaxAggregateOutputType | null
+  }
+
+  type GetInvoiceGroupByPayload<T extends InvoiceGroupByArgs> = Prisma.PrismaPromise<
+    Array<
+      PickEnumerable<InvoiceGroupByOutputType, T['by']> &
+        {
+          [P in ((keyof T) & (keyof InvoiceGroupByOutputType))]: P extends '_count'
+            ? T[P] extends boolean
+              ? number
+              : GetScalarType<T[P], InvoiceGroupByOutputType[P]>
+            : GetScalarType<T[P], InvoiceGroupByOutputType[P]>
+        }
+      >
+    >
+
+
+  export type InvoiceSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    uuid?: boolean
+    orderUuid?: boolean
+    companyUuid?: boolean
+    status?: boolean
+    nfceKey?: boolean
+    providerId?: boolean
+    errorMessage?: boolean
+    emittedAt?: boolean
+    xmlUrl?: boolean
+    pdfUrl?: boolean
+    createdAt?: boolean
+    order?: boolean | OrderDefaultArgs<ExtArgs>
+    company?: boolean | CompanyDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["invoice"]>
+
+  export type InvoiceSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    uuid?: boolean
+    orderUuid?: boolean
+    companyUuid?: boolean
+    status?: boolean
+    nfceKey?: boolean
+    providerId?: boolean
+    errorMessage?: boolean
+    emittedAt?: boolean
+    xmlUrl?: boolean
+    pdfUrl?: boolean
+    createdAt?: boolean
+    order?: boolean | OrderDefaultArgs<ExtArgs>
+    company?: boolean | CompanyDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["invoice"]>
+
+  export type InvoiceSelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    uuid?: boolean
+    orderUuid?: boolean
+    companyUuid?: boolean
+    status?: boolean
+    nfceKey?: boolean
+    providerId?: boolean
+    errorMessage?: boolean
+    emittedAt?: boolean
+    xmlUrl?: boolean
+    pdfUrl?: boolean
+    createdAt?: boolean
+    order?: boolean | OrderDefaultArgs<ExtArgs>
+    company?: boolean | CompanyDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["invoice"]>
+
+  export type InvoiceSelectScalar = {
+    uuid?: boolean
+    orderUuid?: boolean
+    companyUuid?: boolean
+    status?: boolean
+    nfceKey?: boolean
+    providerId?: boolean
+    errorMessage?: boolean
+    emittedAt?: boolean
+    xmlUrl?: boolean
+    pdfUrl?: boolean
+    createdAt?: boolean
+  }
+
+  export type InvoiceOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"uuid" | "orderUuid" | "companyUuid" | "status" | "nfceKey" | "providerId" | "errorMessage" | "emittedAt" | "xmlUrl" | "pdfUrl" | "createdAt", ExtArgs["result"]["invoice"]>
+  export type InvoiceInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    order?: boolean | OrderDefaultArgs<ExtArgs>
+    company?: boolean | CompanyDefaultArgs<ExtArgs>
+  }
+  export type InvoiceIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    order?: boolean | OrderDefaultArgs<ExtArgs>
+    company?: boolean | CompanyDefaultArgs<ExtArgs>
+  }
+  export type InvoiceIncludeUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    order?: boolean | OrderDefaultArgs<ExtArgs>
+    company?: boolean | CompanyDefaultArgs<ExtArgs>
+  }
+
+  export type $InvoicePayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    name: "Invoice"
+    objects: {
+      order: Prisma.$OrderPayload<ExtArgs>
+      company: Prisma.$CompanyPayload<ExtArgs>
+    }
+    scalars: $Extensions.GetPayloadResult<{
+      uuid: string
+      orderUuid: string
+      companyUuid: string
+      status: string
+      nfceKey: string | null
+      providerId: string | null
+      errorMessage: string | null
+      emittedAt: Date | null
+      xmlUrl: string | null
+      pdfUrl: string | null
+      createdAt: Date
+    }, ExtArgs["result"]["invoice"]>
+    composites: {}
+  }
+
+  type InvoiceGetPayload<S extends boolean | null | undefined | InvoiceDefaultArgs> = $Result.GetResult<Prisma.$InvoicePayload, S>
+
+  type InvoiceCountArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> =
+    Omit<InvoiceFindManyArgs, 'select' | 'include' | 'distinct' | 'omit'> & {
+      select?: InvoiceCountAggregateInputType | true
+    }
+
+  export interface InvoiceDelegate<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> {
+    [K: symbol]: { types: Prisma.TypeMap<ExtArgs>['model']['Invoice'], meta: { name: 'Invoice' } }
+    /**
+     * Find zero or one Invoice that matches the filter.
+     * @param {InvoiceFindUniqueArgs} args - Arguments to find a Invoice
+     * @example
+     * // Get one Invoice
+     * const invoice = await prisma.invoice.findUnique({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUnique<T extends InvoiceFindUniqueArgs>(args: SelectSubset<T, InvoiceFindUniqueArgs<ExtArgs>>): Prisma__InvoiceClient<$Result.GetResult<Prisma.$InvoicePayload<ExtArgs>, T, "findUnique", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find one Invoice that matches the filter or throw an error with `error.code='P2025'`
+     * if no matches were found.
+     * @param {InvoiceFindUniqueOrThrowArgs} args - Arguments to find a Invoice
+     * @example
+     * // Get one Invoice
+     * const invoice = await prisma.invoice.findUniqueOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUniqueOrThrow<T extends InvoiceFindUniqueOrThrowArgs>(args: SelectSubset<T, InvoiceFindUniqueOrThrowArgs<ExtArgs>>): Prisma__InvoiceClient<$Result.GetResult<Prisma.$InvoicePayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first Invoice that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {InvoiceFindFirstArgs} args - Arguments to find a Invoice
+     * @example
+     * // Get one Invoice
+     * const invoice = await prisma.invoice.findFirst({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirst<T extends InvoiceFindFirstArgs>(args?: SelectSubset<T, InvoiceFindFirstArgs<ExtArgs>>): Prisma__InvoiceClient<$Result.GetResult<Prisma.$InvoicePayload<ExtArgs>, T, "findFirst", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first Invoice that matches the filter or
+     * throw `PrismaKnownClientError` with `P2025` code if no matches were found.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {InvoiceFindFirstOrThrowArgs} args - Arguments to find a Invoice
+     * @example
+     * // Get one Invoice
+     * const invoice = await prisma.invoice.findFirstOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirstOrThrow<T extends InvoiceFindFirstOrThrowArgs>(args?: SelectSubset<T, InvoiceFindFirstOrThrowArgs<ExtArgs>>): Prisma__InvoiceClient<$Result.GetResult<Prisma.$InvoicePayload<ExtArgs>, T, "findFirstOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find zero or more Invoices that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {InvoiceFindManyArgs} args - Arguments to filter and select certain fields only.
+     * @example
+     * // Get all Invoices
+     * const invoices = await prisma.invoice.findMany()
+     * 
+     * // Get first 10 Invoices
+     * const invoices = await prisma.invoice.findMany({ take: 10 })
+     * 
+     * // Only select the `uuid`
+     * const invoiceWithUuidOnly = await prisma.invoice.findMany({ select: { uuid: true } })
+     * 
+     */
+    findMany<T extends InvoiceFindManyArgs>(args?: SelectSubset<T, InvoiceFindManyArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$InvoicePayload<ExtArgs>, T, "findMany", GlobalOmitOptions>>
+
+    /**
+     * Create a Invoice.
+     * @param {InvoiceCreateArgs} args - Arguments to create a Invoice.
+     * @example
+     * // Create one Invoice
+     * const Invoice = await prisma.invoice.create({
+     *   data: {
+     *     // ... data to create a Invoice
+     *   }
+     * })
+     * 
+     */
+    create<T extends InvoiceCreateArgs>(args: SelectSubset<T, InvoiceCreateArgs<ExtArgs>>): Prisma__InvoiceClient<$Result.GetResult<Prisma.$InvoicePayload<ExtArgs>, T, "create", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Create many Invoices.
+     * @param {InvoiceCreateManyArgs} args - Arguments to create many Invoices.
+     * @example
+     * // Create many Invoices
+     * const invoice = await prisma.invoice.createMany({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     *     
+     */
+    createMany<T extends InvoiceCreateManyArgs>(args?: SelectSubset<T, InvoiceCreateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Create many Invoices and returns the data saved in the database.
+     * @param {InvoiceCreateManyAndReturnArgs} args - Arguments to create many Invoices.
+     * @example
+     * // Create many Invoices
+     * const invoice = await prisma.invoice.createManyAndReturn({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Create many Invoices and only return the `uuid`
+     * const invoiceWithUuidOnly = await prisma.invoice.createManyAndReturn({
+     *   select: { uuid: true },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    createManyAndReturn<T extends InvoiceCreateManyAndReturnArgs>(args?: SelectSubset<T, InvoiceCreateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$InvoicePayload<ExtArgs>, T, "createManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Delete a Invoice.
+     * @param {InvoiceDeleteArgs} args - Arguments to delete one Invoice.
+     * @example
+     * // Delete one Invoice
+     * const Invoice = await prisma.invoice.delete({
+     *   where: {
+     *     // ... filter to delete one Invoice
+     *   }
+     * })
+     * 
+     */
+    delete<T extends InvoiceDeleteArgs>(args: SelectSubset<T, InvoiceDeleteArgs<ExtArgs>>): Prisma__InvoiceClient<$Result.GetResult<Prisma.$InvoicePayload<ExtArgs>, T, "delete", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Update one Invoice.
+     * @param {InvoiceUpdateArgs} args - Arguments to update one Invoice.
+     * @example
+     * // Update one Invoice
+     * const invoice = await prisma.invoice.update({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    update<T extends InvoiceUpdateArgs>(args: SelectSubset<T, InvoiceUpdateArgs<ExtArgs>>): Prisma__InvoiceClient<$Result.GetResult<Prisma.$InvoicePayload<ExtArgs>, T, "update", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Delete zero or more Invoices.
+     * @param {InvoiceDeleteManyArgs} args - Arguments to filter Invoices to delete.
+     * @example
+     * // Delete a few Invoices
+     * const { count } = await prisma.invoice.deleteMany({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     * 
+     */
+    deleteMany<T extends InvoiceDeleteManyArgs>(args?: SelectSubset<T, InvoiceDeleteManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more Invoices.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {InvoiceUpdateManyArgs} args - Arguments to update one or more rows.
+     * @example
+     * // Update many Invoices
+     * const invoice = await prisma.invoice.updateMany({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    updateMany<T extends InvoiceUpdateManyArgs>(args: SelectSubset<T, InvoiceUpdateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more Invoices and returns the data updated in the database.
+     * @param {InvoiceUpdateManyAndReturnArgs} args - Arguments to update many Invoices.
+     * @example
+     * // Update many Invoices
+     * const invoice = await prisma.invoice.updateManyAndReturn({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Update zero or more Invoices and only return the `uuid`
+     * const invoiceWithUuidOnly = await prisma.invoice.updateManyAndReturn({
+     *   select: { uuid: true },
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    updateManyAndReturn<T extends InvoiceUpdateManyAndReturnArgs>(args: SelectSubset<T, InvoiceUpdateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$InvoicePayload<ExtArgs>, T, "updateManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Create or update one Invoice.
+     * @param {InvoiceUpsertArgs} args - Arguments to update or create a Invoice.
+     * @example
+     * // Update or create a Invoice
+     * const invoice = await prisma.invoice.upsert({
+     *   create: {
+     *     // ... data to create a Invoice
+     *   },
+     *   update: {
+     *     // ... in case it already exists, update
+     *   },
+     *   where: {
+     *     // ... the filter for the Invoice we want to update
+     *   }
+     * })
+     */
+    upsert<T extends InvoiceUpsertArgs>(args: SelectSubset<T, InvoiceUpsertArgs<ExtArgs>>): Prisma__InvoiceClient<$Result.GetResult<Prisma.$InvoicePayload<ExtArgs>, T, "upsert", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+
+    /**
+     * Count the number of Invoices.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {InvoiceCountArgs} args - Arguments to filter Invoices to count.
+     * @example
+     * // Count the number of Invoices
+     * const count = await prisma.invoice.count({
+     *   where: {
+     *     // ... the filter for the Invoices we want to count
+     *   }
+     * })
+    **/
+    count<T extends InvoiceCountArgs>(
+      args?: Subset<T, InvoiceCountArgs>,
+    ): Prisma.PrismaPromise<
+      T extends $Utils.Record<'select', any>
+        ? T['select'] extends true
+          ? number
+          : GetScalarType<T['select'], InvoiceCountAggregateOutputType>
+        : number
+    >
+
+    /**
+     * Allows you to perform aggregations operations on a Invoice.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {InvoiceAggregateArgs} args - Select which aggregations you would like to apply and on what fields.
+     * @example
+     * // Ordered by age ascending
+     * // Where email contains prisma.io
+     * // Limited to the 10 users
+     * const aggregations = await prisma.user.aggregate({
+     *   _avg: {
+     *     age: true,
+     *   },
+     *   where: {
+     *     email: {
+     *       contains: "prisma.io",
+     *     },
+     *   },
+     *   orderBy: {
+     *     age: "asc",
+     *   },
+     *   take: 10,
+     * })
+    **/
+    aggregate<T extends InvoiceAggregateArgs>(args: Subset<T, InvoiceAggregateArgs>): Prisma.PrismaPromise<GetInvoiceAggregateType<T>>
+
+    /**
+     * Group by Invoice.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {InvoiceGroupByArgs} args - Group by arguments.
+     * @example
+     * // Group by city, order by createdAt, get count
+     * const result = await prisma.user.groupBy({
+     *   by: ['city', 'createdAt'],
+     *   orderBy: {
+     *     createdAt: true
+     *   },
+     *   _count: {
+     *     _all: true
+     *   },
+     * })
+     * 
+    **/
+    groupBy<
+      T extends InvoiceGroupByArgs,
+      HasSelectOrTake extends Or<
+        Extends<'skip', Keys<T>>,
+        Extends<'take', Keys<T>>
+      >,
+      OrderByArg extends True extends HasSelectOrTake
+        ? { orderBy: InvoiceGroupByArgs['orderBy'] }
+        : { orderBy?: InvoiceGroupByArgs['orderBy'] },
+      OrderFields extends ExcludeUnderscoreKeys<Keys<MaybeTupleToUnion<T['orderBy']>>>,
+      ByFields extends MaybeTupleToUnion<T['by']>,
+      ByValid extends Has<ByFields, OrderFields>,
+      HavingFields extends GetHavingFields<T['having']>,
+      HavingValid extends Has<ByFields, HavingFields>,
+      ByEmpty extends T['by'] extends never[] ? True : False,
+      InputErrors extends ByEmpty extends True
+      ? `Error: "by" must not be empty.`
+      : HavingValid extends False
+      ? {
+          [P in HavingFields]: P extends ByFields
+            ? never
+            : P extends string
+            ? `Error: Field "${P}" used in "having" needs to be provided in "by".`
+            : [
+                Error,
+                'Field ',
+                P,
+                ` in "having" needs to be provided in "by"`,
+              ]
+        }[HavingFields]
+      : 'take' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "take", you also need to provide "orderBy"'
+      : 'skip' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "skip", you also need to provide "orderBy"'
+      : ByValid extends True
+      ? {}
+      : {
+          [P in OrderFields]: P extends ByFields
+            ? never
+            : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+        }[OrderFields]
+    >(args: SubsetIntersection<T, InvoiceGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetInvoiceGroupByPayload<T> : Prisma.PrismaPromise<InputErrors>
+  /**
+   * Fields of the Invoice model
+   */
+  readonly fields: InvoiceFieldRefs;
+  }
+
+  /**
+   * The delegate class that acts as a "Promise-like" for Invoice.
+   * Why is this prefixed with `Prisma__`?
+   * Because we want to prevent naming conflicts as mentioned in
+   * https://github.com/prisma/prisma-client-js/issues/707
+   */
+  export interface Prisma__InvoiceClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
+    readonly [Symbol.toStringTag]: "PrismaPromise"
+    order<T extends OrderDefaultArgs<ExtArgs> = {}>(args?: Subset<T, OrderDefaultArgs<ExtArgs>>): Prisma__OrderClient<$Result.GetResult<Prisma.$OrderPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+    company<T extends CompanyDefaultArgs<ExtArgs> = {}>(args?: Subset<T, CompanyDefaultArgs<ExtArgs>>): Prisma__CompanyClient<$Result.GetResult<Prisma.$CompanyPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+    /**
+     * Attaches callbacks for the resolution and/or rejection of the Promise.
+     * @param onfulfilled The callback to execute when the Promise is resolved.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of which ever callback is executed.
+     */
+    then<TResult1 = T, TResult2 = never>(onfulfilled?: ((value: T) => TResult1 | PromiseLike<TResult1>) | undefined | null, onrejected?: ((reason: any) => TResult2 | PromiseLike<TResult2>) | undefined | null): $Utils.JsPromise<TResult1 | TResult2>
+    /**
+     * Attaches a callback for only the rejection of the Promise.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of the callback.
+     */
+    catch<TResult = never>(onrejected?: ((reason: any) => TResult | PromiseLike<TResult>) | undefined | null): $Utils.JsPromise<T | TResult>
+    /**
+     * Attaches a callback that is invoked when the Promise is settled (fulfilled or rejected). The
+     * resolved value cannot be modified from the callback.
+     * @param onfinally The callback to execute when the Promise is settled (fulfilled or rejected).
+     * @returns A Promise for the completion of the callback.
+     */
+    finally(onfinally?: (() => void) | undefined | null): $Utils.JsPromise<T>
+  }
+
+
+
+
+  /**
+   * Fields of the Invoice model
+   */
+  interface InvoiceFieldRefs {
+    readonly uuid: FieldRef<"Invoice", 'String'>
+    readonly orderUuid: FieldRef<"Invoice", 'String'>
+    readonly companyUuid: FieldRef<"Invoice", 'String'>
+    readonly status: FieldRef<"Invoice", 'String'>
+    readonly nfceKey: FieldRef<"Invoice", 'String'>
+    readonly providerId: FieldRef<"Invoice", 'String'>
+    readonly errorMessage: FieldRef<"Invoice", 'String'>
+    readonly emittedAt: FieldRef<"Invoice", 'DateTime'>
+    readonly xmlUrl: FieldRef<"Invoice", 'String'>
+    readonly pdfUrl: FieldRef<"Invoice", 'String'>
+    readonly createdAt: FieldRef<"Invoice", 'DateTime'>
+  }
+    
+
+  // Custom InputTypes
+  /**
+   * Invoice findUnique
+   */
+  export type InvoiceFindUniqueArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Invoice
+     */
+    select?: InvoiceSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Invoice
+     */
+    omit?: InvoiceOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: InvoiceInclude<ExtArgs> | null
+    /**
+     * Filter, which Invoice to fetch.
+     */
+    where: InvoiceWhereUniqueInput
+  }
+
+  /**
+   * Invoice findUniqueOrThrow
+   */
+  export type InvoiceFindUniqueOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Invoice
+     */
+    select?: InvoiceSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Invoice
+     */
+    omit?: InvoiceOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: InvoiceInclude<ExtArgs> | null
+    /**
+     * Filter, which Invoice to fetch.
+     */
+    where: InvoiceWhereUniqueInput
+  }
+
+  /**
+   * Invoice findFirst
+   */
+  export type InvoiceFindFirstArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Invoice
+     */
+    select?: InvoiceSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Invoice
+     */
+    omit?: InvoiceOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: InvoiceInclude<ExtArgs> | null
+    /**
+     * Filter, which Invoice to fetch.
+     */
+    where?: InvoiceWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of Invoices to fetch.
+     */
+    orderBy?: InvoiceOrderByWithRelationInput | InvoiceOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for Invoices.
+     */
+    cursor?: InvoiceWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` Invoices from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` Invoices.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of Invoices.
+     */
+    distinct?: InvoiceScalarFieldEnum | InvoiceScalarFieldEnum[]
+  }
+
+  /**
+   * Invoice findFirstOrThrow
+   */
+  export type InvoiceFindFirstOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Invoice
+     */
+    select?: InvoiceSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Invoice
+     */
+    omit?: InvoiceOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: InvoiceInclude<ExtArgs> | null
+    /**
+     * Filter, which Invoice to fetch.
+     */
+    where?: InvoiceWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of Invoices to fetch.
+     */
+    orderBy?: InvoiceOrderByWithRelationInput | InvoiceOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for Invoices.
+     */
+    cursor?: InvoiceWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` Invoices from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` Invoices.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of Invoices.
+     */
+    distinct?: InvoiceScalarFieldEnum | InvoiceScalarFieldEnum[]
+  }
+
+  /**
+   * Invoice findMany
+   */
+  export type InvoiceFindManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Invoice
+     */
+    select?: InvoiceSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Invoice
+     */
+    omit?: InvoiceOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: InvoiceInclude<ExtArgs> | null
+    /**
+     * Filter, which Invoices to fetch.
+     */
+    where?: InvoiceWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of Invoices to fetch.
+     */
+    orderBy?: InvoiceOrderByWithRelationInput | InvoiceOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for listing Invoices.
+     */
+    cursor?: InvoiceWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` Invoices from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` Invoices.
+     */
+    skip?: number
+    distinct?: InvoiceScalarFieldEnum | InvoiceScalarFieldEnum[]
+  }
+
+  /**
+   * Invoice create
+   */
+  export type InvoiceCreateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Invoice
+     */
+    select?: InvoiceSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Invoice
+     */
+    omit?: InvoiceOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: InvoiceInclude<ExtArgs> | null
+    /**
+     * The data needed to create a Invoice.
+     */
+    data: XOR<InvoiceCreateInput, InvoiceUncheckedCreateInput>
+  }
+
+  /**
+   * Invoice createMany
+   */
+  export type InvoiceCreateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to create many Invoices.
+     */
+    data: InvoiceCreateManyInput | InvoiceCreateManyInput[]
+    skipDuplicates?: boolean
+  }
+
+  /**
+   * Invoice createManyAndReturn
+   */
+  export type InvoiceCreateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Invoice
+     */
+    select?: InvoiceSelectCreateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the Invoice
+     */
+    omit?: InvoiceOmit<ExtArgs> | null
+    /**
+     * The data used to create many Invoices.
+     */
+    data: InvoiceCreateManyInput | InvoiceCreateManyInput[]
+    skipDuplicates?: boolean
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: InvoiceIncludeCreateManyAndReturn<ExtArgs> | null
+  }
+
+  /**
+   * Invoice update
+   */
+  export type InvoiceUpdateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Invoice
+     */
+    select?: InvoiceSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Invoice
+     */
+    omit?: InvoiceOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: InvoiceInclude<ExtArgs> | null
+    /**
+     * The data needed to update a Invoice.
+     */
+    data: XOR<InvoiceUpdateInput, InvoiceUncheckedUpdateInput>
+    /**
+     * Choose, which Invoice to update.
+     */
+    where: InvoiceWhereUniqueInput
+  }
+
+  /**
+   * Invoice updateMany
+   */
+  export type InvoiceUpdateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to update Invoices.
+     */
+    data: XOR<InvoiceUpdateManyMutationInput, InvoiceUncheckedUpdateManyInput>
+    /**
+     * Filter which Invoices to update
+     */
+    where?: InvoiceWhereInput
+    /**
+     * Limit how many Invoices to update.
+     */
+    limit?: number
+  }
+
+  /**
+   * Invoice updateManyAndReturn
+   */
+  export type InvoiceUpdateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Invoice
+     */
+    select?: InvoiceSelectUpdateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the Invoice
+     */
+    omit?: InvoiceOmit<ExtArgs> | null
+    /**
+     * The data used to update Invoices.
+     */
+    data: XOR<InvoiceUpdateManyMutationInput, InvoiceUncheckedUpdateManyInput>
+    /**
+     * Filter which Invoices to update
+     */
+    where?: InvoiceWhereInput
+    /**
+     * Limit how many Invoices to update.
+     */
+    limit?: number
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: InvoiceIncludeUpdateManyAndReturn<ExtArgs> | null
+  }
+
+  /**
+   * Invoice upsert
+   */
+  export type InvoiceUpsertArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Invoice
+     */
+    select?: InvoiceSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Invoice
+     */
+    omit?: InvoiceOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: InvoiceInclude<ExtArgs> | null
+    /**
+     * The filter to search for the Invoice to update in case it exists.
+     */
+    where: InvoiceWhereUniqueInput
+    /**
+     * In case the Invoice found by the `where` argument doesn't exist, create a new Invoice with this data.
+     */
+    create: XOR<InvoiceCreateInput, InvoiceUncheckedCreateInput>
+    /**
+     * In case the Invoice was found with the provided `where` argument, update it with this data.
+     */
+    update: XOR<InvoiceUpdateInput, InvoiceUncheckedUpdateInput>
+  }
+
+  /**
+   * Invoice delete
+   */
+  export type InvoiceDeleteArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Invoice
+     */
+    select?: InvoiceSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Invoice
+     */
+    omit?: InvoiceOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: InvoiceInclude<ExtArgs> | null
+    /**
+     * Filter which Invoice to delete.
+     */
+    where: InvoiceWhereUniqueInput
+  }
+
+  /**
+   * Invoice deleteMany
+   */
+  export type InvoiceDeleteManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which Invoices to delete
+     */
+    where?: InvoiceWhereInput
+    /**
+     * Limit how many Invoices to delete.
+     */
+    limit?: number
+  }
+
+  /**
+   * Invoice without action
+   */
+  export type InvoiceDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Invoice
+     */
+    select?: InvoiceSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Invoice
+     */
+    omit?: InvoiceOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: InvoiceInclude<ExtArgs> | null
   }
 
 
@@ -9330,6 +12006,32 @@ export namespace Prisma {
   export type CompanyScalarFieldEnum = (typeof CompanyScalarFieldEnum)[keyof typeof CompanyScalarFieldEnum]
 
 
+  export const CompanyFiscalConfigScalarFieldEnum: {
+    uuid: 'uuid',
+    companyUuid: 'companyUuid',
+    cnpj: 'cnpj',
+    razaoSocial: 'razaoSocial',
+    nomeFantasia: 'nomeFantasia',
+    logradouro: 'logradouro',
+    numero: 'numero',
+    complemento: 'complemento',
+    bairro: 'bairro',
+    cidade: 'cidade',
+    uf: 'uf',
+    cep: 'cep',
+    inscricaoEstadual: 'inscricaoEstadual',
+    regimeTributario: 'regimeTributario',
+    provider: 'provider',
+    providerApiKey: 'providerApiKey',
+    ncmPadrao: 'ncmPadrao',
+    cfopPadrao: 'cfopPadrao',
+    createdAt: 'createdAt',
+    updatedAt: 'updatedAt'
+  };
+
+  export type CompanyFiscalConfigScalarFieldEnum = (typeof CompanyFiscalConfigScalarFieldEnum)[keyof typeof CompanyFiscalConfigScalarFieldEnum]
+
+
   export const UserScalarFieldEnum: {
     uuid: 'uuid',
     email: 'email',
@@ -9385,6 +12087,23 @@ export namespace Prisma {
   export type OrderScalarFieldEnum = (typeof OrderScalarFieldEnum)[keyof typeof OrderScalarFieldEnum]
 
 
+  export const InvoiceScalarFieldEnum: {
+    uuid: 'uuid',
+    orderUuid: 'orderUuid',
+    companyUuid: 'companyUuid',
+    status: 'status',
+    nfceKey: 'nfceKey',
+    providerId: 'providerId',
+    errorMessage: 'errorMessage',
+    emittedAt: 'emittedAt',
+    xmlUrl: 'xmlUrl',
+    pdfUrl: 'pdfUrl',
+    createdAt: 'createdAt'
+  };
+
+  export type InvoiceScalarFieldEnum = (typeof InvoiceScalarFieldEnum)[keyof typeof InvoiceScalarFieldEnum]
+
+
   export const OrderItemScalarFieldEnum: {
     uuid: 'uuid',
     orderUuid: 'orderUuid',
@@ -9410,6 +12129,14 @@ export namespace Prisma {
   };
 
   export type QueryMode = (typeof QueryMode)[keyof typeof QueryMode]
+
+
+  export const NullsOrder: {
+    first: 'first',
+    last: 'last'
+  };
+
+  export type NullsOrder = (typeof NullsOrder)[keyof typeof NullsOrder]
 
 
   /**
@@ -9494,6 +12221,8 @@ export namespace Prisma {
     tables?: TableListRelationFilter
     categories?: CategoryListRelationFilter
     products?: ProductListRelationFilter
+    fiscalConfig?: XOR<CompanyFiscalConfigNullableScalarRelationFilter, CompanyFiscalConfigWhereInput> | null
+    invoices?: InvoiceListRelationFilter
   }
 
   export type CompanyOrderByWithRelationInput = {
@@ -9504,6 +12233,8 @@ export namespace Prisma {
     tables?: TableOrderByRelationAggregateInput
     categories?: CategoryOrderByRelationAggregateInput
     products?: ProductOrderByRelationAggregateInput
+    fiscalConfig?: CompanyFiscalConfigOrderByWithRelationInput
+    invoices?: InvoiceOrderByRelationAggregateInput
   }
 
   export type CompanyWhereUniqueInput = Prisma.AtLeast<{
@@ -9517,6 +12248,8 @@ export namespace Prisma {
     tables?: TableListRelationFilter
     categories?: CategoryListRelationFilter
     products?: ProductListRelationFilter
+    fiscalConfig?: XOR<CompanyFiscalConfigNullableScalarRelationFilter, CompanyFiscalConfigWhereInput> | null
+    invoices?: InvoiceListRelationFilter
   }, "uuid">
 
   export type CompanyOrderByWithAggregationInput = {
@@ -9535,6 +12268,136 @@ export namespace Prisma {
     uuid?: StringWithAggregatesFilter<"Company"> | string
     name?: StringWithAggregatesFilter<"Company"> | string
     createdAt?: DateTimeWithAggregatesFilter<"Company"> | Date | string
+  }
+
+  export type CompanyFiscalConfigWhereInput = {
+    AND?: CompanyFiscalConfigWhereInput | CompanyFiscalConfigWhereInput[]
+    OR?: CompanyFiscalConfigWhereInput[]
+    NOT?: CompanyFiscalConfigWhereInput | CompanyFiscalConfigWhereInput[]
+    uuid?: StringFilter<"CompanyFiscalConfig"> | string
+    companyUuid?: StringFilter<"CompanyFiscalConfig"> | string
+    cnpj?: StringFilter<"CompanyFiscalConfig"> | string
+    razaoSocial?: StringFilter<"CompanyFiscalConfig"> | string
+    nomeFantasia?: StringNullableFilter<"CompanyFiscalConfig"> | string | null
+    logradouro?: StringFilter<"CompanyFiscalConfig"> | string
+    numero?: StringFilter<"CompanyFiscalConfig"> | string
+    complemento?: StringNullableFilter<"CompanyFiscalConfig"> | string | null
+    bairro?: StringFilter<"CompanyFiscalConfig"> | string
+    cidade?: StringFilter<"CompanyFiscalConfig"> | string
+    uf?: StringFilter<"CompanyFiscalConfig"> | string
+    cep?: StringFilter<"CompanyFiscalConfig"> | string
+    inscricaoEstadual?: StringNullableFilter<"CompanyFiscalConfig"> | string | null
+    regimeTributario?: StringFilter<"CompanyFiscalConfig"> | string
+    provider?: StringFilter<"CompanyFiscalConfig"> | string
+    providerApiKey?: StringNullableFilter<"CompanyFiscalConfig"> | string | null
+    ncmPadrao?: StringFilter<"CompanyFiscalConfig"> | string
+    cfopPadrao?: StringFilter<"CompanyFiscalConfig"> | string
+    createdAt?: DateTimeFilter<"CompanyFiscalConfig"> | Date | string
+    updatedAt?: DateTimeFilter<"CompanyFiscalConfig"> | Date | string
+    company?: XOR<CompanyScalarRelationFilter, CompanyWhereInput>
+  }
+
+  export type CompanyFiscalConfigOrderByWithRelationInput = {
+    uuid?: SortOrder
+    companyUuid?: SortOrder
+    cnpj?: SortOrder
+    razaoSocial?: SortOrder
+    nomeFantasia?: SortOrderInput | SortOrder
+    logradouro?: SortOrder
+    numero?: SortOrder
+    complemento?: SortOrderInput | SortOrder
+    bairro?: SortOrder
+    cidade?: SortOrder
+    uf?: SortOrder
+    cep?: SortOrder
+    inscricaoEstadual?: SortOrderInput | SortOrder
+    regimeTributario?: SortOrder
+    provider?: SortOrder
+    providerApiKey?: SortOrderInput | SortOrder
+    ncmPadrao?: SortOrder
+    cfopPadrao?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+    company?: CompanyOrderByWithRelationInput
+  }
+
+  export type CompanyFiscalConfigWhereUniqueInput = Prisma.AtLeast<{
+    uuid?: string
+    companyUuid?: string
+    AND?: CompanyFiscalConfigWhereInput | CompanyFiscalConfigWhereInput[]
+    OR?: CompanyFiscalConfigWhereInput[]
+    NOT?: CompanyFiscalConfigWhereInput | CompanyFiscalConfigWhereInput[]
+    cnpj?: StringFilter<"CompanyFiscalConfig"> | string
+    razaoSocial?: StringFilter<"CompanyFiscalConfig"> | string
+    nomeFantasia?: StringNullableFilter<"CompanyFiscalConfig"> | string | null
+    logradouro?: StringFilter<"CompanyFiscalConfig"> | string
+    numero?: StringFilter<"CompanyFiscalConfig"> | string
+    complemento?: StringNullableFilter<"CompanyFiscalConfig"> | string | null
+    bairro?: StringFilter<"CompanyFiscalConfig"> | string
+    cidade?: StringFilter<"CompanyFiscalConfig"> | string
+    uf?: StringFilter<"CompanyFiscalConfig"> | string
+    cep?: StringFilter<"CompanyFiscalConfig"> | string
+    inscricaoEstadual?: StringNullableFilter<"CompanyFiscalConfig"> | string | null
+    regimeTributario?: StringFilter<"CompanyFiscalConfig"> | string
+    provider?: StringFilter<"CompanyFiscalConfig"> | string
+    providerApiKey?: StringNullableFilter<"CompanyFiscalConfig"> | string | null
+    ncmPadrao?: StringFilter<"CompanyFiscalConfig"> | string
+    cfopPadrao?: StringFilter<"CompanyFiscalConfig"> | string
+    createdAt?: DateTimeFilter<"CompanyFiscalConfig"> | Date | string
+    updatedAt?: DateTimeFilter<"CompanyFiscalConfig"> | Date | string
+    company?: XOR<CompanyScalarRelationFilter, CompanyWhereInput>
+  }, "uuid" | "companyUuid">
+
+  export type CompanyFiscalConfigOrderByWithAggregationInput = {
+    uuid?: SortOrder
+    companyUuid?: SortOrder
+    cnpj?: SortOrder
+    razaoSocial?: SortOrder
+    nomeFantasia?: SortOrderInput | SortOrder
+    logradouro?: SortOrder
+    numero?: SortOrder
+    complemento?: SortOrderInput | SortOrder
+    bairro?: SortOrder
+    cidade?: SortOrder
+    uf?: SortOrder
+    cep?: SortOrder
+    inscricaoEstadual?: SortOrderInput | SortOrder
+    regimeTributario?: SortOrder
+    provider?: SortOrder
+    providerApiKey?: SortOrderInput | SortOrder
+    ncmPadrao?: SortOrder
+    cfopPadrao?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+    _count?: CompanyFiscalConfigCountOrderByAggregateInput
+    _max?: CompanyFiscalConfigMaxOrderByAggregateInput
+    _min?: CompanyFiscalConfigMinOrderByAggregateInput
+  }
+
+  export type CompanyFiscalConfigScalarWhereWithAggregatesInput = {
+    AND?: CompanyFiscalConfigScalarWhereWithAggregatesInput | CompanyFiscalConfigScalarWhereWithAggregatesInput[]
+    OR?: CompanyFiscalConfigScalarWhereWithAggregatesInput[]
+    NOT?: CompanyFiscalConfigScalarWhereWithAggregatesInput | CompanyFiscalConfigScalarWhereWithAggregatesInput[]
+    uuid?: StringWithAggregatesFilter<"CompanyFiscalConfig"> | string
+    companyUuid?: StringWithAggregatesFilter<"CompanyFiscalConfig"> | string
+    cnpj?: StringWithAggregatesFilter<"CompanyFiscalConfig"> | string
+    razaoSocial?: StringWithAggregatesFilter<"CompanyFiscalConfig"> | string
+    nomeFantasia?: StringNullableWithAggregatesFilter<"CompanyFiscalConfig"> | string | null
+    logradouro?: StringWithAggregatesFilter<"CompanyFiscalConfig"> | string
+    numero?: StringWithAggregatesFilter<"CompanyFiscalConfig"> | string
+    complemento?: StringNullableWithAggregatesFilter<"CompanyFiscalConfig"> | string | null
+    bairro?: StringWithAggregatesFilter<"CompanyFiscalConfig"> | string
+    cidade?: StringWithAggregatesFilter<"CompanyFiscalConfig"> | string
+    uf?: StringWithAggregatesFilter<"CompanyFiscalConfig"> | string
+    cep?: StringWithAggregatesFilter<"CompanyFiscalConfig"> | string
+    inscricaoEstadual?: StringNullableWithAggregatesFilter<"CompanyFiscalConfig"> | string | null
+    regimeTributario?: StringWithAggregatesFilter<"CompanyFiscalConfig"> | string
+    provider?: StringWithAggregatesFilter<"CompanyFiscalConfig"> | string
+    providerApiKey?: StringNullableWithAggregatesFilter<"CompanyFiscalConfig"> | string | null
+    ncmPadrao?: StringWithAggregatesFilter<"CompanyFiscalConfig"> | string
+    cfopPadrao?: StringWithAggregatesFilter<"CompanyFiscalConfig"> | string
+    createdAt?: DateTimeWithAggregatesFilter<"CompanyFiscalConfig"> | Date | string
+    updatedAt?: DateTimeWithAggregatesFilter<"CompanyFiscalConfig"> | Date | string
   }
 
   export type UserWhereInput = {
@@ -9789,6 +12652,7 @@ export namespace Prisma {
     createdAt?: DateTimeFilter<"Order"> | Date | string
     table?: XOR<TableScalarRelationFilter, TableWhereInput>
     items?: OrderItemListRelationFilter
+    invoices?: InvoiceListRelationFilter
   }
 
   export type OrderOrderByWithRelationInput = {
@@ -9798,6 +12662,7 @@ export namespace Prisma {
     createdAt?: SortOrder
     table?: TableOrderByWithRelationInput
     items?: OrderItemOrderByRelationAggregateInput
+    invoices?: InvoiceOrderByRelationAggregateInput
   }
 
   export type OrderWhereUniqueInput = Prisma.AtLeast<{
@@ -9810,6 +12675,7 @@ export namespace Prisma {
     createdAt?: DateTimeFilter<"Order"> | Date | string
     table?: XOR<TableScalarRelationFilter, TableWhereInput>
     items?: OrderItemListRelationFilter
+    invoices?: InvoiceListRelationFilter
   }, "uuid">
 
   export type OrderOrderByWithAggregationInput = {
@@ -9830,6 +12696,94 @@ export namespace Prisma {
     tableUuid?: StringWithAggregatesFilter<"Order"> | string
     status?: StringWithAggregatesFilter<"Order"> | string
     createdAt?: DateTimeWithAggregatesFilter<"Order"> | Date | string
+  }
+
+  export type InvoiceWhereInput = {
+    AND?: InvoiceWhereInput | InvoiceWhereInput[]
+    OR?: InvoiceWhereInput[]
+    NOT?: InvoiceWhereInput | InvoiceWhereInput[]
+    uuid?: StringFilter<"Invoice"> | string
+    orderUuid?: StringFilter<"Invoice"> | string
+    companyUuid?: StringFilter<"Invoice"> | string
+    status?: StringFilter<"Invoice"> | string
+    nfceKey?: StringNullableFilter<"Invoice"> | string | null
+    providerId?: StringNullableFilter<"Invoice"> | string | null
+    errorMessage?: StringNullableFilter<"Invoice"> | string | null
+    emittedAt?: DateTimeNullableFilter<"Invoice"> | Date | string | null
+    xmlUrl?: StringNullableFilter<"Invoice"> | string | null
+    pdfUrl?: StringNullableFilter<"Invoice"> | string | null
+    createdAt?: DateTimeFilter<"Invoice"> | Date | string
+    order?: XOR<OrderScalarRelationFilter, OrderWhereInput>
+    company?: XOR<CompanyScalarRelationFilter, CompanyWhereInput>
+  }
+
+  export type InvoiceOrderByWithRelationInput = {
+    uuid?: SortOrder
+    orderUuid?: SortOrder
+    companyUuid?: SortOrder
+    status?: SortOrder
+    nfceKey?: SortOrderInput | SortOrder
+    providerId?: SortOrderInput | SortOrder
+    errorMessage?: SortOrderInput | SortOrder
+    emittedAt?: SortOrderInput | SortOrder
+    xmlUrl?: SortOrderInput | SortOrder
+    pdfUrl?: SortOrderInput | SortOrder
+    createdAt?: SortOrder
+    order?: OrderOrderByWithRelationInput
+    company?: CompanyOrderByWithRelationInput
+  }
+
+  export type InvoiceWhereUniqueInput = Prisma.AtLeast<{
+    uuid?: string
+    AND?: InvoiceWhereInput | InvoiceWhereInput[]
+    OR?: InvoiceWhereInput[]
+    NOT?: InvoiceWhereInput | InvoiceWhereInput[]
+    orderUuid?: StringFilter<"Invoice"> | string
+    companyUuid?: StringFilter<"Invoice"> | string
+    status?: StringFilter<"Invoice"> | string
+    nfceKey?: StringNullableFilter<"Invoice"> | string | null
+    providerId?: StringNullableFilter<"Invoice"> | string | null
+    errorMessage?: StringNullableFilter<"Invoice"> | string | null
+    emittedAt?: DateTimeNullableFilter<"Invoice"> | Date | string | null
+    xmlUrl?: StringNullableFilter<"Invoice"> | string | null
+    pdfUrl?: StringNullableFilter<"Invoice"> | string | null
+    createdAt?: DateTimeFilter<"Invoice"> | Date | string
+    order?: XOR<OrderScalarRelationFilter, OrderWhereInput>
+    company?: XOR<CompanyScalarRelationFilter, CompanyWhereInput>
+  }, "uuid">
+
+  export type InvoiceOrderByWithAggregationInput = {
+    uuid?: SortOrder
+    orderUuid?: SortOrder
+    companyUuid?: SortOrder
+    status?: SortOrder
+    nfceKey?: SortOrderInput | SortOrder
+    providerId?: SortOrderInput | SortOrder
+    errorMessage?: SortOrderInput | SortOrder
+    emittedAt?: SortOrderInput | SortOrder
+    xmlUrl?: SortOrderInput | SortOrder
+    pdfUrl?: SortOrderInput | SortOrder
+    createdAt?: SortOrder
+    _count?: InvoiceCountOrderByAggregateInput
+    _max?: InvoiceMaxOrderByAggregateInput
+    _min?: InvoiceMinOrderByAggregateInput
+  }
+
+  export type InvoiceScalarWhereWithAggregatesInput = {
+    AND?: InvoiceScalarWhereWithAggregatesInput | InvoiceScalarWhereWithAggregatesInput[]
+    OR?: InvoiceScalarWhereWithAggregatesInput[]
+    NOT?: InvoiceScalarWhereWithAggregatesInput | InvoiceScalarWhereWithAggregatesInput[]
+    uuid?: StringWithAggregatesFilter<"Invoice"> | string
+    orderUuid?: StringWithAggregatesFilter<"Invoice"> | string
+    companyUuid?: StringWithAggregatesFilter<"Invoice"> | string
+    status?: StringWithAggregatesFilter<"Invoice"> | string
+    nfceKey?: StringNullableWithAggregatesFilter<"Invoice"> | string | null
+    providerId?: StringNullableWithAggregatesFilter<"Invoice"> | string | null
+    errorMessage?: StringNullableWithAggregatesFilter<"Invoice"> | string | null
+    emittedAt?: DateTimeNullableWithAggregatesFilter<"Invoice"> | Date | string | null
+    xmlUrl?: StringNullableWithAggregatesFilter<"Invoice"> | string | null
+    pdfUrl?: StringNullableWithAggregatesFilter<"Invoice"> | string | null
+    createdAt?: DateTimeWithAggregatesFilter<"Invoice"> | Date | string
   }
 
   export type OrderItemWhereInput = {
@@ -9900,6 +12854,8 @@ export namespace Prisma {
     tables?: TableCreateNestedManyWithoutCompanyInput
     categories?: CategoryCreateNestedManyWithoutCompanyInput
     products?: ProductCreateNestedManyWithoutCompanyInput
+    fiscalConfig?: CompanyFiscalConfigCreateNestedOneWithoutCompanyInput
+    invoices?: InvoiceCreateNestedManyWithoutCompanyInput
   }
 
   export type CompanyUncheckedCreateInput = {
@@ -9910,6 +12866,8 @@ export namespace Prisma {
     tables?: TableUncheckedCreateNestedManyWithoutCompanyInput
     categories?: CategoryUncheckedCreateNestedManyWithoutCompanyInput
     products?: ProductUncheckedCreateNestedManyWithoutCompanyInput
+    fiscalConfig?: CompanyFiscalConfigUncheckedCreateNestedOneWithoutCompanyInput
+    invoices?: InvoiceUncheckedCreateNestedManyWithoutCompanyInput
   }
 
   export type CompanyUpdateInput = {
@@ -9920,6 +12878,8 @@ export namespace Prisma {
     tables?: TableUpdateManyWithoutCompanyNestedInput
     categories?: CategoryUpdateManyWithoutCompanyNestedInput
     products?: ProductUpdateManyWithoutCompanyNestedInput
+    fiscalConfig?: CompanyFiscalConfigUpdateOneWithoutCompanyNestedInput
+    invoices?: InvoiceUpdateManyWithoutCompanyNestedInput
   }
 
   export type CompanyUncheckedUpdateInput = {
@@ -9930,6 +12890,8 @@ export namespace Prisma {
     tables?: TableUncheckedUpdateManyWithoutCompanyNestedInput
     categories?: CategoryUncheckedUpdateManyWithoutCompanyNestedInput
     products?: ProductUncheckedUpdateManyWithoutCompanyNestedInput
+    fiscalConfig?: CompanyFiscalConfigUncheckedUpdateOneWithoutCompanyNestedInput
+    invoices?: InvoiceUncheckedUpdateManyWithoutCompanyNestedInput
   }
 
   export type CompanyCreateManyInput = {
@@ -9948,6 +12910,166 @@ export namespace Prisma {
     uuid?: StringFieldUpdateOperationsInput | string
     name?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type CompanyFiscalConfigCreateInput = {
+    uuid?: string
+    cnpj: string
+    razaoSocial: string
+    nomeFantasia?: string | null
+    logradouro: string
+    numero: string
+    complemento?: string | null
+    bairro: string
+    cidade: string
+    uf: string
+    cep: string
+    inscricaoEstadual?: string | null
+    regimeTributario?: string
+    provider?: string
+    providerApiKey?: string | null
+    ncmPadrao?: string
+    cfopPadrao?: string
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    company: CompanyCreateNestedOneWithoutFiscalConfigInput
+  }
+
+  export type CompanyFiscalConfigUncheckedCreateInput = {
+    uuid?: string
+    companyUuid: string
+    cnpj: string
+    razaoSocial: string
+    nomeFantasia?: string | null
+    logradouro: string
+    numero: string
+    complemento?: string | null
+    bairro: string
+    cidade: string
+    uf: string
+    cep: string
+    inscricaoEstadual?: string | null
+    regimeTributario?: string
+    provider?: string
+    providerApiKey?: string | null
+    ncmPadrao?: string
+    cfopPadrao?: string
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type CompanyFiscalConfigUpdateInput = {
+    uuid?: StringFieldUpdateOperationsInput | string
+    cnpj?: StringFieldUpdateOperationsInput | string
+    razaoSocial?: StringFieldUpdateOperationsInput | string
+    nomeFantasia?: NullableStringFieldUpdateOperationsInput | string | null
+    logradouro?: StringFieldUpdateOperationsInput | string
+    numero?: StringFieldUpdateOperationsInput | string
+    complemento?: NullableStringFieldUpdateOperationsInput | string | null
+    bairro?: StringFieldUpdateOperationsInput | string
+    cidade?: StringFieldUpdateOperationsInput | string
+    uf?: StringFieldUpdateOperationsInput | string
+    cep?: StringFieldUpdateOperationsInput | string
+    inscricaoEstadual?: NullableStringFieldUpdateOperationsInput | string | null
+    regimeTributario?: StringFieldUpdateOperationsInput | string
+    provider?: StringFieldUpdateOperationsInput | string
+    providerApiKey?: NullableStringFieldUpdateOperationsInput | string | null
+    ncmPadrao?: StringFieldUpdateOperationsInput | string
+    cfopPadrao?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    company?: CompanyUpdateOneRequiredWithoutFiscalConfigNestedInput
+  }
+
+  export type CompanyFiscalConfigUncheckedUpdateInput = {
+    uuid?: StringFieldUpdateOperationsInput | string
+    companyUuid?: StringFieldUpdateOperationsInput | string
+    cnpj?: StringFieldUpdateOperationsInput | string
+    razaoSocial?: StringFieldUpdateOperationsInput | string
+    nomeFantasia?: NullableStringFieldUpdateOperationsInput | string | null
+    logradouro?: StringFieldUpdateOperationsInput | string
+    numero?: StringFieldUpdateOperationsInput | string
+    complemento?: NullableStringFieldUpdateOperationsInput | string | null
+    bairro?: StringFieldUpdateOperationsInput | string
+    cidade?: StringFieldUpdateOperationsInput | string
+    uf?: StringFieldUpdateOperationsInput | string
+    cep?: StringFieldUpdateOperationsInput | string
+    inscricaoEstadual?: NullableStringFieldUpdateOperationsInput | string | null
+    regimeTributario?: StringFieldUpdateOperationsInput | string
+    provider?: StringFieldUpdateOperationsInput | string
+    providerApiKey?: NullableStringFieldUpdateOperationsInput | string | null
+    ncmPadrao?: StringFieldUpdateOperationsInput | string
+    cfopPadrao?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type CompanyFiscalConfigCreateManyInput = {
+    uuid?: string
+    companyUuid: string
+    cnpj: string
+    razaoSocial: string
+    nomeFantasia?: string | null
+    logradouro: string
+    numero: string
+    complemento?: string | null
+    bairro: string
+    cidade: string
+    uf: string
+    cep: string
+    inscricaoEstadual?: string | null
+    regimeTributario?: string
+    provider?: string
+    providerApiKey?: string | null
+    ncmPadrao?: string
+    cfopPadrao?: string
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type CompanyFiscalConfigUpdateManyMutationInput = {
+    uuid?: StringFieldUpdateOperationsInput | string
+    cnpj?: StringFieldUpdateOperationsInput | string
+    razaoSocial?: StringFieldUpdateOperationsInput | string
+    nomeFantasia?: NullableStringFieldUpdateOperationsInput | string | null
+    logradouro?: StringFieldUpdateOperationsInput | string
+    numero?: StringFieldUpdateOperationsInput | string
+    complemento?: NullableStringFieldUpdateOperationsInput | string | null
+    bairro?: StringFieldUpdateOperationsInput | string
+    cidade?: StringFieldUpdateOperationsInput | string
+    uf?: StringFieldUpdateOperationsInput | string
+    cep?: StringFieldUpdateOperationsInput | string
+    inscricaoEstadual?: NullableStringFieldUpdateOperationsInput | string | null
+    regimeTributario?: StringFieldUpdateOperationsInput | string
+    provider?: StringFieldUpdateOperationsInput | string
+    providerApiKey?: NullableStringFieldUpdateOperationsInput | string | null
+    ncmPadrao?: StringFieldUpdateOperationsInput | string
+    cfopPadrao?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type CompanyFiscalConfigUncheckedUpdateManyInput = {
+    uuid?: StringFieldUpdateOperationsInput | string
+    companyUuid?: StringFieldUpdateOperationsInput | string
+    cnpj?: StringFieldUpdateOperationsInput | string
+    razaoSocial?: StringFieldUpdateOperationsInput | string
+    nomeFantasia?: NullableStringFieldUpdateOperationsInput | string | null
+    logradouro?: StringFieldUpdateOperationsInput | string
+    numero?: StringFieldUpdateOperationsInput | string
+    complemento?: NullableStringFieldUpdateOperationsInput | string | null
+    bairro?: StringFieldUpdateOperationsInput | string
+    cidade?: StringFieldUpdateOperationsInput | string
+    uf?: StringFieldUpdateOperationsInput | string
+    cep?: StringFieldUpdateOperationsInput | string
+    inscricaoEstadual?: NullableStringFieldUpdateOperationsInput | string | null
+    regimeTributario?: StringFieldUpdateOperationsInput | string
+    provider?: StringFieldUpdateOperationsInput | string
+    providerApiKey?: NullableStringFieldUpdateOperationsInput | string | null
+    ncmPadrao?: StringFieldUpdateOperationsInput | string
+    cfopPadrao?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
   export type UserCreateInput = {
@@ -10194,6 +13316,7 @@ export namespace Prisma {
     createdAt?: Date | string
     table: TableCreateNestedOneWithoutOrdersInput
     items?: OrderItemCreateNestedManyWithoutOrderInput
+    invoices?: InvoiceCreateNestedManyWithoutOrderInput
   }
 
   export type OrderUncheckedCreateInput = {
@@ -10202,6 +13325,7 @@ export namespace Prisma {
     status?: string
     createdAt?: Date | string
     items?: OrderItemUncheckedCreateNestedManyWithoutOrderInput
+    invoices?: InvoiceUncheckedCreateNestedManyWithoutOrderInput
   }
 
   export type OrderUpdateInput = {
@@ -10210,6 +13334,7 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     table?: TableUpdateOneRequiredWithoutOrdersNestedInput
     items?: OrderItemUpdateManyWithoutOrderNestedInput
+    invoices?: InvoiceUpdateManyWithoutOrderNestedInput
   }
 
   export type OrderUncheckedUpdateInput = {
@@ -10218,6 +13343,7 @@ export namespace Prisma {
     status?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     items?: OrderItemUncheckedUpdateManyWithoutOrderNestedInput
+    invoices?: InvoiceUncheckedUpdateManyWithoutOrderNestedInput
   }
 
   export type OrderCreateManyInput = {
@@ -10237,6 +13363,102 @@ export namespace Prisma {
     uuid?: StringFieldUpdateOperationsInput | string
     tableUuid?: StringFieldUpdateOperationsInput | string
     status?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type InvoiceCreateInput = {
+    uuid?: string
+    status?: string
+    nfceKey?: string | null
+    providerId?: string | null
+    errorMessage?: string | null
+    emittedAt?: Date | string | null
+    xmlUrl?: string | null
+    pdfUrl?: string | null
+    createdAt?: Date | string
+    order: OrderCreateNestedOneWithoutInvoicesInput
+    company: CompanyCreateNestedOneWithoutInvoicesInput
+  }
+
+  export type InvoiceUncheckedCreateInput = {
+    uuid?: string
+    orderUuid: string
+    companyUuid: string
+    status?: string
+    nfceKey?: string | null
+    providerId?: string | null
+    errorMessage?: string | null
+    emittedAt?: Date | string | null
+    xmlUrl?: string | null
+    pdfUrl?: string | null
+    createdAt?: Date | string
+  }
+
+  export type InvoiceUpdateInput = {
+    uuid?: StringFieldUpdateOperationsInput | string
+    status?: StringFieldUpdateOperationsInput | string
+    nfceKey?: NullableStringFieldUpdateOperationsInput | string | null
+    providerId?: NullableStringFieldUpdateOperationsInput | string | null
+    errorMessage?: NullableStringFieldUpdateOperationsInput | string | null
+    emittedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    xmlUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    pdfUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    order?: OrderUpdateOneRequiredWithoutInvoicesNestedInput
+    company?: CompanyUpdateOneRequiredWithoutInvoicesNestedInput
+  }
+
+  export type InvoiceUncheckedUpdateInput = {
+    uuid?: StringFieldUpdateOperationsInput | string
+    orderUuid?: StringFieldUpdateOperationsInput | string
+    companyUuid?: StringFieldUpdateOperationsInput | string
+    status?: StringFieldUpdateOperationsInput | string
+    nfceKey?: NullableStringFieldUpdateOperationsInput | string | null
+    providerId?: NullableStringFieldUpdateOperationsInput | string | null
+    errorMessage?: NullableStringFieldUpdateOperationsInput | string | null
+    emittedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    xmlUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    pdfUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type InvoiceCreateManyInput = {
+    uuid?: string
+    orderUuid: string
+    companyUuid: string
+    status?: string
+    nfceKey?: string | null
+    providerId?: string | null
+    errorMessage?: string | null
+    emittedAt?: Date | string | null
+    xmlUrl?: string | null
+    pdfUrl?: string | null
+    createdAt?: Date | string
+  }
+
+  export type InvoiceUpdateManyMutationInput = {
+    uuid?: StringFieldUpdateOperationsInput | string
+    status?: StringFieldUpdateOperationsInput | string
+    nfceKey?: NullableStringFieldUpdateOperationsInput | string | null
+    providerId?: NullableStringFieldUpdateOperationsInput | string | null
+    errorMessage?: NullableStringFieldUpdateOperationsInput | string | null
+    emittedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    xmlUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    pdfUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type InvoiceUncheckedUpdateManyInput = {
+    uuid?: StringFieldUpdateOperationsInput | string
+    orderUuid?: StringFieldUpdateOperationsInput | string
+    companyUuid?: StringFieldUpdateOperationsInput | string
+    status?: StringFieldUpdateOperationsInput | string
+    nfceKey?: NullableStringFieldUpdateOperationsInput | string | null
+    providerId?: NullableStringFieldUpdateOperationsInput | string | null
+    errorMessage?: NullableStringFieldUpdateOperationsInput | string | null
+    emittedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    xmlUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    pdfUrl?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
@@ -10344,6 +13566,17 @@ export namespace Prisma {
     none?: ProductWhereInput
   }
 
+  export type CompanyFiscalConfigNullableScalarRelationFilter = {
+    is?: CompanyFiscalConfigWhereInput | null
+    isNot?: CompanyFiscalConfigWhereInput | null
+  }
+
+  export type InvoiceListRelationFilter = {
+    every?: InvoiceWhereInput
+    some?: InvoiceWhereInput
+    none?: InvoiceWhereInput
+  }
+
   export type UserOrderByRelationAggregateInput = {
     _count?: SortOrder
   }
@@ -10357,6 +13590,10 @@ export namespace Prisma {
   }
 
   export type ProductOrderByRelationAggregateInput = {
+    _count?: SortOrder
+  }
+
+  export type InvoiceOrderByRelationAggregateInput = {
     _count?: SortOrder
   }
 
@@ -10410,9 +13647,116 @@ export namespace Prisma {
     _max?: NestedDateTimeFilter<$PrismaModel>
   }
 
+  export type StringNullableFilter<$PrismaModel = never> = {
+    equals?: string | StringFieldRefInput<$PrismaModel> | null
+    in?: string[] | ListStringFieldRefInput<$PrismaModel> | null
+    notIn?: string[] | ListStringFieldRefInput<$PrismaModel> | null
+    lt?: string | StringFieldRefInput<$PrismaModel>
+    lte?: string | StringFieldRefInput<$PrismaModel>
+    gt?: string | StringFieldRefInput<$PrismaModel>
+    gte?: string | StringFieldRefInput<$PrismaModel>
+    contains?: string | StringFieldRefInput<$PrismaModel>
+    startsWith?: string | StringFieldRefInput<$PrismaModel>
+    endsWith?: string | StringFieldRefInput<$PrismaModel>
+    mode?: QueryMode
+    not?: NestedStringNullableFilter<$PrismaModel> | string | null
+  }
+
   export type CompanyScalarRelationFilter = {
     is?: CompanyWhereInput
     isNot?: CompanyWhereInput
+  }
+
+  export type SortOrderInput = {
+    sort: SortOrder
+    nulls?: NullsOrder
+  }
+
+  export type CompanyFiscalConfigCountOrderByAggregateInput = {
+    uuid?: SortOrder
+    companyUuid?: SortOrder
+    cnpj?: SortOrder
+    razaoSocial?: SortOrder
+    nomeFantasia?: SortOrder
+    logradouro?: SortOrder
+    numero?: SortOrder
+    complemento?: SortOrder
+    bairro?: SortOrder
+    cidade?: SortOrder
+    uf?: SortOrder
+    cep?: SortOrder
+    inscricaoEstadual?: SortOrder
+    regimeTributario?: SortOrder
+    provider?: SortOrder
+    providerApiKey?: SortOrder
+    ncmPadrao?: SortOrder
+    cfopPadrao?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+  }
+
+  export type CompanyFiscalConfigMaxOrderByAggregateInput = {
+    uuid?: SortOrder
+    companyUuid?: SortOrder
+    cnpj?: SortOrder
+    razaoSocial?: SortOrder
+    nomeFantasia?: SortOrder
+    logradouro?: SortOrder
+    numero?: SortOrder
+    complemento?: SortOrder
+    bairro?: SortOrder
+    cidade?: SortOrder
+    uf?: SortOrder
+    cep?: SortOrder
+    inscricaoEstadual?: SortOrder
+    regimeTributario?: SortOrder
+    provider?: SortOrder
+    providerApiKey?: SortOrder
+    ncmPadrao?: SortOrder
+    cfopPadrao?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+  }
+
+  export type CompanyFiscalConfigMinOrderByAggregateInput = {
+    uuid?: SortOrder
+    companyUuid?: SortOrder
+    cnpj?: SortOrder
+    razaoSocial?: SortOrder
+    nomeFantasia?: SortOrder
+    logradouro?: SortOrder
+    numero?: SortOrder
+    complemento?: SortOrder
+    bairro?: SortOrder
+    cidade?: SortOrder
+    uf?: SortOrder
+    cep?: SortOrder
+    inscricaoEstadual?: SortOrder
+    regimeTributario?: SortOrder
+    provider?: SortOrder
+    providerApiKey?: SortOrder
+    ncmPadrao?: SortOrder
+    cfopPadrao?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+  }
+
+  export type StringNullableWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: string | StringFieldRefInput<$PrismaModel> | null
+    in?: string[] | ListStringFieldRefInput<$PrismaModel> | null
+    notIn?: string[] | ListStringFieldRefInput<$PrismaModel> | null
+    lt?: string | StringFieldRefInput<$PrismaModel>
+    lte?: string | StringFieldRefInput<$PrismaModel>
+    gt?: string | StringFieldRefInput<$PrismaModel>
+    gte?: string | StringFieldRefInput<$PrismaModel>
+    contains?: string | StringFieldRefInput<$PrismaModel>
+    startsWith?: string | StringFieldRefInput<$PrismaModel>
+    endsWith?: string | StringFieldRefInput<$PrismaModel>
+    mode?: QueryMode
+    not?: NestedStringNullableWithAggregatesFilter<$PrismaModel> | string | null
+    _count?: NestedIntNullableFilter<$PrismaModel>
+    _min?: NestedStringNullableFilter<$PrismaModel>
+    _max?: NestedStringNullableFilter<$PrismaModel>
   }
 
   export type UserCountOrderByAggregateInput = {
@@ -10653,9 +13997,76 @@ export namespace Prisma {
     createdAt?: SortOrder
   }
 
+  export type DateTimeNullableFilter<$PrismaModel = never> = {
+    equals?: Date | string | DateTimeFieldRefInput<$PrismaModel> | null
+    in?: Date[] | string[] | ListDateTimeFieldRefInput<$PrismaModel> | null
+    notIn?: Date[] | string[] | ListDateTimeFieldRefInput<$PrismaModel> | null
+    lt?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    lte?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    gt?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    gte?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    not?: NestedDateTimeNullableFilter<$PrismaModel> | Date | string | null
+  }
+
   export type OrderScalarRelationFilter = {
     is?: OrderWhereInput
     isNot?: OrderWhereInput
+  }
+
+  export type InvoiceCountOrderByAggregateInput = {
+    uuid?: SortOrder
+    orderUuid?: SortOrder
+    companyUuid?: SortOrder
+    status?: SortOrder
+    nfceKey?: SortOrder
+    providerId?: SortOrder
+    errorMessage?: SortOrder
+    emittedAt?: SortOrder
+    xmlUrl?: SortOrder
+    pdfUrl?: SortOrder
+    createdAt?: SortOrder
+  }
+
+  export type InvoiceMaxOrderByAggregateInput = {
+    uuid?: SortOrder
+    orderUuid?: SortOrder
+    companyUuid?: SortOrder
+    status?: SortOrder
+    nfceKey?: SortOrder
+    providerId?: SortOrder
+    errorMessage?: SortOrder
+    emittedAt?: SortOrder
+    xmlUrl?: SortOrder
+    pdfUrl?: SortOrder
+    createdAt?: SortOrder
+  }
+
+  export type InvoiceMinOrderByAggregateInput = {
+    uuid?: SortOrder
+    orderUuid?: SortOrder
+    companyUuid?: SortOrder
+    status?: SortOrder
+    nfceKey?: SortOrder
+    providerId?: SortOrder
+    errorMessage?: SortOrder
+    emittedAt?: SortOrder
+    xmlUrl?: SortOrder
+    pdfUrl?: SortOrder
+    createdAt?: SortOrder
+  }
+
+  export type DateTimeNullableWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: Date | string | DateTimeFieldRefInput<$PrismaModel> | null
+    in?: Date[] | string[] | ListDateTimeFieldRefInput<$PrismaModel> | null
+    notIn?: Date[] | string[] | ListDateTimeFieldRefInput<$PrismaModel> | null
+    lt?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    lte?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    gt?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    gte?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    not?: NestedDateTimeNullableWithAggregatesFilter<$PrismaModel> | Date | string | null
+    _count?: NestedIntNullableFilter<$PrismaModel>
+    _min?: NestedDateTimeNullableFilter<$PrismaModel>
+    _max?: NestedDateTimeNullableFilter<$PrismaModel>
   }
 
   export type ProductScalarRelationFilter = {
@@ -10725,6 +14136,19 @@ export namespace Prisma {
     connect?: ProductWhereUniqueInput | ProductWhereUniqueInput[]
   }
 
+  export type CompanyFiscalConfigCreateNestedOneWithoutCompanyInput = {
+    create?: XOR<CompanyFiscalConfigCreateWithoutCompanyInput, CompanyFiscalConfigUncheckedCreateWithoutCompanyInput>
+    connectOrCreate?: CompanyFiscalConfigCreateOrConnectWithoutCompanyInput
+    connect?: CompanyFiscalConfigWhereUniqueInput
+  }
+
+  export type InvoiceCreateNestedManyWithoutCompanyInput = {
+    create?: XOR<InvoiceCreateWithoutCompanyInput, InvoiceUncheckedCreateWithoutCompanyInput> | InvoiceCreateWithoutCompanyInput[] | InvoiceUncheckedCreateWithoutCompanyInput[]
+    connectOrCreate?: InvoiceCreateOrConnectWithoutCompanyInput | InvoiceCreateOrConnectWithoutCompanyInput[]
+    createMany?: InvoiceCreateManyCompanyInputEnvelope
+    connect?: InvoiceWhereUniqueInput | InvoiceWhereUniqueInput[]
+  }
+
   export type UserUncheckedCreateNestedManyWithoutCompanyInput = {
     create?: XOR<UserCreateWithoutCompanyInput, UserUncheckedCreateWithoutCompanyInput> | UserCreateWithoutCompanyInput[] | UserUncheckedCreateWithoutCompanyInput[]
     connectOrCreate?: UserCreateOrConnectWithoutCompanyInput | UserCreateOrConnectWithoutCompanyInput[]
@@ -10751,6 +14175,19 @@ export namespace Prisma {
     connectOrCreate?: ProductCreateOrConnectWithoutCompanyInput | ProductCreateOrConnectWithoutCompanyInput[]
     createMany?: ProductCreateManyCompanyInputEnvelope
     connect?: ProductWhereUniqueInput | ProductWhereUniqueInput[]
+  }
+
+  export type CompanyFiscalConfigUncheckedCreateNestedOneWithoutCompanyInput = {
+    create?: XOR<CompanyFiscalConfigCreateWithoutCompanyInput, CompanyFiscalConfigUncheckedCreateWithoutCompanyInput>
+    connectOrCreate?: CompanyFiscalConfigCreateOrConnectWithoutCompanyInput
+    connect?: CompanyFiscalConfigWhereUniqueInput
+  }
+
+  export type InvoiceUncheckedCreateNestedManyWithoutCompanyInput = {
+    create?: XOR<InvoiceCreateWithoutCompanyInput, InvoiceUncheckedCreateWithoutCompanyInput> | InvoiceCreateWithoutCompanyInput[] | InvoiceUncheckedCreateWithoutCompanyInput[]
+    connectOrCreate?: InvoiceCreateOrConnectWithoutCompanyInput | InvoiceCreateOrConnectWithoutCompanyInput[]
+    createMany?: InvoiceCreateManyCompanyInputEnvelope
+    connect?: InvoiceWhereUniqueInput | InvoiceWhereUniqueInput[]
   }
 
   export type StringFieldUpdateOperationsInput = {
@@ -10817,6 +14254,30 @@ export namespace Prisma {
     deleteMany?: ProductScalarWhereInput | ProductScalarWhereInput[]
   }
 
+  export type CompanyFiscalConfigUpdateOneWithoutCompanyNestedInput = {
+    create?: XOR<CompanyFiscalConfigCreateWithoutCompanyInput, CompanyFiscalConfigUncheckedCreateWithoutCompanyInput>
+    connectOrCreate?: CompanyFiscalConfigCreateOrConnectWithoutCompanyInput
+    upsert?: CompanyFiscalConfigUpsertWithoutCompanyInput
+    disconnect?: CompanyFiscalConfigWhereInput | boolean
+    delete?: CompanyFiscalConfigWhereInput | boolean
+    connect?: CompanyFiscalConfigWhereUniqueInput
+    update?: XOR<XOR<CompanyFiscalConfigUpdateToOneWithWhereWithoutCompanyInput, CompanyFiscalConfigUpdateWithoutCompanyInput>, CompanyFiscalConfigUncheckedUpdateWithoutCompanyInput>
+  }
+
+  export type InvoiceUpdateManyWithoutCompanyNestedInput = {
+    create?: XOR<InvoiceCreateWithoutCompanyInput, InvoiceUncheckedCreateWithoutCompanyInput> | InvoiceCreateWithoutCompanyInput[] | InvoiceUncheckedCreateWithoutCompanyInput[]
+    connectOrCreate?: InvoiceCreateOrConnectWithoutCompanyInput | InvoiceCreateOrConnectWithoutCompanyInput[]
+    upsert?: InvoiceUpsertWithWhereUniqueWithoutCompanyInput | InvoiceUpsertWithWhereUniqueWithoutCompanyInput[]
+    createMany?: InvoiceCreateManyCompanyInputEnvelope
+    set?: InvoiceWhereUniqueInput | InvoiceWhereUniqueInput[]
+    disconnect?: InvoiceWhereUniqueInput | InvoiceWhereUniqueInput[]
+    delete?: InvoiceWhereUniqueInput | InvoiceWhereUniqueInput[]
+    connect?: InvoiceWhereUniqueInput | InvoiceWhereUniqueInput[]
+    update?: InvoiceUpdateWithWhereUniqueWithoutCompanyInput | InvoiceUpdateWithWhereUniqueWithoutCompanyInput[]
+    updateMany?: InvoiceUpdateManyWithWhereWithoutCompanyInput | InvoiceUpdateManyWithWhereWithoutCompanyInput[]
+    deleteMany?: InvoiceScalarWhereInput | InvoiceScalarWhereInput[]
+  }
+
   export type UserUncheckedUpdateManyWithoutCompanyNestedInput = {
     create?: XOR<UserCreateWithoutCompanyInput, UserUncheckedCreateWithoutCompanyInput> | UserCreateWithoutCompanyInput[] | UserUncheckedCreateWithoutCompanyInput[]
     connectOrCreate?: UserCreateOrConnectWithoutCompanyInput | UserCreateOrConnectWithoutCompanyInput[]
@@ -10871,6 +14332,48 @@ export namespace Prisma {
     update?: ProductUpdateWithWhereUniqueWithoutCompanyInput | ProductUpdateWithWhereUniqueWithoutCompanyInput[]
     updateMany?: ProductUpdateManyWithWhereWithoutCompanyInput | ProductUpdateManyWithWhereWithoutCompanyInput[]
     deleteMany?: ProductScalarWhereInput | ProductScalarWhereInput[]
+  }
+
+  export type CompanyFiscalConfigUncheckedUpdateOneWithoutCompanyNestedInput = {
+    create?: XOR<CompanyFiscalConfigCreateWithoutCompanyInput, CompanyFiscalConfigUncheckedCreateWithoutCompanyInput>
+    connectOrCreate?: CompanyFiscalConfigCreateOrConnectWithoutCompanyInput
+    upsert?: CompanyFiscalConfigUpsertWithoutCompanyInput
+    disconnect?: CompanyFiscalConfigWhereInput | boolean
+    delete?: CompanyFiscalConfigWhereInput | boolean
+    connect?: CompanyFiscalConfigWhereUniqueInput
+    update?: XOR<XOR<CompanyFiscalConfigUpdateToOneWithWhereWithoutCompanyInput, CompanyFiscalConfigUpdateWithoutCompanyInput>, CompanyFiscalConfigUncheckedUpdateWithoutCompanyInput>
+  }
+
+  export type InvoiceUncheckedUpdateManyWithoutCompanyNestedInput = {
+    create?: XOR<InvoiceCreateWithoutCompanyInput, InvoiceUncheckedCreateWithoutCompanyInput> | InvoiceCreateWithoutCompanyInput[] | InvoiceUncheckedCreateWithoutCompanyInput[]
+    connectOrCreate?: InvoiceCreateOrConnectWithoutCompanyInput | InvoiceCreateOrConnectWithoutCompanyInput[]
+    upsert?: InvoiceUpsertWithWhereUniqueWithoutCompanyInput | InvoiceUpsertWithWhereUniqueWithoutCompanyInput[]
+    createMany?: InvoiceCreateManyCompanyInputEnvelope
+    set?: InvoiceWhereUniqueInput | InvoiceWhereUniqueInput[]
+    disconnect?: InvoiceWhereUniqueInput | InvoiceWhereUniqueInput[]
+    delete?: InvoiceWhereUniqueInput | InvoiceWhereUniqueInput[]
+    connect?: InvoiceWhereUniqueInput | InvoiceWhereUniqueInput[]
+    update?: InvoiceUpdateWithWhereUniqueWithoutCompanyInput | InvoiceUpdateWithWhereUniqueWithoutCompanyInput[]
+    updateMany?: InvoiceUpdateManyWithWhereWithoutCompanyInput | InvoiceUpdateManyWithWhereWithoutCompanyInput[]
+    deleteMany?: InvoiceScalarWhereInput | InvoiceScalarWhereInput[]
+  }
+
+  export type CompanyCreateNestedOneWithoutFiscalConfigInput = {
+    create?: XOR<CompanyCreateWithoutFiscalConfigInput, CompanyUncheckedCreateWithoutFiscalConfigInput>
+    connectOrCreate?: CompanyCreateOrConnectWithoutFiscalConfigInput
+    connect?: CompanyWhereUniqueInput
+  }
+
+  export type NullableStringFieldUpdateOperationsInput = {
+    set?: string | null
+  }
+
+  export type CompanyUpdateOneRequiredWithoutFiscalConfigNestedInput = {
+    create?: XOR<CompanyCreateWithoutFiscalConfigInput, CompanyUncheckedCreateWithoutFiscalConfigInput>
+    connectOrCreate?: CompanyCreateOrConnectWithoutFiscalConfigInput
+    upsert?: CompanyUpsertWithoutFiscalConfigInput
+    connect?: CompanyWhereUniqueInput
+    update?: XOR<XOR<CompanyUpdateToOneWithWhereWithoutFiscalConfigInput, CompanyUpdateWithoutFiscalConfigInput>, CompanyUncheckedUpdateWithoutFiscalConfigInput>
   }
 
   export type CompanyCreateNestedOneWithoutUsersInput = {
@@ -11102,11 +14605,25 @@ export namespace Prisma {
     connect?: OrderItemWhereUniqueInput | OrderItemWhereUniqueInput[]
   }
 
+  export type InvoiceCreateNestedManyWithoutOrderInput = {
+    create?: XOR<InvoiceCreateWithoutOrderInput, InvoiceUncheckedCreateWithoutOrderInput> | InvoiceCreateWithoutOrderInput[] | InvoiceUncheckedCreateWithoutOrderInput[]
+    connectOrCreate?: InvoiceCreateOrConnectWithoutOrderInput | InvoiceCreateOrConnectWithoutOrderInput[]
+    createMany?: InvoiceCreateManyOrderInputEnvelope
+    connect?: InvoiceWhereUniqueInput | InvoiceWhereUniqueInput[]
+  }
+
   export type OrderItemUncheckedCreateNestedManyWithoutOrderInput = {
     create?: XOR<OrderItemCreateWithoutOrderInput, OrderItemUncheckedCreateWithoutOrderInput> | OrderItemCreateWithoutOrderInput[] | OrderItemUncheckedCreateWithoutOrderInput[]
     connectOrCreate?: OrderItemCreateOrConnectWithoutOrderInput | OrderItemCreateOrConnectWithoutOrderInput[]
     createMany?: OrderItemCreateManyOrderInputEnvelope
     connect?: OrderItemWhereUniqueInput | OrderItemWhereUniqueInput[]
+  }
+
+  export type InvoiceUncheckedCreateNestedManyWithoutOrderInput = {
+    create?: XOR<InvoiceCreateWithoutOrderInput, InvoiceUncheckedCreateWithoutOrderInput> | InvoiceCreateWithoutOrderInput[] | InvoiceUncheckedCreateWithoutOrderInput[]
+    connectOrCreate?: InvoiceCreateOrConnectWithoutOrderInput | InvoiceCreateOrConnectWithoutOrderInput[]
+    createMany?: InvoiceCreateManyOrderInputEnvelope
+    connect?: InvoiceWhereUniqueInput | InvoiceWhereUniqueInput[]
   }
 
   export type TableUpdateOneRequiredWithoutOrdersNestedInput = {
@@ -11131,6 +14648,20 @@ export namespace Prisma {
     deleteMany?: OrderItemScalarWhereInput | OrderItemScalarWhereInput[]
   }
 
+  export type InvoiceUpdateManyWithoutOrderNestedInput = {
+    create?: XOR<InvoiceCreateWithoutOrderInput, InvoiceUncheckedCreateWithoutOrderInput> | InvoiceCreateWithoutOrderInput[] | InvoiceUncheckedCreateWithoutOrderInput[]
+    connectOrCreate?: InvoiceCreateOrConnectWithoutOrderInput | InvoiceCreateOrConnectWithoutOrderInput[]
+    upsert?: InvoiceUpsertWithWhereUniqueWithoutOrderInput | InvoiceUpsertWithWhereUniqueWithoutOrderInput[]
+    createMany?: InvoiceCreateManyOrderInputEnvelope
+    set?: InvoiceWhereUniqueInput | InvoiceWhereUniqueInput[]
+    disconnect?: InvoiceWhereUniqueInput | InvoiceWhereUniqueInput[]
+    delete?: InvoiceWhereUniqueInput | InvoiceWhereUniqueInput[]
+    connect?: InvoiceWhereUniqueInput | InvoiceWhereUniqueInput[]
+    update?: InvoiceUpdateWithWhereUniqueWithoutOrderInput | InvoiceUpdateWithWhereUniqueWithoutOrderInput[]
+    updateMany?: InvoiceUpdateManyWithWhereWithoutOrderInput | InvoiceUpdateManyWithWhereWithoutOrderInput[]
+    deleteMany?: InvoiceScalarWhereInput | InvoiceScalarWhereInput[]
+  }
+
   export type OrderItemUncheckedUpdateManyWithoutOrderNestedInput = {
     create?: XOR<OrderItemCreateWithoutOrderInput, OrderItemUncheckedCreateWithoutOrderInput> | OrderItemCreateWithoutOrderInput[] | OrderItemUncheckedCreateWithoutOrderInput[]
     connectOrCreate?: OrderItemCreateOrConnectWithoutOrderInput | OrderItemCreateOrConnectWithoutOrderInput[]
@@ -11143,6 +14674,52 @@ export namespace Prisma {
     update?: OrderItemUpdateWithWhereUniqueWithoutOrderInput | OrderItemUpdateWithWhereUniqueWithoutOrderInput[]
     updateMany?: OrderItemUpdateManyWithWhereWithoutOrderInput | OrderItemUpdateManyWithWhereWithoutOrderInput[]
     deleteMany?: OrderItemScalarWhereInput | OrderItemScalarWhereInput[]
+  }
+
+  export type InvoiceUncheckedUpdateManyWithoutOrderNestedInput = {
+    create?: XOR<InvoiceCreateWithoutOrderInput, InvoiceUncheckedCreateWithoutOrderInput> | InvoiceCreateWithoutOrderInput[] | InvoiceUncheckedCreateWithoutOrderInput[]
+    connectOrCreate?: InvoiceCreateOrConnectWithoutOrderInput | InvoiceCreateOrConnectWithoutOrderInput[]
+    upsert?: InvoiceUpsertWithWhereUniqueWithoutOrderInput | InvoiceUpsertWithWhereUniqueWithoutOrderInput[]
+    createMany?: InvoiceCreateManyOrderInputEnvelope
+    set?: InvoiceWhereUniqueInput | InvoiceWhereUniqueInput[]
+    disconnect?: InvoiceWhereUniqueInput | InvoiceWhereUniqueInput[]
+    delete?: InvoiceWhereUniqueInput | InvoiceWhereUniqueInput[]
+    connect?: InvoiceWhereUniqueInput | InvoiceWhereUniqueInput[]
+    update?: InvoiceUpdateWithWhereUniqueWithoutOrderInput | InvoiceUpdateWithWhereUniqueWithoutOrderInput[]
+    updateMany?: InvoiceUpdateManyWithWhereWithoutOrderInput | InvoiceUpdateManyWithWhereWithoutOrderInput[]
+    deleteMany?: InvoiceScalarWhereInput | InvoiceScalarWhereInput[]
+  }
+
+  export type OrderCreateNestedOneWithoutInvoicesInput = {
+    create?: XOR<OrderCreateWithoutInvoicesInput, OrderUncheckedCreateWithoutInvoicesInput>
+    connectOrCreate?: OrderCreateOrConnectWithoutInvoicesInput
+    connect?: OrderWhereUniqueInput
+  }
+
+  export type CompanyCreateNestedOneWithoutInvoicesInput = {
+    create?: XOR<CompanyCreateWithoutInvoicesInput, CompanyUncheckedCreateWithoutInvoicesInput>
+    connectOrCreate?: CompanyCreateOrConnectWithoutInvoicesInput
+    connect?: CompanyWhereUniqueInput
+  }
+
+  export type NullableDateTimeFieldUpdateOperationsInput = {
+    set?: Date | string | null
+  }
+
+  export type OrderUpdateOneRequiredWithoutInvoicesNestedInput = {
+    create?: XOR<OrderCreateWithoutInvoicesInput, OrderUncheckedCreateWithoutInvoicesInput>
+    connectOrCreate?: OrderCreateOrConnectWithoutInvoicesInput
+    upsert?: OrderUpsertWithoutInvoicesInput
+    connect?: OrderWhereUniqueInput
+    update?: XOR<XOR<OrderUpdateToOneWithWhereWithoutInvoicesInput, OrderUpdateWithoutInvoicesInput>, OrderUncheckedUpdateWithoutInvoicesInput>
+  }
+
+  export type CompanyUpdateOneRequiredWithoutInvoicesNestedInput = {
+    create?: XOR<CompanyCreateWithoutInvoicesInput, CompanyUncheckedCreateWithoutInvoicesInput>
+    connectOrCreate?: CompanyCreateOrConnectWithoutInvoicesInput
+    upsert?: CompanyUpsertWithoutInvoicesInput
+    connect?: CompanyWhereUniqueInput
+    update?: XOR<XOR<CompanyUpdateToOneWithWhereWithoutInvoicesInput, CompanyUpdateWithoutInvoicesInput>, CompanyUncheckedUpdateWithoutInvoicesInput>
   }
 
   export type OrderCreateNestedOneWithoutItemsInput = {
@@ -11240,6 +14817,48 @@ export namespace Prisma {
     _max?: NestedDateTimeFilter<$PrismaModel>
   }
 
+  export type NestedStringNullableFilter<$PrismaModel = never> = {
+    equals?: string | StringFieldRefInput<$PrismaModel> | null
+    in?: string[] | ListStringFieldRefInput<$PrismaModel> | null
+    notIn?: string[] | ListStringFieldRefInput<$PrismaModel> | null
+    lt?: string | StringFieldRefInput<$PrismaModel>
+    lte?: string | StringFieldRefInput<$PrismaModel>
+    gt?: string | StringFieldRefInput<$PrismaModel>
+    gte?: string | StringFieldRefInput<$PrismaModel>
+    contains?: string | StringFieldRefInput<$PrismaModel>
+    startsWith?: string | StringFieldRefInput<$PrismaModel>
+    endsWith?: string | StringFieldRefInput<$PrismaModel>
+    not?: NestedStringNullableFilter<$PrismaModel> | string | null
+  }
+
+  export type NestedStringNullableWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: string | StringFieldRefInput<$PrismaModel> | null
+    in?: string[] | ListStringFieldRefInput<$PrismaModel> | null
+    notIn?: string[] | ListStringFieldRefInput<$PrismaModel> | null
+    lt?: string | StringFieldRefInput<$PrismaModel>
+    lte?: string | StringFieldRefInput<$PrismaModel>
+    gt?: string | StringFieldRefInput<$PrismaModel>
+    gte?: string | StringFieldRefInput<$PrismaModel>
+    contains?: string | StringFieldRefInput<$PrismaModel>
+    startsWith?: string | StringFieldRefInput<$PrismaModel>
+    endsWith?: string | StringFieldRefInput<$PrismaModel>
+    not?: NestedStringNullableWithAggregatesFilter<$PrismaModel> | string | null
+    _count?: NestedIntNullableFilter<$PrismaModel>
+    _min?: NestedStringNullableFilter<$PrismaModel>
+    _max?: NestedStringNullableFilter<$PrismaModel>
+  }
+
+  export type NestedIntNullableFilter<$PrismaModel = never> = {
+    equals?: number | IntFieldRefInput<$PrismaModel> | null
+    in?: number[] | ListIntFieldRefInput<$PrismaModel> | null
+    notIn?: number[] | ListIntFieldRefInput<$PrismaModel> | null
+    lt?: number | IntFieldRefInput<$PrismaModel>
+    lte?: number | IntFieldRefInput<$PrismaModel>
+    gt?: number | IntFieldRefInput<$PrismaModel>
+    gte?: number | IntFieldRefInput<$PrismaModel>
+    not?: NestedIntNullableFilter<$PrismaModel> | number | null
+  }
+
   export type NestedFloatFilter<$PrismaModel = never> = {
     equals?: number | FloatFieldRefInput<$PrismaModel>
     in?: number[] | ListFloatFieldRefInput<$PrismaModel>
@@ -11294,6 +14913,31 @@ export namespace Prisma {
     _sum?: NestedIntFilter<$PrismaModel>
     _min?: NestedIntFilter<$PrismaModel>
     _max?: NestedIntFilter<$PrismaModel>
+  }
+
+  export type NestedDateTimeNullableFilter<$PrismaModel = never> = {
+    equals?: Date | string | DateTimeFieldRefInput<$PrismaModel> | null
+    in?: Date[] | string[] | ListDateTimeFieldRefInput<$PrismaModel> | null
+    notIn?: Date[] | string[] | ListDateTimeFieldRefInput<$PrismaModel> | null
+    lt?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    lte?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    gt?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    gte?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    not?: NestedDateTimeNullableFilter<$PrismaModel> | Date | string | null
+  }
+
+  export type NestedDateTimeNullableWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: Date | string | DateTimeFieldRefInput<$PrismaModel> | null
+    in?: Date[] | string[] | ListDateTimeFieldRefInput<$PrismaModel> | null
+    notIn?: Date[] | string[] | ListDateTimeFieldRefInput<$PrismaModel> | null
+    lt?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    lte?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    gt?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    gte?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    not?: NestedDateTimeNullableWithAggregatesFilter<$PrismaModel> | Date | string | null
+    _count?: NestedIntNullableFilter<$PrismaModel>
+    _min?: NestedDateTimeNullableFilter<$PrismaModel>
+    _max?: NestedDateTimeNullableFilter<$PrismaModel>
   }
 
   export type UserCreateWithoutCompanyInput = {
@@ -11397,6 +15041,91 @@ export namespace Prisma {
 
   export type ProductCreateManyCompanyInputEnvelope = {
     data: ProductCreateManyCompanyInput | ProductCreateManyCompanyInput[]
+    skipDuplicates?: boolean
+  }
+
+  export type CompanyFiscalConfigCreateWithoutCompanyInput = {
+    uuid?: string
+    cnpj: string
+    razaoSocial: string
+    nomeFantasia?: string | null
+    logradouro: string
+    numero: string
+    complemento?: string | null
+    bairro: string
+    cidade: string
+    uf: string
+    cep: string
+    inscricaoEstadual?: string | null
+    regimeTributario?: string
+    provider?: string
+    providerApiKey?: string | null
+    ncmPadrao?: string
+    cfopPadrao?: string
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type CompanyFiscalConfigUncheckedCreateWithoutCompanyInput = {
+    uuid?: string
+    cnpj: string
+    razaoSocial: string
+    nomeFantasia?: string | null
+    logradouro: string
+    numero: string
+    complemento?: string | null
+    bairro: string
+    cidade: string
+    uf: string
+    cep: string
+    inscricaoEstadual?: string | null
+    regimeTributario?: string
+    provider?: string
+    providerApiKey?: string | null
+    ncmPadrao?: string
+    cfopPadrao?: string
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type CompanyFiscalConfigCreateOrConnectWithoutCompanyInput = {
+    where: CompanyFiscalConfigWhereUniqueInput
+    create: XOR<CompanyFiscalConfigCreateWithoutCompanyInput, CompanyFiscalConfigUncheckedCreateWithoutCompanyInput>
+  }
+
+  export type InvoiceCreateWithoutCompanyInput = {
+    uuid?: string
+    status?: string
+    nfceKey?: string | null
+    providerId?: string | null
+    errorMessage?: string | null
+    emittedAt?: Date | string | null
+    xmlUrl?: string | null
+    pdfUrl?: string | null
+    createdAt?: Date | string
+    order: OrderCreateNestedOneWithoutInvoicesInput
+  }
+
+  export type InvoiceUncheckedCreateWithoutCompanyInput = {
+    uuid?: string
+    orderUuid: string
+    status?: string
+    nfceKey?: string | null
+    providerId?: string | null
+    errorMessage?: string | null
+    emittedAt?: Date | string | null
+    xmlUrl?: string | null
+    pdfUrl?: string | null
+    createdAt?: Date | string
+  }
+
+  export type InvoiceCreateOrConnectWithoutCompanyInput = {
+    where: InvoiceWhereUniqueInput
+    create: XOR<InvoiceCreateWithoutCompanyInput, InvoiceUncheckedCreateWithoutCompanyInput>
+  }
+
+  export type InvoiceCreateManyCompanyInputEnvelope = {
+    data: InvoiceCreateManyCompanyInput | InvoiceCreateManyCompanyInput[]
     skipDuplicates?: boolean
   }
 
@@ -11509,6 +15238,154 @@ export namespace Prisma {
     companyUuid?: StringFilter<"Product"> | string
   }
 
+  export type CompanyFiscalConfigUpsertWithoutCompanyInput = {
+    update: XOR<CompanyFiscalConfigUpdateWithoutCompanyInput, CompanyFiscalConfigUncheckedUpdateWithoutCompanyInput>
+    create: XOR<CompanyFiscalConfigCreateWithoutCompanyInput, CompanyFiscalConfigUncheckedCreateWithoutCompanyInput>
+    where?: CompanyFiscalConfigWhereInput
+  }
+
+  export type CompanyFiscalConfigUpdateToOneWithWhereWithoutCompanyInput = {
+    where?: CompanyFiscalConfigWhereInput
+    data: XOR<CompanyFiscalConfigUpdateWithoutCompanyInput, CompanyFiscalConfigUncheckedUpdateWithoutCompanyInput>
+  }
+
+  export type CompanyFiscalConfigUpdateWithoutCompanyInput = {
+    uuid?: StringFieldUpdateOperationsInput | string
+    cnpj?: StringFieldUpdateOperationsInput | string
+    razaoSocial?: StringFieldUpdateOperationsInput | string
+    nomeFantasia?: NullableStringFieldUpdateOperationsInput | string | null
+    logradouro?: StringFieldUpdateOperationsInput | string
+    numero?: StringFieldUpdateOperationsInput | string
+    complemento?: NullableStringFieldUpdateOperationsInput | string | null
+    bairro?: StringFieldUpdateOperationsInput | string
+    cidade?: StringFieldUpdateOperationsInput | string
+    uf?: StringFieldUpdateOperationsInput | string
+    cep?: StringFieldUpdateOperationsInput | string
+    inscricaoEstadual?: NullableStringFieldUpdateOperationsInput | string | null
+    regimeTributario?: StringFieldUpdateOperationsInput | string
+    provider?: StringFieldUpdateOperationsInput | string
+    providerApiKey?: NullableStringFieldUpdateOperationsInput | string | null
+    ncmPadrao?: StringFieldUpdateOperationsInput | string
+    cfopPadrao?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type CompanyFiscalConfigUncheckedUpdateWithoutCompanyInput = {
+    uuid?: StringFieldUpdateOperationsInput | string
+    cnpj?: StringFieldUpdateOperationsInput | string
+    razaoSocial?: StringFieldUpdateOperationsInput | string
+    nomeFantasia?: NullableStringFieldUpdateOperationsInput | string | null
+    logradouro?: StringFieldUpdateOperationsInput | string
+    numero?: StringFieldUpdateOperationsInput | string
+    complemento?: NullableStringFieldUpdateOperationsInput | string | null
+    bairro?: StringFieldUpdateOperationsInput | string
+    cidade?: StringFieldUpdateOperationsInput | string
+    uf?: StringFieldUpdateOperationsInput | string
+    cep?: StringFieldUpdateOperationsInput | string
+    inscricaoEstadual?: NullableStringFieldUpdateOperationsInput | string | null
+    regimeTributario?: StringFieldUpdateOperationsInput | string
+    provider?: StringFieldUpdateOperationsInput | string
+    providerApiKey?: NullableStringFieldUpdateOperationsInput | string | null
+    ncmPadrao?: StringFieldUpdateOperationsInput | string
+    cfopPadrao?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type InvoiceUpsertWithWhereUniqueWithoutCompanyInput = {
+    where: InvoiceWhereUniqueInput
+    update: XOR<InvoiceUpdateWithoutCompanyInput, InvoiceUncheckedUpdateWithoutCompanyInput>
+    create: XOR<InvoiceCreateWithoutCompanyInput, InvoiceUncheckedCreateWithoutCompanyInput>
+  }
+
+  export type InvoiceUpdateWithWhereUniqueWithoutCompanyInput = {
+    where: InvoiceWhereUniqueInput
+    data: XOR<InvoiceUpdateWithoutCompanyInput, InvoiceUncheckedUpdateWithoutCompanyInput>
+  }
+
+  export type InvoiceUpdateManyWithWhereWithoutCompanyInput = {
+    where: InvoiceScalarWhereInput
+    data: XOR<InvoiceUpdateManyMutationInput, InvoiceUncheckedUpdateManyWithoutCompanyInput>
+  }
+
+  export type InvoiceScalarWhereInput = {
+    AND?: InvoiceScalarWhereInput | InvoiceScalarWhereInput[]
+    OR?: InvoiceScalarWhereInput[]
+    NOT?: InvoiceScalarWhereInput | InvoiceScalarWhereInput[]
+    uuid?: StringFilter<"Invoice"> | string
+    orderUuid?: StringFilter<"Invoice"> | string
+    companyUuid?: StringFilter<"Invoice"> | string
+    status?: StringFilter<"Invoice"> | string
+    nfceKey?: StringNullableFilter<"Invoice"> | string | null
+    providerId?: StringNullableFilter<"Invoice"> | string | null
+    errorMessage?: StringNullableFilter<"Invoice"> | string | null
+    emittedAt?: DateTimeNullableFilter<"Invoice"> | Date | string | null
+    xmlUrl?: StringNullableFilter<"Invoice"> | string | null
+    pdfUrl?: StringNullableFilter<"Invoice"> | string | null
+    createdAt?: DateTimeFilter<"Invoice"> | Date | string
+  }
+
+  export type CompanyCreateWithoutFiscalConfigInput = {
+    uuid?: string
+    name: string
+    createdAt?: Date | string
+    users?: UserCreateNestedManyWithoutCompanyInput
+    tables?: TableCreateNestedManyWithoutCompanyInput
+    categories?: CategoryCreateNestedManyWithoutCompanyInput
+    products?: ProductCreateNestedManyWithoutCompanyInput
+    invoices?: InvoiceCreateNestedManyWithoutCompanyInput
+  }
+
+  export type CompanyUncheckedCreateWithoutFiscalConfigInput = {
+    uuid?: string
+    name: string
+    createdAt?: Date | string
+    users?: UserUncheckedCreateNestedManyWithoutCompanyInput
+    tables?: TableUncheckedCreateNestedManyWithoutCompanyInput
+    categories?: CategoryUncheckedCreateNestedManyWithoutCompanyInput
+    products?: ProductUncheckedCreateNestedManyWithoutCompanyInput
+    invoices?: InvoiceUncheckedCreateNestedManyWithoutCompanyInput
+  }
+
+  export type CompanyCreateOrConnectWithoutFiscalConfigInput = {
+    where: CompanyWhereUniqueInput
+    create: XOR<CompanyCreateWithoutFiscalConfigInput, CompanyUncheckedCreateWithoutFiscalConfigInput>
+  }
+
+  export type CompanyUpsertWithoutFiscalConfigInput = {
+    update: XOR<CompanyUpdateWithoutFiscalConfigInput, CompanyUncheckedUpdateWithoutFiscalConfigInput>
+    create: XOR<CompanyCreateWithoutFiscalConfigInput, CompanyUncheckedCreateWithoutFiscalConfigInput>
+    where?: CompanyWhereInput
+  }
+
+  export type CompanyUpdateToOneWithWhereWithoutFiscalConfigInput = {
+    where?: CompanyWhereInput
+    data: XOR<CompanyUpdateWithoutFiscalConfigInput, CompanyUncheckedUpdateWithoutFiscalConfigInput>
+  }
+
+  export type CompanyUpdateWithoutFiscalConfigInput = {
+    uuid?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    users?: UserUpdateManyWithoutCompanyNestedInput
+    tables?: TableUpdateManyWithoutCompanyNestedInput
+    categories?: CategoryUpdateManyWithoutCompanyNestedInput
+    products?: ProductUpdateManyWithoutCompanyNestedInput
+    invoices?: InvoiceUpdateManyWithoutCompanyNestedInput
+  }
+
+  export type CompanyUncheckedUpdateWithoutFiscalConfigInput = {
+    uuid?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    users?: UserUncheckedUpdateManyWithoutCompanyNestedInput
+    tables?: TableUncheckedUpdateManyWithoutCompanyNestedInput
+    categories?: CategoryUncheckedUpdateManyWithoutCompanyNestedInput
+    products?: ProductUncheckedUpdateManyWithoutCompanyNestedInput
+    invoices?: InvoiceUncheckedUpdateManyWithoutCompanyNestedInput
+  }
+
   export type CompanyCreateWithoutUsersInput = {
     uuid?: string
     name: string
@@ -11516,6 +15393,8 @@ export namespace Prisma {
     tables?: TableCreateNestedManyWithoutCompanyInput
     categories?: CategoryCreateNestedManyWithoutCompanyInput
     products?: ProductCreateNestedManyWithoutCompanyInput
+    fiscalConfig?: CompanyFiscalConfigCreateNestedOneWithoutCompanyInput
+    invoices?: InvoiceCreateNestedManyWithoutCompanyInput
   }
 
   export type CompanyUncheckedCreateWithoutUsersInput = {
@@ -11525,6 +15404,8 @@ export namespace Prisma {
     tables?: TableUncheckedCreateNestedManyWithoutCompanyInput
     categories?: CategoryUncheckedCreateNestedManyWithoutCompanyInput
     products?: ProductUncheckedCreateNestedManyWithoutCompanyInput
+    fiscalConfig?: CompanyFiscalConfigUncheckedCreateNestedOneWithoutCompanyInput
+    invoices?: InvoiceUncheckedCreateNestedManyWithoutCompanyInput
   }
 
   export type CompanyCreateOrConnectWithoutUsersInput = {
@@ -11550,6 +15431,8 @@ export namespace Prisma {
     tables?: TableUpdateManyWithoutCompanyNestedInput
     categories?: CategoryUpdateManyWithoutCompanyNestedInput
     products?: ProductUpdateManyWithoutCompanyNestedInput
+    fiscalConfig?: CompanyFiscalConfigUpdateOneWithoutCompanyNestedInput
+    invoices?: InvoiceUpdateManyWithoutCompanyNestedInput
   }
 
   export type CompanyUncheckedUpdateWithoutUsersInput = {
@@ -11559,6 +15442,8 @@ export namespace Prisma {
     tables?: TableUncheckedUpdateManyWithoutCompanyNestedInput
     categories?: CategoryUncheckedUpdateManyWithoutCompanyNestedInput
     products?: ProductUncheckedUpdateManyWithoutCompanyNestedInput
+    fiscalConfig?: CompanyFiscalConfigUncheckedUpdateOneWithoutCompanyNestedInput
+    invoices?: InvoiceUncheckedUpdateManyWithoutCompanyNestedInput
   }
 
   export type CategoryCreateWithoutProductsInput = {
@@ -11585,6 +15470,8 @@ export namespace Prisma {
     users?: UserCreateNestedManyWithoutCompanyInput
     tables?: TableCreateNestedManyWithoutCompanyInput
     categories?: CategoryCreateNestedManyWithoutCompanyInput
+    fiscalConfig?: CompanyFiscalConfigCreateNestedOneWithoutCompanyInput
+    invoices?: InvoiceCreateNestedManyWithoutCompanyInput
   }
 
   export type CompanyUncheckedCreateWithoutProductsInput = {
@@ -11594,6 +15481,8 @@ export namespace Prisma {
     users?: UserUncheckedCreateNestedManyWithoutCompanyInput
     tables?: TableUncheckedCreateNestedManyWithoutCompanyInput
     categories?: CategoryUncheckedCreateNestedManyWithoutCompanyInput
+    fiscalConfig?: CompanyFiscalConfigUncheckedCreateNestedOneWithoutCompanyInput
+    invoices?: InvoiceUncheckedCreateNestedManyWithoutCompanyInput
   }
 
   export type CompanyCreateOrConnectWithoutProductsInput = {
@@ -11666,6 +15555,8 @@ export namespace Prisma {
     users?: UserUpdateManyWithoutCompanyNestedInput
     tables?: TableUpdateManyWithoutCompanyNestedInput
     categories?: CategoryUpdateManyWithoutCompanyNestedInput
+    fiscalConfig?: CompanyFiscalConfigUpdateOneWithoutCompanyNestedInput
+    invoices?: InvoiceUpdateManyWithoutCompanyNestedInput
   }
 
   export type CompanyUncheckedUpdateWithoutProductsInput = {
@@ -11675,6 +15566,8 @@ export namespace Prisma {
     users?: UserUncheckedUpdateManyWithoutCompanyNestedInput
     tables?: TableUncheckedUpdateManyWithoutCompanyNestedInput
     categories?: CategoryUncheckedUpdateManyWithoutCompanyNestedInput
+    fiscalConfig?: CompanyFiscalConfigUncheckedUpdateOneWithoutCompanyNestedInput
+    invoices?: InvoiceUncheckedUpdateManyWithoutCompanyNestedInput
   }
 
   export type OrderItemUpsertWithWhereUniqueWithoutProductInput = {
@@ -11711,6 +15604,8 @@ export namespace Prisma {
     users?: UserCreateNestedManyWithoutCompanyInput
     tables?: TableCreateNestedManyWithoutCompanyInput
     products?: ProductCreateNestedManyWithoutCompanyInput
+    fiscalConfig?: CompanyFiscalConfigCreateNestedOneWithoutCompanyInput
+    invoices?: InvoiceCreateNestedManyWithoutCompanyInput
   }
 
   export type CompanyUncheckedCreateWithoutCategoriesInput = {
@@ -11720,6 +15615,8 @@ export namespace Prisma {
     users?: UserUncheckedCreateNestedManyWithoutCompanyInput
     tables?: TableUncheckedCreateNestedManyWithoutCompanyInput
     products?: ProductUncheckedCreateNestedManyWithoutCompanyInput
+    fiscalConfig?: CompanyFiscalConfigUncheckedCreateNestedOneWithoutCompanyInput
+    invoices?: InvoiceUncheckedCreateNestedManyWithoutCompanyInput
   }
 
   export type CompanyCreateOrConnectWithoutCategoriesInput = {
@@ -11775,6 +15672,8 @@ export namespace Prisma {
     users?: UserUpdateManyWithoutCompanyNestedInput
     tables?: TableUpdateManyWithoutCompanyNestedInput
     products?: ProductUpdateManyWithoutCompanyNestedInput
+    fiscalConfig?: CompanyFiscalConfigUpdateOneWithoutCompanyNestedInput
+    invoices?: InvoiceUpdateManyWithoutCompanyNestedInput
   }
 
   export type CompanyUncheckedUpdateWithoutCategoriesInput = {
@@ -11784,6 +15683,8 @@ export namespace Prisma {
     users?: UserUncheckedUpdateManyWithoutCompanyNestedInput
     tables?: TableUncheckedUpdateManyWithoutCompanyNestedInput
     products?: ProductUncheckedUpdateManyWithoutCompanyNestedInput
+    fiscalConfig?: CompanyFiscalConfigUncheckedUpdateOneWithoutCompanyNestedInput
+    invoices?: InvoiceUncheckedUpdateManyWithoutCompanyNestedInput
   }
 
   export type ProductUpsertWithWhereUniqueWithoutCategoryInput = {
@@ -11809,6 +15710,8 @@ export namespace Prisma {
     users?: UserCreateNestedManyWithoutCompanyInput
     categories?: CategoryCreateNestedManyWithoutCompanyInput
     products?: ProductCreateNestedManyWithoutCompanyInput
+    fiscalConfig?: CompanyFiscalConfigCreateNestedOneWithoutCompanyInput
+    invoices?: InvoiceCreateNestedManyWithoutCompanyInput
   }
 
   export type CompanyUncheckedCreateWithoutTablesInput = {
@@ -11818,6 +15721,8 @@ export namespace Prisma {
     users?: UserUncheckedCreateNestedManyWithoutCompanyInput
     categories?: CategoryUncheckedCreateNestedManyWithoutCompanyInput
     products?: ProductUncheckedCreateNestedManyWithoutCompanyInput
+    fiscalConfig?: CompanyFiscalConfigUncheckedCreateNestedOneWithoutCompanyInput
+    invoices?: InvoiceUncheckedCreateNestedManyWithoutCompanyInput
   }
 
   export type CompanyCreateOrConnectWithoutTablesInput = {
@@ -11830,6 +15735,7 @@ export namespace Prisma {
     status?: string
     createdAt?: Date | string
     items?: OrderItemCreateNestedManyWithoutOrderInput
+    invoices?: InvoiceCreateNestedManyWithoutOrderInput
   }
 
   export type OrderUncheckedCreateWithoutTableInput = {
@@ -11837,6 +15743,7 @@ export namespace Prisma {
     status?: string
     createdAt?: Date | string
     items?: OrderItemUncheckedCreateNestedManyWithoutOrderInput
+    invoices?: InvoiceUncheckedCreateNestedManyWithoutOrderInput
   }
 
   export type OrderCreateOrConnectWithoutTableInput = {
@@ -11867,6 +15774,8 @@ export namespace Prisma {
     users?: UserUpdateManyWithoutCompanyNestedInput
     categories?: CategoryUpdateManyWithoutCompanyNestedInput
     products?: ProductUpdateManyWithoutCompanyNestedInput
+    fiscalConfig?: CompanyFiscalConfigUpdateOneWithoutCompanyNestedInput
+    invoices?: InvoiceUpdateManyWithoutCompanyNestedInput
   }
 
   export type CompanyUncheckedUpdateWithoutTablesInput = {
@@ -11876,6 +15785,8 @@ export namespace Prisma {
     users?: UserUncheckedUpdateManyWithoutCompanyNestedInput
     categories?: CategoryUncheckedUpdateManyWithoutCompanyNestedInput
     products?: ProductUncheckedUpdateManyWithoutCompanyNestedInput
+    fiscalConfig?: CompanyFiscalConfigUncheckedUpdateOneWithoutCompanyNestedInput
+    invoices?: InvoiceUncheckedUpdateManyWithoutCompanyNestedInput
   }
 
   export type OrderUpsertWithWhereUniqueWithoutTableInput = {
@@ -11949,6 +15860,42 @@ export namespace Prisma {
     skipDuplicates?: boolean
   }
 
+  export type InvoiceCreateWithoutOrderInput = {
+    uuid?: string
+    status?: string
+    nfceKey?: string | null
+    providerId?: string | null
+    errorMessage?: string | null
+    emittedAt?: Date | string | null
+    xmlUrl?: string | null
+    pdfUrl?: string | null
+    createdAt?: Date | string
+    company: CompanyCreateNestedOneWithoutInvoicesInput
+  }
+
+  export type InvoiceUncheckedCreateWithoutOrderInput = {
+    uuid?: string
+    companyUuid: string
+    status?: string
+    nfceKey?: string | null
+    providerId?: string | null
+    errorMessage?: string | null
+    emittedAt?: Date | string | null
+    xmlUrl?: string | null
+    pdfUrl?: string | null
+    createdAt?: Date | string
+  }
+
+  export type InvoiceCreateOrConnectWithoutOrderInput = {
+    where: InvoiceWhereUniqueInput
+    create: XOR<InvoiceCreateWithoutOrderInput, InvoiceUncheckedCreateWithoutOrderInput>
+  }
+
+  export type InvoiceCreateManyOrderInputEnvelope = {
+    data: InvoiceCreateManyOrderInput | InvoiceCreateManyOrderInput[]
+    skipDuplicates?: boolean
+  }
+
   export type TableUpsertWithoutOrdersInput = {
     update: XOR<TableUpdateWithoutOrdersInput, TableUncheckedUpdateWithoutOrdersInput>
     create: XOR<TableCreateWithoutOrdersInput, TableUncheckedCreateWithoutOrdersInput>
@@ -11992,11 +15939,136 @@ export namespace Prisma {
     data: XOR<OrderItemUpdateManyMutationInput, OrderItemUncheckedUpdateManyWithoutOrderInput>
   }
 
+  export type InvoiceUpsertWithWhereUniqueWithoutOrderInput = {
+    where: InvoiceWhereUniqueInput
+    update: XOR<InvoiceUpdateWithoutOrderInput, InvoiceUncheckedUpdateWithoutOrderInput>
+    create: XOR<InvoiceCreateWithoutOrderInput, InvoiceUncheckedCreateWithoutOrderInput>
+  }
+
+  export type InvoiceUpdateWithWhereUniqueWithoutOrderInput = {
+    where: InvoiceWhereUniqueInput
+    data: XOR<InvoiceUpdateWithoutOrderInput, InvoiceUncheckedUpdateWithoutOrderInput>
+  }
+
+  export type InvoiceUpdateManyWithWhereWithoutOrderInput = {
+    where: InvoiceScalarWhereInput
+    data: XOR<InvoiceUpdateManyMutationInput, InvoiceUncheckedUpdateManyWithoutOrderInput>
+  }
+
+  export type OrderCreateWithoutInvoicesInput = {
+    uuid?: string
+    status?: string
+    createdAt?: Date | string
+    table: TableCreateNestedOneWithoutOrdersInput
+    items?: OrderItemCreateNestedManyWithoutOrderInput
+  }
+
+  export type OrderUncheckedCreateWithoutInvoicesInput = {
+    uuid?: string
+    tableUuid: string
+    status?: string
+    createdAt?: Date | string
+    items?: OrderItemUncheckedCreateNestedManyWithoutOrderInput
+  }
+
+  export type OrderCreateOrConnectWithoutInvoicesInput = {
+    where: OrderWhereUniqueInput
+    create: XOR<OrderCreateWithoutInvoicesInput, OrderUncheckedCreateWithoutInvoicesInput>
+  }
+
+  export type CompanyCreateWithoutInvoicesInput = {
+    uuid?: string
+    name: string
+    createdAt?: Date | string
+    users?: UserCreateNestedManyWithoutCompanyInput
+    tables?: TableCreateNestedManyWithoutCompanyInput
+    categories?: CategoryCreateNestedManyWithoutCompanyInput
+    products?: ProductCreateNestedManyWithoutCompanyInput
+    fiscalConfig?: CompanyFiscalConfigCreateNestedOneWithoutCompanyInput
+  }
+
+  export type CompanyUncheckedCreateWithoutInvoicesInput = {
+    uuid?: string
+    name: string
+    createdAt?: Date | string
+    users?: UserUncheckedCreateNestedManyWithoutCompanyInput
+    tables?: TableUncheckedCreateNestedManyWithoutCompanyInput
+    categories?: CategoryUncheckedCreateNestedManyWithoutCompanyInput
+    products?: ProductUncheckedCreateNestedManyWithoutCompanyInput
+    fiscalConfig?: CompanyFiscalConfigUncheckedCreateNestedOneWithoutCompanyInput
+  }
+
+  export type CompanyCreateOrConnectWithoutInvoicesInput = {
+    where: CompanyWhereUniqueInput
+    create: XOR<CompanyCreateWithoutInvoicesInput, CompanyUncheckedCreateWithoutInvoicesInput>
+  }
+
+  export type OrderUpsertWithoutInvoicesInput = {
+    update: XOR<OrderUpdateWithoutInvoicesInput, OrderUncheckedUpdateWithoutInvoicesInput>
+    create: XOR<OrderCreateWithoutInvoicesInput, OrderUncheckedCreateWithoutInvoicesInput>
+    where?: OrderWhereInput
+  }
+
+  export type OrderUpdateToOneWithWhereWithoutInvoicesInput = {
+    where?: OrderWhereInput
+    data: XOR<OrderUpdateWithoutInvoicesInput, OrderUncheckedUpdateWithoutInvoicesInput>
+  }
+
+  export type OrderUpdateWithoutInvoicesInput = {
+    uuid?: StringFieldUpdateOperationsInput | string
+    status?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    table?: TableUpdateOneRequiredWithoutOrdersNestedInput
+    items?: OrderItemUpdateManyWithoutOrderNestedInput
+  }
+
+  export type OrderUncheckedUpdateWithoutInvoicesInput = {
+    uuid?: StringFieldUpdateOperationsInput | string
+    tableUuid?: StringFieldUpdateOperationsInput | string
+    status?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    items?: OrderItemUncheckedUpdateManyWithoutOrderNestedInput
+  }
+
+  export type CompanyUpsertWithoutInvoicesInput = {
+    update: XOR<CompanyUpdateWithoutInvoicesInput, CompanyUncheckedUpdateWithoutInvoicesInput>
+    create: XOR<CompanyCreateWithoutInvoicesInput, CompanyUncheckedCreateWithoutInvoicesInput>
+    where?: CompanyWhereInput
+  }
+
+  export type CompanyUpdateToOneWithWhereWithoutInvoicesInput = {
+    where?: CompanyWhereInput
+    data: XOR<CompanyUpdateWithoutInvoicesInput, CompanyUncheckedUpdateWithoutInvoicesInput>
+  }
+
+  export type CompanyUpdateWithoutInvoicesInput = {
+    uuid?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    users?: UserUpdateManyWithoutCompanyNestedInput
+    tables?: TableUpdateManyWithoutCompanyNestedInput
+    categories?: CategoryUpdateManyWithoutCompanyNestedInput
+    products?: ProductUpdateManyWithoutCompanyNestedInput
+    fiscalConfig?: CompanyFiscalConfigUpdateOneWithoutCompanyNestedInput
+  }
+
+  export type CompanyUncheckedUpdateWithoutInvoicesInput = {
+    uuid?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    users?: UserUncheckedUpdateManyWithoutCompanyNestedInput
+    tables?: TableUncheckedUpdateManyWithoutCompanyNestedInput
+    categories?: CategoryUncheckedUpdateManyWithoutCompanyNestedInput
+    products?: ProductUncheckedUpdateManyWithoutCompanyNestedInput
+    fiscalConfig?: CompanyFiscalConfigUncheckedUpdateOneWithoutCompanyNestedInput
+  }
+
   export type OrderCreateWithoutItemsInput = {
     uuid?: string
     status?: string
     createdAt?: Date | string
     table: TableCreateNestedOneWithoutOrdersInput
+    invoices?: InvoiceCreateNestedManyWithoutOrderInput
   }
 
   export type OrderUncheckedCreateWithoutItemsInput = {
@@ -12004,6 +16076,7 @@ export namespace Prisma {
     tableUuid: string
     status?: string
     createdAt?: Date | string
+    invoices?: InvoiceUncheckedCreateNestedManyWithoutOrderInput
   }
 
   export type OrderCreateOrConnectWithoutItemsInput = {
@@ -12052,6 +16125,7 @@ export namespace Prisma {
     status?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     table?: TableUpdateOneRequiredWithoutOrdersNestedInput
+    invoices?: InvoiceUpdateManyWithoutOrderNestedInput
   }
 
   export type OrderUncheckedUpdateWithoutItemsInput = {
@@ -12059,6 +16133,7 @@ export namespace Prisma {
     tableUuid?: StringFieldUpdateOperationsInput | string
     status?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    invoices?: InvoiceUncheckedUpdateManyWithoutOrderNestedInput
   }
 
   export type ProductUpsertWithoutOrderItemsInput = {
@@ -12119,6 +16194,19 @@ export namespace Prisma {
     active?: boolean
     description: string
     categoryUuid: string
+  }
+
+  export type InvoiceCreateManyCompanyInput = {
+    uuid?: string
+    orderUuid: string
+    status?: string
+    nfceKey?: string | null
+    providerId?: string | null
+    errorMessage?: string | null
+    emittedAt?: Date | string | null
+    xmlUrl?: string | null
+    pdfUrl?: string | null
+    createdAt?: Date | string
   }
 
   export type UserUpdateWithoutCompanyInput = {
@@ -12214,6 +16302,45 @@ export namespace Prisma {
     categoryUuid?: StringFieldUpdateOperationsInput | string
   }
 
+  export type InvoiceUpdateWithoutCompanyInput = {
+    uuid?: StringFieldUpdateOperationsInput | string
+    status?: StringFieldUpdateOperationsInput | string
+    nfceKey?: NullableStringFieldUpdateOperationsInput | string | null
+    providerId?: NullableStringFieldUpdateOperationsInput | string | null
+    errorMessage?: NullableStringFieldUpdateOperationsInput | string | null
+    emittedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    xmlUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    pdfUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    order?: OrderUpdateOneRequiredWithoutInvoicesNestedInput
+  }
+
+  export type InvoiceUncheckedUpdateWithoutCompanyInput = {
+    uuid?: StringFieldUpdateOperationsInput | string
+    orderUuid?: StringFieldUpdateOperationsInput | string
+    status?: StringFieldUpdateOperationsInput | string
+    nfceKey?: NullableStringFieldUpdateOperationsInput | string | null
+    providerId?: NullableStringFieldUpdateOperationsInput | string | null
+    errorMessage?: NullableStringFieldUpdateOperationsInput | string | null
+    emittedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    xmlUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    pdfUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type InvoiceUncheckedUpdateManyWithoutCompanyInput = {
+    uuid?: StringFieldUpdateOperationsInput | string
+    orderUuid?: StringFieldUpdateOperationsInput | string
+    status?: StringFieldUpdateOperationsInput | string
+    nfceKey?: NullableStringFieldUpdateOperationsInput | string | null
+    providerId?: NullableStringFieldUpdateOperationsInput | string | null
+    errorMessage?: NullableStringFieldUpdateOperationsInput | string | null
+    emittedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    xmlUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    pdfUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
   export type OrderItemCreateManyProductInput = {
     uuid?: string
     orderUuid: string
@@ -12291,6 +16418,7 @@ export namespace Prisma {
     status?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     items?: OrderItemUpdateManyWithoutOrderNestedInput
+    invoices?: InvoiceUpdateManyWithoutOrderNestedInput
   }
 
   export type OrderUncheckedUpdateWithoutTableInput = {
@@ -12298,6 +16426,7 @@ export namespace Prisma {
     status?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     items?: OrderItemUncheckedUpdateManyWithoutOrderNestedInput
+    invoices?: InvoiceUncheckedUpdateManyWithoutOrderNestedInput
   }
 
   export type OrderUncheckedUpdateManyWithoutTableInput = {
@@ -12311,6 +16440,19 @@ export namespace Prisma {
     productUuid: string
     quantity: number
     unitPrice: number
+  }
+
+  export type InvoiceCreateManyOrderInput = {
+    uuid?: string
+    companyUuid: string
+    status?: string
+    nfceKey?: string | null
+    providerId?: string | null
+    errorMessage?: string | null
+    emittedAt?: Date | string | null
+    xmlUrl?: string | null
+    pdfUrl?: string | null
+    createdAt?: Date | string
   }
 
   export type OrderItemUpdateWithoutOrderInput = {
@@ -12332,6 +16474,45 @@ export namespace Prisma {
     productUuid?: StringFieldUpdateOperationsInput | string
     quantity?: IntFieldUpdateOperationsInput | number
     unitPrice?: FloatFieldUpdateOperationsInput | number
+  }
+
+  export type InvoiceUpdateWithoutOrderInput = {
+    uuid?: StringFieldUpdateOperationsInput | string
+    status?: StringFieldUpdateOperationsInput | string
+    nfceKey?: NullableStringFieldUpdateOperationsInput | string | null
+    providerId?: NullableStringFieldUpdateOperationsInput | string | null
+    errorMessage?: NullableStringFieldUpdateOperationsInput | string | null
+    emittedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    xmlUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    pdfUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    company?: CompanyUpdateOneRequiredWithoutInvoicesNestedInput
+  }
+
+  export type InvoiceUncheckedUpdateWithoutOrderInput = {
+    uuid?: StringFieldUpdateOperationsInput | string
+    companyUuid?: StringFieldUpdateOperationsInput | string
+    status?: StringFieldUpdateOperationsInput | string
+    nfceKey?: NullableStringFieldUpdateOperationsInput | string | null
+    providerId?: NullableStringFieldUpdateOperationsInput | string | null
+    errorMessage?: NullableStringFieldUpdateOperationsInput | string | null
+    emittedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    xmlUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    pdfUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type InvoiceUncheckedUpdateManyWithoutOrderInput = {
+    uuid?: StringFieldUpdateOperationsInput | string
+    companyUuid?: StringFieldUpdateOperationsInput | string
+    status?: StringFieldUpdateOperationsInput | string
+    nfceKey?: NullableStringFieldUpdateOperationsInput | string | null
+    providerId?: NullableStringFieldUpdateOperationsInput | string | null
+    errorMessage?: NullableStringFieldUpdateOperationsInput | string | null
+    emittedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    xmlUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    pdfUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
 
