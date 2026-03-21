@@ -7,8 +7,10 @@ import { UpdateTableUseCase } from '@application/table/use-cases/update-table.us
 import { DeleteTableUseCase } from '@application/table/use-cases/delete-table.usecase';
 import { TablePrismaRepository } from '@infrastructure/table/repositories/table-prisma.repository';
 import { PrismaService } from '@infrastructure/prisma/prisma.service';
+import { RealtimeModule } from '@interfaces/websocket/realtime.module';
 
 @Module({
+    imports: [RealtimeModule],
     controllers: [TableController],
     providers: [
         PrismaService,

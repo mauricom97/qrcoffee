@@ -1,4 +1,4 @@
-// src/interfaces/http/product.module.ts
+// src/interfaces/http/category.module.ts
 import { Module } from '@nestjs/common'
 import { CategoryController } from './category.controller'
 import { CreateCategoryUseCase } from '@application/category/use-cases/create-category-usecase'
@@ -7,7 +7,10 @@ import { FindAllCategoryUseCase } from '@application/category/use-cases/find-all
 import { CategoryPrismaRepository } from '@infrastructure/category/repositories/category-prisma.repository'
 import { PrismaService } from '@infrastructure/prisma/prisma.service'
 
+import { RealtimeModule } from '@interfaces/websocket/realtime.module'
+
 @Module({
+  imports: [RealtimeModule],
   controllers: [CategoryController],
   providers: [
     PrismaService,

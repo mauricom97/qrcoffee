@@ -8,8 +8,10 @@ import { FindAllProductUseCase } from '@/application/product/use-cases/find-prod
 import { DestroyProductUseCase } from '@application/product/use-cases/destroy-product.usecase';
 import { ProductPrismaRepository } from '@infrastructure/product/repositories/product-prisma.repository';
 import { PrismaService } from '@infrastructure/prisma/prisma.service';
+import { RealtimeModule } from '@interfaces/websocket/realtime.module';
 
 @Module({
+  imports: [RealtimeModule],
   controllers: [ProductController],
   providers: [
     PrismaService,

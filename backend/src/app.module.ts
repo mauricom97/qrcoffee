@@ -11,9 +11,10 @@ import { AuthModule } from '@interfaces/http/auth.module';
 import { PublicModule } from '@interfaces/http/public.module';
 import { CashierModule } from '@interfaces/http/cashier.module';
 import { CompanyModule } from '@interfaces/http/company.module';
+import { RealtimeModule } from '@interfaces/websocket/realtime.module';
 
 @Module({
-  imports: [AuthModule, ProductModule, CategoryModule, TableModule, OrderModule, ComandaModule, DashboardModule, CashierModule, PublicModule, CompanyModule],
+  imports: [AuthModule, RealtimeModule, ProductModule, CategoryModule, TableModule, OrderModule, ComandaModule, DashboardModule, CashierModule, PublicModule, CompanyModule],
   controllers: [AppController],
   providers: [AppService],
 })

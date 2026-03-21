@@ -9,12 +9,14 @@ import {
 } from '@nestjs/common';
 import { PrismaService } from '@infrastructure/prisma/prisma.service';
 import { CreateOrderUseCase } from '@application/order/use-cases/create-order.usecase';
+import { RealtimeGateway } from '@interfaces/websocket/realtime.gateway';
 
 @Controller('public')
 export class PublicController {
   constructor(
     private readonly prisma: PrismaService,
     private readonly createOrderUseCase: CreateOrderUseCase,
+    private readonly realtime: RealtimeGateway,
   ) {}
 
   @Get('table/:tableUuid')
@@ -78,6 +80,7 @@ export class PublicController {
         uuid: table.uuid,
         number: table.number,
         description: table.description,
+        companyUuid: table.companyUuid,
       },
       categories: grouped.filter((g) => g.products.length > 0),
       theme,
@@ -107,6 +110,8 @@ export class PublicController {
       items,
       companyUuid: table.companyUuid,
     });
+
+    this.realtime.emitOrdersUpdate(table.companyUuid);
 
     const full = await this.prisma.client.order.findUnique({
       where: { uuid: order.uuid },

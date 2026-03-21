@@ -7,6 +7,7 @@ import { UpdateTableUseCase } from '@application/table/use-cases/update-table.us
 import { DeleteTableUseCase } from '@application/table/use-cases/delete-table.usecase';
 import { JwtAuthGuard } from './guards/jwt-auth.guard';
 import { CompanyUuid } from './decorators/company.decorator';
+import { RealtimeGateway } from '@interfaces/websocket/realtime.gateway';
 
 @Controller('tables')
 @UseGuards(JwtAuthGuard)
@@ -17,6 +18,7 @@ export class TableController {
     private readonly findOneTableUseCase: FindOneTableUseCase,
     private readonly updateTableUseCase: UpdateTableUseCase,
     private readonly deleteTableUseCase: DeleteTableUseCase,
+    private readonly realtime: RealtimeGateway,
   ) {}
 
   @Post()
@@ -24,7 +26,9 @@ export class TableController {
     @CompanyUuid() companyUuid: string,
     @Body() body: { number: number; description?: string; qrCode?: string; baseUrl?: string },
   ) {
-    return await this.createTableUseCase.execute({ ...body, companyUuid });
+    const result = await this.createTableUseCase.execute({ ...body, companyUuid });
+    this.realtime.emitTablesUpdate(companyUuid);
+    return result;
   }
 
   @Get()
@@ -50,6 +54,7 @@ export class TableController {
   ) {
     const table = await this.updateTableUseCase.execute(uuid, body, companyUuid);
     if (!table) throw new NotFoundException('Mesa não encontrada');
+    this.realtime.emitTablesUpdate(companyUuid);
     return table;
   }
 
@@ -59,6 +64,7 @@ export class TableController {
     @CompanyUuid() companyUuid: string,
   ) {
     await this.deleteTableUseCase.execute(uuid, companyUuid);
+    this.realtime.emitTablesUpdate(companyUuid);
   }
 }
 

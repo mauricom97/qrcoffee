@@ -19,6 +19,7 @@ import { DeleteOrderUseCase } from '@application/order/use-cases/delete-order.us
 import { OrderStatus } from '@domain/order/entities/order.entity';
 import { JwtAuthGuard } from './guards/jwt-auth.guard';
 import { CompanyUuid } from './decorators/company.decorator';
+import { RealtimeGateway } from '@interfaces/websocket/realtime.gateway';
 
 @Controller('orders')
 @UseGuards(JwtAuthGuard)
@@ -29,6 +30,7 @@ export class OrderController {
     private readonly findOneOrderUseCase: FindOneOrderUseCase,
     private readonly updateOrderUseCase: UpdateOrderUseCase,
     private readonly deleteOrderUseCase: DeleteOrderUseCase,
+    private readonly realtime: RealtimeGateway,
   ) {}
 
   @Post()
@@ -43,6 +45,7 @@ export class OrderController {
   ) {
     const order = await this.createOrderUseCase.execute({ ...body, companyUuid });
     const full = await this.findOneOrderUseCase.execute(order.uuid, companyUuid);
+    this.realtime.emitOrdersUpdate(companyUuid);
     return full ?? order;
   }
 
@@ -73,6 +76,7 @@ export class OrderController {
   ) {
     const order = await this.updateOrderUseCase.execute(uuid, body, companyUuid);
     if (!order) throw new NotFoundException('Pedido não encontrado');
+    this.realtime.emitOrdersUpdate(companyUuid);
     return order;
   }
 
@@ -82,5 +86,6 @@ export class OrderController {
     @CompanyUuid() companyUuid: string,
   ) {
     await this.deleteOrderUseCase.execute(uuid, companyUuid);
+    this.realtime.emitOrdersUpdate(companyUuid);
   }
 }

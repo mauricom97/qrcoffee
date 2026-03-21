@@ -1,9 +1,11 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useEffect, useState, useCallback } from "react";
 import { Product } from "./interfaces/product.interface";
 import { getAuthHeaders } from "contexts/AuthContext";
+import { useAuth } from "contexts/AuthContext";
 import LoadingSpinner from "components/LoadingSpinner";
+import { useRealtimeUpdates } from "hooks/useRealtimeUpdates";
 
 interface Category {
   uuid: string;
@@ -11,6 +13,7 @@ interface Category {
 }
 
 export default function ProductsPage() {
+  const { user } = useAuth();
   const [loading, setLoading] = useState(true);
   const [products, setProducts] = useState<Product[]>([]);
   const [showForm, setShowForm] = useState(false);
@@ -89,12 +92,21 @@ export default function ProductsPage() {
       console.error("Failed to fetch products:", error);
     }
   }
-  useEffect(() => {
+  const refetch = useCallback(() => {
     setLoading(true);
     Promise.all([fetchCategories(), fetchProducts()]).finally(() =>
       setLoading(false)
     );
   }, []);
+
+  useEffect(() => {
+    refetch();
+  }, [refetch]);
+
+  useRealtimeUpdates(user?.companyUuid ?? null, {
+    onProductsUpdate: refetch,
+    onMenuUpdate: refetch,
+  });
 
   const resetForm = () => {
     setNewProduct({

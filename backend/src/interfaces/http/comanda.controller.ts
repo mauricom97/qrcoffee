@@ -18,6 +18,7 @@ import { OrderStatus } from '@domain/order/entities/order.entity';
 import { OrderListDto } from '@domain/order/repositories/order.repository';
 import { JwtAuthGuard } from './guards/jwt-auth.guard';
 import { CompanyUuid } from './decorators/company.decorator';
+import { RealtimeGateway } from '@interfaces/websocket/realtime.gateway';
 
 @Controller('comandas')
 @UseGuards(JwtAuthGuard)
@@ -27,6 +28,7 @@ export class ComandaController {
     private readonly findOneOrderUseCase: FindOneOrderUseCase,
     private readonly updateOrderUseCase: UpdateOrderUseCase,
     private readonly deleteOrderUseCase: DeleteOrderUseCase,
+    private readonly realtime: RealtimeGateway,
   ) {}
 
   @Get()
@@ -98,6 +100,7 @@ export class ComandaController {
   ) {
     const comanda = await this.updateOrderUseCase.execute(uuid, body, companyUuid);
     if (!comanda) throw new NotFoundException('Comanda não encontrada');
+    this.realtime.emitOrdersUpdate(companyUuid);
     return comanda;
   }
 
@@ -107,5 +110,6 @@ export class ComandaController {
     @CompanyUuid() companyUuid: string,
   ) {
     await this.deleteOrderUseCase.execute(uuid, companyUuid);
+    this.realtime.emitOrdersUpdate(companyUuid);
   }
 }
