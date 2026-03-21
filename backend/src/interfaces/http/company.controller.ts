@@ -44,4 +44,25 @@ export class CompanyController {
     });
     return { theme: body.theme };
   }
+
+  @Get('sound-on-order-ready')
+  async getSoundOnOrderReady(@CompanyUuid() companyUuid: string) {
+    const company = await this.prisma.client.company.findUnique({
+      where: { uuid: companyUuid },
+      select: { soundOnOrderReady: true },
+    });
+    return { soundOnOrderReady: company?.soundOnOrderReady ?? true };
+  }
+
+  @Patch('sound-on-order-ready')
+  async updateSoundOnOrderReady(
+    @CompanyUuid() companyUuid: string,
+    @Body() body: { soundOnOrderReady: boolean },
+  ) {
+    await this.prisma.client.company.update({
+      where: { uuid: companyUuid },
+      data: { soundOnOrderReady: body.soundOnOrderReady },
+    });
+    return { soundOnOrderReady: body.soundOnOrderReady };
+  }
 }

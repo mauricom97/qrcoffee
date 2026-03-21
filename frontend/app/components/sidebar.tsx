@@ -3,7 +3,7 @@
 import { useState } from "react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
-import { HiOutlineDeviceTablet, HiMenu, HiX, HiOutlineLogout } from "react-icons/hi";
+import { HiOutlineDeviceTablet, HiMenu, HiX, HiOutlineLogout, HiOutlineCog } from "react-icons/hi";
 import { LuTableOfContents } from "react-icons/lu";
 import { FaHome, FaPhone } from "react-icons/fa";
 import { MdOutlineTableBar } from "react-icons/md";
@@ -106,6 +106,13 @@ const Sidebar = () => {
                     <li className="flex items-center space-x-3 hover:bg-stone-300 p-3 rounded-md cursor-pointer">
                         <FaBox  className="text-xl" />
                         <span className="text-lg font-medium">Estoque</span>
+                    </li>
+                    </Link>
+
+                    <Link href="/settings" onClick={() => setIsOpen(false)}>
+                    <li className="flex items-center space-x-3 hover:bg-stone-300 p-3 rounded-md cursor-pointer">
+                        <HiOutlineCog className="text-xl" />
+                        <span className="text-lg font-medium">Configurações</span>
                     </li>
                     </Link>
 

@@ -124,6 +124,7 @@ exports.Prisma.CompanyScalarFieldEnum = {
   uuid: 'uuid',
   name: 'name',
   menuTheme: 'menuTheme',
+  soundOnOrderReady: 'soundOnOrderReady',
   createdAt: 'createdAt'
 };
 
