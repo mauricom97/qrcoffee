@@ -10,9 +10,10 @@ import { DashboardModule } from '@interfaces/http/dashboard.module';
 import { AuthModule } from '@interfaces/http/auth.module';
 import { PublicModule } from '@interfaces/http/public.module';
 import { CashierModule } from '@interfaces/http/cashier.module';
+import { CompanyModule } from '@interfaces/http/company.module';
 
 @Module({
-  imports: [AuthModule, ProductModule, CategoryModule, TableModule, OrderModule, ComandaModule, DashboardModule, CashierModule, PublicModule],
+  imports: [AuthModule, ProductModule, CategoryModule, TableModule, OrderModule, ComandaModule, DashboardModule, CashierModule, PublicModule, CompanyModule],
   controllers: [AppController],
   providers: [AppService],
 })

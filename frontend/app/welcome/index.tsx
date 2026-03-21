@@ -238,7 +238,7 @@ const WelcomePage = () => {
                                 key={item}
                                 className="flex items-start gap-3 text-gray-700 text-sm sm:text-base"
                             >
-                                <FaExclamationCircle className="w-5 h-5 text-amber-600 flex-shrink-0 mt-0.5" />
+                                <FaExclamationCircle className="w-5 h-5 text-zinc-600 flex-shrink-0 mt-0.5" />
                                 {item}
                             </li>
                         ))}
@@ -268,7 +268,7 @@ const WelcomePage = () => {
                     <ul className="max-w-2xl mx-auto space-y-3 mb-6">
                         {solucaoItens.map((item) => (
                             <li key={item} className="flex items-center gap-3 text-gray-700 text-sm sm:text-base">
-                                <FaCheck className="w-5 h-5 text-green-600 flex-shrink-0" />
+                                <FaCheck className="w-5 h-5 text-zinc-600 flex-shrink-0" />
                                 {item}
                             </li>
                         ))}
@@ -332,7 +332,7 @@ const WelcomePage = () => {
                                     key={item}
                                     className="inline-flex items-center gap-2 bg-white px-3 py-1.5 rounded border border-gray-200 text-sm text-gray-700"
                                 >
-                                    <FaCheck className="w-3.5 h-3.5 text-green-600" />
+                                    <FaCheck className="w-3.5 h-3.5 text-zinc-600" />
                                     {item}
                                 </li>
                             ))}
@@ -430,7 +430,7 @@ const WelcomePage = () => {
                             <ul className="space-y-2">
                                 {planoEssencial.map((item) => (
                                     <li key={item} className="flex items-center gap-2 text-gray-700 text-sm sm:text-base">
-                                        <FaCheck className="w-4 h-4 text-green-600 flex-shrink-0" />
+                                        <FaCheck className="w-4 h-4 text-zinc-600 flex-shrink-0" />
                                         {item}
                                     </li>
                                 ))}
@@ -441,7 +441,7 @@ const WelcomePage = () => {
                             <ul className="space-y-2">
                                 {planoProfissional.map((item) => (
                                     <li key={item} className="flex items-center gap-2 text-gray-200 text-sm sm:text-base">
-                                        <FaCheck className="w-4 h-4 text-green-400 flex-shrink-0" />
+                                        <FaCheck className="w-4 h-4 text-zinc-500 flex-shrink-0" />
                                         {item}
                                     </li>
                                 ))}
@@ -505,31 +505,31 @@ const WelcomePage = () => {
             <footer className="bg-black text-white py-8 sm:py-10 px-4 sm:px-6 md:px-8">
                 <div className={`${CONTAINER} flex flex-col md:flex-row justify-between items-center gap-6 md:gap-8`}>
                     <nav className="flex flex-wrap justify-center gap-4 sm:gap-6">
-                        <a href="#problemas" className="text-sm sm:text-base hover:text-amber-300 transition-colors">
+                        <a href="#problemas" className="text-sm sm:text-base hover:text-zinc-500 transition-colors">
                             Problemas
                         </a>
-                        <a href="#solucao" className="text-sm sm:text-base hover:text-amber-300 transition-colors">
+                        <a href="#solucao" className="text-sm sm:text-base hover:text-zinc-500 transition-colors">
                             Solução
                         </a>
-                        <a href="#como-funciona" className="text-sm sm:text-base hover:text-amber-300 transition-colors">
+                        <a href="#como-funciona" className="text-sm sm:text-base hover:text-zinc-500 transition-colors">
                             Como funciona
                         </a>
-                        <a href="#funcionalidades" className="text-sm sm:text-base hover:text-amber-300 transition-colors">
+                        <a href="#funcionalidades" className="text-sm sm:text-base hover:text-zinc-500 transition-colors">
                             Funcionalidades
                         </a>
-                        <a href="#beneficios" className="text-sm sm:text-base hover:text-amber-300 transition-colors">
+                        <a href="#beneficios" className="text-sm sm:text-base hover:text-zinc-500 transition-colors">
                             Benefícios
                         </a>
-                        <a href="#demonstracao" className="text-sm sm:text-base hover:text-amber-300 transition-colors">
+                        <a href="#demonstracao" className="text-sm sm:text-base hover:text-zinc-500 transition-colors">
                             Demonstração
                         </a>
-                        <a href="#planos" className="text-sm sm:text-base hover:text-amber-300 transition-colors">
+                        <a href="#planos" className="text-sm sm:text-base hover:text-zinc-500 transition-colors">
                             Planos
                         </a>
-                        <a href="/contato" className="text-sm sm:text-base hover:text-amber-300 transition-colors">
+                        <a href="/contato" className="text-sm sm:text-base hover:text-zinc-500 transition-colors">
                             Contato
                         </a>
-                        <a href="/privacidade" className="text-sm sm:text-base hover:text-amber-300 transition-colors">
+                        <a href="/privacidade" className="text-sm sm:text-base hover:text-zinc-500 transition-colors">
                             Privacidade
                         </a>
                     </nav>

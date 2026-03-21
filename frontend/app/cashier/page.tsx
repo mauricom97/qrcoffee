@@ -2,6 +2,7 @@
 
 import { useState, useEffect, useCallback } from 'react';
 import { getAuthHeaders } from 'contexts/AuthContext';
+import LoadingSpinner from 'components/LoadingSpinner';
 
 const API_URL = process.env.NEXT_PUBLIC_BASE_API_URL || 'http://localhost:3352';
 
@@ -230,7 +231,7 @@ export default function CashierPage() {
   if (loading) {
     return (
       <div className="min-h-screen bg-stone-50 p-4 md:p-8 flex items-center justify-center">
-        <div className="animate-pulse text-stone-500">Carregando...</div>
+        <LoadingSpinner message="Carregando caixa..." />
       </div>
     );
   }
@@ -263,14 +264,14 @@ export default function CashierPage() {
           </div>
           <span
             className={`px-4 py-2 rounded-full text-sm font-semibold w-fit
-              ${hasOpenSession ? 'bg-emerald-100 text-emerald-700' : 'bg-rose-100 text-rose-700'}`}
+              ${hasOpenSession ? 'bg-zinc-200 text-zinc-800' : 'bg-zinc-100 text-zinc-600'}`}
           >
             {hasOpenSession ? 'Caixa Aberto' : 'Caixa Fechado'}
           </span>
         </header>
 
         {error && (
-          <div className="bg-rose-50 border border-rose-200 text-rose-700 px-4 py-3 rounded-lg text-sm">
+          <div className="bg-zinc-100 border border-zinc-200 text-zinc-700 px-4 py-3 rounded-lg text-sm">
             {error}
           </div>
         )}
@@ -311,7 +312,7 @@ export default function CashierPage() {
             <div className="space-y-3">
               <button
                 onClick={() => setShowOpenModal(true)}
-                className="w-full bg-emerald-600 hover:bg-emerald-700 transition text-white py-3 rounded-lg font-semibold"
+                className="w-full bg-zinc-900 hover:bg-zinc-800 transition text-white py-3 rounded-lg font-semibold"
               >
                 Abrir Caixa
               </button>
@@ -321,7 +322,7 @@ export default function CashierPage() {
               <div className="flex gap-3">
                 <button
                   onClick={() => setShowCloseModal(true)}
-                  className="flex-1 bg-rose-600 hover:bg-rose-700 transition text-white py-3 rounded-lg font-semibold"
+                  className="flex-1 bg-zinc-700 hover:bg-zinc-600 transition text-white py-3 rounded-lg font-semibold"
                 >
                   Fechar Caixa
                 </button>
@@ -333,7 +334,7 @@ export default function CashierPage() {
                 </button>
                 <button
                   onClick={() => setShowMovementModal('SANGRIA')}
-                  className="flex-1 bg-amber-600 hover:bg-amber-700 transition text-white py-3 rounded-lg font-semibold"
+                  className="flex-1 bg-zinc-600 hover:bg-zinc-500 transition text-white py-3 rounded-lg font-semibold"
                 >
                   Sangria
                 </button>
@@ -361,7 +362,7 @@ export default function CashierPage() {
                       key={`sub-${value}`}
                       onClick={() => handleAddQuick(value, 'SANGRIA')}
                       disabled={submitting || value > currentBalance}
-                      className="bg-amber-50 hover:bg-amber-100 py-2 rounded-lg text-sm font-medium text-amber-700 disabled:opacity-50 disabled:cursor-not-allowed"
+                      className="bg-zinc-100 hover:bg-zinc-200 py-2 rounded-lg text-sm font-medium text-zinc-700 disabled:opacity-50 disabled:cursor-not-allowed"
                     >
                       −{formatCurrency(value)}
                     </button>
@@ -391,8 +392,8 @@ export default function CashierPage() {
                   <span
                     className={
                       m.type === 'REINFORCEMENT'
-                        ? 'text-emerald-600 font-semibold'
-                        : 'text-amber-600 font-semibold'
+                        ? 'text-zinc-800 font-semibold'
+                        : 'text-zinc-600 font-semibold'
                     }
                   >
                     {m.type === 'REINFORCEMENT' ? '+' : '−'}
@@ -460,7 +461,7 @@ export default function CashierPage() {
               <button
                 onClick={handleOpen}
                 disabled={submitting}
-                className="flex-1 py-2 bg-emerald-600 text-white rounded-lg font-semibold disabled:opacity-50"
+                className="flex-1 py-2 bg-zinc-900 text-white rounded-lg font-semibold disabled:opacity-50"
               >
                 {submitting ? 'Abrindo...' : 'Abrir'}
               </button>
@@ -505,7 +506,7 @@ export default function CashierPage() {
                   <button
                     onClick={handleClose}
                     disabled={submitting}
-                    className="flex-1 py-2 bg-rose-600 text-white rounded-lg font-semibold disabled:opacity-50"
+                    className="flex-1 py-2 bg-zinc-700 text-white rounded-lg font-semibold disabled:opacity-50"
                   >
                     {submitting ? 'Fechando...' : 'Fechar'}
                   </button>
@@ -534,10 +535,10 @@ export default function CashierPage() {
                     <span
                       className={
                         closeResult.difference === 0
-                          ? 'text-emerald-600 font-semibold'
+                          ? 'text-zinc-800 font-semibold'
                           : closeResult.difference > 0
-                            ? 'text-amber-600 font-semibold'
-                            : 'text-rose-600 font-semibold'
+                            ? 'text-zinc-600 font-semibold'
+                            : 'text-zinc-600 font-semibold'
                       }
                     >
                       {formatCurrency(closeResult.difference)}
@@ -597,7 +598,7 @@ export default function CashierPage() {
                 className={`flex-1 py-2 text-white rounded-lg font-semibold disabled:opacity-50 ${
                   showMovementModal === 'REINFORCEMENT'
                     ? 'bg-stone-800'
-                    : 'bg-amber-600'
+                    : 'bg-zinc-600'
                 }`}
               >
                 {submitting ? 'Salvando...' : 'Confirmar'}

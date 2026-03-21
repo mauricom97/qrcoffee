@@ -3,6 +3,7 @@
 import { useEffect, useState } from "react";
 import { Product } from "./interfaces/product.interface";
 import { getAuthHeaders } from "contexts/AuthContext";
+import LoadingSpinner from "components/LoadingSpinner";
 
 interface Category {
   uuid: string;
@@ -10,6 +11,7 @@ interface Category {
 }
 
 export default function ProductsPage() {
+  const [loading, setLoading] = useState(true);
   const [products, setProducts] = useState<Product[]>([]);
   const [showForm, setShowForm] = useState(false);
   const [editingProduct, setEditingProduct] = useState<Product | null>(null);
@@ -88,8 +90,10 @@ export default function ProductsPage() {
     }
   }
   useEffect(() => {
-    fetchCategories();
-    fetchProducts();
+    setLoading(true);
+    Promise.all([fetchCategories(), fetchProducts()]).finally(() =>
+      setLoading(false)
+    );
   }, []);
 
   const resetForm = () => {
@@ -291,6 +295,10 @@ export default function ProductsPage() {
           </p>
         </header>
 
+        {loading ? (
+          <LoadingSpinner message="Carregando produtos..." />
+        ) : (
+          <>
         {/* Add/Edit product button */}
         <button
           onClick={() => {
@@ -359,7 +367,7 @@ export default function ProductsPage() {
 
               <button
                 onClick={() => setShowCategoryModal(true)}
-                className="rounded-lg bg-blue-500 px-4 py-2 text-sm font-medium text-white hover:bg-blue-400 transition"
+                className="rounded-lg bg-zinc-900 px-4 py-2 text-sm font-medium text-white hover:bg-zinc-800 transition"
               >
                 Criar Categoria
               </button>
@@ -396,7 +404,7 @@ export default function ProductsPage() {
                             fetchCategories();
                           }
                         }}
-                        className="flex-1 rounded-lg bg-blue-600 px-4 py-2 text-sm font-medium text-white hover:bg-blue-700 transition"
+                        className="flex-1 rounded-lg bg-zinc-800 px-4 py-2 text-sm font-medium text-white hover:bg-zinc-700 transition"
                       >
                         Criar Categoria
                       </button>
@@ -454,7 +462,7 @@ export default function ProductsPage() {
                       />
                       <button
                         onClick={() => removeImage(index)}
-                        className="absolute top-0 right-0 bg-red-500 text-white px-2 py-1 text-xs rounded-full"
+                        className="absolute top-0 right-0 bg-red-600 text-white px-2 py-1 text-xs rounded-full hover:bg-red-700 transition"
                       >
                         X
                       </button>
@@ -585,7 +593,7 @@ export default function ProductsPage() {
                       <div className="flex gap-2 flex-wrap">
                         <button
                           onClick={() => toggleStatus(product.uuid)}
-                          className="rounded-lg border border-yellow-500 px-3 py-1 text-xs text-yellow-500 hover:bg-zinc-100 transition"
+                          className="rounded-lg border border-amber-400 px-3 py-1 text-xs text-amber-700 hover:bg-amber-50 transition"
                         >
                           Mudar status
                         </button>
@@ -609,7 +617,7 @@ export default function ProductsPage() {
 
                         <button
                           onClick={() => handleEdit(product)}
-                          className="rounded-lg border border-green-200 px-3 py-1 text-xs text-green-600 hover:bg-green-50 transition"
+                          className="rounded-lg border border-blue-200 px-3 py-1 text-xs text-blue-600 hover:bg-blue-50 transition"
                         >
                           Editar
                         </button>
@@ -631,6 +639,8 @@ export default function ProductsPage() {
             <p className="text-sm text-zinc-500">Nenhum produto registrado.</p>
           )}
         </section>
+          </>
+        )}
       </div>
 
       {showImages !== null && selectedProduct && (

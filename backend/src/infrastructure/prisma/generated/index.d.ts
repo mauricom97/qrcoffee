@@ -1824,18 +1824,21 @@ export namespace Prisma {
   export type CompanyMinAggregateOutputType = {
     uuid: string | null
     name: string | null
+    menuTheme: string | null
     createdAt: Date | null
   }
 
   export type CompanyMaxAggregateOutputType = {
     uuid: string | null
     name: string | null
+    menuTheme: string | null
     createdAt: Date | null
   }
 
   export type CompanyCountAggregateOutputType = {
     uuid: number
     name: number
+    menuTheme: number
     createdAt: number
     _all: number
   }
@@ -1844,18 +1847,21 @@ export namespace Prisma {
   export type CompanyMinAggregateInputType = {
     uuid?: true
     name?: true
+    menuTheme?: true
     createdAt?: true
   }
 
   export type CompanyMaxAggregateInputType = {
     uuid?: true
     name?: true
+    menuTheme?: true
     createdAt?: true
   }
 
   export type CompanyCountAggregateInputType = {
     uuid?: true
     name?: true
+    menuTheme?: true
     createdAt?: true
     _all?: true
   }
@@ -1935,6 +1941,7 @@ export namespace Prisma {
   export type CompanyGroupByOutputType = {
     uuid: string
     name: string
+    menuTheme: string | null
     createdAt: Date
     _count: CompanyCountAggregateOutputType | null
     _min: CompanyMinAggregateOutputType | null
@@ -1958,6 +1965,7 @@ export namespace Prisma {
   export type CompanySelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
     uuid?: boolean
     name?: boolean
+    menuTheme?: boolean
     createdAt?: boolean
     users?: boolean | Company$usersArgs<ExtArgs>
     tables?: boolean | Company$tablesArgs<ExtArgs>
@@ -1970,22 +1978,25 @@ export namespace Prisma {
   export type CompanySelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
     uuid?: boolean
     name?: boolean
+    menuTheme?: boolean
     createdAt?: boolean
   }, ExtArgs["result"]["company"]>
 
   export type CompanySelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
     uuid?: boolean
     name?: boolean
+    menuTheme?: boolean
     createdAt?: boolean
   }, ExtArgs["result"]["company"]>
 
   export type CompanySelectScalar = {
     uuid?: boolean
     name?: boolean
+    menuTheme?: boolean
     createdAt?: boolean
   }
 
-  export type CompanyOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"uuid" | "name" | "createdAt", ExtArgs["result"]["company"]>
+  export type CompanyOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"uuid" | "name" | "menuTheme" | "createdAt", ExtArgs["result"]["company"]>
   export type CompanyInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     users?: boolean | Company$usersArgs<ExtArgs>
     tables?: boolean | Company$tablesArgs<ExtArgs>
@@ -2009,6 +2020,7 @@ export namespace Prisma {
     scalars: $Extensions.GetPayloadResult<{
       uuid: string
       name: string
+      menuTheme: string | null
       createdAt: Date
     }, ExtArgs["result"]["company"]>
     composites: {}
@@ -2440,6 +2452,7 @@ export namespace Prisma {
   interface CompanyFieldRefs {
     readonly uuid: FieldRef<"Company", 'String'>
     readonly name: FieldRef<"Company", 'String'>
+    readonly menuTheme: FieldRef<"Company", 'String'>
     readonly createdAt: FieldRef<"Company", 'DateTime'>
   }
     
@@ -11831,6 +11844,7 @@ export namespace Prisma {
   export const CompanyScalarFieldEnum: {
     uuid: 'uuid',
     name: 'name',
+    menuTheme: 'menuTheme',
     createdAt: 'createdAt'
   };
 
@@ -12029,6 +12043,7 @@ export namespace Prisma {
     NOT?: CompanyWhereInput | CompanyWhereInput[]
     uuid?: StringFilter<"Company"> | string
     name?: StringFilter<"Company"> | string
+    menuTheme?: StringNullableFilter<"Company"> | string | null
     createdAt?: DateTimeFilter<"Company"> | Date | string
     users?: UserListRelationFilter
     tables?: TableListRelationFilter
@@ -12040,6 +12055,7 @@ export namespace Prisma {
   export type CompanyOrderByWithRelationInput = {
     uuid?: SortOrder
     name?: SortOrder
+    menuTheme?: SortOrderInput | SortOrder
     createdAt?: SortOrder
     users?: UserOrderByRelationAggregateInput
     tables?: TableOrderByRelationAggregateInput
@@ -12054,6 +12070,7 @@ export namespace Prisma {
     OR?: CompanyWhereInput[]
     NOT?: CompanyWhereInput | CompanyWhereInput[]
     name?: StringFilter<"Company"> | string
+    menuTheme?: StringNullableFilter<"Company"> | string | null
     createdAt?: DateTimeFilter<"Company"> | Date | string
     users?: UserListRelationFilter
     tables?: TableListRelationFilter
@@ -12065,6 +12082,7 @@ export namespace Prisma {
   export type CompanyOrderByWithAggregationInput = {
     uuid?: SortOrder
     name?: SortOrder
+    menuTheme?: SortOrderInput | SortOrder
     createdAt?: SortOrder
     _count?: CompanyCountOrderByAggregateInput
     _max?: CompanyMaxOrderByAggregateInput
@@ -12077,6 +12095,7 @@ export namespace Prisma {
     NOT?: CompanyScalarWhereWithAggregatesInput | CompanyScalarWhereWithAggregatesInput[]
     uuid?: StringWithAggregatesFilter<"Company"> | string
     name?: StringWithAggregatesFilter<"Company"> | string
+    menuTheme?: StringNullableWithAggregatesFilter<"Company"> | string | null
     createdAt?: DateTimeWithAggregatesFilter<"Company"> | Date | string
   }
 
@@ -12570,6 +12589,7 @@ export namespace Prisma {
   export type CompanyCreateInput = {
     uuid?: string
     name: string
+    menuTheme?: string | null
     createdAt?: Date | string
     users?: UserCreateNestedManyWithoutCompanyInput
     tables?: TableCreateNestedManyWithoutCompanyInput
@@ -12581,6 +12601,7 @@ export namespace Prisma {
   export type CompanyUncheckedCreateInput = {
     uuid?: string
     name: string
+    menuTheme?: string | null
     createdAt?: Date | string
     users?: UserUncheckedCreateNestedManyWithoutCompanyInput
     tables?: TableUncheckedCreateNestedManyWithoutCompanyInput
@@ -12592,6 +12613,7 @@ export namespace Prisma {
   export type CompanyUpdateInput = {
     uuid?: StringFieldUpdateOperationsInput | string
     name?: StringFieldUpdateOperationsInput | string
+    menuTheme?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     users?: UserUpdateManyWithoutCompanyNestedInput
     tables?: TableUpdateManyWithoutCompanyNestedInput
@@ -12603,6 +12625,7 @@ export namespace Prisma {
   export type CompanyUncheckedUpdateInput = {
     uuid?: StringFieldUpdateOperationsInput | string
     name?: StringFieldUpdateOperationsInput | string
+    menuTheme?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     users?: UserUncheckedUpdateManyWithoutCompanyNestedInput
     tables?: TableUncheckedUpdateManyWithoutCompanyNestedInput
@@ -12614,18 +12637,21 @@ export namespace Prisma {
   export type CompanyCreateManyInput = {
     uuid?: string
     name: string
+    menuTheme?: string | null
     createdAt?: Date | string
   }
 
   export type CompanyUpdateManyMutationInput = {
     uuid?: StringFieldUpdateOperationsInput | string
     name?: StringFieldUpdateOperationsInput | string
+    menuTheme?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
   export type CompanyUncheckedUpdateManyInput = {
     uuid?: StringFieldUpdateOperationsInput | string
     name?: StringFieldUpdateOperationsInput | string
+    menuTheme?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
@@ -13123,6 +13149,21 @@ export namespace Prisma {
     not?: NestedStringFilter<$PrismaModel> | string
   }
 
+  export type StringNullableFilter<$PrismaModel = never> = {
+    equals?: string | StringFieldRefInput<$PrismaModel> | null
+    in?: string[] | ListStringFieldRefInput<$PrismaModel> | null
+    notIn?: string[] | ListStringFieldRefInput<$PrismaModel> | null
+    lt?: string | StringFieldRefInput<$PrismaModel>
+    lte?: string | StringFieldRefInput<$PrismaModel>
+    gt?: string | StringFieldRefInput<$PrismaModel>
+    gte?: string | StringFieldRefInput<$PrismaModel>
+    contains?: string | StringFieldRefInput<$PrismaModel>
+    startsWith?: string | StringFieldRefInput<$PrismaModel>
+    endsWith?: string | StringFieldRefInput<$PrismaModel>
+    mode?: QueryMode
+    not?: NestedStringNullableFilter<$PrismaModel> | string | null
+  }
+
   export type DateTimeFilter<$PrismaModel = never> = {
     equals?: Date | string | DateTimeFieldRefInput<$PrismaModel>
     in?: Date[] | string[] | ListDateTimeFieldRefInput<$PrismaModel>
@@ -13164,6 +13205,11 @@ export namespace Prisma {
     none?: CashierSessionWhereInput
   }
 
+  export type SortOrderInput = {
+    sort: SortOrder
+    nulls?: NullsOrder
+  }
+
   export type UserOrderByRelationAggregateInput = {
     _count?: SortOrder
   }
@@ -13187,18 +13233,21 @@ export namespace Prisma {
   export type CompanyCountOrderByAggregateInput = {
     uuid?: SortOrder
     name?: SortOrder
+    menuTheme?: SortOrder
     createdAt?: SortOrder
   }
 
   export type CompanyMaxOrderByAggregateInput = {
     uuid?: SortOrder
     name?: SortOrder
+    menuTheme?: SortOrder
     createdAt?: SortOrder
   }
 
   export type CompanyMinOrderByAggregateInput = {
     uuid?: SortOrder
     name?: SortOrder
+    menuTheme?: SortOrder
     createdAt?: SortOrder
   }
 
@@ -13218,6 +13267,24 @@ export namespace Prisma {
     _count?: NestedIntFilter<$PrismaModel>
     _min?: NestedStringFilter<$PrismaModel>
     _max?: NestedStringFilter<$PrismaModel>
+  }
+
+  export type StringNullableWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: string | StringFieldRefInput<$PrismaModel> | null
+    in?: string[] | ListStringFieldRefInput<$PrismaModel> | null
+    notIn?: string[] | ListStringFieldRefInput<$PrismaModel> | null
+    lt?: string | StringFieldRefInput<$PrismaModel>
+    lte?: string | StringFieldRefInput<$PrismaModel>
+    gt?: string | StringFieldRefInput<$PrismaModel>
+    gte?: string | StringFieldRefInput<$PrismaModel>
+    contains?: string | StringFieldRefInput<$PrismaModel>
+    startsWith?: string | StringFieldRefInput<$PrismaModel>
+    endsWith?: string | StringFieldRefInput<$PrismaModel>
+    mode?: QueryMode
+    not?: NestedStringNullableWithAggregatesFilter<$PrismaModel> | string | null
+    _count?: NestedIntNullableFilter<$PrismaModel>
+    _min?: NestedStringNullableFilter<$PrismaModel>
+    _max?: NestedStringNullableFilter<$PrismaModel>
   }
 
   export type DateTimeWithAggregatesFilter<$PrismaModel = never> = {
@@ -13549,11 +13616,6 @@ export namespace Prisma {
     none?: CashierMovementWhereInput
   }
 
-  export type SortOrderInput = {
-    sort: SortOrder
-    nulls?: NullsOrder
-  }
-
   export type CashierMovementOrderByRelationAggregateInput = {
     _count?: SortOrder
   }
@@ -13628,21 +13690,6 @@ export namespace Prisma {
     _max?: NestedFloatNullableFilter<$PrismaModel>
   }
 
-  export type StringNullableFilter<$PrismaModel = never> = {
-    equals?: string | StringFieldRefInput<$PrismaModel> | null
-    in?: string[] | ListStringFieldRefInput<$PrismaModel> | null
-    notIn?: string[] | ListStringFieldRefInput<$PrismaModel> | null
-    lt?: string | StringFieldRefInput<$PrismaModel>
-    lte?: string | StringFieldRefInput<$PrismaModel>
-    gt?: string | StringFieldRefInput<$PrismaModel>
-    gte?: string | StringFieldRefInput<$PrismaModel>
-    contains?: string | StringFieldRefInput<$PrismaModel>
-    startsWith?: string | StringFieldRefInput<$PrismaModel>
-    endsWith?: string | StringFieldRefInput<$PrismaModel>
-    mode?: QueryMode
-    not?: NestedStringNullableFilter<$PrismaModel> | string | null
-  }
-
   export type CashierSessionScalarRelationFilter = {
     is?: CashierSessionWhereInput
     isNot?: CashierSessionWhereInput
@@ -13681,24 +13728,6 @@ export namespace Prisma {
 
   export type CashierMovementSumOrderByAggregateInput = {
     amount?: SortOrder
-  }
-
-  export type StringNullableWithAggregatesFilter<$PrismaModel = never> = {
-    equals?: string | StringFieldRefInput<$PrismaModel> | null
-    in?: string[] | ListStringFieldRefInput<$PrismaModel> | null
-    notIn?: string[] | ListStringFieldRefInput<$PrismaModel> | null
-    lt?: string | StringFieldRefInput<$PrismaModel>
-    lte?: string | StringFieldRefInput<$PrismaModel>
-    gt?: string | StringFieldRefInput<$PrismaModel>
-    gte?: string | StringFieldRefInput<$PrismaModel>
-    contains?: string | StringFieldRefInput<$PrismaModel>
-    startsWith?: string | StringFieldRefInput<$PrismaModel>
-    endsWith?: string | StringFieldRefInput<$PrismaModel>
-    mode?: QueryMode
-    not?: NestedStringNullableWithAggregatesFilter<$PrismaModel> | string | null
-    _count?: NestedIntNullableFilter<$PrismaModel>
-    _min?: NestedStringNullableFilter<$PrismaModel>
-    _max?: NestedStringNullableFilter<$PrismaModel>
   }
 
   export type UserCreateNestedManyWithoutCompanyInput = {
@@ -13773,6 +13802,10 @@ export namespace Prisma {
 
   export type StringFieldUpdateOperationsInput = {
     set?: string
+  }
+
+  export type NullableStringFieldUpdateOperationsInput = {
+    set?: string | null
   }
 
   export type DateTimeFieldUpdateOperationsInput = {
@@ -14293,10 +14326,6 @@ export namespace Prisma {
     connect?: CashierSessionWhereUniqueInput
   }
 
-  export type NullableStringFieldUpdateOperationsInput = {
-    set?: string | null
-  }
-
   export type CashierSessionUpdateOneRequiredWithoutMovementsNestedInput = {
     create?: XOR<CashierSessionCreateWithoutMovementsInput, CashierSessionUncheckedCreateWithoutMovementsInput>
     connectOrCreate?: CashierSessionCreateOrConnectWithoutMovementsInput
@@ -14317,6 +14346,20 @@ export namespace Prisma {
     startsWith?: string | StringFieldRefInput<$PrismaModel>
     endsWith?: string | StringFieldRefInput<$PrismaModel>
     not?: NestedStringFilter<$PrismaModel> | string
+  }
+
+  export type NestedStringNullableFilter<$PrismaModel = never> = {
+    equals?: string | StringFieldRefInput<$PrismaModel> | null
+    in?: string[] | ListStringFieldRefInput<$PrismaModel> | null
+    notIn?: string[] | ListStringFieldRefInput<$PrismaModel> | null
+    lt?: string | StringFieldRefInput<$PrismaModel>
+    lte?: string | StringFieldRefInput<$PrismaModel>
+    gt?: string | StringFieldRefInput<$PrismaModel>
+    gte?: string | StringFieldRefInput<$PrismaModel>
+    contains?: string | StringFieldRefInput<$PrismaModel>
+    startsWith?: string | StringFieldRefInput<$PrismaModel>
+    endsWith?: string | StringFieldRefInput<$PrismaModel>
+    not?: NestedStringNullableFilter<$PrismaModel> | string | null
   }
 
   export type NestedDateTimeFilter<$PrismaModel = never> = {
@@ -14356,6 +14399,34 @@ export namespace Prisma {
     gt?: number | IntFieldRefInput<$PrismaModel>
     gte?: number | IntFieldRefInput<$PrismaModel>
     not?: NestedIntFilter<$PrismaModel> | number
+  }
+
+  export type NestedStringNullableWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: string | StringFieldRefInput<$PrismaModel> | null
+    in?: string[] | ListStringFieldRefInput<$PrismaModel> | null
+    notIn?: string[] | ListStringFieldRefInput<$PrismaModel> | null
+    lt?: string | StringFieldRefInput<$PrismaModel>
+    lte?: string | StringFieldRefInput<$PrismaModel>
+    gt?: string | StringFieldRefInput<$PrismaModel>
+    gte?: string | StringFieldRefInput<$PrismaModel>
+    contains?: string | StringFieldRefInput<$PrismaModel>
+    startsWith?: string | StringFieldRefInput<$PrismaModel>
+    endsWith?: string | StringFieldRefInput<$PrismaModel>
+    not?: NestedStringNullableWithAggregatesFilter<$PrismaModel> | string | null
+    _count?: NestedIntNullableFilter<$PrismaModel>
+    _min?: NestedStringNullableFilter<$PrismaModel>
+    _max?: NestedStringNullableFilter<$PrismaModel>
+  }
+
+  export type NestedIntNullableFilter<$PrismaModel = never> = {
+    equals?: number | IntFieldRefInput<$PrismaModel> | null
+    in?: number[] | ListIntFieldRefInput<$PrismaModel> | null
+    notIn?: number[] | ListIntFieldRefInput<$PrismaModel> | null
+    lt?: number | IntFieldRefInput<$PrismaModel>
+    lte?: number | IntFieldRefInput<$PrismaModel>
+    gt?: number | IntFieldRefInput<$PrismaModel>
+    gte?: number | IntFieldRefInput<$PrismaModel>
+    not?: NestedIntNullableFilter<$PrismaModel> | number | null
   }
 
   export type NestedDateTimeWithAggregatesFilter<$PrismaModel = never> = {
@@ -14464,17 +14535,6 @@ export namespace Prisma {
     _max?: NestedDateTimeNullableFilter<$PrismaModel>
   }
 
-  export type NestedIntNullableFilter<$PrismaModel = never> = {
-    equals?: number | IntFieldRefInput<$PrismaModel> | null
-    in?: number[] | ListIntFieldRefInput<$PrismaModel> | null
-    notIn?: number[] | ListIntFieldRefInput<$PrismaModel> | null
-    lt?: number | IntFieldRefInput<$PrismaModel>
-    lte?: number | IntFieldRefInput<$PrismaModel>
-    gt?: number | IntFieldRefInput<$PrismaModel>
-    gte?: number | IntFieldRefInput<$PrismaModel>
-    not?: NestedIntNullableFilter<$PrismaModel> | number | null
-  }
-
   export type NestedFloatNullableWithAggregatesFilter<$PrismaModel = never> = {
     equals?: number | FloatFieldRefInput<$PrismaModel> | null
     in?: number[] | ListFloatFieldRefInput<$PrismaModel> | null
@@ -14489,37 +14549,6 @@ export namespace Prisma {
     _sum?: NestedFloatNullableFilter<$PrismaModel>
     _min?: NestedFloatNullableFilter<$PrismaModel>
     _max?: NestedFloatNullableFilter<$PrismaModel>
-  }
-
-  export type NestedStringNullableFilter<$PrismaModel = never> = {
-    equals?: string | StringFieldRefInput<$PrismaModel> | null
-    in?: string[] | ListStringFieldRefInput<$PrismaModel> | null
-    notIn?: string[] | ListStringFieldRefInput<$PrismaModel> | null
-    lt?: string | StringFieldRefInput<$PrismaModel>
-    lte?: string | StringFieldRefInput<$PrismaModel>
-    gt?: string | StringFieldRefInput<$PrismaModel>
-    gte?: string | StringFieldRefInput<$PrismaModel>
-    contains?: string | StringFieldRefInput<$PrismaModel>
-    startsWith?: string | StringFieldRefInput<$PrismaModel>
-    endsWith?: string | StringFieldRefInput<$PrismaModel>
-    not?: NestedStringNullableFilter<$PrismaModel> | string | null
-  }
-
-  export type NestedStringNullableWithAggregatesFilter<$PrismaModel = never> = {
-    equals?: string | StringFieldRefInput<$PrismaModel> | null
-    in?: string[] | ListStringFieldRefInput<$PrismaModel> | null
-    notIn?: string[] | ListStringFieldRefInput<$PrismaModel> | null
-    lt?: string | StringFieldRefInput<$PrismaModel>
-    lte?: string | StringFieldRefInput<$PrismaModel>
-    gt?: string | StringFieldRefInput<$PrismaModel>
-    gte?: string | StringFieldRefInput<$PrismaModel>
-    contains?: string | StringFieldRefInput<$PrismaModel>
-    startsWith?: string | StringFieldRefInput<$PrismaModel>
-    endsWith?: string | StringFieldRefInput<$PrismaModel>
-    not?: NestedStringNullableWithAggregatesFilter<$PrismaModel> | string | null
-    _count?: NestedIntNullableFilter<$PrismaModel>
-    _min?: NestedStringNullableFilter<$PrismaModel>
-    _max?: NestedStringNullableFilter<$PrismaModel>
   }
 
   export type UserCreateWithoutCompanyInput = {
@@ -14797,6 +14826,7 @@ export namespace Prisma {
   export type CompanyCreateWithoutUsersInput = {
     uuid?: string
     name: string
+    menuTheme?: string | null
     createdAt?: Date | string
     tables?: TableCreateNestedManyWithoutCompanyInput
     categories?: CategoryCreateNestedManyWithoutCompanyInput
@@ -14807,6 +14837,7 @@ export namespace Prisma {
   export type CompanyUncheckedCreateWithoutUsersInput = {
     uuid?: string
     name: string
+    menuTheme?: string | null
     createdAt?: Date | string
     tables?: TableUncheckedCreateNestedManyWithoutCompanyInput
     categories?: CategoryUncheckedCreateNestedManyWithoutCompanyInput
@@ -14833,6 +14864,7 @@ export namespace Prisma {
   export type CompanyUpdateWithoutUsersInput = {
     uuid?: StringFieldUpdateOperationsInput | string
     name?: StringFieldUpdateOperationsInput | string
+    menuTheme?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     tables?: TableUpdateManyWithoutCompanyNestedInput
     categories?: CategoryUpdateManyWithoutCompanyNestedInput
@@ -14843,6 +14875,7 @@ export namespace Prisma {
   export type CompanyUncheckedUpdateWithoutUsersInput = {
     uuid?: StringFieldUpdateOperationsInput | string
     name?: StringFieldUpdateOperationsInput | string
+    menuTheme?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     tables?: TableUncheckedUpdateManyWithoutCompanyNestedInput
     categories?: CategoryUncheckedUpdateManyWithoutCompanyNestedInput
@@ -14870,6 +14903,7 @@ export namespace Prisma {
   export type CompanyCreateWithoutProductsInput = {
     uuid?: string
     name: string
+    menuTheme?: string | null
     createdAt?: Date | string
     users?: UserCreateNestedManyWithoutCompanyInput
     tables?: TableCreateNestedManyWithoutCompanyInput
@@ -14880,6 +14914,7 @@ export namespace Prisma {
   export type CompanyUncheckedCreateWithoutProductsInput = {
     uuid?: string
     name: string
+    menuTheme?: string | null
     createdAt?: Date | string
     users?: UserUncheckedCreateNestedManyWithoutCompanyInput
     tables?: TableUncheckedCreateNestedManyWithoutCompanyInput
@@ -14953,6 +14988,7 @@ export namespace Prisma {
   export type CompanyUpdateWithoutProductsInput = {
     uuid?: StringFieldUpdateOperationsInput | string
     name?: StringFieldUpdateOperationsInput | string
+    menuTheme?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     users?: UserUpdateManyWithoutCompanyNestedInput
     tables?: TableUpdateManyWithoutCompanyNestedInput
@@ -14963,6 +14999,7 @@ export namespace Prisma {
   export type CompanyUncheckedUpdateWithoutProductsInput = {
     uuid?: StringFieldUpdateOperationsInput | string
     name?: StringFieldUpdateOperationsInput | string
+    menuTheme?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     users?: UserUncheckedUpdateManyWithoutCompanyNestedInput
     tables?: TableUncheckedUpdateManyWithoutCompanyNestedInput
@@ -15000,6 +15037,7 @@ export namespace Prisma {
   export type CompanyCreateWithoutCategoriesInput = {
     uuid?: string
     name: string
+    menuTheme?: string | null
     createdAt?: Date | string
     users?: UserCreateNestedManyWithoutCompanyInput
     tables?: TableCreateNestedManyWithoutCompanyInput
@@ -15010,6 +15048,7 @@ export namespace Prisma {
   export type CompanyUncheckedCreateWithoutCategoriesInput = {
     uuid?: string
     name: string
+    menuTheme?: string | null
     createdAt?: Date | string
     users?: UserUncheckedCreateNestedManyWithoutCompanyInput
     tables?: TableUncheckedCreateNestedManyWithoutCompanyInput
@@ -15066,6 +15105,7 @@ export namespace Prisma {
   export type CompanyUpdateWithoutCategoriesInput = {
     uuid?: StringFieldUpdateOperationsInput | string
     name?: StringFieldUpdateOperationsInput | string
+    menuTheme?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     users?: UserUpdateManyWithoutCompanyNestedInput
     tables?: TableUpdateManyWithoutCompanyNestedInput
@@ -15076,6 +15116,7 @@ export namespace Prisma {
   export type CompanyUncheckedUpdateWithoutCategoriesInput = {
     uuid?: StringFieldUpdateOperationsInput | string
     name?: StringFieldUpdateOperationsInput | string
+    menuTheme?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     users?: UserUncheckedUpdateManyWithoutCompanyNestedInput
     tables?: TableUncheckedUpdateManyWithoutCompanyNestedInput
@@ -15102,6 +15143,7 @@ export namespace Prisma {
   export type CompanyCreateWithoutTablesInput = {
     uuid?: string
     name: string
+    menuTheme?: string | null
     createdAt?: Date | string
     users?: UserCreateNestedManyWithoutCompanyInput
     categories?: CategoryCreateNestedManyWithoutCompanyInput
@@ -15112,6 +15154,7 @@ export namespace Prisma {
   export type CompanyUncheckedCreateWithoutTablesInput = {
     uuid?: string
     name: string
+    menuTheme?: string | null
     createdAt?: Date | string
     users?: UserUncheckedCreateNestedManyWithoutCompanyInput
     categories?: CategoryUncheckedCreateNestedManyWithoutCompanyInput
@@ -15162,6 +15205,7 @@ export namespace Prisma {
   export type CompanyUpdateWithoutTablesInput = {
     uuid?: StringFieldUpdateOperationsInput | string
     name?: StringFieldUpdateOperationsInput | string
+    menuTheme?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     users?: UserUpdateManyWithoutCompanyNestedInput
     categories?: CategoryUpdateManyWithoutCompanyNestedInput
@@ -15172,6 +15216,7 @@ export namespace Prisma {
   export type CompanyUncheckedUpdateWithoutTablesInput = {
     uuid?: StringFieldUpdateOperationsInput | string
     name?: StringFieldUpdateOperationsInput | string
+    menuTheme?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     users?: UserUncheckedUpdateManyWithoutCompanyNestedInput
     categories?: CategoryUncheckedUpdateManyWithoutCompanyNestedInput
@@ -15396,6 +15441,7 @@ export namespace Prisma {
   export type CompanyCreateWithoutCashierSessionsInput = {
     uuid?: string
     name: string
+    menuTheme?: string | null
     createdAt?: Date | string
     users?: UserCreateNestedManyWithoutCompanyInput
     tables?: TableCreateNestedManyWithoutCompanyInput
@@ -15406,6 +15452,7 @@ export namespace Prisma {
   export type CompanyUncheckedCreateWithoutCashierSessionsInput = {
     uuid?: string
     name: string
+    menuTheme?: string | null
     createdAt?: Date | string
     users?: UserUncheckedCreateNestedManyWithoutCompanyInput
     tables?: TableUncheckedCreateNestedManyWithoutCompanyInput
@@ -15458,6 +15505,7 @@ export namespace Prisma {
   export type CompanyUpdateWithoutCashierSessionsInput = {
     uuid?: StringFieldUpdateOperationsInput | string
     name?: StringFieldUpdateOperationsInput | string
+    menuTheme?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     users?: UserUpdateManyWithoutCompanyNestedInput
     tables?: TableUpdateManyWithoutCompanyNestedInput
@@ -15468,6 +15516,7 @@ export namespace Prisma {
   export type CompanyUncheckedUpdateWithoutCashierSessionsInput = {
     uuid?: StringFieldUpdateOperationsInput | string
     name?: StringFieldUpdateOperationsInput | string
+    menuTheme?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     users?: UserUncheckedUpdateManyWithoutCompanyNestedInput
     tables?: TableUncheckedUpdateManyWithoutCompanyNestedInput

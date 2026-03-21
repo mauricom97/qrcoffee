@@ -11,6 +11,7 @@ import { FaMoneyBillWave } from "react-icons/fa";
 import { GrCafeteria } from "react-icons/gr";
 import { FaQrcode } from "react-icons/fa";
 import { FaBox } from "react-icons/fa";
+import { HiCog } from "react-icons/hi";
 import { useAuth } from "../contexts/AuthContext";
 
 const Sidebar = () => {
@@ -44,7 +45,7 @@ const Sidebar = () => {
 
             {/* Sidebar */}
             <div
-                className={`shadow-lg w-64 h-full z-30 bg-white text-black from-blue-500 to-blue-700 rounded-r-lg p-6 fixed top-0 left-0 flex flex-col items-center transform ${isOpen ? "translate-x-0" : "-translate-x-full"
+                className={`shadow-lg w-64 h-full z-30 bg-white text-black rounded-r-lg p-6 fixed top-0 left-0 flex flex-col items-center transform ${isOpen ? "translate-x-0" : "-translate-x-full"
                     } transition-transform duration-300 ease-in-out`}
             >
 
@@ -99,7 +100,15 @@ const Sidebar = () => {
                     <Link href="/stock" onClick={() => setIsOpen(false)}>
                     <li className="flex items-center space-x-3 hover:bg-stone-300 p-3 rounded-md cursor-pointer">
                         <FaBox  className="text-xl" />
-                        <span className="text-lg font-medium">Estoque</span>                    </li>
+                        <span className="text-lg font-medium">Estoque</span>
+                    </li>
+                    </Link>
+
+                    <Link href="/settings" onClick={() => setIsOpen(false)}>
+                    <li className="flex items-center space-x-3 hover:bg-stone-300 p-3 rounded-md cursor-pointer">
+                        <HiCog className="text-xl" />
+                        <span className="text-lg font-medium">Aparência do Cardápio</span>
+                    </li>
                     </Link>
 
                     <li className="mt-4 pt-4 border-t border-stone-300">
