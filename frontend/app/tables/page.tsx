@@ -1,10 +1,12 @@
 "use client";
 
 import React, { useState, useEffect, useCallback } from "react";
+import Link from "next/link";
 import { useAuth } from "contexts/AuthContext";
 import { useRealtimeUpdates } from "hooks/useRealtimeUpdates";
 import QRCode from "react-qr-code";
 import * as QRCodeLib from "qrcode";
+import { LuTableOfContents } from "react-icons/lu";
 import { Mesa } from "./interfaces/table.interface";
 import { getAuthHeaders } from "contexts/AuthContext";
 import ConfirmModal from "components/ConfirmModal";
@@ -179,35 +181,51 @@ const TableManager: React.FC = () => {
             {mesas.map((mesa) => (
               <div
                 key={mesa.uuid}
-                className="bg-gray-100 shadow-md rounded-lg p-4 flex flex-col"
+                className="bg-gray-100 shadow-md rounded-lg p-5 flex flex-col"
               >
-                <div className="flex justify-between items-center mb-4">
-                  <h3 className="text-lg font-semibold">N°: {mesa.number}</h3>
-                  <div className="flex items-center gap-2">
-                    <button
-                      type="button"
-                      onClick={() => openEdit(mesa)}
-                      className="bg-white text-black border border-black rounded-lg px-3 py-1.5 text-sm hover:bg-zinc-100"
-                    >
-                      Editar
-                    </button>
-                    <button
-                      type="button"
-                      onClick={() => setMesaToDelete(mesa)}
-                      className="bg-white text-red-600 border border-red-600 rounded-lg px-3 py-1.5 text-sm hover:bg-red-50"
-                    >
-                      Excluir
-                    </button>
-                    <button
-                      type="button"
-                      onClick={() => printQRCode(mesa.qrCode, mesa.number)}
-                      className="bg-white text-black border border-black rounded-lg px-2 py-2"
-                    >
-                      <QRCode value={mesa.qrCode} size={64} />
-                    </button>
+                <div className="flex justify-between items-start gap-4 mb-3">
+                  <div className="min-w-0 flex-1">
+                    <h3 className="text-lg font-semibold text-zinc-800">
+                      Mesa {mesa.number}
+                    </h3>
+                    <p className="text-zinc-600 text-sm mt-1 line-clamp-2">
+                      {mesa.description}
+                    </p>
                   </div>
+                  <button
+                    type="button"
+                    onClick={() => printQRCode(mesa.qrCode, mesa.number)}
+                    className="shrink-0 p-1.5 rounded-lg border border-zinc-300 bg-white hover:bg-zinc-50 transition"
+                    title="Imprimir QR Code"
+                  >
+                    <QRCode value={mesa.qrCode} size={56} />
+                  </button>
                 </div>
-                <p className="text-gray-600 mb-4 flex-1">{mesa.description}</p>
+                <div className="flex flex-wrap gap-2 pt-3 border-t border-zinc-200">
+                  <Link
+                    href={`/cardapio?mesa=${mesa.uuid}`}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="inline-flex items-center gap-1.5 bg-zinc-800 text-white rounded-lg px-3 py-2 text-sm font-medium hover:bg-zinc-900 transition"
+                  >
+                    <LuTableOfContents className="text-base" />
+                    Cardápio
+                  </Link>
+                  <button
+                    type="button"
+                    onClick={() => openEdit(mesa)}
+                    className="inline-flex items-center px-3 py-2 text-sm font-medium rounded-lg border border-zinc-300 bg-white text-zinc-700 hover:bg-zinc-50 transition"
+                  >
+                    Editar
+                  </button>
+                  <button
+                    type="button"
+                    onClick={() => setMesaToDelete(mesa)}
+                    className="inline-flex items-center px-3 py-2 text-sm font-medium rounded-lg border border-red-300 bg-white text-red-600 hover:bg-red-50 transition"
+                  >
+                    Excluir
+                  </button>
+                </div>
               </div>
             ))}
           </div>
