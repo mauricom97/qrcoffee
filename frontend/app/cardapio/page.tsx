@@ -2,7 +2,7 @@
 
 import { useState, useEffect, useCallback, Suspense } from "react";
 import { useSearchParams } from "next/navigation";
-import { FaShoppingCart, FaPlus, FaMinus, FaCheckCircle } from "react-icons/fa";
+import { FaShoppingCart, FaPlus, FaMinus, FaCheckCircle, FaSearch } from "react-icons/fa";
 import LoadingSpinner from "components/LoadingSpinner";
 
 const API_URL = process.env.NEXT_PUBLIC_BASE_API_URL || "http://localhost:3352";
@@ -62,6 +62,8 @@ function CardapioContent() {
   const [menu, setMenu] = useState<MenuResponse | null>(null);
   const [cart, setCart] = useState<CartItem[]>([]);
   const [loading, setLoading] = useState(true);
+  const [searchText, setSearchText] = useState("");
+  const [selectedCategoryUuid, setSelectedCategoryUuid] = useState<string>("");
   const [ordering, setOrdering] = useState(false);
   const [orderSent, setOrderSent] = useState(false);
   const [error, setError] = useState<string | null>(null);
@@ -152,6 +154,25 @@ function CardapioContent() {
   };
 
   const theme = mergeTheme(menu?.theme);
+
+  const filteredCategories = menu
+    ? menu.categories
+        .map((category) => ({
+          ...category,
+          products: category.products.filter((product) => {
+            const matchesCategory =
+              !selectedCategoryUuid || category.uuid === selectedCategoryUuid;
+            const search = searchText.trim().toLowerCase();
+            const matchesSearch =
+              !search ||
+              product.name.toLowerCase().includes(search) ||
+              (product.description ?? "").toLowerCase().includes(search);
+            return matchesCategory && matchesSearch;
+          }),
+        }))
+        .filter((cat) => cat.products.length > 0)
+    : [];
+
   const themeVars = {
     "--menu-primary": theme.primary,
     "--menu-primary-hover": theme.primaryHover,
@@ -258,8 +279,62 @@ function CardapioContent() {
           </div>
         )}
 
+        <div className="mb-6 space-y-3">
+          <div className="relative">
+            <FaSearch className="absolute left-3 top-1/2 -translate-y-1/2 text-zinc-400 w-4 h-4" />
+            <input
+              type="text"
+              placeholder="Buscar produtos..."
+              value={searchText}
+              onChange={(e) => setSearchText(e.target.value)}
+              className="w-full pl-10 pr-4 py-2.5 rounded-xl border bg-white text-zinc-800 placeholder-zinc-400 focus:outline-none focus:ring-2 focus:ring-zinc-400"
+              style={{ borderColor: theme.accent }}
+            />
+          </div>
+          <div className="flex flex-wrap gap-2">
+            <button
+              onClick={() => setSelectedCategoryUuid("")}
+              className={`px-3 py-1.5 rounded-lg text-sm font-medium transition ${
+                !selectedCategoryUuid
+                  ? "text-white"
+                  : "bg-white border text-zinc-700 hover:bg-zinc-50"
+              }`}
+              style={
+                !selectedCategoryUuid
+                  ? { backgroundColor: theme.primary }
+                  : { borderColor: theme.accent }
+              }
+            >
+              Todas
+            </button>
+            {menu?.categories.map((category) => (
+              <button
+                key={category.uuid}
+                onClick={() => setSelectedCategoryUuid(category.uuid)}
+                className={`px-3 py-1.5 rounded-lg text-sm font-medium transition ${
+                  selectedCategoryUuid === category.uuid
+                    ? "text-white"
+                    : "bg-white border text-zinc-700 hover:bg-zinc-50"
+                }`}
+                style={
+                  selectedCategoryUuid === category.uuid
+                    ? { backgroundColor: theme.primary }
+                    : { borderColor: theme.accent }
+                }
+              >
+                {category.name}
+              </button>
+            ))}
+          </div>
+        </div>
+
         <div className="space-y-10">
-          {menu?.categories.map((category) => (
+          {filteredCategories.length === 0 ? (
+            <p className="text-center text-zinc-500 py-8">
+              Nenhum produto encontrado com os filtros aplicados.
+            </p>
+          ) : (
+          filteredCategories.map((category) => (
             <section key={category.uuid}>
               <h2
                 className="text-lg font-bold mb-4 pb-2 border-b-2"
@@ -299,7 +374,8 @@ function CardapioContent() {
                 ))}
               </div>
             </section>
-          ))}
+          ))
+          )}
         </div>
       </main>
 

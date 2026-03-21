@@ -11,11 +11,12 @@ import { FaMoneyBillWave } from "react-icons/fa";
 import { GrCafeteria } from "react-icons/gr";
 import { FaQrcode } from "react-icons/fa";
 import { FaBox } from "react-icons/fa";
-import { HiCog } from "react-icons/hi";
 import { useAuth } from "../contexts/AuthContext";
+import CardapioModal from "components/CardapioModal";
 
 const Sidebar = () => {
     const [isOpen, setIsOpen] = useState(false);
+    const [cardapioModalOpen, setCardapioModalOpen] = useState(false);
     const { logout } = useAuth();
     const router = useRouter();
     const { user } = useAuth() || { companyName: '' };
@@ -83,12 +84,16 @@ const Sidebar = () => {
                         </li>
                     </Link>
 
-                    <Link href="/cardapio" target="_blank" onClick={() => setIsOpen(false)}>
-                        <li className="flex items-center space-x-3 hover:bg-stone-300 p-3 rounded-md cursor-pointer">
-                            <FaQrcode className="text-xl" />
-                            <span className="text-lg font-medium">Cardápio Online (QR Code)</span>
-                        </li>
-                    </Link>
+                    <li
+                        className="flex items-center space-x-3 hover:bg-stone-300 p-3 rounded-md cursor-pointer"
+                        onClick={() => {
+                            setCardapioModalOpen(true);
+                            setIsOpen(false);
+                        }}
+                    >
+                        <FaQrcode className="text-xl" />
+                        <span className="text-lg font-medium">Cardápio</span>
+                    </li>
 
                     <Link href="/cashier" onClick={() => setIsOpen(false)}>
                     <li className="flex items-center space-x-3 hover:bg-stone-300 p-3 rounded-md cursor-pointer">
@@ -104,13 +109,6 @@ const Sidebar = () => {
                     </li>
                     </Link>
 
-                    <Link href="/settings" onClick={() => setIsOpen(false)}>
-                    <li className="flex items-center space-x-3 hover:bg-stone-300 p-3 rounded-md cursor-pointer">
-                        <HiCog className="text-xl" />
-                        <span className="text-lg font-medium">Aparência do Cardápio</span>
-                    </li>
-                    </Link>
-
                     <li className="mt-4 pt-4 border-t border-stone-300">
                         <button
                             onClick={handleLogout}
@@ -122,6 +120,11 @@ const Sidebar = () => {
                     </li>
                 </ul>
             </div>
+
+            <CardapioModal
+                open={cardapioModalOpen}
+                onClose={() => setCardapioModalOpen(false)}
+            />
         </>
     );
 };
