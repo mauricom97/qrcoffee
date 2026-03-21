@@ -12,6 +12,8 @@ import {
 import { OrderDto, OrderStatus } from "./interfaces/order.interface";
 import { Mesa } from "../tables/interfaces/table.interface";
 import { getAuthHeaders } from "contexts/AuthContext";
+import ConfirmModal from "components/ConfirmModal";
+import LoadingSpinner from "components/LoadingSpinner";
 
 const API_URL = process.env.NEXT_PUBLIC_BASE_API_URL || "http://localhost:3352";
 
@@ -50,6 +52,7 @@ export default function OrdersPage() {
   const [newItems, setNewItems] = useState<NewOrderItem[]>([]);
   const [selectedProductUuid, setSelectedProductUuid] = useState("");
   const [itemQuantity, setItemQuantity] = useState(1);
+  const [orderToDelete, setOrderToDelete] = useState<OrderDto | null>(null);
 
   const loadOrders = useCallback(async () => {
     try {
@@ -174,7 +177,6 @@ export default function OrdersPage() {
   };
 
   const handleDelete = async (order: OrderDto) => {
-    if (!confirm(`Excluir pedido da mesa ${order.tableNumber}?`)) return;
     try {
       const res = await fetch(`${API_URL}/orders/${order.uuid}`, {
         method: "DELETE",
@@ -190,11 +192,11 @@ export default function OrdersPage() {
   const statusColor = (status: OrderStatus) => {
     switch (status) {
       case "DELIVERED":
-        return "bg-emerald-100 text-emerald-800";
+        return "bg-zinc-800 text-white";
       case "READY":
-        return "bg-green-100 text-green-800";
+        return "bg-zinc-600 text-white";
       case "PREPARING":
-        return "bg-amber-100 text-amber-800";
+        return "bg-zinc-400 text-zinc-900";
       default:
         return "bg-zinc-100 text-zinc-800";
     }
@@ -369,7 +371,7 @@ export default function OrdersPage() {
         )}
 
         {loading ? (
-          <p className="text-zinc-500">Carregando pedidos…</p>
+          <LoadingSpinner message="Carregando pedidos…" />
         ) : (
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
             {orders.map((order) => (
@@ -428,7 +430,7 @@ export default function OrdersPage() {
                       ))}
                   </div>
                   <button
-                    onClick={() => handleDelete(order)}
+                    onClick={() => setOrderToDelete(order)}
                     className="text-red-600 hover:text-red-700 p-1"
                     title="Excluir pedido"
                   >
@@ -455,6 +457,19 @@ export default function OrdersPage() {
           </div>
         )}
       </div>
+
+      <ConfirmModal
+        open={!!orderToDelete}
+        onClose={() => setOrderToDelete(null)}
+        onConfirm={() => orderToDelete && handleDelete(orderToDelete)}
+        title="Excluir pedido"
+        message={
+          orderToDelete
+            ? `Tem certeza que deseja excluir o pedido da mesa ${orderToDelete.tableNumber}?`
+            : ""
+        }
+        confirmLabel="Excluir"
+      />
     </div>
   );
 }

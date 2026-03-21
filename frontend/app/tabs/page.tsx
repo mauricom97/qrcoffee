@@ -16,6 +16,7 @@ import {
 } from "../orders/interfaces/order.interface";
 import { Mesa } from "../tables/interfaces/table.interface";
 import { getAuthHeaders } from "contexts/AuthContext";
+import LoadingSpinner from "components/LoadingSpinner";
 
 const API_URL =
   process.env.NEXT_PUBLIC_BASE_API_URL || "http://localhost:3352";
@@ -30,11 +31,11 @@ const STATUS_LABELS: Record<OrderStatus, string> = {
 function statusIcon(status: OrderStatus) {
   switch (status) {
     case "DELIVERED":
-      return <FaCheckCircle className="inline-block text-emerald-600" />;
+      return <FaCheckCircle className="inline-block text-zinc-800" />;
     case "READY":
-      return <FaBox className="inline-block text-green-600" />;
+      return <FaBox className="inline-block text-zinc-700" />;
     case "PREPARING":
-      return <FaHourglassHalf className="inline-block text-amber-600" />;
+      return <FaHourglassHalf className="inline-block text-zinc-600" />;
     default:
       return <FaHourglassHalf className="inline-block text-zinc-500" />;
   }
@@ -43,11 +44,11 @@ function statusIcon(status: OrderStatus) {
 function statusBadgeClass(status: OrderStatus): string {
   switch (status) {
     case "DELIVERED":
-      return "bg-emerald-100 text-emerald-800 border-emerald-200";
+      return "bg-zinc-800 text-white border-zinc-800";
     case "READY":
-      return "bg-green-100 text-green-800 border-green-200";
+      return "bg-zinc-600 text-white border-zinc-600";
     case "PREPARING":
-      return "bg-amber-100 text-amber-800 border-amber-200";
+      return "bg-zinc-400 text-zinc-900 border-zinc-400";
     default:
       return "bg-zinc-100 text-zinc-700 border-zinc-200";
   }
@@ -121,11 +122,11 @@ export default function TabPage() {
   }, 0);
 
   return (
-    <div className="min-h-screen bg-[#f5f0ea] p-4 md:p-8">
+    <div className="min-h-screen bg-zinc-100 p-4 md:p-8">
       <div className="max-w-6xl mx-auto">
         <header className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 mb-8">
-          <h1 className="text-3xl md:text-4xl font-bold text-[#2c2419] flex items-center gap-3">
-            <span className="bg-[#2c2419] text-[#f5f0ea] p-2 rounded-xl">
+          <h1 className="text-3xl md:text-4xl font-bold text-zinc-900 flex items-center gap-3">
+            <span className="bg-zinc-900 text-white p-2 rounded-xl">
               <FaClipboardList className="text-2xl" />
             </span>
             Lista de Comandas
@@ -135,8 +136,8 @@ export default function TabPage() {
               onClick={() => setShowFilters((v) => !v)}
               className={`flex items-center gap-2 px-4 py-2 rounded-xl border transition-colors ${
                 showFilters || statusFilter || tableFilter
-                  ? "bg-[#2c2419] text-[#f5f0ea] border-[#2c2419]"
-                  : "bg-white/80 text-[#2c2419] border-[#d4c4a8] hover:bg-white"
+                  ? "bg-zinc-900 text-white border-zinc-900"
+                  : "bg-white/80 text-zinc-900 border-zinc-200 hover:bg-white"
               }`}
             >
               <FaFilter /> Filtros
@@ -147,7 +148,7 @@ export default function TabPage() {
                 loadComandas().finally(() => setLoading(false));
               }}
               disabled={loading}
-              className="flex items-center gap-2 px-4 py-2 rounded-xl bg-white/80 text-[#2c2419] border border-[#d4c4a8] hover:bg-white disabled:opacity-50"
+              className="flex items-center gap-2 px-4 py-2 rounded-xl bg-white/80 text-zinc-900 border border-zinc-200 hover:bg-white disabled:opacity-50"
             >
               <FaSyncAlt className={loading ? "animate-spin" : ""} /> Atualizar
             </button>
@@ -155,15 +156,15 @@ export default function TabPage() {
         </header>
 
         {showFilters && (
-          <div className="mb-6 p-4 rounded-2xl bg-white/90 border border-[#d4c4a8] shadow-sm">
-            <p className="text-sm font-medium text-[#2c2419] mb-3">Status</p>
+          <div className="mb-6 p-4 rounded-2xl bg-white/90 border border-zinc-200 shadow-sm">
+            <p className="text-sm font-medium text-zinc-900 mb-3">Status</p>
             <div className="flex flex-wrap gap-2 mb-4">
               <button
                 onClick={() => setStatusFilter("")}
                 className={`rounded-lg px-3 py-1.5 text-sm border ${
                   !statusFilter
-                    ? "bg-[#2c2419] text-[#f5f0ea] border-[#2c2419]"
-                    : "bg-white text-[#2c2419] border-[#d4c4a8] hover:bg-[#f5f0ea]"
+                    ? "bg-zinc-900 text-white border-zinc-900"
+                    : "bg-white text-zinc-900 border-zinc-200 hover:bg-zinc-50"
                 }`}
               >
                 Todos
@@ -174,19 +175,19 @@ export default function TabPage() {
                   onClick={() => setStatusFilter(s)}
                   className={`rounded-lg px-3 py-1.5 text-sm border ${
                     statusFilter === s
-                      ? "bg-[#2c2419] text-[#f5f0ea] border-[#2c2419]"
-                      : "bg-white text-[#2c2419] border-[#d4c4a8] hover:bg-[#f5f0ea]"
+                      ? "bg-zinc-900 text-white border-zinc-900"
+                      : "bg-white text-zinc-900 border-zinc-200 hover:bg-zinc-50"
                   }`}
                 >
                   {STATUS_LABELS[s]}
                 </button>
               ))}
             </div>
-            <p className="text-sm font-medium text-[#2c2419] mb-2">Mesa</p>
+            <p className="text-sm font-medium text-zinc-900 mb-2">Mesa</p>
             <select
               value={tableFilter}
               onChange={(e) => setTableFilter(e.target.value)}
-              className="w-full max-w-xs rounded-lg border border-[#d4c4a8] bg-white px-3 py-2 text-[#2c2419]"
+              className="w-full max-w-xs rounded-lg border border-zinc-200 bg-white px-3 py-2 text-zinc-900"
             >
               <option value="">Todas as mesas</option>
               {tables.map((t) => (
@@ -206,15 +207,12 @@ export default function TabPage() {
         )}
 
         {loading ? (
-          <div className="flex flex-col items-center justify-center py-16 text-[#5c5349]">
-            <FaSyncAlt className="text-4xl animate-spin mb-3" />
-            <p>Carregando comandas…</p>
-          </div>
+          <LoadingSpinner message="Carregando comandas…" />
         ) : comandas.length === 0 ? (
-          <div className="rounded-2xl bg-white/90 border border-[#d4c4a8] p-12 text-center">
-            <FaClipboardList className="mx-auto text-5xl text-[#d4c4a8] mb-4" />
-            <p className="text-[#5c5349] font-medium">Nenhuma comanda encontrada.</p>
-            <p className="text-sm text-[#5c5349]/80 mt-1">
+          <div className="rounded-2xl bg-white/90 border border-zinc-200 p-12 text-center">
+            <FaClipboardList className="mx-auto text-5xl text-zinc-400 mb-4" />
+            <p className="text-zinc-600 font-medium">Nenhuma comanda encontrada.</p>
+            <p className="text-sm text-zinc-600/80 mt-1">
               {statusFilter || tableFilter
                 ? "Tente alterar os filtros."
                 : "Os pedidos aparecerão aqui quando forem criados."}
@@ -225,7 +223,7 @@ export default function TabPage() {
                   setStatusFilter("");
                   setTableFilter("");
                 }}
-                className="mt-4 text-[#2c2419] underline font-medium"
+                className="mt-4 text-zinc-900 underline font-medium"
               >
                 Limpar filtros
               </button>
@@ -242,14 +240,14 @@ export default function TabPage() {
                 return (
                   <div
                     key={order.uuid}
-                    className="bg-white rounded-2xl border border-[#d4c4a8] shadow-md overflow-hidden hover:shadow-lg transition-shadow"
+                    className="bg-white rounded-2xl border border-zinc-200 shadow-md overflow-hidden hover:shadow-lg transition-shadow"
                   >
-                    <div className="px-5 py-4 border-b border-[#e8dfd0] flex items-center justify-between flex-wrap gap-2">
+                    <div className="px-5 py-4 border-b border-zinc-200 flex items-center justify-between flex-wrap gap-2">
                       <div className="flex items-center gap-2">
-                        <span className="bg-[#2c2419]/10 text-[#2c2419] p-2 rounded-lg">
+                        <span className="bg-zinc-900/10 text-zinc-900 p-2 rounded-lg">
                           <FaTable />
                         </span>
-                        <span className="font-semibold text-[#2c2419]">
+                        <span className="font-semibold text-zinc-900">
                           Mesa {order.tableNumber}
                         </span>
                       </div>
@@ -262,30 +260,30 @@ export default function TabPage() {
                         {STATUS_LABELS[order.status as OrderStatus]}
                       </span>
                     </div>
-                    <p className="px-5 py-1 text-xs text-[#5c5349]">
+                    <p className="px-5 py-1 text-xs text-zinc-600">
                       {new Date(order.createdAt).toLocaleString("pt-BR")}
                     </p>
                     <ul className="px-5 py-3 space-y-3">
                       {order.items.map((item) => (
                         <li
                           key={item.uuid}
-                          className="flex justify-between items-center text-[#2c2419] border-b border-[#e8dfd0] pb-3 last:border-0 last:pb-0"
+                          className="flex justify-between items-center text-zinc-900 border-b border-zinc-200 pb-3 last:border-0 last:pb-0"
                         >
                           <span className="font-medium">
                             {item.productName} (x{item.quantity})
                           </span>
-                          <span className="text-sm bg-[#f5f0ea] px-2 py-1 rounded-lg text-[#5c5349]">
+                          <span className="text-sm bg-zinc-100 px-2 py-1 rounded-lg text-zinc-600">
                             R$ {(item.unitPrice * item.quantity).toFixed(2)}
                           </span>
                         </li>
                       ))}
                     </ul>
-                    <div className="px-5 py-4 bg-[#f5f0ea]/80 border-t border-[#e8dfd0] space-y-3">
+                    <div className="px-5 py-4 bg-zinc-50/80 border-t border-zinc-200 space-y-3">
                       <div className="flex justify-between items-center">
-                        <span className="font-semibold text-[#2c2419]">
+                        <span className="font-semibold text-zinc-900">
                           Total da comanda
                         </span>
-                        <span className="text-lg font-bold text-[#2c2419]">
+                        <span className="text-lg font-bold text-zinc-900">
                           R$ {orderTotal.toFixed(2)}
                         </span>
                       </div>
@@ -298,7 +296,7 @@ export default function TabPage() {
                               onClick={() =>
                                 handleUpdateStatus(order, s)
                               }
-                              className="text-xs bg-white border border-[#d4c4a8] text-[#2c2419] rounded-lg px-2 py-1 hover:bg-[#e8dfd0]"
+                              className="text-xs bg-white border border-zinc-200 text-zinc-900 rounded-lg px-2 py-1 hover:bg-zinc-100"
                             >
                               → {STATUS_LABELS[s]}
                             </button>
@@ -310,7 +308,7 @@ export default function TabPage() {
               })}
             </div>
 
-            <div className="mt-8 p-6 rounded-2xl bg-[#2c2419] text-[#f5f0ea] shadow-lg">
+            <div className="mt-8 p-6 rounded-2xl bg-zinc-900 text-white shadow-lg">
               <div className="flex flex-wrap items-center justify-between gap-4">
                 <span className="text-lg font-semibold">
                   Total geral das comandas

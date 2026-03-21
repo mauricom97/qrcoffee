@@ -45,10 +45,10 @@ export default function StockManagementPage() {
           placeholder="Buscar produto..."
           value={search}
           onChange={e => setSearch(e.target.value)}
-          className="w-full sm:w-72 rounded-lg border border-gray-300 px-4 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
+          className="w-full sm:w-72 rounded-lg border border-gray-300 px-4 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-zinc-900"
         />
 
-        <button className="rounded-lg bg-blue-600 px-4 py-2 text-sm font-medium text-white hover:bg-blue-700 transition">
+        <button className="rounded-lg bg-zinc-900 px-4 py-2 text-sm font-medium text-white hover:bg-zinc-800 transition">
           + Novo Produto
         </button>
       </div>
@@ -118,13 +118,13 @@ function SummaryCard({
   return (
     <div
       className={`rounded-xl border p-4 ${
-        danger ? 'border-red-200 bg-red-50' : 'border-gray-200 bg-white'
+        danger ? 'border-zinc-300 bg-zinc-100' : 'border-zinc-200 bg-white'
       }`}
     >
       <p className="text-sm text-gray-500">{title}</p>
       <p
         className={`mt-2 text-2xl font-semibold ${
-          danger ? 'text-red-600' : 'text-gray-800'
+          danger ? 'text-zinc-700' : 'text-zinc-800'
         }`}
       >
         {value}
@@ -136,14 +136,14 @@ function SummaryCard({
 function StockStatus({ stock }: { stock: number }) {
   if (stock <= 5) {
     return (
-      <span className="rounded-full bg-red-100 px-3 py-1 text-xs font-medium text-red-600">
+      <span className="rounded-full bg-zinc-200 px-3 py-1 text-xs font-medium text-zinc-700">
         Baixo
       </span>
     )
   }
 
   return (
-    <span className="rounded-full bg-green-100 px-3 py-1 text-xs font-medium text-green-600">
+    <span className="rounded-full bg-zinc-100 px-3 py-1 text-xs font-medium text-zinc-600">
       Normal
     </span>
   )

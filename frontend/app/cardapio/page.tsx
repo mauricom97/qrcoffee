@@ -3,6 +3,7 @@
 import { useState, useEffect, useCallback, Suspense } from "react";
 import { useSearchParams } from "next/navigation";
 import { FaShoppingCart, FaPlus, FaMinus, FaCheckCircle } from "react-icons/fa";
+import LoadingSpinner from "components/LoadingSpinner";
 
 const API_URL = process.env.NEXT_PUBLIC_BASE_API_URL || "http://localhost:3352";
 
@@ -16,6 +17,15 @@ interface Product {
   category?: { uuid: string; name: string };
 }
 
+export interface MenuTheme {
+  primary?: string;
+  primaryHover?: string;
+  background?: string;
+  accent?: string;
+  textPrimary?: string;
+  textMuted?: string;
+}
+
 interface MenuResponse {
   table: { uuid: string; number: number; description: string };
   categories: Array<{
@@ -23,6 +33,21 @@ interface MenuResponse {
     name: string;
     products: Product[];
   }>;
+  theme?: MenuTheme | null;
+}
+
+const DEFAULT_THEME: MenuTheme = {
+  primary: "#18181b",
+  primaryHover: "#27272a",
+  background: "#fafafa",
+  accent: "#e4e4e7",
+  textPrimary: "#18181b",
+  textMuted: "#71717a",
+};
+
+function mergeTheme(theme?: MenuTheme | null): MenuTheme {
+  if (!theme) return DEFAULT_THEME;
+  return { ...DEFAULT_THEME, ...theme };
 }
 
 interface CartItem {
@@ -126,14 +151,27 @@ function CardapioContent() {
     }
   };
 
+  const theme = mergeTheme(menu?.theme);
+  const themeVars = {
+    "--menu-primary": theme.primary,
+    "--menu-primary-hover": theme.primaryHover,
+    "--menu-background": theme.background,
+    "--menu-accent": theme.accent,
+    "--menu-text-primary": theme.textPrimary,
+    "--menu-text-muted": theme.textMuted,
+  } as React.CSSProperties;
+
   if (!mesaUuid) {
     return (
-      <div className="min-h-screen bg-amber-50 flex flex-col items-center justify-center p-6">
+      <div
+        className="min-h-screen flex flex-col items-center justify-center p-6"
+        style={{ ...themeVars, backgroundColor: theme.background }}
+      >
         <div className="bg-white rounded-2xl shadow-lg p-8 max-w-md text-center">
-          <h1 className="text-2xl font-bold text-amber-900 mb-2">
+          <h1 className="text-2xl font-bold mb-2" style={{ color: theme.textPrimary }}>
             Cardápio Online
           </h1>
-          <p className="text-amber-700">
+          <p style={{ color: theme.textMuted }}>
             Escaneie o QR code da sua mesa para ver o cardápio e fazer seu pedido.
           </p>
         </div>
@@ -143,15 +181,21 @@ function CardapioContent() {
 
   if (loading) {
     return (
-      <div className="min-h-screen bg-amber-50 flex items-center justify-center">
-        <div className="text-amber-800 font-medium">Carregando cardápio…</div>
+      <div
+        className="min-h-screen flex items-center justify-center"
+        style={{ backgroundColor: theme.background }}
+      >
+        <LoadingSpinner message="Carregando cardápio…" />
       </div>
     );
   }
 
   if (error && !menu) {
     return (
-      <div className="min-h-screen bg-amber-50 flex items-center justify-center p-6">
+      <div
+        className="min-h-screen flex items-center justify-center p-6"
+        style={{ backgroundColor: theme.background }}
+      >
         <div className="bg-white rounded-2xl shadow-lg p-8 max-w-md text-center">
           <h1 className="text-xl font-bold text-red-800 mb-2">Ops!</h1>
           <p className="text-zinc-600">{error}</p>
@@ -165,10 +209,13 @@ function CardapioContent() {
 
   if (orderSent) {
     return (
-      <div className="min-h-screen bg-amber-50 flex flex-col items-center justify-center p-6">
+      <div
+        className="min-h-screen flex flex-col items-center justify-center p-6"
+        style={{ backgroundColor: theme.background }}
+      >
         <div className="bg-white rounded-2xl shadow-lg p-8 max-w-md text-center">
-          <FaCheckCircle className="mx-auto text-5xl text-emerald-500 mb-4" />
-          <h1 className="text-2xl font-bold text-emerald-800 mb-2">
+          <FaCheckCircle className="mx-auto text-5xl text-zinc-600 mb-4" />
+          <h1 className="text-2xl font-bold text-zinc-800 mb-2">
             Pedido enviado!
           </h1>
           <p className="text-zinc-600">
@@ -176,7 +223,8 @@ function CardapioContent() {
           </p>
           <button
             onClick={() => setOrderSent(false)}
-            className="mt-6 w-full bg-amber-600 text-white rounded-xl py-3 font-medium hover:bg-amber-700"
+            className="mt-6 w-full text-white rounded-xl py-3 font-medium disabled:opacity-50 hover:opacity-90 transition"
+            style={{ backgroundColor: theme.primary }}
           >
             Fazer outro pedido
           </button>
@@ -186,11 +234,17 @@ function CardapioContent() {
   }
 
   return (
-    <div className="min-h-screen bg-amber-50 pb-24">
-      <header className="sticky top-0 z-10 bg-amber-600 text-white shadow-md">
+    <div
+      className="min-h-screen pb-24"
+      style={{ ...themeVars, backgroundColor: theme.background }}
+    >
+      <header
+        className="sticky top-0 z-10 text-white shadow-md"
+        style={{ backgroundColor: theme.primary }}
+      >
         <div className="max-w-3xl mx-auto px-4 py-4">
           <h1 className="text-xl font-bold">Cardápio Online</h1>
-          <p className="text-amber-100 text-sm">
+          <p className="text-sm opacity-90">
             Mesa {menu?.table.number}
             {menu?.table.description ? ` — ${menu.table.description}` : ""}
           </p>
@@ -207,14 +261,18 @@ function CardapioContent() {
         <div className="space-y-10">
           {menu?.categories.map((category) => (
             <section key={category.uuid}>
-              <h2 className="text-lg font-bold text-amber-900 mb-4 pb-2 border-b-2 border-amber-200">
+              <h2
+                className="text-lg font-bold mb-4 pb-2 border-b-2"
+                style={{ color: theme.textPrimary, borderColor: theme.accent }}
+              >
                 {category.name}
               </h2>
               <div className="grid gap-4 sm:grid-cols-2">
                 {category.products.map((product) => (
                   <div
                     key={product.uuid}
-                    className="bg-white rounded-xl p-4 shadow-sm border border-amber-100 hover:shadow-md transition"
+                    className="bg-white rounded-xl p-4 shadow-sm border hover:shadow-md transition"
+                    style={{ borderColor: theme.accent }}
                   >
                     <h3 className="font-semibold text-zinc-800">{product.name}</h3>
                     {product.description && (
@@ -223,12 +281,16 @@ function CardapioContent() {
                       </p>
                     )}
                     <div className="mt-3 flex items-center justify-between">
-                      <span className="text-lg font-bold text-amber-700">
+                      <span
+                        className="text-lg font-bold"
+                        style={{ color: theme.textPrimary }}
+                      >
                         R$ {product.price.toFixed(2)}
                       </span>
                       <button
                         onClick={() => addToCart(product)}
-                        className="flex items-center gap-2 bg-amber-600 text-white rounded-lg px-4 py-2 text-sm font-medium hover:bg-amber-700"
+                        className="flex items-center gap-2 text-white rounded-lg px-4 py-2 text-sm font-medium hover:opacity-90 transition"
+                        style={{ backgroundColor: theme.primary }}
                       >
                         <FaPlus className="text-xs" /> Adicionar
                       </button>
@@ -242,13 +304,19 @@ function CardapioContent() {
       </main>
 
       {cart.length > 0 && (
-        <div className="fixed bottom-0 left-0 right-0 bg-white border-t border-amber-200 shadow-lg z-20">
+        <div
+          className="fixed bottom-0 left-0 right-0 bg-white border-t shadow-lg z-20"
+          style={{ borderColor: theme.accent }}
+        >
           <div className="max-w-3xl mx-auto px-4 py-4">
             <div className="flex items-center justify-between mb-3">
               <span className="font-semibold text-zinc-800 flex items-center gap-2">
                 <FaShoppingCart /> Carrinho ({cart.reduce((a, i) => a + i.quantity, 0)} itens)
               </span>
-              <span className="text-lg font-bold text-amber-700">
+              <span
+                className="text-lg font-bold"
+                style={{ color: theme.textPrimary }}
+              >
                 R$ {totalCart.toFixed(2)}
               </span>
             </div>
@@ -282,7 +350,8 @@ function CardapioContent() {
             <button
               onClick={handlePlaceOrder}
               disabled={ordering}
-              className="w-full bg-amber-600 text-white rounded-xl py-3 font-semibold hover:bg-amber-700 disabled:opacity-50"
+              className="w-full text-white rounded-xl py-3 font-semibold disabled:opacity-50 hover:opacity-90 transition"
+              style={{ backgroundColor: theme.primary }}
             >
               {ordering ? "Enviando…" : "Enviar pedido"}
             </button>
@@ -297,8 +366,8 @@ export default function CardapioPage() {
   return (
     <Suspense
       fallback={
-        <div className="min-h-screen bg-amber-50 flex items-center justify-center">
-          <div className="text-amber-800 font-medium">Carregando…</div>
+        <div className="min-h-screen flex items-center justify-center" style={{ backgroundColor: DEFAULT_THEME.background }}>
+          <LoadingSpinner message="Carregando…" />
         </div>
       }
     >

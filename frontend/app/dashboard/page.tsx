@@ -16,6 +16,7 @@ import {
   Area,
 } from 'recharts';
 import { getAuthHeaders } from 'contexts/AuthContext';
+import LoadingSpinner from 'components/LoadingSpinner';
 
 const API_URL =
   process.env.NEXT_PUBLIC_BASE_API_URL || 'http://localhost:3352';
@@ -220,7 +221,7 @@ export default function Dashboard() {
                   <p className="text-xs font-medium text-zinc-500 uppercase tracking-wide">
                     Entregues
                   </p>
-                  <p className="mt-1 text-2xl font-semibold text-emerald-600">
+                  <p className="mt-1 text-2xl font-semibold text-zinc-800">
                     {attendanceSummary.deliveredOrders}
                   </p>
                 </div>
@@ -228,7 +229,7 @@ export default function Dashboard() {
                   <p className="text-xs font-medium text-zinc-500 uppercase tracking-wide">
                     Pendentes
                   </p>
-                  <p className="mt-1 text-2xl font-semibold text-amber-600">
+                  <p className="mt-1 text-2xl font-semibold text-zinc-600">
                     {attendanceSummary.pendingOrders}
                   </p>
                 </div>
@@ -241,8 +242,8 @@ export default function Dashboard() {
                   Pedidos por período
                 </h2>
                 {loading ? (
-                  <div className="h-[300px] flex items-center justify-center text-zinc-400">
-                    Carregando...
+                  <div className="h-[300px] flex items-center justify-center">
+                    <LoadingSpinner message="Carregando..." />
                   </div>
                 ) : (
                   <ResponsiveContainer width="100%" height={300}>
@@ -265,8 +266,8 @@ export default function Dashboard() {
                   Evolução de atendimentos
                 </h2>
                 {loading ? (
-                  <div className="h-[300px] flex items-center justify-center text-zinc-400">
-                    Carregando...
+                  <div className="h-[300px] flex items-center justify-center">
+                    <LoadingSpinner message="Carregando..." />
                   </div>
                 ) : (
                   <ResponsiveContainer width="100%" height={300}>
@@ -359,8 +360,8 @@ export default function Dashboard() {
                   Receita por período
                 </h2>
                 {loading ? (
-                  <div className="h-[300px] flex items-center justify-center text-zinc-400">
-                    Carregando...
+                  <div className="h-[300px] flex items-center justify-center">
+                    <LoadingSpinner message="Carregando..." />
                   </div>
                 ) : (
                   <ResponsiveContainer width="100%" height={300}>
@@ -393,8 +394,8 @@ export default function Dashboard() {
                   Pedidos entregues por período
                 </h2>
                 {loading ? (
-                  <div className="h-[300px] flex items-center justify-center text-zinc-400">
-                    Carregando...
+                  <div className="h-[300px] flex items-center justify-center">
+                    <LoadingSpinner message="Carregando..." />
                   </div>
                 ) : (
                   <ResponsiveContainer width="100%" height={300}>
@@ -419,7 +420,7 @@ export default function Dashboard() {
 
         {!userPermission.canViewAttendance &&
           !userPermission.canViewFinancial && (
-            <div className="rounded-xl bg-yellow-50 p-4 text-yellow-700">
+            <div className="rounded-xl bg-zinc-100 p-4 text-zinc-700">
               Você não possui permissão para visualizar métricas.
             </div>
           )}

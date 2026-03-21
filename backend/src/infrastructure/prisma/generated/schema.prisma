@@ -11,6 +11,7 @@ datasource db {
 model Company {
   uuid            String           @id @default(uuid())
   name            String
+  menuTheme       String? // JSON: { primary, primaryHover, background, accent, textPrimary, textMuted }
   createdAt       DateTime         @default(now())
   users           User[]
   tables          Table[]

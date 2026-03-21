@@ -5,6 +5,8 @@ import QRCode from "react-qr-code";
 import * as QRCodeLib from "qrcode";
 import { Mesa } from "./interfaces/table.interface";
 import { getAuthHeaders } from "contexts/AuthContext";
+import ConfirmModal from "components/ConfirmModal";
+import LoadingSpinner from "components/LoadingSpinner";
 
 const API_URL = process.env.NEXT_PUBLIC_BASE_API_URL || "http://localhost:3352";
 
@@ -18,6 +20,7 @@ const TableManager: React.FC = () => {
   const [editingMesa, setEditingMesa] = useState<Mesa | null>(null);
   const [editNumber, setEditNumber] = useState<number>(1);
   const [editDescricao, setEditDescricao] = useState<string>("");
+  const [mesaToDelete, setMesaToDelete] = useState<Mesa | null>(null);
 
   const loadMesas = useCallback(async () => {
     try {
@@ -91,7 +94,6 @@ const TableManager: React.FC = () => {
   };
 
   const deleteMesa = async (mesa: Mesa) => {
-    if (!confirm(`Excluir a mesa ${mesa.number}?`)) return;
     try {
       const response = await fetch(`${API_URL}/tables/${mesa.uuid}`, {
         method: "DELETE",
@@ -164,7 +166,7 @@ const TableManager: React.FC = () => {
         </div>
 
         {loading ? (
-          <p className="text-zinc-500">Carregando mesas...</p>
+          <LoadingSpinner message="Carregando mesas..." />
         ) : (
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6 text-black">
             {mesas.map((mesa) => (
@@ -184,7 +186,7 @@ const TableManager: React.FC = () => {
                     </button>
                     <button
                       type="button"
-                      onClick={() => deleteMesa(mesa)}
+                      onClick={() => setMesaToDelete(mesa)}
                       className="bg-white text-red-600 border border-red-600 rounded-lg px-3 py-1.5 text-sm hover:bg-red-50"
                     >
                       Excluir
@@ -259,6 +261,19 @@ const TableManager: React.FC = () => {
           </div>
         )}
       </div>
+
+      <ConfirmModal
+        open={!!mesaToDelete}
+        onClose={() => setMesaToDelete(null)}
+        onConfirm={() => mesaToDelete && deleteMesa(mesaToDelete)}
+        title="Excluir mesa"
+        message={
+          mesaToDelete
+            ? `Tem certeza que deseja excluir a mesa ${mesaToDelete.number}?`
+            : ""
+        }
+        confirmLabel="Excluir"
+      />
     </div>
   );
 };

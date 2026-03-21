@@ -34,8 +34,18 @@ export class PublicController {
   async getMenu(@Param('tableUuid') tableUuid: string) {
     const table = await this.prisma.client.table.findUnique({
       where: { uuid: tableUuid },
+      include: { company: { select: { menuTheme: true } } },
     });
     if (!table) throw new NotFoundException('Mesa não encontrada');
+
+    let theme = null;
+    if (table.company.menuTheme) {
+      try {
+        theme = JSON.parse(table.company.menuTheme);
+      } catch {
+        theme = null;
+      }
+    }
 
     const products = await this.prisma.client.product.findMany({
       where: {
@@ -70,6 +80,7 @@ export class PublicController {
         description: table.description,
       },
       categories: grouped.filter((g) => g.products.length > 0),
+      theme,
     };
   }
 

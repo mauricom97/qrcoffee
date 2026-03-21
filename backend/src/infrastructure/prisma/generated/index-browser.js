@@ -123,6 +123,7 @@ exports.Prisma.TransactionIsolationLevel = makeStrictEnum({
 exports.Prisma.CompanyScalarFieldEnum = {
   uuid: 'uuid',
   name: 'name',
+  menuTheme: 'menuTheme',
   createdAt: 'createdAt'
 };
 
