@@ -9,10 +9,11 @@ datasource db {
 }
 
 model Company {
-  uuid            String          @id @default(uuid())
-  name            String
-  menuTheme       String?         // JSON: { primary, primaryHover, background, accent, textPrimary, textMuted }
-  createdAt       DateTime        @default(now())
+  uuid               String          @id @default(uuid())
+  name               String
+  menuTheme          String?         // JSON: { primary, primaryHover, background, accent, textPrimary, textMuted }
+  soundOnOrderReady  Boolean         @default(true)
+  createdAt          DateTime        @default(now())
   users           User[]
   tables          Table[]
   categories      Category[]

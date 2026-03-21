@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect, useCallback } from "react";
+import { useState, useEffect, useCallback, useRef } from "react";
 import { useAuth } from "contexts/AuthContext";
 import { useRealtimeUpdates } from "hooks/useRealtimeUpdates";
 import {
@@ -18,6 +18,7 @@ import ConfirmModal from "components/ConfirmModal";
 import LoadingSpinner from "components/LoadingSpinner";
 
 const API_URL = process.env.NEXT_PUBLIC_BASE_API_URL || "http://localhost:3352";
+const SOUND_READY_URL = "/Ding - Sound Effect.mp3";
 
 const STATUS_LABELS: Record<OrderStatus, string> = {
   PENDING: "Pendente",
@@ -56,6 +57,21 @@ export default function OrdersPage() {
   const [selectedProductUuid, setSelectedProductUuid] = useState("");
   const [itemQuantity, setItemQuantity] = useState(1);
   const [orderToDelete, setOrderToDelete] = useState<OrderDto | null>(null);
+  const [soundOnOrderReady, setSoundOnOrderReady] = useState(true);
+
+  const prevOrdersRef = useRef<OrderDto[]>([]);
+  const soundOnOrderReadyRef = useRef(true);
+
+  useEffect(() => {
+    fetch(`${API_URL}/company/sound-on-order-ready`, { headers: getAuthHeaders() })
+      .then((r) => (r.ok ? r.json() : { soundOnOrderReady: true }))
+      .then((d) => {
+        const v = d.soundOnOrderReady ?? true;
+        setSoundOnOrderReady(v);
+        soundOnOrderReadyRef.current = v;
+      })
+      .catch(() => {});
+  }, []);
 
   const loadOrders = useCallback(async () => {
     try {
@@ -65,7 +81,23 @@ export default function OrdersPage() {
       const res = await fetch(url, { headers: getAuthHeaders() });
       if (!res.ok) throw new Error("Erro ao carregar pedidos.");
       const data: OrderDto[] = await res.json();
-      setOrders(Array.isArray(data) ? data : []);
+      const newOrders = Array.isArray(data) ? data : [];
+
+      // Detecta pedidos que ficaram prontos e reproduz som (se habilitado)
+      const prev = prevOrdersRef.current;
+      if (prev.length > 0 && soundOnOrderReadyRef.current) {
+        const becameReady = newOrders.filter(
+          (o) =>
+            o.status === "READY" &&
+            (prev.find((p) => p.uuid === o.uuid)?.status ?? "") !== "READY"
+        );
+        if (becameReady.length > 0) {
+          const audio = new Audio(SOUND_READY_URL);
+          audio.play().catch(() => {});
+        }
+      }
+      prevOrdersRef.current = newOrders;
+      setOrders(newOrders);
     } catch (e) {
       console.error(e);
       setError("Não foi possível carregar os pedidos.");

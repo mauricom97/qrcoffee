@@ -1825,6 +1825,7 @@ export namespace Prisma {
     uuid: string | null
     name: string | null
     menuTheme: string | null
+    soundOnOrderReady: boolean | null
     createdAt: Date | null
   }
 
@@ -1832,6 +1833,7 @@ export namespace Prisma {
     uuid: string | null
     name: string | null
     menuTheme: string | null
+    soundOnOrderReady: boolean | null
     createdAt: Date | null
   }
 
@@ -1839,6 +1841,7 @@ export namespace Prisma {
     uuid: number
     name: number
     menuTheme: number
+    soundOnOrderReady: number
     createdAt: number
     _all: number
   }
@@ -1848,6 +1851,7 @@ export namespace Prisma {
     uuid?: true
     name?: true
     menuTheme?: true
+    soundOnOrderReady?: true
     createdAt?: true
   }
 
@@ -1855,6 +1859,7 @@ export namespace Prisma {
     uuid?: true
     name?: true
     menuTheme?: true
+    soundOnOrderReady?: true
     createdAt?: true
   }
 
@@ -1862,6 +1867,7 @@ export namespace Prisma {
     uuid?: true
     name?: true
     menuTheme?: true
+    soundOnOrderReady?: true
     createdAt?: true
     _all?: true
   }
@@ -1942,6 +1948,7 @@ export namespace Prisma {
     uuid: string
     name: string
     menuTheme: string | null
+    soundOnOrderReady: boolean
     createdAt: Date
     _count: CompanyCountAggregateOutputType | null
     _min: CompanyMinAggregateOutputType | null
@@ -1966,6 +1973,7 @@ export namespace Prisma {
     uuid?: boolean
     name?: boolean
     menuTheme?: boolean
+    soundOnOrderReady?: boolean
     createdAt?: boolean
     users?: boolean | Company$usersArgs<ExtArgs>
     tables?: boolean | Company$tablesArgs<ExtArgs>
@@ -1979,6 +1987,7 @@ export namespace Prisma {
     uuid?: boolean
     name?: boolean
     menuTheme?: boolean
+    soundOnOrderReady?: boolean
     createdAt?: boolean
   }, ExtArgs["result"]["company"]>
 
@@ -1986,6 +1995,7 @@ export namespace Prisma {
     uuid?: boolean
     name?: boolean
     menuTheme?: boolean
+    soundOnOrderReady?: boolean
     createdAt?: boolean
   }, ExtArgs["result"]["company"]>
 
@@ -1993,10 +2003,11 @@ export namespace Prisma {
     uuid?: boolean
     name?: boolean
     menuTheme?: boolean
+    soundOnOrderReady?: boolean
     createdAt?: boolean
   }
 
-  export type CompanyOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"uuid" | "name" | "menuTheme" | "createdAt", ExtArgs["result"]["company"]>
+  export type CompanyOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"uuid" | "name" | "menuTheme" | "soundOnOrderReady" | "createdAt", ExtArgs["result"]["company"]>
   export type CompanyInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     users?: boolean | Company$usersArgs<ExtArgs>
     tables?: boolean | Company$tablesArgs<ExtArgs>
@@ -2021,6 +2032,7 @@ export namespace Prisma {
       uuid: string
       name: string
       menuTheme: string | null
+      soundOnOrderReady: boolean
       createdAt: Date
     }, ExtArgs["result"]["company"]>
     composites: {}
@@ -2453,6 +2465,7 @@ export namespace Prisma {
     readonly uuid: FieldRef<"Company", 'String'>
     readonly name: FieldRef<"Company", 'String'>
     readonly menuTheme: FieldRef<"Company", 'String'>
+    readonly soundOnOrderReady: FieldRef<"Company", 'Boolean'>
     readonly createdAt: FieldRef<"Company", 'DateTime'>
   }
     
@@ -11845,6 +11858,7 @@ export namespace Prisma {
     uuid: 'uuid',
     name: 'name',
     menuTheme: 'menuTheme',
+    soundOnOrderReady: 'soundOnOrderReady',
     createdAt: 'createdAt'
   };
 
@@ -11986,6 +12000,13 @@ export namespace Prisma {
 
 
   /**
+   * Reference to a field of type 'Boolean'
+   */
+  export type BooleanFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Boolean'>
+    
+
+
+  /**
    * Reference to a field of type 'DateTime'
    */
   export type DateTimeFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'DateTime'>
@@ -12014,13 +12035,6 @@ export namespace Prisma {
 
 
   /**
-   * Reference to a field of type 'Boolean'
-   */
-  export type BooleanFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Boolean'>
-    
-
-
-  /**
    * Reference to a field of type 'Int'
    */
   export type IntFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Int'>
@@ -12044,6 +12058,7 @@ export namespace Prisma {
     uuid?: StringFilter<"Company"> | string
     name?: StringFilter<"Company"> | string
     menuTheme?: StringNullableFilter<"Company"> | string | null
+    soundOnOrderReady?: BoolFilter<"Company"> | boolean
     createdAt?: DateTimeFilter<"Company"> | Date | string
     users?: UserListRelationFilter
     tables?: TableListRelationFilter
@@ -12056,6 +12071,7 @@ export namespace Prisma {
     uuid?: SortOrder
     name?: SortOrder
     menuTheme?: SortOrderInput | SortOrder
+    soundOnOrderReady?: SortOrder
     createdAt?: SortOrder
     users?: UserOrderByRelationAggregateInput
     tables?: TableOrderByRelationAggregateInput
@@ -12071,6 +12087,7 @@ export namespace Prisma {
     NOT?: CompanyWhereInput | CompanyWhereInput[]
     name?: StringFilter<"Company"> | string
     menuTheme?: StringNullableFilter<"Company"> | string | null
+    soundOnOrderReady?: BoolFilter<"Company"> | boolean
     createdAt?: DateTimeFilter<"Company"> | Date | string
     users?: UserListRelationFilter
     tables?: TableListRelationFilter
@@ -12083,6 +12100,7 @@ export namespace Prisma {
     uuid?: SortOrder
     name?: SortOrder
     menuTheme?: SortOrderInput | SortOrder
+    soundOnOrderReady?: SortOrder
     createdAt?: SortOrder
     _count?: CompanyCountOrderByAggregateInput
     _max?: CompanyMaxOrderByAggregateInput
@@ -12096,6 +12114,7 @@ export namespace Prisma {
     uuid?: StringWithAggregatesFilter<"Company"> | string
     name?: StringWithAggregatesFilter<"Company"> | string
     menuTheme?: StringNullableWithAggregatesFilter<"Company"> | string | null
+    soundOnOrderReady?: BoolWithAggregatesFilter<"Company"> | boolean
     createdAt?: DateTimeWithAggregatesFilter<"Company"> | Date | string
   }
 
@@ -12590,6 +12609,7 @@ export namespace Prisma {
     uuid?: string
     name: string
     menuTheme?: string | null
+    soundOnOrderReady?: boolean
     createdAt?: Date | string
     users?: UserCreateNestedManyWithoutCompanyInput
     tables?: TableCreateNestedManyWithoutCompanyInput
@@ -12602,6 +12622,7 @@ export namespace Prisma {
     uuid?: string
     name: string
     menuTheme?: string | null
+    soundOnOrderReady?: boolean
     createdAt?: Date | string
     users?: UserUncheckedCreateNestedManyWithoutCompanyInput
     tables?: TableUncheckedCreateNestedManyWithoutCompanyInput
@@ -12614,6 +12635,7 @@ export namespace Prisma {
     uuid?: StringFieldUpdateOperationsInput | string
     name?: StringFieldUpdateOperationsInput | string
     menuTheme?: NullableStringFieldUpdateOperationsInput | string | null
+    soundOnOrderReady?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     users?: UserUpdateManyWithoutCompanyNestedInput
     tables?: TableUpdateManyWithoutCompanyNestedInput
@@ -12626,6 +12648,7 @@ export namespace Prisma {
     uuid?: StringFieldUpdateOperationsInput | string
     name?: StringFieldUpdateOperationsInput | string
     menuTheme?: NullableStringFieldUpdateOperationsInput | string | null
+    soundOnOrderReady?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     users?: UserUncheckedUpdateManyWithoutCompanyNestedInput
     tables?: TableUncheckedUpdateManyWithoutCompanyNestedInput
@@ -12638,6 +12661,7 @@ export namespace Prisma {
     uuid?: string
     name: string
     menuTheme?: string | null
+    soundOnOrderReady?: boolean
     createdAt?: Date | string
   }
 
@@ -12645,6 +12669,7 @@ export namespace Prisma {
     uuid?: StringFieldUpdateOperationsInput | string
     name?: StringFieldUpdateOperationsInput | string
     menuTheme?: NullableStringFieldUpdateOperationsInput | string | null
+    soundOnOrderReady?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
@@ -12652,6 +12677,7 @@ export namespace Prisma {
     uuid?: StringFieldUpdateOperationsInput | string
     name?: StringFieldUpdateOperationsInput | string
     menuTheme?: NullableStringFieldUpdateOperationsInput | string | null
+    soundOnOrderReady?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
@@ -13164,6 +13190,11 @@ export namespace Prisma {
     not?: NestedStringNullableFilter<$PrismaModel> | string | null
   }
 
+  export type BoolFilter<$PrismaModel = never> = {
+    equals?: boolean | BooleanFieldRefInput<$PrismaModel>
+    not?: NestedBoolFilter<$PrismaModel> | boolean
+  }
+
   export type DateTimeFilter<$PrismaModel = never> = {
     equals?: Date | string | DateTimeFieldRefInput<$PrismaModel>
     in?: Date[] | string[] | ListDateTimeFieldRefInput<$PrismaModel>
@@ -13234,6 +13265,7 @@ export namespace Prisma {
     uuid?: SortOrder
     name?: SortOrder
     menuTheme?: SortOrder
+    soundOnOrderReady?: SortOrder
     createdAt?: SortOrder
   }
 
@@ -13241,6 +13273,7 @@ export namespace Prisma {
     uuid?: SortOrder
     name?: SortOrder
     menuTheme?: SortOrder
+    soundOnOrderReady?: SortOrder
     createdAt?: SortOrder
   }
 
@@ -13248,6 +13281,7 @@ export namespace Prisma {
     uuid?: SortOrder
     name?: SortOrder
     menuTheme?: SortOrder
+    soundOnOrderReady?: SortOrder
     createdAt?: SortOrder
   }
 
@@ -13285,6 +13319,14 @@ export namespace Prisma {
     _count?: NestedIntNullableFilter<$PrismaModel>
     _min?: NestedStringNullableFilter<$PrismaModel>
     _max?: NestedStringNullableFilter<$PrismaModel>
+  }
+
+  export type BoolWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: boolean | BooleanFieldRefInput<$PrismaModel>
+    not?: NestedBoolWithAggregatesFilter<$PrismaModel> | boolean
+    _count?: NestedIntFilter<$PrismaModel>
+    _min?: NestedBoolFilter<$PrismaModel>
+    _max?: NestedBoolFilter<$PrismaModel>
   }
 
   export type DateTimeWithAggregatesFilter<$PrismaModel = never> = {
@@ -13342,11 +13384,6 @@ export namespace Prisma {
     gt?: number | FloatFieldRefInput<$PrismaModel>
     gte?: number | FloatFieldRefInput<$PrismaModel>
     not?: NestedFloatFilter<$PrismaModel> | number
-  }
-
-  export type BoolFilter<$PrismaModel = never> = {
-    equals?: boolean | BooleanFieldRefInput<$PrismaModel>
-    not?: NestedBoolFilter<$PrismaModel> | boolean
   }
 
   export type CategoryScalarRelationFilter = {
@@ -13416,14 +13453,6 @@ export namespace Prisma {
     _sum?: NestedFloatFilter<$PrismaModel>
     _min?: NestedFloatFilter<$PrismaModel>
     _max?: NestedFloatFilter<$PrismaModel>
-  }
-
-  export type BoolWithAggregatesFilter<$PrismaModel = never> = {
-    equals?: boolean | BooleanFieldRefInput<$PrismaModel>
-    not?: NestedBoolWithAggregatesFilter<$PrismaModel> | boolean
-    _count?: NestedIntFilter<$PrismaModel>
-    _min?: NestedBoolFilter<$PrismaModel>
-    _max?: NestedBoolFilter<$PrismaModel>
   }
 
   export type CategoryCountOrderByAggregateInput = {
@@ -13808,6 +13837,10 @@ export namespace Prisma {
     set?: string | null
   }
 
+  export type BoolFieldUpdateOperationsInput = {
+    set?: boolean
+  }
+
   export type DateTimeFieldUpdateOperationsInput = {
     set?: Date | string
   }
@@ -13998,10 +14031,6 @@ export namespace Prisma {
     decrement?: number
     multiply?: number
     divide?: number
-  }
-
-  export type BoolFieldUpdateOperationsInput = {
-    set?: boolean
   }
 
   export type CategoryUpdateOneRequiredWithoutProductsNestedInput = {
@@ -14362,6 +14391,11 @@ export namespace Prisma {
     not?: NestedStringNullableFilter<$PrismaModel> | string | null
   }
 
+  export type NestedBoolFilter<$PrismaModel = never> = {
+    equals?: boolean | BooleanFieldRefInput<$PrismaModel>
+    not?: NestedBoolFilter<$PrismaModel> | boolean
+  }
+
   export type NestedDateTimeFilter<$PrismaModel = never> = {
     equals?: Date | string | DateTimeFieldRefInput<$PrismaModel>
     in?: Date[] | string[] | ListDateTimeFieldRefInput<$PrismaModel>
@@ -14429,6 +14463,14 @@ export namespace Prisma {
     not?: NestedIntNullableFilter<$PrismaModel> | number | null
   }
 
+  export type NestedBoolWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: boolean | BooleanFieldRefInput<$PrismaModel>
+    not?: NestedBoolWithAggregatesFilter<$PrismaModel> | boolean
+    _count?: NestedIntFilter<$PrismaModel>
+    _min?: NestedBoolFilter<$PrismaModel>
+    _max?: NestedBoolFilter<$PrismaModel>
+  }
+
   export type NestedDateTimeWithAggregatesFilter<$PrismaModel = never> = {
     equals?: Date | string | DateTimeFieldRefInput<$PrismaModel>
     in?: Date[] | string[] | ListDateTimeFieldRefInput<$PrismaModel>
@@ -14454,11 +14496,6 @@ export namespace Prisma {
     not?: NestedFloatFilter<$PrismaModel> | number
   }
 
-  export type NestedBoolFilter<$PrismaModel = never> = {
-    equals?: boolean | BooleanFieldRefInput<$PrismaModel>
-    not?: NestedBoolFilter<$PrismaModel> | boolean
-  }
-
   export type NestedFloatWithAggregatesFilter<$PrismaModel = never> = {
     equals?: number | FloatFieldRefInput<$PrismaModel>
     in?: number[] | ListFloatFieldRefInput<$PrismaModel>
@@ -14473,14 +14510,6 @@ export namespace Prisma {
     _sum?: NestedFloatFilter<$PrismaModel>
     _min?: NestedFloatFilter<$PrismaModel>
     _max?: NestedFloatFilter<$PrismaModel>
-  }
-
-  export type NestedBoolWithAggregatesFilter<$PrismaModel = never> = {
-    equals?: boolean | BooleanFieldRefInput<$PrismaModel>
-    not?: NestedBoolWithAggregatesFilter<$PrismaModel> | boolean
-    _count?: NestedIntFilter<$PrismaModel>
-    _min?: NestedBoolFilter<$PrismaModel>
-    _max?: NestedBoolFilter<$PrismaModel>
   }
 
   export type NestedIntWithAggregatesFilter<$PrismaModel = never> = {
@@ -14827,6 +14856,7 @@ export namespace Prisma {
     uuid?: string
     name: string
     menuTheme?: string | null
+    soundOnOrderReady?: boolean
     createdAt?: Date | string
     tables?: TableCreateNestedManyWithoutCompanyInput
     categories?: CategoryCreateNestedManyWithoutCompanyInput
@@ -14838,6 +14868,7 @@ export namespace Prisma {
     uuid?: string
     name: string
     menuTheme?: string | null
+    soundOnOrderReady?: boolean
     createdAt?: Date | string
     tables?: TableUncheckedCreateNestedManyWithoutCompanyInput
     categories?: CategoryUncheckedCreateNestedManyWithoutCompanyInput
@@ -14865,6 +14896,7 @@ export namespace Prisma {
     uuid?: StringFieldUpdateOperationsInput | string
     name?: StringFieldUpdateOperationsInput | string
     menuTheme?: NullableStringFieldUpdateOperationsInput | string | null
+    soundOnOrderReady?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     tables?: TableUpdateManyWithoutCompanyNestedInput
     categories?: CategoryUpdateManyWithoutCompanyNestedInput
@@ -14876,6 +14908,7 @@ export namespace Prisma {
     uuid?: StringFieldUpdateOperationsInput | string
     name?: StringFieldUpdateOperationsInput | string
     menuTheme?: NullableStringFieldUpdateOperationsInput | string | null
+    soundOnOrderReady?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     tables?: TableUncheckedUpdateManyWithoutCompanyNestedInput
     categories?: CategoryUncheckedUpdateManyWithoutCompanyNestedInput
@@ -14904,6 +14937,7 @@ export namespace Prisma {
     uuid?: string
     name: string
     menuTheme?: string | null
+    soundOnOrderReady?: boolean
     createdAt?: Date | string
     users?: UserCreateNestedManyWithoutCompanyInput
     tables?: TableCreateNestedManyWithoutCompanyInput
@@ -14915,6 +14949,7 @@ export namespace Prisma {
     uuid?: string
     name: string
     menuTheme?: string | null
+    soundOnOrderReady?: boolean
     createdAt?: Date | string
     users?: UserUncheckedCreateNestedManyWithoutCompanyInput
     tables?: TableUncheckedCreateNestedManyWithoutCompanyInput
@@ -14989,6 +15024,7 @@ export namespace Prisma {
     uuid?: StringFieldUpdateOperationsInput | string
     name?: StringFieldUpdateOperationsInput | string
     menuTheme?: NullableStringFieldUpdateOperationsInput | string | null
+    soundOnOrderReady?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     users?: UserUpdateManyWithoutCompanyNestedInput
     tables?: TableUpdateManyWithoutCompanyNestedInput
@@ -15000,6 +15036,7 @@ export namespace Prisma {
     uuid?: StringFieldUpdateOperationsInput | string
     name?: StringFieldUpdateOperationsInput | string
     menuTheme?: NullableStringFieldUpdateOperationsInput | string | null
+    soundOnOrderReady?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     users?: UserUncheckedUpdateManyWithoutCompanyNestedInput
     tables?: TableUncheckedUpdateManyWithoutCompanyNestedInput
@@ -15038,6 +15075,7 @@ export namespace Prisma {
     uuid?: string
     name: string
     menuTheme?: string | null
+    soundOnOrderReady?: boolean
     createdAt?: Date | string
     users?: UserCreateNestedManyWithoutCompanyInput
     tables?: TableCreateNestedManyWithoutCompanyInput
@@ -15049,6 +15087,7 @@ export namespace Prisma {
     uuid?: string
     name: string
     menuTheme?: string | null
+    soundOnOrderReady?: boolean
     createdAt?: Date | string
     users?: UserUncheckedCreateNestedManyWithoutCompanyInput
     tables?: TableUncheckedCreateNestedManyWithoutCompanyInput
@@ -15106,6 +15145,7 @@ export namespace Prisma {
     uuid?: StringFieldUpdateOperationsInput | string
     name?: StringFieldUpdateOperationsInput | string
     menuTheme?: NullableStringFieldUpdateOperationsInput | string | null
+    soundOnOrderReady?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     users?: UserUpdateManyWithoutCompanyNestedInput
     tables?: TableUpdateManyWithoutCompanyNestedInput
@@ -15117,6 +15157,7 @@ export namespace Prisma {
     uuid?: StringFieldUpdateOperationsInput | string
     name?: StringFieldUpdateOperationsInput | string
     menuTheme?: NullableStringFieldUpdateOperationsInput | string | null
+    soundOnOrderReady?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     users?: UserUncheckedUpdateManyWithoutCompanyNestedInput
     tables?: TableUncheckedUpdateManyWithoutCompanyNestedInput
@@ -15144,6 +15185,7 @@ export namespace Prisma {
     uuid?: string
     name: string
     menuTheme?: string | null
+    soundOnOrderReady?: boolean
     createdAt?: Date | string
     users?: UserCreateNestedManyWithoutCompanyInput
     categories?: CategoryCreateNestedManyWithoutCompanyInput
@@ -15155,6 +15197,7 @@ export namespace Prisma {
     uuid?: string
     name: string
     menuTheme?: string | null
+    soundOnOrderReady?: boolean
     createdAt?: Date | string
     users?: UserUncheckedCreateNestedManyWithoutCompanyInput
     categories?: CategoryUncheckedCreateNestedManyWithoutCompanyInput
@@ -15206,6 +15249,7 @@ export namespace Prisma {
     uuid?: StringFieldUpdateOperationsInput | string
     name?: StringFieldUpdateOperationsInput | string
     menuTheme?: NullableStringFieldUpdateOperationsInput | string | null
+    soundOnOrderReady?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     users?: UserUpdateManyWithoutCompanyNestedInput
     categories?: CategoryUpdateManyWithoutCompanyNestedInput
@@ -15217,6 +15261,7 @@ export namespace Prisma {
     uuid?: StringFieldUpdateOperationsInput | string
     name?: StringFieldUpdateOperationsInput | string
     menuTheme?: NullableStringFieldUpdateOperationsInput | string | null
+    soundOnOrderReady?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     users?: UserUncheckedUpdateManyWithoutCompanyNestedInput
     categories?: CategoryUncheckedUpdateManyWithoutCompanyNestedInput
@@ -15442,6 +15487,7 @@ export namespace Prisma {
     uuid?: string
     name: string
     menuTheme?: string | null
+    soundOnOrderReady?: boolean
     createdAt?: Date | string
     users?: UserCreateNestedManyWithoutCompanyInput
     tables?: TableCreateNestedManyWithoutCompanyInput
@@ -15453,6 +15499,7 @@ export namespace Prisma {
     uuid?: string
     name: string
     menuTheme?: string | null
+    soundOnOrderReady?: boolean
     createdAt?: Date | string
     users?: UserUncheckedCreateNestedManyWithoutCompanyInput
     tables?: TableUncheckedCreateNestedManyWithoutCompanyInput
@@ -15506,6 +15553,7 @@ export namespace Prisma {
     uuid?: StringFieldUpdateOperationsInput | string
     name?: StringFieldUpdateOperationsInput | string
     menuTheme?: NullableStringFieldUpdateOperationsInput | string | null
+    soundOnOrderReady?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     users?: UserUpdateManyWithoutCompanyNestedInput
     tables?: TableUpdateManyWithoutCompanyNestedInput
@@ -15517,6 +15565,7 @@ export namespace Prisma {
     uuid?: StringFieldUpdateOperationsInput | string
     name?: StringFieldUpdateOperationsInput | string
     menuTheme?: NullableStringFieldUpdateOperationsInput | string | null
+    soundOnOrderReady?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     users?: UserUncheckedUpdateManyWithoutCompanyNestedInput
     tables?: TableUncheckedUpdateManyWithoutCompanyNestedInput
