@@ -22,7 +22,7 @@ export class TableController {
   @Post()
   async create(
     @CompanyUuid() companyUuid: string,
-    @Body() body: { number: number; description?: string; qrCode?: string },
+    @Body() body: { number: number; description?: string; qrCode?: string; baseUrl?: string },
   ) {
     return await this.createTableUseCase.execute({ ...body, companyUuid });
   }

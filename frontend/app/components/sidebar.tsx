@@ -9,6 +9,7 @@ import { FaHome, FaPhone } from "react-icons/fa";
 import { MdOutlineTableBar } from "react-icons/md";
 import { FaMoneyBillWave } from "react-icons/fa";
 import { GrCafeteria } from "react-icons/gr";
+import { FaQrcode } from "react-icons/fa";
 import { FaBox } from "react-icons/fa";
 import { useAuth } from "../contexts/AuthContext";
 
@@ -78,6 +79,13 @@ const Sidebar = () => {
                         <li className="flex items-center space-x-3 hover:bg-stone-300 p-3 rounded-md cursor-pointer">
                             <LuTableOfContents className="text-xl" />
                             <span className="text-lg font-medium">Pedidos</span>
+                        </li>
+                    </Link>
+
+                    <Link href="/cardapio" target="_blank">
+                        <li className="flex items-center space-x-3 hover:bg-stone-300 p-3 rounded-md cursor-pointer">
+                            <FaQrcode className="text-xl" />
+                            <span className="text-lg font-medium">Cardápio Online (QR Code)</span>
                         </li>
                     </Link>
 

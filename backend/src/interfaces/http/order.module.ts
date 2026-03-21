@@ -11,6 +11,7 @@ import { PrismaService } from '@infrastructure/prisma/prisma.service';
 @Module({
   controllers: [OrderController],
   exports: [
+    CreateOrderUseCase,
     FindAllOrderUseCase,
     FindOneOrderUseCase,
     UpdateOrderUseCase,
