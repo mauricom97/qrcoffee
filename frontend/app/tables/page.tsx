@@ -37,7 +37,7 @@ const TableManager: React.FC = () => {
   }, [loadMesas]);
 
   const addMesa = async () => {
-    const qrCode = `${process.env.NEXT_PUBLIC_BASE_FRONTEND_URL}/cardapio/?numeromesa=${numeroMesa}`;
+    const baseUrl = process.env.NEXT_PUBLIC_BASE_FRONTEND_URL || (typeof window !== "undefined" ? window.location.origin : "");
     try {
       const response = await fetch(`${API_URL}/tables`, {
         method: "POST",
@@ -45,7 +45,7 @@ const TableManager: React.FC = () => {
         body: JSON.stringify({
           number: numeroMesa,
           description: descricao,
-          qrCode,
+          baseUrl,
         }),
       });
       if (!response.ok) throw new Error("Erro ao criar mesa no servidor.");
@@ -70,7 +70,8 @@ const TableManager: React.FC = () => {
 
   const updateMesa = async () => {
     if (!editingMesa) return;
-    const qrCode = `${process.env.NEXT_PUBLIC_BASE_FRONTEND_URL}/cardapio/?numeromesa=${editNumber}`;
+    const baseUrl = process.env.NEXT_PUBLIC_BASE_FRONTEND_URL || (typeof window !== "undefined" ? window.location.origin : "");
+    const qrCode = `${baseUrl.replace(/\/$/, "")}/cardapio?mesa=${editingMesa.uuid}`;
     try {
       const response = await fetch(`${API_URL}/tables/${editingMesa.uuid}`, {
         method: "PATCH",

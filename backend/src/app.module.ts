@@ -8,9 +8,10 @@ import { OrderModule } from '@interfaces/http/order.module';
 import { ComandaModule } from '@interfaces/http/comanda.module';
 import { DashboardModule } from '@interfaces/http/dashboard.module';
 import { AuthModule } from '@interfaces/http/auth.module';
+import { PublicModule } from '@interfaces/http/public.module';
 
 @Module({
-  imports: [AuthModule, ProductModule, CategoryModule, TableModule, OrderModule, ComandaModule, DashboardModule],
+  imports: [AuthModule, ProductModule, CategoryModule, TableModule, OrderModule, ComandaModule, DashboardModule, PublicModule],
   controllers: [AppController],
   providers: [AppService],
 })
