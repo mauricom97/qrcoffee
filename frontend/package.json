@@ -10,6 +10,7 @@
   },
   "dependencies": {
     "@mantine/core": "^8.3.10",
+    "socket.io-client": "^4.8.1",
     "@mantine/hooks": "^8.3.10",
     "next": "16.1.1",
     "qrcode": "^1.5.4",

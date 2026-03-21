@@ -4,6 +4,7 @@ import { useState, useEffect, useCallback, Suspense } from "react";
 import { useSearchParams } from "next/navigation";
 import { FaShoppingCart, FaPlus, FaMinus, FaCheckCircle, FaSearch } from "react-icons/fa";
 import LoadingSpinner from "components/LoadingSpinner";
+import { useRealtimeUpdates } from "hooks/useRealtimeUpdates";
 
 const API_URL = process.env.NEXT_PUBLIC_BASE_API_URL || "http://localhost:3352";
 
@@ -27,7 +28,7 @@ export interface MenuTheme {
 }
 
 interface MenuResponse {
-  table: { uuid: string; number: number; description: string };
+  table: { uuid: string; number: number; description: string; companyUuid?: string };
   categories: Array<{
     uuid: string;
     name: string;
@@ -90,6 +91,11 @@ function CardapioContent() {
     if (mesaUuid) loadMenu();
     else setLoading(false);
   }, [mesaUuid, loadMenu]);
+
+  useRealtimeUpdates(menu?.table?.companyUuid ?? null, {
+    onProductsUpdate: loadMenu,
+    onMenuUpdate: loadMenu,
+  });
 
   const addToCart = (product: Product) => {
     setCart((prev) => {

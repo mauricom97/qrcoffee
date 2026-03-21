@@ -1,6 +1,8 @@
 "use client";
 
 import { useState, useEffect, useCallback } from "react";
+import { useAuth } from "contexts/AuthContext";
+import { useRealtimeUpdates } from "hooks/useRealtimeUpdates";
 import {
   FaTable,
   FaCheckCircle,
@@ -38,6 +40,7 @@ interface NewOrderItem {
 }
 
 export default function OrdersPage() {
+  const { user } = useAuth();
   const [orders, setOrders] = useState<OrderDto[]>([]);
   const [tables, setTables] = useState<Mesa[]>([]);
   const [products, setProducts] = useState<ProductOption[]>([]);
@@ -97,6 +100,10 @@ export default function OrdersPage() {
       setLoading(false)
     );
   }, [loadOrders, loadTables, loadProducts]);
+
+  useRealtimeUpdates(user?.companyUuid ?? null, {
+    onOrdersUpdate: loadOrders,
+  });
 
   const resetForm = () => {
     setTableUuid("");

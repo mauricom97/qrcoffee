@@ -1,6 +1,8 @@
 "use client";
 
 import React, { useState, useEffect, useCallback } from "react";
+import { useAuth } from "contexts/AuthContext";
+import { useRealtimeUpdates } from "hooks/useRealtimeUpdates";
 import QRCode from "react-qr-code";
 import * as QRCodeLib from "qrcode";
 import { Mesa } from "./interfaces/table.interface";
@@ -11,6 +13,7 @@ import LoadingSpinner from "components/LoadingSpinner";
 const API_URL = process.env.NEXT_PUBLIC_BASE_API_URL || "http://localhost:3352";
 
 const TableManager: React.FC = () => {
+  const { user } = useAuth();
   const [mesas, setMesas] = useState<Mesa[]>([]);
   const [loading, setLoading] = useState(true);
   const numeroMesa = mesas.length + 1;
@@ -38,6 +41,10 @@ const TableManager: React.FC = () => {
   useEffect(() => {
     loadMesas();
   }, [loadMesas]);
+
+  useRealtimeUpdates(user?.companyUuid ?? null, {
+    onTablesUpdate: loadMesas,
+  });
 
   const addMesa = async () => {
     const baseUrl = process.env.NEXT_PUBLIC_BASE_FRONTEND_URL || (typeof window !== "undefined" ? window.location.origin : "");

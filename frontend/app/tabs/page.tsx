@@ -16,7 +16,9 @@ import {
 } from "../orders/interfaces/order.interface";
 import { Mesa } from "../tables/interfaces/table.interface";
 import { getAuthHeaders } from "contexts/AuthContext";
+import { useAuth } from "contexts/AuthContext";
 import LoadingSpinner from "components/LoadingSpinner";
+import { useRealtimeUpdates } from "hooks/useRealtimeUpdates";
 
 const API_URL =
   process.env.NEXT_PUBLIC_BASE_API_URL || "http://localhost:3352";
@@ -55,6 +57,7 @@ function statusBadgeClass(status: OrderStatus): string {
 }
 
 export default function TabPage() {
+  const { user } = useAuth();
   const [comandas, setComandas] = useState<OrderDto[]>([]);
   const [tables, setTables] = useState<Mesa[]>([]);
   const [loading, setLoading] = useState(true);
@@ -98,6 +101,10 @@ export default function TabPage() {
       setLoading(false)
     );
   }, [loadComandas, loadTables]);
+
+  useRealtimeUpdates(user?.companyUuid ?? null, {
+    onOrdersUpdate: loadComandas,
+  });
 
   const handleUpdateStatus = async (comanda: OrderDto, status: OrderStatus) => {
     try {
