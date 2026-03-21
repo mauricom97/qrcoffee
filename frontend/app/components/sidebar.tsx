@@ -50,53 +50,53 @@ const Sidebar = () => {
 
                 <h1 className="uppercase text-2xl font-bold text-center mb-6">{user?.companyName || ''}</h1>
                 <ul className="space-y-4 w-full">
-                    <Link href="/dashboard">
+                    <Link href="/dashboard" onClick={() => setIsOpen(false)}>
                         <li className="flex items-center space-x-3 hover:bg-stone-300 p-3 rounded-md cursor-pointer">
                             <FaHome className="text-xl" />
                             <span className="text-lg font-medium">Dashboard</span>
                         </li>
                     </Link>
-                    <Link href="/products">
+                    <Link href="/products" onClick={() => setIsOpen(false)}>
                         <li className="flex items-center space-x-3 hover:bg-stone-300 p-3 rounded-md cursor-pointer">
                             <GrCafeteria  className="text-xl" />
                             <span className="text-lg font-medium">Produtos</span>
                         </li>
                     </Link>
-                    <Link href="/tables">
+                    <Link href="/tables" onClick={() => setIsOpen(false)}>
                         <li className="flex items-center space-x-3 hover:bg-stone-300 p-3 rounded-md cursor-pointer">
                             <MdOutlineTableBar className="text-xl" />
                             <span className="text-lg font-medium">Mesas</span>
                         </li>
                     </Link>
-                    <Link href="/tabs">
+                    <Link href="/tabs" onClick={() => setIsOpen(false)}>
                         <li className="flex items-center space-x-3 hover:bg-stone-300 p-3 rounded-md cursor-pointer">
                             <HiOutlineDeviceTablet className="text-xl" />
                             <span className="text-lg font-medium">Comandas</span>
                         </li>
                     </Link>
 
-                    <Link href="/orders">
+                    <Link href="/orders" onClick={() => setIsOpen(false)}>
                         <li className="flex items-center space-x-3 hover:bg-stone-300 p-3 rounded-md cursor-pointer">
                             <LuTableOfContents className="text-xl" />
                             <span className="text-lg font-medium">Pedidos</span>
                         </li>
                     </Link>
 
-                    <Link href="/cardapio" target="_blank">
+                    <Link href="/cardapio" target="_blank" onClick={() => setIsOpen(false)}>
                         <li className="flex items-center space-x-3 hover:bg-stone-300 p-3 rounded-md cursor-pointer">
                             <FaQrcode className="text-xl" />
                             <span className="text-lg font-medium">Cardápio Online (QR Code)</span>
                         </li>
                     </Link>
 
-                    <Link href="/cashier">
+                    <Link href="/cashier" onClick={() => setIsOpen(false)}>
                     <li className="flex items-center space-x-3 hover:bg-stone-300 p-3 rounded-md cursor-pointer">
                         <FaMoneyBillWave className="text-xl" />
                         <span className="text-lg font-medium">Caixa</span>
                     </li>
                     </Link>
 
-                    <Link href="/stock">
+                    <Link href="/stock" onClick={() => setIsOpen(false)}>
                     <li className="flex items-center space-x-3 hover:bg-stone-300 p-3 rounded-md cursor-pointer">
                         <FaBox  className="text-xl" />
                         <span className="text-lg font-medium">Estoque</span>                    </li>
