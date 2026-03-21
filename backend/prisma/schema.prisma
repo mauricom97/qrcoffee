@@ -9,13 +9,14 @@ datasource db {
 }
 
 model Company {
-  uuid      String    @id @default(uuid())
-  name      String
-  createdAt DateTime  @default(now())
-  users     User[]
-  tables    Table[]
-  categories Category[]
-  products  Product[]
+  uuid            String          @id @default(uuid())
+  name            String
+  createdAt       DateTime        @default(now())
+  users           User[]
+  tables          Table[]
+  categories      Category[]
+  products        Product[]
+  cashierSessions CashierSession[]
 }
 
 model User {
@@ -94,4 +95,31 @@ model OrderItem {
 
   @@index([orderUuid])
   @@index([productUuid])
+}
+
+model CashierSession {
+  uuid           String           @id @default(uuid())
+  companyUuid    String
+  company        Company          @relation(fields: [companyUuid], references: [uuid], onDelete: Cascade)
+  openedAt       DateTime         @default(now())
+  closedAt       DateTime?
+  openingBalance Float            @default(0)
+  closingBalance Float?
+  status        String           @default("OPEN") // OPEN | CLOSED
+  movements     CashierMovement[]
+
+  @@index([companyUuid])
+  @@index([status])
+}
+
+model CashierMovement {
+  uuid        String         @id @default(uuid())
+  sessionUuid String
+  session     CashierSession @relation(fields: [sessionUuid], references: [uuid], onDelete: Cascade)
+  type        String         // REINFORCEMENT | SANGRIA
+  amount      Float
+  description String?
+  createdAt   DateTime       @default(now())
+
+  @@index([sessionUuid])
 }

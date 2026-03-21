@@ -48,6 +48,16 @@ export type Order = $Result.DefaultSelection<Prisma.$OrderPayload>
  * 
  */
 export type OrderItem = $Result.DefaultSelection<Prisma.$OrderItemPayload>
+/**
+ * Model CashierSession
+ * 
+ */
+export type CashierSession = $Result.DefaultSelection<Prisma.$CashierSessionPayload>
+/**
+ * Model CashierMovement
+ * 
+ */
+export type CashierMovement = $Result.DefaultSelection<Prisma.$CashierMovementPayload>
 
 /**
  * ##  Prisma Client ʲˢ
@@ -235,6 +245,26 @@ export class PrismaClient<
     * ```
     */
   get orderItem(): Prisma.OrderItemDelegate<ExtArgs, ClientOptions>;
+
+  /**
+   * `prisma.cashierSession`: Exposes CRUD operations for the **CashierSession** model.
+    * Example usage:
+    * ```ts
+    * // Fetch zero or more CashierSessions
+    * const cashierSessions = await prisma.cashierSession.findMany()
+    * ```
+    */
+  get cashierSession(): Prisma.CashierSessionDelegate<ExtArgs, ClientOptions>;
+
+  /**
+   * `prisma.cashierMovement`: Exposes CRUD operations for the **CashierMovement** model.
+    * Example usage:
+    * ```ts
+    * // Fetch zero or more CashierMovements
+    * const cashierMovements = await prisma.cashierMovement.findMany()
+    * ```
+    */
+  get cashierMovement(): Prisma.CashierMovementDelegate<ExtArgs, ClientOptions>;
 }
 
 export namespace Prisma {
@@ -285,8 +315,8 @@ export namespace Prisma {
   export import Exact = $Public.Exact
 
   /**
-   * Prisma Client JS version: 7.2.0
-   * Query Engine version: 0c8ef2ce45c83248ab3df073180d5eda9e8be7a3
+   * Prisma Client JS version: 7.3.0
+   * Query Engine version: 9d6ad21cbbceab97458517b147a6a09ff43aa735
    */
   export type PrismaVersion = {
     client: string
@@ -675,7 +705,9 @@ export namespace Prisma {
     Category: 'Category',
     Table: 'Table',
     Order: 'Order',
-    OrderItem: 'OrderItem'
+    OrderItem: 'OrderItem',
+    CashierSession: 'CashierSession',
+    CashierMovement: 'CashierMovement'
   };
 
   export type ModelName = (typeof ModelName)[keyof typeof ModelName]
@@ -691,7 +723,7 @@ export namespace Prisma {
       omit: GlobalOmitOptions
     }
     meta: {
-      modelProps: "company" | "user" | "product" | "category" | "table" | "order" | "orderItem"
+      modelProps: "company" | "user" | "product" | "category" | "table" | "order" | "orderItem" | "cashierSession" | "cashierMovement"
       txIsolationLevel: Prisma.TransactionIsolationLevel
     }
     model: {
@@ -1213,6 +1245,154 @@ export namespace Prisma {
           }
         }
       }
+      CashierSession: {
+        payload: Prisma.$CashierSessionPayload<ExtArgs>
+        fields: Prisma.CashierSessionFieldRefs
+        operations: {
+          findUnique: {
+            args: Prisma.CashierSessionFindUniqueArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$CashierSessionPayload> | null
+          }
+          findUniqueOrThrow: {
+            args: Prisma.CashierSessionFindUniqueOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$CashierSessionPayload>
+          }
+          findFirst: {
+            args: Prisma.CashierSessionFindFirstArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$CashierSessionPayload> | null
+          }
+          findFirstOrThrow: {
+            args: Prisma.CashierSessionFindFirstOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$CashierSessionPayload>
+          }
+          findMany: {
+            args: Prisma.CashierSessionFindManyArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$CashierSessionPayload>[]
+          }
+          create: {
+            args: Prisma.CashierSessionCreateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$CashierSessionPayload>
+          }
+          createMany: {
+            args: Prisma.CashierSessionCreateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          createManyAndReturn: {
+            args: Prisma.CashierSessionCreateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$CashierSessionPayload>[]
+          }
+          delete: {
+            args: Prisma.CashierSessionDeleteArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$CashierSessionPayload>
+          }
+          update: {
+            args: Prisma.CashierSessionUpdateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$CashierSessionPayload>
+          }
+          deleteMany: {
+            args: Prisma.CashierSessionDeleteManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateMany: {
+            args: Prisma.CashierSessionUpdateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateManyAndReturn: {
+            args: Prisma.CashierSessionUpdateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$CashierSessionPayload>[]
+          }
+          upsert: {
+            args: Prisma.CashierSessionUpsertArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$CashierSessionPayload>
+          }
+          aggregate: {
+            args: Prisma.CashierSessionAggregateArgs<ExtArgs>
+            result: $Utils.Optional<AggregateCashierSession>
+          }
+          groupBy: {
+            args: Prisma.CashierSessionGroupByArgs<ExtArgs>
+            result: $Utils.Optional<CashierSessionGroupByOutputType>[]
+          }
+          count: {
+            args: Prisma.CashierSessionCountArgs<ExtArgs>
+            result: $Utils.Optional<CashierSessionCountAggregateOutputType> | number
+          }
+        }
+      }
+      CashierMovement: {
+        payload: Prisma.$CashierMovementPayload<ExtArgs>
+        fields: Prisma.CashierMovementFieldRefs
+        operations: {
+          findUnique: {
+            args: Prisma.CashierMovementFindUniqueArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$CashierMovementPayload> | null
+          }
+          findUniqueOrThrow: {
+            args: Prisma.CashierMovementFindUniqueOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$CashierMovementPayload>
+          }
+          findFirst: {
+            args: Prisma.CashierMovementFindFirstArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$CashierMovementPayload> | null
+          }
+          findFirstOrThrow: {
+            args: Prisma.CashierMovementFindFirstOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$CashierMovementPayload>
+          }
+          findMany: {
+            args: Prisma.CashierMovementFindManyArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$CashierMovementPayload>[]
+          }
+          create: {
+            args: Prisma.CashierMovementCreateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$CashierMovementPayload>
+          }
+          createMany: {
+            args: Prisma.CashierMovementCreateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          createManyAndReturn: {
+            args: Prisma.CashierMovementCreateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$CashierMovementPayload>[]
+          }
+          delete: {
+            args: Prisma.CashierMovementDeleteArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$CashierMovementPayload>
+          }
+          update: {
+            args: Prisma.CashierMovementUpdateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$CashierMovementPayload>
+          }
+          deleteMany: {
+            args: Prisma.CashierMovementDeleteManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateMany: {
+            args: Prisma.CashierMovementUpdateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateManyAndReturn: {
+            args: Prisma.CashierMovementUpdateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$CashierMovementPayload>[]
+          }
+          upsert: {
+            args: Prisma.CashierMovementUpsertArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$CashierMovementPayload>
+          }
+          aggregate: {
+            args: Prisma.CashierMovementAggregateArgs<ExtArgs>
+            result: $Utils.Optional<AggregateCashierMovement>
+          }
+          groupBy: {
+            args: Prisma.CashierMovementGroupByArgs<ExtArgs>
+            result: $Utils.Optional<CashierMovementGroupByOutputType>[]
+          }
+          count: {
+            args: Prisma.CashierMovementCountArgs<ExtArgs>
+            result: $Utils.Optional<CashierMovementCountAggregateOutputType> | number
+          }
+        }
+      }
     }
   } & {
     other: {
@@ -1328,6 +1508,8 @@ export namespace Prisma {
     table?: TableOmit
     order?: OrderOmit
     orderItem?: OrderItemOmit
+    cashierSession?: CashierSessionOmit
+    cashierMovement?: CashierMovementOmit
   }
 
   /* Types for Logging */
@@ -1412,6 +1594,7 @@ export namespace Prisma {
     tables: number
     categories: number
     products: number
+    cashierSessions: number
   }
 
   export type CompanyCountOutputTypeSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
@@ -1419,6 +1602,7 @@ export namespace Prisma {
     tables?: boolean | CompanyCountOutputTypeCountTablesArgs
     categories?: boolean | CompanyCountOutputTypeCountCategoriesArgs
     products?: boolean | CompanyCountOutputTypeCountProductsArgs
+    cashierSessions?: boolean | CompanyCountOutputTypeCountCashierSessionsArgs
   }
 
   // Custom InputTypes
@@ -1458,6 +1642,13 @@ export namespace Prisma {
    */
   export type CompanyCountOutputTypeCountProductsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     where?: ProductWhereInput
+  }
+
+  /**
+   * CompanyCountOutputType without action
+   */
+  export type CompanyCountOutputTypeCountCashierSessionsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: CashierSessionWhereInput
   }
 
 
@@ -1582,6 +1773,37 @@ export namespace Prisma {
    */
   export type OrderCountOutputTypeCountItemsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     where?: OrderItemWhereInput
+  }
+
+
+  /**
+   * Count Type CashierSessionCountOutputType
+   */
+
+  export type CashierSessionCountOutputType = {
+    movements: number
+  }
+
+  export type CashierSessionCountOutputTypeSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    movements?: boolean | CashierSessionCountOutputTypeCountMovementsArgs
+  }
+
+  // Custom InputTypes
+  /**
+   * CashierSessionCountOutputType without action
+   */
+  export type CashierSessionCountOutputTypeDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the CashierSessionCountOutputType
+     */
+    select?: CashierSessionCountOutputTypeSelect<ExtArgs> | null
+  }
+
+  /**
+   * CashierSessionCountOutputType without action
+   */
+  export type CashierSessionCountOutputTypeCountMovementsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: CashierMovementWhereInput
   }
 
 
@@ -1741,6 +1963,7 @@ export namespace Prisma {
     tables?: boolean | Company$tablesArgs<ExtArgs>
     categories?: boolean | Company$categoriesArgs<ExtArgs>
     products?: boolean | Company$productsArgs<ExtArgs>
+    cashierSessions?: boolean | Company$cashierSessionsArgs<ExtArgs>
     _count?: boolean | CompanyCountOutputTypeDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["company"]>
 
@@ -1768,6 +1991,7 @@ export namespace Prisma {
     tables?: boolean | Company$tablesArgs<ExtArgs>
     categories?: boolean | Company$categoriesArgs<ExtArgs>
     products?: boolean | Company$productsArgs<ExtArgs>
+    cashierSessions?: boolean | Company$cashierSessionsArgs<ExtArgs>
     _count?: boolean | CompanyCountOutputTypeDefaultArgs<ExtArgs>
   }
   export type CompanyIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {}
@@ -1780,6 +2004,7 @@ export namespace Prisma {
       tables: Prisma.$TablePayload<ExtArgs>[]
       categories: Prisma.$CategoryPayload<ExtArgs>[]
       products: Prisma.$ProductPayload<ExtArgs>[]
+      cashierSessions: Prisma.$CashierSessionPayload<ExtArgs>[]
     }
     scalars: $Extensions.GetPayloadResult<{
       uuid: string
@@ -2183,6 +2408,7 @@ export namespace Prisma {
     tables<T extends Company$tablesArgs<ExtArgs> = {}>(args?: Subset<T, Company$tablesArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$TablePayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     categories<T extends Company$categoriesArgs<ExtArgs> = {}>(args?: Subset<T, Company$categoriesArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$CategoryPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     products<T extends Company$productsArgs<ExtArgs> = {}>(args?: Subset<T, Company$productsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$ProductPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+    cashierSessions<T extends Company$cashierSessionsArgs<ExtArgs> = {}>(args?: Subset<T, Company$cashierSessionsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$CashierSessionPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     /**
      * Attaches callbacks for the resolution and/or rejection of the Promise.
      * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -2696,6 +2922,30 @@ export namespace Prisma {
     take?: number
     skip?: number
     distinct?: ProductScalarFieldEnum | ProductScalarFieldEnum[]
+  }
+
+  /**
+   * Company.cashierSessions
+   */
+  export type Company$cashierSessionsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the CashierSession
+     */
+    select?: CashierSessionSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the CashierSession
+     */
+    omit?: CashierSessionOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: CashierSessionInclude<ExtArgs> | null
+    where?: CashierSessionWhereInput
+    orderBy?: CashierSessionOrderByWithRelationInput | CashierSessionOrderByWithRelationInput[]
+    cursor?: CashierSessionWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: CashierSessionScalarFieldEnum | CashierSessionScalarFieldEnum[]
   }
 
   /**
@@ -9308,6 +9558,2263 @@ export namespace Prisma {
 
 
   /**
+   * Model CashierSession
+   */
+
+  export type AggregateCashierSession = {
+    _count: CashierSessionCountAggregateOutputType | null
+    _avg: CashierSessionAvgAggregateOutputType | null
+    _sum: CashierSessionSumAggregateOutputType | null
+    _min: CashierSessionMinAggregateOutputType | null
+    _max: CashierSessionMaxAggregateOutputType | null
+  }
+
+  export type CashierSessionAvgAggregateOutputType = {
+    openingBalance: number | null
+    closingBalance: number | null
+  }
+
+  export type CashierSessionSumAggregateOutputType = {
+    openingBalance: number | null
+    closingBalance: number | null
+  }
+
+  export type CashierSessionMinAggregateOutputType = {
+    uuid: string | null
+    companyUuid: string | null
+    openedAt: Date | null
+    closedAt: Date | null
+    openingBalance: number | null
+    closingBalance: number | null
+    status: string | null
+  }
+
+  export type CashierSessionMaxAggregateOutputType = {
+    uuid: string | null
+    companyUuid: string | null
+    openedAt: Date | null
+    closedAt: Date | null
+    openingBalance: number | null
+    closingBalance: number | null
+    status: string | null
+  }
+
+  export type CashierSessionCountAggregateOutputType = {
+    uuid: number
+    companyUuid: number
+    openedAt: number
+    closedAt: number
+    openingBalance: number
+    closingBalance: number
+    status: number
+    _all: number
+  }
+
+
+  export type CashierSessionAvgAggregateInputType = {
+    openingBalance?: true
+    closingBalance?: true
+  }
+
+  export type CashierSessionSumAggregateInputType = {
+    openingBalance?: true
+    closingBalance?: true
+  }
+
+  export type CashierSessionMinAggregateInputType = {
+    uuid?: true
+    companyUuid?: true
+    openedAt?: true
+    closedAt?: true
+    openingBalance?: true
+    closingBalance?: true
+    status?: true
+  }
+
+  export type CashierSessionMaxAggregateInputType = {
+    uuid?: true
+    companyUuid?: true
+    openedAt?: true
+    closedAt?: true
+    openingBalance?: true
+    closingBalance?: true
+    status?: true
+  }
+
+  export type CashierSessionCountAggregateInputType = {
+    uuid?: true
+    companyUuid?: true
+    openedAt?: true
+    closedAt?: true
+    openingBalance?: true
+    closingBalance?: true
+    status?: true
+    _all?: true
+  }
+
+  export type CashierSessionAggregateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which CashierSession to aggregate.
+     */
+    where?: CashierSessionWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of CashierSessions to fetch.
+     */
+    orderBy?: CashierSessionOrderByWithRelationInput | CashierSessionOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the start position
+     */
+    cursor?: CashierSessionWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` CashierSessions from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` CashierSessions.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Count returned CashierSessions
+    **/
+    _count?: true | CashierSessionCountAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to average
+    **/
+    _avg?: CashierSessionAvgAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to sum
+    **/
+    _sum?: CashierSessionSumAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the minimum value
+    **/
+    _min?: CashierSessionMinAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the maximum value
+    **/
+    _max?: CashierSessionMaxAggregateInputType
+  }
+
+  export type GetCashierSessionAggregateType<T extends CashierSessionAggregateArgs> = {
+        [P in keyof T & keyof AggregateCashierSession]: P extends '_count' | 'count'
+      ? T[P] extends true
+        ? number
+        : GetScalarType<T[P], AggregateCashierSession[P]>
+      : GetScalarType<T[P], AggregateCashierSession[P]>
+  }
+
+
+
+
+  export type CashierSessionGroupByArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: CashierSessionWhereInput
+    orderBy?: CashierSessionOrderByWithAggregationInput | CashierSessionOrderByWithAggregationInput[]
+    by: CashierSessionScalarFieldEnum[] | CashierSessionScalarFieldEnum
+    having?: CashierSessionScalarWhereWithAggregatesInput
+    take?: number
+    skip?: number
+    _count?: CashierSessionCountAggregateInputType | true
+    _avg?: CashierSessionAvgAggregateInputType
+    _sum?: CashierSessionSumAggregateInputType
+    _min?: CashierSessionMinAggregateInputType
+    _max?: CashierSessionMaxAggregateInputType
+  }
+
+  export type CashierSessionGroupByOutputType = {
+    uuid: string
+    companyUuid: string
+    openedAt: Date
+    closedAt: Date | null
+    openingBalance: number
+    closingBalance: number | null
+    status: string
+    _count: CashierSessionCountAggregateOutputType | null
+    _avg: CashierSessionAvgAggregateOutputType | null
+    _sum: CashierSessionSumAggregateOutputType | null
+    _min: CashierSessionMinAggregateOutputType | null
+    _max: CashierSessionMaxAggregateOutputType | null
+  }
+
+  type GetCashierSessionGroupByPayload<T extends CashierSessionGroupByArgs> = Prisma.PrismaPromise<
+    Array<
+      PickEnumerable<CashierSessionGroupByOutputType, T['by']> &
+        {
+          [P in ((keyof T) & (keyof CashierSessionGroupByOutputType))]: P extends '_count'
+            ? T[P] extends boolean
+              ? number
+              : GetScalarType<T[P], CashierSessionGroupByOutputType[P]>
+            : GetScalarType<T[P], CashierSessionGroupByOutputType[P]>
+        }
+      >
+    >
+
+
+  export type CashierSessionSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    uuid?: boolean
+    companyUuid?: boolean
+    openedAt?: boolean
+    closedAt?: boolean
+    openingBalance?: boolean
+    closingBalance?: boolean
+    status?: boolean
+    company?: boolean | CompanyDefaultArgs<ExtArgs>
+    movements?: boolean | CashierSession$movementsArgs<ExtArgs>
+    _count?: boolean | CashierSessionCountOutputTypeDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["cashierSession"]>
+
+  export type CashierSessionSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    uuid?: boolean
+    companyUuid?: boolean
+    openedAt?: boolean
+    closedAt?: boolean
+    openingBalance?: boolean
+    closingBalance?: boolean
+    status?: boolean
+    company?: boolean | CompanyDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["cashierSession"]>
+
+  export type CashierSessionSelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    uuid?: boolean
+    companyUuid?: boolean
+    openedAt?: boolean
+    closedAt?: boolean
+    openingBalance?: boolean
+    closingBalance?: boolean
+    status?: boolean
+    company?: boolean | CompanyDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["cashierSession"]>
+
+  export type CashierSessionSelectScalar = {
+    uuid?: boolean
+    companyUuid?: boolean
+    openedAt?: boolean
+    closedAt?: boolean
+    openingBalance?: boolean
+    closingBalance?: boolean
+    status?: boolean
+  }
+
+  export type CashierSessionOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"uuid" | "companyUuid" | "openedAt" | "closedAt" | "openingBalance" | "closingBalance" | "status", ExtArgs["result"]["cashierSession"]>
+  export type CashierSessionInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    company?: boolean | CompanyDefaultArgs<ExtArgs>
+    movements?: boolean | CashierSession$movementsArgs<ExtArgs>
+    _count?: boolean | CashierSessionCountOutputTypeDefaultArgs<ExtArgs>
+  }
+  export type CashierSessionIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    company?: boolean | CompanyDefaultArgs<ExtArgs>
+  }
+  export type CashierSessionIncludeUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    company?: boolean | CompanyDefaultArgs<ExtArgs>
+  }
+
+  export type $CashierSessionPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    name: "CashierSession"
+    objects: {
+      company: Prisma.$CompanyPayload<ExtArgs>
+      movements: Prisma.$CashierMovementPayload<ExtArgs>[]
+    }
+    scalars: $Extensions.GetPayloadResult<{
+      uuid: string
+      companyUuid: string
+      openedAt: Date
+      closedAt: Date | null
+      openingBalance: number
+      closingBalance: number | null
+      status: string
+    }, ExtArgs["result"]["cashierSession"]>
+    composites: {}
+  }
+
+  type CashierSessionGetPayload<S extends boolean | null | undefined | CashierSessionDefaultArgs> = $Result.GetResult<Prisma.$CashierSessionPayload, S>
+
+  type CashierSessionCountArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> =
+    Omit<CashierSessionFindManyArgs, 'select' | 'include' | 'distinct' | 'omit'> & {
+      select?: CashierSessionCountAggregateInputType | true
+    }
+
+  export interface CashierSessionDelegate<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> {
+    [K: symbol]: { types: Prisma.TypeMap<ExtArgs>['model']['CashierSession'], meta: { name: 'CashierSession' } }
+    /**
+     * Find zero or one CashierSession that matches the filter.
+     * @param {CashierSessionFindUniqueArgs} args - Arguments to find a CashierSession
+     * @example
+     * // Get one CashierSession
+     * const cashierSession = await prisma.cashierSession.findUnique({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUnique<T extends CashierSessionFindUniqueArgs>(args: SelectSubset<T, CashierSessionFindUniqueArgs<ExtArgs>>): Prisma__CashierSessionClient<$Result.GetResult<Prisma.$CashierSessionPayload<ExtArgs>, T, "findUnique", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find one CashierSession that matches the filter or throw an error with `error.code='P2025'`
+     * if no matches were found.
+     * @param {CashierSessionFindUniqueOrThrowArgs} args - Arguments to find a CashierSession
+     * @example
+     * // Get one CashierSession
+     * const cashierSession = await prisma.cashierSession.findUniqueOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUniqueOrThrow<T extends CashierSessionFindUniqueOrThrowArgs>(args: SelectSubset<T, CashierSessionFindUniqueOrThrowArgs<ExtArgs>>): Prisma__CashierSessionClient<$Result.GetResult<Prisma.$CashierSessionPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first CashierSession that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {CashierSessionFindFirstArgs} args - Arguments to find a CashierSession
+     * @example
+     * // Get one CashierSession
+     * const cashierSession = await prisma.cashierSession.findFirst({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirst<T extends CashierSessionFindFirstArgs>(args?: SelectSubset<T, CashierSessionFindFirstArgs<ExtArgs>>): Prisma__CashierSessionClient<$Result.GetResult<Prisma.$CashierSessionPayload<ExtArgs>, T, "findFirst", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first CashierSession that matches the filter or
+     * throw `PrismaKnownClientError` with `P2025` code if no matches were found.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {CashierSessionFindFirstOrThrowArgs} args - Arguments to find a CashierSession
+     * @example
+     * // Get one CashierSession
+     * const cashierSession = await prisma.cashierSession.findFirstOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirstOrThrow<T extends CashierSessionFindFirstOrThrowArgs>(args?: SelectSubset<T, CashierSessionFindFirstOrThrowArgs<ExtArgs>>): Prisma__CashierSessionClient<$Result.GetResult<Prisma.$CashierSessionPayload<ExtArgs>, T, "findFirstOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find zero or more CashierSessions that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {CashierSessionFindManyArgs} args - Arguments to filter and select certain fields only.
+     * @example
+     * // Get all CashierSessions
+     * const cashierSessions = await prisma.cashierSession.findMany()
+     * 
+     * // Get first 10 CashierSessions
+     * const cashierSessions = await prisma.cashierSession.findMany({ take: 10 })
+     * 
+     * // Only select the `uuid`
+     * const cashierSessionWithUuidOnly = await prisma.cashierSession.findMany({ select: { uuid: true } })
+     * 
+     */
+    findMany<T extends CashierSessionFindManyArgs>(args?: SelectSubset<T, CashierSessionFindManyArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$CashierSessionPayload<ExtArgs>, T, "findMany", GlobalOmitOptions>>
+
+    /**
+     * Create a CashierSession.
+     * @param {CashierSessionCreateArgs} args - Arguments to create a CashierSession.
+     * @example
+     * // Create one CashierSession
+     * const CashierSession = await prisma.cashierSession.create({
+     *   data: {
+     *     // ... data to create a CashierSession
+     *   }
+     * })
+     * 
+     */
+    create<T extends CashierSessionCreateArgs>(args: SelectSubset<T, CashierSessionCreateArgs<ExtArgs>>): Prisma__CashierSessionClient<$Result.GetResult<Prisma.$CashierSessionPayload<ExtArgs>, T, "create", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Create many CashierSessions.
+     * @param {CashierSessionCreateManyArgs} args - Arguments to create many CashierSessions.
+     * @example
+     * // Create many CashierSessions
+     * const cashierSession = await prisma.cashierSession.createMany({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     *     
+     */
+    createMany<T extends CashierSessionCreateManyArgs>(args?: SelectSubset<T, CashierSessionCreateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Create many CashierSessions and returns the data saved in the database.
+     * @param {CashierSessionCreateManyAndReturnArgs} args - Arguments to create many CashierSessions.
+     * @example
+     * // Create many CashierSessions
+     * const cashierSession = await prisma.cashierSession.createManyAndReturn({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Create many CashierSessions and only return the `uuid`
+     * const cashierSessionWithUuidOnly = await prisma.cashierSession.createManyAndReturn({
+     *   select: { uuid: true },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    createManyAndReturn<T extends CashierSessionCreateManyAndReturnArgs>(args?: SelectSubset<T, CashierSessionCreateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$CashierSessionPayload<ExtArgs>, T, "createManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Delete a CashierSession.
+     * @param {CashierSessionDeleteArgs} args - Arguments to delete one CashierSession.
+     * @example
+     * // Delete one CashierSession
+     * const CashierSession = await prisma.cashierSession.delete({
+     *   where: {
+     *     // ... filter to delete one CashierSession
+     *   }
+     * })
+     * 
+     */
+    delete<T extends CashierSessionDeleteArgs>(args: SelectSubset<T, CashierSessionDeleteArgs<ExtArgs>>): Prisma__CashierSessionClient<$Result.GetResult<Prisma.$CashierSessionPayload<ExtArgs>, T, "delete", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Update one CashierSession.
+     * @param {CashierSessionUpdateArgs} args - Arguments to update one CashierSession.
+     * @example
+     * // Update one CashierSession
+     * const cashierSession = await prisma.cashierSession.update({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    update<T extends CashierSessionUpdateArgs>(args: SelectSubset<T, CashierSessionUpdateArgs<ExtArgs>>): Prisma__CashierSessionClient<$Result.GetResult<Prisma.$CashierSessionPayload<ExtArgs>, T, "update", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Delete zero or more CashierSessions.
+     * @param {CashierSessionDeleteManyArgs} args - Arguments to filter CashierSessions to delete.
+     * @example
+     * // Delete a few CashierSessions
+     * const { count } = await prisma.cashierSession.deleteMany({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     * 
+     */
+    deleteMany<T extends CashierSessionDeleteManyArgs>(args?: SelectSubset<T, CashierSessionDeleteManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more CashierSessions.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {CashierSessionUpdateManyArgs} args - Arguments to update one or more rows.
+     * @example
+     * // Update many CashierSessions
+     * const cashierSession = await prisma.cashierSession.updateMany({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    updateMany<T extends CashierSessionUpdateManyArgs>(args: SelectSubset<T, CashierSessionUpdateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more CashierSessions and returns the data updated in the database.
+     * @param {CashierSessionUpdateManyAndReturnArgs} args - Arguments to update many CashierSessions.
+     * @example
+     * // Update many CashierSessions
+     * const cashierSession = await prisma.cashierSession.updateManyAndReturn({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Update zero or more CashierSessions and only return the `uuid`
+     * const cashierSessionWithUuidOnly = await prisma.cashierSession.updateManyAndReturn({
+     *   select: { uuid: true },
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    updateManyAndReturn<T extends CashierSessionUpdateManyAndReturnArgs>(args: SelectSubset<T, CashierSessionUpdateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$CashierSessionPayload<ExtArgs>, T, "updateManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Create or update one CashierSession.
+     * @param {CashierSessionUpsertArgs} args - Arguments to update or create a CashierSession.
+     * @example
+     * // Update or create a CashierSession
+     * const cashierSession = await prisma.cashierSession.upsert({
+     *   create: {
+     *     // ... data to create a CashierSession
+     *   },
+     *   update: {
+     *     // ... in case it already exists, update
+     *   },
+     *   where: {
+     *     // ... the filter for the CashierSession we want to update
+     *   }
+     * })
+     */
+    upsert<T extends CashierSessionUpsertArgs>(args: SelectSubset<T, CashierSessionUpsertArgs<ExtArgs>>): Prisma__CashierSessionClient<$Result.GetResult<Prisma.$CashierSessionPayload<ExtArgs>, T, "upsert", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+
+    /**
+     * Count the number of CashierSessions.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {CashierSessionCountArgs} args - Arguments to filter CashierSessions to count.
+     * @example
+     * // Count the number of CashierSessions
+     * const count = await prisma.cashierSession.count({
+     *   where: {
+     *     // ... the filter for the CashierSessions we want to count
+     *   }
+     * })
+    **/
+    count<T extends CashierSessionCountArgs>(
+      args?: Subset<T, CashierSessionCountArgs>,
+    ): Prisma.PrismaPromise<
+      T extends $Utils.Record<'select', any>
+        ? T['select'] extends true
+          ? number
+          : GetScalarType<T['select'], CashierSessionCountAggregateOutputType>
+        : number
+    >
+
+    /**
+     * Allows you to perform aggregations operations on a CashierSession.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {CashierSessionAggregateArgs} args - Select which aggregations you would like to apply and on what fields.
+     * @example
+     * // Ordered by age ascending
+     * // Where email contains prisma.io
+     * // Limited to the 10 users
+     * const aggregations = await prisma.user.aggregate({
+     *   _avg: {
+     *     age: true,
+     *   },
+     *   where: {
+     *     email: {
+     *       contains: "prisma.io",
+     *     },
+     *   },
+     *   orderBy: {
+     *     age: "asc",
+     *   },
+     *   take: 10,
+     * })
+    **/
+    aggregate<T extends CashierSessionAggregateArgs>(args: Subset<T, CashierSessionAggregateArgs>): Prisma.PrismaPromise<GetCashierSessionAggregateType<T>>
+
+    /**
+     * Group by CashierSession.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {CashierSessionGroupByArgs} args - Group by arguments.
+     * @example
+     * // Group by city, order by createdAt, get count
+     * const result = await prisma.user.groupBy({
+     *   by: ['city', 'createdAt'],
+     *   orderBy: {
+     *     createdAt: true
+     *   },
+     *   _count: {
+     *     _all: true
+     *   },
+     * })
+     * 
+    **/
+    groupBy<
+      T extends CashierSessionGroupByArgs,
+      HasSelectOrTake extends Or<
+        Extends<'skip', Keys<T>>,
+        Extends<'take', Keys<T>>
+      >,
+      OrderByArg extends True extends HasSelectOrTake
+        ? { orderBy: CashierSessionGroupByArgs['orderBy'] }
+        : { orderBy?: CashierSessionGroupByArgs['orderBy'] },
+      OrderFields extends ExcludeUnderscoreKeys<Keys<MaybeTupleToUnion<T['orderBy']>>>,
+      ByFields extends MaybeTupleToUnion<T['by']>,
+      ByValid extends Has<ByFields, OrderFields>,
+      HavingFields extends GetHavingFields<T['having']>,
+      HavingValid extends Has<ByFields, HavingFields>,
+      ByEmpty extends T['by'] extends never[] ? True : False,
+      InputErrors extends ByEmpty extends True
+      ? `Error: "by" must not be empty.`
+      : HavingValid extends False
+      ? {
+          [P in HavingFields]: P extends ByFields
+            ? never
+            : P extends string
+            ? `Error: Field "${P}" used in "having" needs to be provided in "by".`
+            : [
+                Error,
+                'Field ',
+                P,
+                ` in "having" needs to be provided in "by"`,
+              ]
+        }[HavingFields]
+      : 'take' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "take", you also need to provide "orderBy"'
+      : 'skip' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "skip", you also need to provide "orderBy"'
+      : ByValid extends True
+      ? {}
+      : {
+          [P in OrderFields]: P extends ByFields
+            ? never
+            : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+        }[OrderFields]
+    >(args: SubsetIntersection<T, CashierSessionGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetCashierSessionGroupByPayload<T> : Prisma.PrismaPromise<InputErrors>
+  /**
+   * Fields of the CashierSession model
+   */
+  readonly fields: CashierSessionFieldRefs;
+  }
+
+  /**
+   * The delegate class that acts as a "Promise-like" for CashierSession.
+   * Why is this prefixed with `Prisma__`?
+   * Because we want to prevent naming conflicts as mentioned in
+   * https://github.com/prisma/prisma-client-js/issues/707
+   */
+  export interface Prisma__CashierSessionClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
+    readonly [Symbol.toStringTag]: "PrismaPromise"
+    company<T extends CompanyDefaultArgs<ExtArgs> = {}>(args?: Subset<T, CompanyDefaultArgs<ExtArgs>>): Prisma__CompanyClient<$Result.GetResult<Prisma.$CompanyPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+    movements<T extends CashierSession$movementsArgs<ExtArgs> = {}>(args?: Subset<T, CashierSession$movementsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$CashierMovementPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+    /**
+     * Attaches callbacks for the resolution and/or rejection of the Promise.
+     * @param onfulfilled The callback to execute when the Promise is resolved.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of which ever callback is executed.
+     */
+    then<TResult1 = T, TResult2 = never>(onfulfilled?: ((value: T) => TResult1 | PromiseLike<TResult1>) | undefined | null, onrejected?: ((reason: any) => TResult2 | PromiseLike<TResult2>) | undefined | null): $Utils.JsPromise<TResult1 | TResult2>
+    /**
+     * Attaches a callback for only the rejection of the Promise.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of the callback.
+     */
+    catch<TResult = never>(onrejected?: ((reason: any) => TResult | PromiseLike<TResult>) | undefined | null): $Utils.JsPromise<T | TResult>
+    /**
+     * Attaches a callback that is invoked when the Promise is settled (fulfilled or rejected). The
+     * resolved value cannot be modified from the callback.
+     * @param onfinally The callback to execute when the Promise is settled (fulfilled or rejected).
+     * @returns A Promise for the completion of the callback.
+     */
+    finally(onfinally?: (() => void) | undefined | null): $Utils.JsPromise<T>
+  }
+
+
+
+
+  /**
+   * Fields of the CashierSession model
+   */
+  interface CashierSessionFieldRefs {
+    readonly uuid: FieldRef<"CashierSession", 'String'>
+    readonly companyUuid: FieldRef<"CashierSession", 'String'>
+    readonly openedAt: FieldRef<"CashierSession", 'DateTime'>
+    readonly closedAt: FieldRef<"CashierSession", 'DateTime'>
+    readonly openingBalance: FieldRef<"CashierSession", 'Float'>
+    readonly closingBalance: FieldRef<"CashierSession", 'Float'>
+    readonly status: FieldRef<"CashierSession", 'String'>
+  }
+    
+
+  // Custom InputTypes
+  /**
+   * CashierSession findUnique
+   */
+  export type CashierSessionFindUniqueArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the CashierSession
+     */
+    select?: CashierSessionSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the CashierSession
+     */
+    omit?: CashierSessionOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: CashierSessionInclude<ExtArgs> | null
+    /**
+     * Filter, which CashierSession to fetch.
+     */
+    where: CashierSessionWhereUniqueInput
+  }
+
+  /**
+   * CashierSession findUniqueOrThrow
+   */
+  export type CashierSessionFindUniqueOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the CashierSession
+     */
+    select?: CashierSessionSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the CashierSession
+     */
+    omit?: CashierSessionOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: CashierSessionInclude<ExtArgs> | null
+    /**
+     * Filter, which CashierSession to fetch.
+     */
+    where: CashierSessionWhereUniqueInput
+  }
+
+  /**
+   * CashierSession findFirst
+   */
+  export type CashierSessionFindFirstArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the CashierSession
+     */
+    select?: CashierSessionSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the CashierSession
+     */
+    omit?: CashierSessionOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: CashierSessionInclude<ExtArgs> | null
+    /**
+     * Filter, which CashierSession to fetch.
+     */
+    where?: CashierSessionWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of CashierSessions to fetch.
+     */
+    orderBy?: CashierSessionOrderByWithRelationInput | CashierSessionOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for CashierSessions.
+     */
+    cursor?: CashierSessionWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` CashierSessions from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` CashierSessions.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of CashierSessions.
+     */
+    distinct?: CashierSessionScalarFieldEnum | CashierSessionScalarFieldEnum[]
+  }
+
+  /**
+   * CashierSession findFirstOrThrow
+   */
+  export type CashierSessionFindFirstOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the CashierSession
+     */
+    select?: CashierSessionSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the CashierSession
+     */
+    omit?: CashierSessionOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: CashierSessionInclude<ExtArgs> | null
+    /**
+     * Filter, which CashierSession to fetch.
+     */
+    where?: CashierSessionWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of CashierSessions to fetch.
+     */
+    orderBy?: CashierSessionOrderByWithRelationInput | CashierSessionOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for CashierSessions.
+     */
+    cursor?: CashierSessionWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` CashierSessions from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` CashierSessions.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of CashierSessions.
+     */
+    distinct?: CashierSessionScalarFieldEnum | CashierSessionScalarFieldEnum[]
+  }
+
+  /**
+   * CashierSession findMany
+   */
+  export type CashierSessionFindManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the CashierSession
+     */
+    select?: CashierSessionSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the CashierSession
+     */
+    omit?: CashierSessionOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: CashierSessionInclude<ExtArgs> | null
+    /**
+     * Filter, which CashierSessions to fetch.
+     */
+    where?: CashierSessionWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of CashierSessions to fetch.
+     */
+    orderBy?: CashierSessionOrderByWithRelationInput | CashierSessionOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for listing CashierSessions.
+     */
+    cursor?: CashierSessionWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` CashierSessions from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` CashierSessions.
+     */
+    skip?: number
+    distinct?: CashierSessionScalarFieldEnum | CashierSessionScalarFieldEnum[]
+  }
+
+  /**
+   * CashierSession create
+   */
+  export type CashierSessionCreateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the CashierSession
+     */
+    select?: CashierSessionSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the CashierSession
+     */
+    omit?: CashierSessionOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: CashierSessionInclude<ExtArgs> | null
+    /**
+     * The data needed to create a CashierSession.
+     */
+    data: XOR<CashierSessionCreateInput, CashierSessionUncheckedCreateInput>
+  }
+
+  /**
+   * CashierSession createMany
+   */
+  export type CashierSessionCreateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to create many CashierSessions.
+     */
+    data: CashierSessionCreateManyInput | CashierSessionCreateManyInput[]
+    skipDuplicates?: boolean
+  }
+
+  /**
+   * CashierSession createManyAndReturn
+   */
+  export type CashierSessionCreateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the CashierSession
+     */
+    select?: CashierSessionSelectCreateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the CashierSession
+     */
+    omit?: CashierSessionOmit<ExtArgs> | null
+    /**
+     * The data used to create many CashierSessions.
+     */
+    data: CashierSessionCreateManyInput | CashierSessionCreateManyInput[]
+    skipDuplicates?: boolean
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: CashierSessionIncludeCreateManyAndReturn<ExtArgs> | null
+  }
+
+  /**
+   * CashierSession update
+   */
+  export type CashierSessionUpdateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the CashierSession
+     */
+    select?: CashierSessionSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the CashierSession
+     */
+    omit?: CashierSessionOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: CashierSessionInclude<ExtArgs> | null
+    /**
+     * The data needed to update a CashierSession.
+     */
+    data: XOR<CashierSessionUpdateInput, CashierSessionUncheckedUpdateInput>
+    /**
+     * Choose, which CashierSession to update.
+     */
+    where: CashierSessionWhereUniqueInput
+  }
+
+  /**
+   * CashierSession updateMany
+   */
+  export type CashierSessionUpdateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to update CashierSessions.
+     */
+    data: XOR<CashierSessionUpdateManyMutationInput, CashierSessionUncheckedUpdateManyInput>
+    /**
+     * Filter which CashierSessions to update
+     */
+    where?: CashierSessionWhereInput
+    /**
+     * Limit how many CashierSessions to update.
+     */
+    limit?: number
+  }
+
+  /**
+   * CashierSession updateManyAndReturn
+   */
+  export type CashierSessionUpdateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the CashierSession
+     */
+    select?: CashierSessionSelectUpdateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the CashierSession
+     */
+    omit?: CashierSessionOmit<ExtArgs> | null
+    /**
+     * The data used to update CashierSessions.
+     */
+    data: XOR<CashierSessionUpdateManyMutationInput, CashierSessionUncheckedUpdateManyInput>
+    /**
+     * Filter which CashierSessions to update
+     */
+    where?: CashierSessionWhereInput
+    /**
+     * Limit how many CashierSessions to update.
+     */
+    limit?: number
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: CashierSessionIncludeUpdateManyAndReturn<ExtArgs> | null
+  }
+
+  /**
+   * CashierSession upsert
+   */
+  export type CashierSessionUpsertArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the CashierSession
+     */
+    select?: CashierSessionSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the CashierSession
+     */
+    omit?: CashierSessionOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: CashierSessionInclude<ExtArgs> | null
+    /**
+     * The filter to search for the CashierSession to update in case it exists.
+     */
+    where: CashierSessionWhereUniqueInput
+    /**
+     * In case the CashierSession found by the `where` argument doesn't exist, create a new CashierSession with this data.
+     */
+    create: XOR<CashierSessionCreateInput, CashierSessionUncheckedCreateInput>
+    /**
+     * In case the CashierSession was found with the provided `where` argument, update it with this data.
+     */
+    update: XOR<CashierSessionUpdateInput, CashierSessionUncheckedUpdateInput>
+  }
+
+  /**
+   * CashierSession delete
+   */
+  export type CashierSessionDeleteArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the CashierSession
+     */
+    select?: CashierSessionSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the CashierSession
+     */
+    omit?: CashierSessionOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: CashierSessionInclude<ExtArgs> | null
+    /**
+     * Filter which CashierSession to delete.
+     */
+    where: CashierSessionWhereUniqueInput
+  }
+
+  /**
+   * CashierSession deleteMany
+   */
+  export type CashierSessionDeleteManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which CashierSessions to delete
+     */
+    where?: CashierSessionWhereInput
+    /**
+     * Limit how many CashierSessions to delete.
+     */
+    limit?: number
+  }
+
+  /**
+   * CashierSession.movements
+   */
+  export type CashierSession$movementsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the CashierMovement
+     */
+    select?: CashierMovementSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the CashierMovement
+     */
+    omit?: CashierMovementOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: CashierMovementInclude<ExtArgs> | null
+    where?: CashierMovementWhereInput
+    orderBy?: CashierMovementOrderByWithRelationInput | CashierMovementOrderByWithRelationInput[]
+    cursor?: CashierMovementWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: CashierMovementScalarFieldEnum | CashierMovementScalarFieldEnum[]
+  }
+
+  /**
+   * CashierSession without action
+   */
+  export type CashierSessionDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the CashierSession
+     */
+    select?: CashierSessionSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the CashierSession
+     */
+    omit?: CashierSessionOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: CashierSessionInclude<ExtArgs> | null
+  }
+
+
+  /**
+   * Model CashierMovement
+   */
+
+  export type AggregateCashierMovement = {
+    _count: CashierMovementCountAggregateOutputType | null
+    _avg: CashierMovementAvgAggregateOutputType | null
+    _sum: CashierMovementSumAggregateOutputType | null
+    _min: CashierMovementMinAggregateOutputType | null
+    _max: CashierMovementMaxAggregateOutputType | null
+  }
+
+  export type CashierMovementAvgAggregateOutputType = {
+    amount: number | null
+  }
+
+  export type CashierMovementSumAggregateOutputType = {
+    amount: number | null
+  }
+
+  export type CashierMovementMinAggregateOutputType = {
+    uuid: string | null
+    sessionUuid: string | null
+    type: string | null
+    amount: number | null
+    description: string | null
+    createdAt: Date | null
+  }
+
+  export type CashierMovementMaxAggregateOutputType = {
+    uuid: string | null
+    sessionUuid: string | null
+    type: string | null
+    amount: number | null
+    description: string | null
+    createdAt: Date | null
+  }
+
+  export type CashierMovementCountAggregateOutputType = {
+    uuid: number
+    sessionUuid: number
+    type: number
+    amount: number
+    description: number
+    createdAt: number
+    _all: number
+  }
+
+
+  export type CashierMovementAvgAggregateInputType = {
+    amount?: true
+  }
+
+  export type CashierMovementSumAggregateInputType = {
+    amount?: true
+  }
+
+  export type CashierMovementMinAggregateInputType = {
+    uuid?: true
+    sessionUuid?: true
+    type?: true
+    amount?: true
+    description?: true
+    createdAt?: true
+  }
+
+  export type CashierMovementMaxAggregateInputType = {
+    uuid?: true
+    sessionUuid?: true
+    type?: true
+    amount?: true
+    description?: true
+    createdAt?: true
+  }
+
+  export type CashierMovementCountAggregateInputType = {
+    uuid?: true
+    sessionUuid?: true
+    type?: true
+    amount?: true
+    description?: true
+    createdAt?: true
+    _all?: true
+  }
+
+  export type CashierMovementAggregateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which CashierMovement to aggregate.
+     */
+    where?: CashierMovementWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of CashierMovements to fetch.
+     */
+    orderBy?: CashierMovementOrderByWithRelationInput | CashierMovementOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the start position
+     */
+    cursor?: CashierMovementWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` CashierMovements from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` CashierMovements.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Count returned CashierMovements
+    **/
+    _count?: true | CashierMovementCountAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to average
+    **/
+    _avg?: CashierMovementAvgAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to sum
+    **/
+    _sum?: CashierMovementSumAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the minimum value
+    **/
+    _min?: CashierMovementMinAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the maximum value
+    **/
+    _max?: CashierMovementMaxAggregateInputType
+  }
+
+  export type GetCashierMovementAggregateType<T extends CashierMovementAggregateArgs> = {
+        [P in keyof T & keyof AggregateCashierMovement]: P extends '_count' | 'count'
+      ? T[P] extends true
+        ? number
+        : GetScalarType<T[P], AggregateCashierMovement[P]>
+      : GetScalarType<T[P], AggregateCashierMovement[P]>
+  }
+
+
+
+
+  export type CashierMovementGroupByArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: CashierMovementWhereInput
+    orderBy?: CashierMovementOrderByWithAggregationInput | CashierMovementOrderByWithAggregationInput[]
+    by: CashierMovementScalarFieldEnum[] | CashierMovementScalarFieldEnum
+    having?: CashierMovementScalarWhereWithAggregatesInput
+    take?: number
+    skip?: number
+    _count?: CashierMovementCountAggregateInputType | true
+    _avg?: CashierMovementAvgAggregateInputType
+    _sum?: CashierMovementSumAggregateInputType
+    _min?: CashierMovementMinAggregateInputType
+    _max?: CashierMovementMaxAggregateInputType
+  }
+
+  export type CashierMovementGroupByOutputType = {
+    uuid: string
+    sessionUuid: string
+    type: string
+    amount: number
+    description: string | null
+    createdAt: Date
+    _count: CashierMovementCountAggregateOutputType | null
+    _avg: CashierMovementAvgAggregateOutputType | null
+    _sum: CashierMovementSumAggregateOutputType | null
+    _min: CashierMovementMinAggregateOutputType | null
+    _max: CashierMovementMaxAggregateOutputType | null
+  }
+
+  type GetCashierMovementGroupByPayload<T extends CashierMovementGroupByArgs> = Prisma.PrismaPromise<
+    Array<
+      PickEnumerable<CashierMovementGroupByOutputType, T['by']> &
+        {
+          [P in ((keyof T) & (keyof CashierMovementGroupByOutputType))]: P extends '_count'
+            ? T[P] extends boolean
+              ? number
+              : GetScalarType<T[P], CashierMovementGroupByOutputType[P]>
+            : GetScalarType<T[P], CashierMovementGroupByOutputType[P]>
+        }
+      >
+    >
+
+
+  export type CashierMovementSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    uuid?: boolean
+    sessionUuid?: boolean
+    type?: boolean
+    amount?: boolean
+    description?: boolean
+    createdAt?: boolean
+    session?: boolean | CashierSessionDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["cashierMovement"]>
+
+  export type CashierMovementSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    uuid?: boolean
+    sessionUuid?: boolean
+    type?: boolean
+    amount?: boolean
+    description?: boolean
+    createdAt?: boolean
+    session?: boolean | CashierSessionDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["cashierMovement"]>
+
+  export type CashierMovementSelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    uuid?: boolean
+    sessionUuid?: boolean
+    type?: boolean
+    amount?: boolean
+    description?: boolean
+    createdAt?: boolean
+    session?: boolean | CashierSessionDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["cashierMovement"]>
+
+  export type CashierMovementSelectScalar = {
+    uuid?: boolean
+    sessionUuid?: boolean
+    type?: boolean
+    amount?: boolean
+    description?: boolean
+    createdAt?: boolean
+  }
+
+  export type CashierMovementOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"uuid" | "sessionUuid" | "type" | "amount" | "description" | "createdAt", ExtArgs["result"]["cashierMovement"]>
+  export type CashierMovementInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    session?: boolean | CashierSessionDefaultArgs<ExtArgs>
+  }
+  export type CashierMovementIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    session?: boolean | CashierSessionDefaultArgs<ExtArgs>
+  }
+  export type CashierMovementIncludeUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    session?: boolean | CashierSessionDefaultArgs<ExtArgs>
+  }
+
+  export type $CashierMovementPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    name: "CashierMovement"
+    objects: {
+      session: Prisma.$CashierSessionPayload<ExtArgs>
+    }
+    scalars: $Extensions.GetPayloadResult<{
+      uuid: string
+      sessionUuid: string
+      type: string
+      amount: number
+      description: string | null
+      createdAt: Date
+    }, ExtArgs["result"]["cashierMovement"]>
+    composites: {}
+  }
+
+  type CashierMovementGetPayload<S extends boolean | null | undefined | CashierMovementDefaultArgs> = $Result.GetResult<Prisma.$CashierMovementPayload, S>
+
+  type CashierMovementCountArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> =
+    Omit<CashierMovementFindManyArgs, 'select' | 'include' | 'distinct' | 'omit'> & {
+      select?: CashierMovementCountAggregateInputType | true
+    }
+
+  export interface CashierMovementDelegate<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> {
+    [K: symbol]: { types: Prisma.TypeMap<ExtArgs>['model']['CashierMovement'], meta: { name: 'CashierMovement' } }
+    /**
+     * Find zero or one CashierMovement that matches the filter.
+     * @param {CashierMovementFindUniqueArgs} args - Arguments to find a CashierMovement
+     * @example
+     * // Get one CashierMovement
+     * const cashierMovement = await prisma.cashierMovement.findUnique({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUnique<T extends CashierMovementFindUniqueArgs>(args: SelectSubset<T, CashierMovementFindUniqueArgs<ExtArgs>>): Prisma__CashierMovementClient<$Result.GetResult<Prisma.$CashierMovementPayload<ExtArgs>, T, "findUnique", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find one CashierMovement that matches the filter or throw an error with `error.code='P2025'`
+     * if no matches were found.
+     * @param {CashierMovementFindUniqueOrThrowArgs} args - Arguments to find a CashierMovement
+     * @example
+     * // Get one CashierMovement
+     * const cashierMovement = await prisma.cashierMovement.findUniqueOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUniqueOrThrow<T extends CashierMovementFindUniqueOrThrowArgs>(args: SelectSubset<T, CashierMovementFindUniqueOrThrowArgs<ExtArgs>>): Prisma__CashierMovementClient<$Result.GetResult<Prisma.$CashierMovementPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first CashierMovement that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {CashierMovementFindFirstArgs} args - Arguments to find a CashierMovement
+     * @example
+     * // Get one CashierMovement
+     * const cashierMovement = await prisma.cashierMovement.findFirst({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirst<T extends CashierMovementFindFirstArgs>(args?: SelectSubset<T, CashierMovementFindFirstArgs<ExtArgs>>): Prisma__CashierMovementClient<$Result.GetResult<Prisma.$CashierMovementPayload<ExtArgs>, T, "findFirst", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first CashierMovement that matches the filter or
+     * throw `PrismaKnownClientError` with `P2025` code if no matches were found.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {CashierMovementFindFirstOrThrowArgs} args - Arguments to find a CashierMovement
+     * @example
+     * // Get one CashierMovement
+     * const cashierMovement = await prisma.cashierMovement.findFirstOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirstOrThrow<T extends CashierMovementFindFirstOrThrowArgs>(args?: SelectSubset<T, CashierMovementFindFirstOrThrowArgs<ExtArgs>>): Prisma__CashierMovementClient<$Result.GetResult<Prisma.$CashierMovementPayload<ExtArgs>, T, "findFirstOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find zero or more CashierMovements that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {CashierMovementFindManyArgs} args - Arguments to filter and select certain fields only.
+     * @example
+     * // Get all CashierMovements
+     * const cashierMovements = await prisma.cashierMovement.findMany()
+     * 
+     * // Get first 10 CashierMovements
+     * const cashierMovements = await prisma.cashierMovement.findMany({ take: 10 })
+     * 
+     * // Only select the `uuid`
+     * const cashierMovementWithUuidOnly = await prisma.cashierMovement.findMany({ select: { uuid: true } })
+     * 
+     */
+    findMany<T extends CashierMovementFindManyArgs>(args?: SelectSubset<T, CashierMovementFindManyArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$CashierMovementPayload<ExtArgs>, T, "findMany", GlobalOmitOptions>>
+
+    /**
+     * Create a CashierMovement.
+     * @param {CashierMovementCreateArgs} args - Arguments to create a CashierMovement.
+     * @example
+     * // Create one CashierMovement
+     * const CashierMovement = await prisma.cashierMovement.create({
+     *   data: {
+     *     // ... data to create a CashierMovement
+     *   }
+     * })
+     * 
+     */
+    create<T extends CashierMovementCreateArgs>(args: SelectSubset<T, CashierMovementCreateArgs<ExtArgs>>): Prisma__CashierMovementClient<$Result.GetResult<Prisma.$CashierMovementPayload<ExtArgs>, T, "create", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Create many CashierMovements.
+     * @param {CashierMovementCreateManyArgs} args - Arguments to create many CashierMovements.
+     * @example
+     * // Create many CashierMovements
+     * const cashierMovement = await prisma.cashierMovement.createMany({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     *     
+     */
+    createMany<T extends CashierMovementCreateManyArgs>(args?: SelectSubset<T, CashierMovementCreateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Create many CashierMovements and returns the data saved in the database.
+     * @param {CashierMovementCreateManyAndReturnArgs} args - Arguments to create many CashierMovements.
+     * @example
+     * // Create many CashierMovements
+     * const cashierMovement = await prisma.cashierMovement.createManyAndReturn({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Create many CashierMovements and only return the `uuid`
+     * const cashierMovementWithUuidOnly = await prisma.cashierMovement.createManyAndReturn({
+     *   select: { uuid: true },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    createManyAndReturn<T extends CashierMovementCreateManyAndReturnArgs>(args?: SelectSubset<T, CashierMovementCreateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$CashierMovementPayload<ExtArgs>, T, "createManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Delete a CashierMovement.
+     * @param {CashierMovementDeleteArgs} args - Arguments to delete one CashierMovement.
+     * @example
+     * // Delete one CashierMovement
+     * const CashierMovement = await prisma.cashierMovement.delete({
+     *   where: {
+     *     // ... filter to delete one CashierMovement
+     *   }
+     * })
+     * 
+     */
+    delete<T extends CashierMovementDeleteArgs>(args: SelectSubset<T, CashierMovementDeleteArgs<ExtArgs>>): Prisma__CashierMovementClient<$Result.GetResult<Prisma.$CashierMovementPayload<ExtArgs>, T, "delete", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Update one CashierMovement.
+     * @param {CashierMovementUpdateArgs} args - Arguments to update one CashierMovement.
+     * @example
+     * // Update one CashierMovement
+     * const cashierMovement = await prisma.cashierMovement.update({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    update<T extends CashierMovementUpdateArgs>(args: SelectSubset<T, CashierMovementUpdateArgs<ExtArgs>>): Prisma__CashierMovementClient<$Result.GetResult<Prisma.$CashierMovementPayload<ExtArgs>, T, "update", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Delete zero or more CashierMovements.
+     * @param {CashierMovementDeleteManyArgs} args - Arguments to filter CashierMovements to delete.
+     * @example
+     * // Delete a few CashierMovements
+     * const { count } = await prisma.cashierMovement.deleteMany({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     * 
+     */
+    deleteMany<T extends CashierMovementDeleteManyArgs>(args?: SelectSubset<T, CashierMovementDeleteManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more CashierMovements.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {CashierMovementUpdateManyArgs} args - Arguments to update one or more rows.
+     * @example
+     * // Update many CashierMovements
+     * const cashierMovement = await prisma.cashierMovement.updateMany({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    updateMany<T extends CashierMovementUpdateManyArgs>(args: SelectSubset<T, CashierMovementUpdateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more CashierMovements and returns the data updated in the database.
+     * @param {CashierMovementUpdateManyAndReturnArgs} args - Arguments to update many CashierMovements.
+     * @example
+     * // Update many CashierMovements
+     * const cashierMovement = await prisma.cashierMovement.updateManyAndReturn({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Update zero or more CashierMovements and only return the `uuid`
+     * const cashierMovementWithUuidOnly = await prisma.cashierMovement.updateManyAndReturn({
+     *   select: { uuid: true },
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    updateManyAndReturn<T extends CashierMovementUpdateManyAndReturnArgs>(args: SelectSubset<T, CashierMovementUpdateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$CashierMovementPayload<ExtArgs>, T, "updateManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Create or update one CashierMovement.
+     * @param {CashierMovementUpsertArgs} args - Arguments to update or create a CashierMovement.
+     * @example
+     * // Update or create a CashierMovement
+     * const cashierMovement = await prisma.cashierMovement.upsert({
+     *   create: {
+     *     // ... data to create a CashierMovement
+     *   },
+     *   update: {
+     *     // ... in case it already exists, update
+     *   },
+     *   where: {
+     *     // ... the filter for the CashierMovement we want to update
+     *   }
+     * })
+     */
+    upsert<T extends CashierMovementUpsertArgs>(args: SelectSubset<T, CashierMovementUpsertArgs<ExtArgs>>): Prisma__CashierMovementClient<$Result.GetResult<Prisma.$CashierMovementPayload<ExtArgs>, T, "upsert", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+
+    /**
+     * Count the number of CashierMovements.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {CashierMovementCountArgs} args - Arguments to filter CashierMovements to count.
+     * @example
+     * // Count the number of CashierMovements
+     * const count = await prisma.cashierMovement.count({
+     *   where: {
+     *     // ... the filter for the CashierMovements we want to count
+     *   }
+     * })
+    **/
+    count<T extends CashierMovementCountArgs>(
+      args?: Subset<T, CashierMovementCountArgs>,
+    ): Prisma.PrismaPromise<
+      T extends $Utils.Record<'select', any>
+        ? T['select'] extends true
+          ? number
+          : GetScalarType<T['select'], CashierMovementCountAggregateOutputType>
+        : number
+    >
+
+    /**
+     * Allows you to perform aggregations operations on a CashierMovement.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {CashierMovementAggregateArgs} args - Select which aggregations you would like to apply and on what fields.
+     * @example
+     * // Ordered by age ascending
+     * // Where email contains prisma.io
+     * // Limited to the 10 users
+     * const aggregations = await prisma.user.aggregate({
+     *   _avg: {
+     *     age: true,
+     *   },
+     *   where: {
+     *     email: {
+     *       contains: "prisma.io",
+     *     },
+     *   },
+     *   orderBy: {
+     *     age: "asc",
+     *   },
+     *   take: 10,
+     * })
+    **/
+    aggregate<T extends CashierMovementAggregateArgs>(args: Subset<T, CashierMovementAggregateArgs>): Prisma.PrismaPromise<GetCashierMovementAggregateType<T>>
+
+    /**
+     * Group by CashierMovement.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {CashierMovementGroupByArgs} args - Group by arguments.
+     * @example
+     * // Group by city, order by createdAt, get count
+     * const result = await prisma.user.groupBy({
+     *   by: ['city', 'createdAt'],
+     *   orderBy: {
+     *     createdAt: true
+     *   },
+     *   _count: {
+     *     _all: true
+     *   },
+     * })
+     * 
+    **/
+    groupBy<
+      T extends CashierMovementGroupByArgs,
+      HasSelectOrTake extends Or<
+        Extends<'skip', Keys<T>>,
+        Extends<'take', Keys<T>>
+      >,
+      OrderByArg extends True extends HasSelectOrTake
+        ? { orderBy: CashierMovementGroupByArgs['orderBy'] }
+        : { orderBy?: CashierMovementGroupByArgs['orderBy'] },
+      OrderFields extends ExcludeUnderscoreKeys<Keys<MaybeTupleToUnion<T['orderBy']>>>,
+      ByFields extends MaybeTupleToUnion<T['by']>,
+      ByValid extends Has<ByFields, OrderFields>,
+      HavingFields extends GetHavingFields<T['having']>,
+      HavingValid extends Has<ByFields, HavingFields>,
+      ByEmpty extends T['by'] extends never[] ? True : False,
+      InputErrors extends ByEmpty extends True
+      ? `Error: "by" must not be empty.`
+      : HavingValid extends False
+      ? {
+          [P in HavingFields]: P extends ByFields
+            ? never
+            : P extends string
+            ? `Error: Field "${P}" used in "having" needs to be provided in "by".`
+            : [
+                Error,
+                'Field ',
+                P,
+                ` in "having" needs to be provided in "by"`,
+              ]
+        }[HavingFields]
+      : 'take' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "take", you also need to provide "orderBy"'
+      : 'skip' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "skip", you also need to provide "orderBy"'
+      : ByValid extends True
+      ? {}
+      : {
+          [P in OrderFields]: P extends ByFields
+            ? never
+            : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+        }[OrderFields]
+    >(args: SubsetIntersection<T, CashierMovementGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetCashierMovementGroupByPayload<T> : Prisma.PrismaPromise<InputErrors>
+  /**
+   * Fields of the CashierMovement model
+   */
+  readonly fields: CashierMovementFieldRefs;
+  }
+
+  /**
+   * The delegate class that acts as a "Promise-like" for CashierMovement.
+   * Why is this prefixed with `Prisma__`?
+   * Because we want to prevent naming conflicts as mentioned in
+   * https://github.com/prisma/prisma-client-js/issues/707
+   */
+  export interface Prisma__CashierMovementClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
+    readonly [Symbol.toStringTag]: "PrismaPromise"
+    session<T extends CashierSessionDefaultArgs<ExtArgs> = {}>(args?: Subset<T, CashierSessionDefaultArgs<ExtArgs>>): Prisma__CashierSessionClient<$Result.GetResult<Prisma.$CashierSessionPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+    /**
+     * Attaches callbacks for the resolution and/or rejection of the Promise.
+     * @param onfulfilled The callback to execute when the Promise is resolved.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of which ever callback is executed.
+     */
+    then<TResult1 = T, TResult2 = never>(onfulfilled?: ((value: T) => TResult1 | PromiseLike<TResult1>) | undefined | null, onrejected?: ((reason: any) => TResult2 | PromiseLike<TResult2>) | undefined | null): $Utils.JsPromise<TResult1 | TResult2>
+    /**
+     * Attaches a callback for only the rejection of the Promise.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of the callback.
+     */
+    catch<TResult = never>(onrejected?: ((reason: any) => TResult | PromiseLike<TResult>) | undefined | null): $Utils.JsPromise<T | TResult>
+    /**
+     * Attaches a callback that is invoked when the Promise is settled (fulfilled or rejected). The
+     * resolved value cannot be modified from the callback.
+     * @param onfinally The callback to execute when the Promise is settled (fulfilled or rejected).
+     * @returns A Promise for the completion of the callback.
+     */
+    finally(onfinally?: (() => void) | undefined | null): $Utils.JsPromise<T>
+  }
+
+
+
+
+  /**
+   * Fields of the CashierMovement model
+   */
+  interface CashierMovementFieldRefs {
+    readonly uuid: FieldRef<"CashierMovement", 'String'>
+    readonly sessionUuid: FieldRef<"CashierMovement", 'String'>
+    readonly type: FieldRef<"CashierMovement", 'String'>
+    readonly amount: FieldRef<"CashierMovement", 'Float'>
+    readonly description: FieldRef<"CashierMovement", 'String'>
+    readonly createdAt: FieldRef<"CashierMovement", 'DateTime'>
+  }
+    
+
+  // Custom InputTypes
+  /**
+   * CashierMovement findUnique
+   */
+  export type CashierMovementFindUniqueArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the CashierMovement
+     */
+    select?: CashierMovementSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the CashierMovement
+     */
+    omit?: CashierMovementOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: CashierMovementInclude<ExtArgs> | null
+    /**
+     * Filter, which CashierMovement to fetch.
+     */
+    where: CashierMovementWhereUniqueInput
+  }
+
+  /**
+   * CashierMovement findUniqueOrThrow
+   */
+  export type CashierMovementFindUniqueOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the CashierMovement
+     */
+    select?: CashierMovementSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the CashierMovement
+     */
+    omit?: CashierMovementOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: CashierMovementInclude<ExtArgs> | null
+    /**
+     * Filter, which CashierMovement to fetch.
+     */
+    where: CashierMovementWhereUniqueInput
+  }
+
+  /**
+   * CashierMovement findFirst
+   */
+  export type CashierMovementFindFirstArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the CashierMovement
+     */
+    select?: CashierMovementSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the CashierMovement
+     */
+    omit?: CashierMovementOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: CashierMovementInclude<ExtArgs> | null
+    /**
+     * Filter, which CashierMovement to fetch.
+     */
+    where?: CashierMovementWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of CashierMovements to fetch.
+     */
+    orderBy?: CashierMovementOrderByWithRelationInput | CashierMovementOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for CashierMovements.
+     */
+    cursor?: CashierMovementWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` CashierMovements from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` CashierMovements.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of CashierMovements.
+     */
+    distinct?: CashierMovementScalarFieldEnum | CashierMovementScalarFieldEnum[]
+  }
+
+  /**
+   * CashierMovement findFirstOrThrow
+   */
+  export type CashierMovementFindFirstOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the CashierMovement
+     */
+    select?: CashierMovementSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the CashierMovement
+     */
+    omit?: CashierMovementOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: CashierMovementInclude<ExtArgs> | null
+    /**
+     * Filter, which CashierMovement to fetch.
+     */
+    where?: CashierMovementWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of CashierMovements to fetch.
+     */
+    orderBy?: CashierMovementOrderByWithRelationInput | CashierMovementOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for CashierMovements.
+     */
+    cursor?: CashierMovementWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` CashierMovements from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` CashierMovements.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of CashierMovements.
+     */
+    distinct?: CashierMovementScalarFieldEnum | CashierMovementScalarFieldEnum[]
+  }
+
+  /**
+   * CashierMovement findMany
+   */
+  export type CashierMovementFindManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the CashierMovement
+     */
+    select?: CashierMovementSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the CashierMovement
+     */
+    omit?: CashierMovementOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: CashierMovementInclude<ExtArgs> | null
+    /**
+     * Filter, which CashierMovements to fetch.
+     */
+    where?: CashierMovementWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of CashierMovements to fetch.
+     */
+    orderBy?: CashierMovementOrderByWithRelationInput | CashierMovementOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for listing CashierMovements.
+     */
+    cursor?: CashierMovementWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` CashierMovements from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` CashierMovements.
+     */
+    skip?: number
+    distinct?: CashierMovementScalarFieldEnum | CashierMovementScalarFieldEnum[]
+  }
+
+  /**
+   * CashierMovement create
+   */
+  export type CashierMovementCreateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the CashierMovement
+     */
+    select?: CashierMovementSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the CashierMovement
+     */
+    omit?: CashierMovementOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: CashierMovementInclude<ExtArgs> | null
+    /**
+     * The data needed to create a CashierMovement.
+     */
+    data: XOR<CashierMovementCreateInput, CashierMovementUncheckedCreateInput>
+  }
+
+  /**
+   * CashierMovement createMany
+   */
+  export type CashierMovementCreateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to create many CashierMovements.
+     */
+    data: CashierMovementCreateManyInput | CashierMovementCreateManyInput[]
+    skipDuplicates?: boolean
+  }
+
+  /**
+   * CashierMovement createManyAndReturn
+   */
+  export type CashierMovementCreateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the CashierMovement
+     */
+    select?: CashierMovementSelectCreateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the CashierMovement
+     */
+    omit?: CashierMovementOmit<ExtArgs> | null
+    /**
+     * The data used to create many CashierMovements.
+     */
+    data: CashierMovementCreateManyInput | CashierMovementCreateManyInput[]
+    skipDuplicates?: boolean
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: CashierMovementIncludeCreateManyAndReturn<ExtArgs> | null
+  }
+
+  /**
+   * CashierMovement update
+   */
+  export type CashierMovementUpdateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the CashierMovement
+     */
+    select?: CashierMovementSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the CashierMovement
+     */
+    omit?: CashierMovementOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: CashierMovementInclude<ExtArgs> | null
+    /**
+     * The data needed to update a CashierMovement.
+     */
+    data: XOR<CashierMovementUpdateInput, CashierMovementUncheckedUpdateInput>
+    /**
+     * Choose, which CashierMovement to update.
+     */
+    where: CashierMovementWhereUniqueInput
+  }
+
+  /**
+   * CashierMovement updateMany
+   */
+  export type CashierMovementUpdateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to update CashierMovements.
+     */
+    data: XOR<CashierMovementUpdateManyMutationInput, CashierMovementUncheckedUpdateManyInput>
+    /**
+     * Filter which CashierMovements to update
+     */
+    where?: CashierMovementWhereInput
+    /**
+     * Limit how many CashierMovements to update.
+     */
+    limit?: number
+  }
+
+  /**
+   * CashierMovement updateManyAndReturn
+   */
+  export type CashierMovementUpdateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the CashierMovement
+     */
+    select?: CashierMovementSelectUpdateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the CashierMovement
+     */
+    omit?: CashierMovementOmit<ExtArgs> | null
+    /**
+     * The data used to update CashierMovements.
+     */
+    data: XOR<CashierMovementUpdateManyMutationInput, CashierMovementUncheckedUpdateManyInput>
+    /**
+     * Filter which CashierMovements to update
+     */
+    where?: CashierMovementWhereInput
+    /**
+     * Limit how many CashierMovements to update.
+     */
+    limit?: number
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: CashierMovementIncludeUpdateManyAndReturn<ExtArgs> | null
+  }
+
+  /**
+   * CashierMovement upsert
+   */
+  export type CashierMovementUpsertArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the CashierMovement
+     */
+    select?: CashierMovementSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the CashierMovement
+     */
+    omit?: CashierMovementOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: CashierMovementInclude<ExtArgs> | null
+    /**
+     * The filter to search for the CashierMovement to update in case it exists.
+     */
+    where: CashierMovementWhereUniqueInput
+    /**
+     * In case the CashierMovement found by the `where` argument doesn't exist, create a new CashierMovement with this data.
+     */
+    create: XOR<CashierMovementCreateInput, CashierMovementUncheckedCreateInput>
+    /**
+     * In case the CashierMovement was found with the provided `where` argument, update it with this data.
+     */
+    update: XOR<CashierMovementUpdateInput, CashierMovementUncheckedUpdateInput>
+  }
+
+  /**
+   * CashierMovement delete
+   */
+  export type CashierMovementDeleteArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the CashierMovement
+     */
+    select?: CashierMovementSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the CashierMovement
+     */
+    omit?: CashierMovementOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: CashierMovementInclude<ExtArgs> | null
+    /**
+     * Filter which CashierMovement to delete.
+     */
+    where: CashierMovementWhereUniqueInput
+  }
+
+  /**
+   * CashierMovement deleteMany
+   */
+  export type CashierMovementDeleteManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which CashierMovements to delete
+     */
+    where?: CashierMovementWhereInput
+    /**
+     * Limit how many CashierMovements to delete.
+     */
+    limit?: number
+  }
+
+  /**
+   * CashierMovement without action
+   */
+  export type CashierMovementDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the CashierMovement
+     */
+    select?: CashierMovementSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the CashierMovement
+     */
+    omit?: CashierMovementOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: CashierMovementInclude<ExtArgs> | null
+  }
+
+
+  /**
    * Enums
    */
 
@@ -9396,6 +11903,31 @@ export namespace Prisma {
   export type OrderItemScalarFieldEnum = (typeof OrderItemScalarFieldEnum)[keyof typeof OrderItemScalarFieldEnum]
 
 
+  export const CashierSessionScalarFieldEnum: {
+    uuid: 'uuid',
+    companyUuid: 'companyUuid',
+    openedAt: 'openedAt',
+    closedAt: 'closedAt',
+    openingBalance: 'openingBalance',
+    closingBalance: 'closingBalance',
+    status: 'status'
+  };
+
+  export type CashierSessionScalarFieldEnum = (typeof CashierSessionScalarFieldEnum)[keyof typeof CashierSessionScalarFieldEnum]
+
+
+  export const CashierMovementScalarFieldEnum: {
+    uuid: 'uuid',
+    sessionUuid: 'sessionUuid',
+    type: 'type',
+    amount: 'amount',
+    description: 'description',
+    createdAt: 'createdAt'
+  };
+
+  export type CashierMovementScalarFieldEnum = (typeof CashierMovementScalarFieldEnum)[keyof typeof CashierMovementScalarFieldEnum]
+
+
   export const SortOrder: {
     asc: 'asc',
     desc: 'desc'
@@ -9410,6 +11942,14 @@ export namespace Prisma {
   };
 
   export type QueryMode = (typeof QueryMode)[keyof typeof QueryMode]
+
+
+  export const NullsOrder: {
+    first: 'first',
+    last: 'last'
+  };
+
+  export type NullsOrder = (typeof NullsOrder)[keyof typeof NullsOrder]
 
 
   /**
@@ -9494,6 +12034,7 @@ export namespace Prisma {
     tables?: TableListRelationFilter
     categories?: CategoryListRelationFilter
     products?: ProductListRelationFilter
+    cashierSessions?: CashierSessionListRelationFilter
   }
 
   export type CompanyOrderByWithRelationInput = {
@@ -9504,6 +12045,7 @@ export namespace Prisma {
     tables?: TableOrderByRelationAggregateInput
     categories?: CategoryOrderByRelationAggregateInput
     products?: ProductOrderByRelationAggregateInput
+    cashierSessions?: CashierSessionOrderByRelationAggregateInput
   }
 
   export type CompanyWhereUniqueInput = Prisma.AtLeast<{
@@ -9517,6 +12059,7 @@ export namespace Prisma {
     tables?: TableListRelationFilter
     categories?: CategoryListRelationFilter
     products?: ProductListRelationFilter
+    cashierSessions?: CashierSessionListRelationFilter
   }, "uuid">
 
   export type CompanyOrderByWithAggregationInput = {
@@ -9892,6 +12435,138 @@ export namespace Prisma {
     unitPrice?: FloatWithAggregatesFilter<"OrderItem"> | number
   }
 
+  export type CashierSessionWhereInput = {
+    AND?: CashierSessionWhereInput | CashierSessionWhereInput[]
+    OR?: CashierSessionWhereInput[]
+    NOT?: CashierSessionWhereInput | CashierSessionWhereInput[]
+    uuid?: StringFilter<"CashierSession"> | string
+    companyUuid?: StringFilter<"CashierSession"> | string
+    openedAt?: DateTimeFilter<"CashierSession"> | Date | string
+    closedAt?: DateTimeNullableFilter<"CashierSession"> | Date | string | null
+    openingBalance?: FloatFilter<"CashierSession"> | number
+    closingBalance?: FloatNullableFilter<"CashierSession"> | number | null
+    status?: StringFilter<"CashierSession"> | string
+    company?: XOR<CompanyScalarRelationFilter, CompanyWhereInput>
+    movements?: CashierMovementListRelationFilter
+  }
+
+  export type CashierSessionOrderByWithRelationInput = {
+    uuid?: SortOrder
+    companyUuid?: SortOrder
+    openedAt?: SortOrder
+    closedAt?: SortOrderInput | SortOrder
+    openingBalance?: SortOrder
+    closingBalance?: SortOrderInput | SortOrder
+    status?: SortOrder
+    company?: CompanyOrderByWithRelationInput
+    movements?: CashierMovementOrderByRelationAggregateInput
+  }
+
+  export type CashierSessionWhereUniqueInput = Prisma.AtLeast<{
+    uuid?: string
+    AND?: CashierSessionWhereInput | CashierSessionWhereInput[]
+    OR?: CashierSessionWhereInput[]
+    NOT?: CashierSessionWhereInput | CashierSessionWhereInput[]
+    companyUuid?: StringFilter<"CashierSession"> | string
+    openedAt?: DateTimeFilter<"CashierSession"> | Date | string
+    closedAt?: DateTimeNullableFilter<"CashierSession"> | Date | string | null
+    openingBalance?: FloatFilter<"CashierSession"> | number
+    closingBalance?: FloatNullableFilter<"CashierSession"> | number | null
+    status?: StringFilter<"CashierSession"> | string
+    company?: XOR<CompanyScalarRelationFilter, CompanyWhereInput>
+    movements?: CashierMovementListRelationFilter
+  }, "uuid">
+
+  export type CashierSessionOrderByWithAggregationInput = {
+    uuid?: SortOrder
+    companyUuid?: SortOrder
+    openedAt?: SortOrder
+    closedAt?: SortOrderInput | SortOrder
+    openingBalance?: SortOrder
+    closingBalance?: SortOrderInput | SortOrder
+    status?: SortOrder
+    _count?: CashierSessionCountOrderByAggregateInput
+    _avg?: CashierSessionAvgOrderByAggregateInput
+    _max?: CashierSessionMaxOrderByAggregateInput
+    _min?: CashierSessionMinOrderByAggregateInput
+    _sum?: CashierSessionSumOrderByAggregateInput
+  }
+
+  export type CashierSessionScalarWhereWithAggregatesInput = {
+    AND?: CashierSessionScalarWhereWithAggregatesInput | CashierSessionScalarWhereWithAggregatesInput[]
+    OR?: CashierSessionScalarWhereWithAggregatesInput[]
+    NOT?: CashierSessionScalarWhereWithAggregatesInput | CashierSessionScalarWhereWithAggregatesInput[]
+    uuid?: StringWithAggregatesFilter<"CashierSession"> | string
+    companyUuid?: StringWithAggregatesFilter<"CashierSession"> | string
+    openedAt?: DateTimeWithAggregatesFilter<"CashierSession"> | Date | string
+    closedAt?: DateTimeNullableWithAggregatesFilter<"CashierSession"> | Date | string | null
+    openingBalance?: FloatWithAggregatesFilter<"CashierSession"> | number
+    closingBalance?: FloatNullableWithAggregatesFilter<"CashierSession"> | number | null
+    status?: StringWithAggregatesFilter<"CashierSession"> | string
+  }
+
+  export type CashierMovementWhereInput = {
+    AND?: CashierMovementWhereInput | CashierMovementWhereInput[]
+    OR?: CashierMovementWhereInput[]
+    NOT?: CashierMovementWhereInput | CashierMovementWhereInput[]
+    uuid?: StringFilter<"CashierMovement"> | string
+    sessionUuid?: StringFilter<"CashierMovement"> | string
+    type?: StringFilter<"CashierMovement"> | string
+    amount?: FloatFilter<"CashierMovement"> | number
+    description?: StringNullableFilter<"CashierMovement"> | string | null
+    createdAt?: DateTimeFilter<"CashierMovement"> | Date | string
+    session?: XOR<CashierSessionScalarRelationFilter, CashierSessionWhereInput>
+  }
+
+  export type CashierMovementOrderByWithRelationInput = {
+    uuid?: SortOrder
+    sessionUuid?: SortOrder
+    type?: SortOrder
+    amount?: SortOrder
+    description?: SortOrderInput | SortOrder
+    createdAt?: SortOrder
+    session?: CashierSessionOrderByWithRelationInput
+  }
+
+  export type CashierMovementWhereUniqueInput = Prisma.AtLeast<{
+    uuid?: string
+    AND?: CashierMovementWhereInput | CashierMovementWhereInput[]
+    OR?: CashierMovementWhereInput[]
+    NOT?: CashierMovementWhereInput | CashierMovementWhereInput[]
+    sessionUuid?: StringFilter<"CashierMovement"> | string
+    type?: StringFilter<"CashierMovement"> | string
+    amount?: FloatFilter<"CashierMovement"> | number
+    description?: StringNullableFilter<"CashierMovement"> | string | null
+    createdAt?: DateTimeFilter<"CashierMovement"> | Date | string
+    session?: XOR<CashierSessionScalarRelationFilter, CashierSessionWhereInput>
+  }, "uuid">
+
+  export type CashierMovementOrderByWithAggregationInput = {
+    uuid?: SortOrder
+    sessionUuid?: SortOrder
+    type?: SortOrder
+    amount?: SortOrder
+    description?: SortOrderInput | SortOrder
+    createdAt?: SortOrder
+    _count?: CashierMovementCountOrderByAggregateInput
+    _avg?: CashierMovementAvgOrderByAggregateInput
+    _max?: CashierMovementMaxOrderByAggregateInput
+    _min?: CashierMovementMinOrderByAggregateInput
+    _sum?: CashierMovementSumOrderByAggregateInput
+  }
+
+  export type CashierMovementScalarWhereWithAggregatesInput = {
+    AND?: CashierMovementScalarWhereWithAggregatesInput | CashierMovementScalarWhereWithAggregatesInput[]
+    OR?: CashierMovementScalarWhereWithAggregatesInput[]
+    NOT?: CashierMovementScalarWhereWithAggregatesInput | CashierMovementScalarWhereWithAggregatesInput[]
+    uuid?: StringWithAggregatesFilter<"CashierMovement"> | string
+    sessionUuid?: StringWithAggregatesFilter<"CashierMovement"> | string
+    type?: StringWithAggregatesFilter<"CashierMovement"> | string
+    amount?: FloatWithAggregatesFilter<"CashierMovement"> | number
+    description?: StringNullableWithAggregatesFilter<"CashierMovement"> | string | null
+    createdAt?: DateTimeWithAggregatesFilter<"CashierMovement"> | Date | string
+  }
+
   export type CompanyCreateInput = {
     uuid?: string
     name: string
@@ -9900,6 +12575,7 @@ export namespace Prisma {
     tables?: TableCreateNestedManyWithoutCompanyInput
     categories?: CategoryCreateNestedManyWithoutCompanyInput
     products?: ProductCreateNestedManyWithoutCompanyInput
+    cashierSessions?: CashierSessionCreateNestedManyWithoutCompanyInput
   }
 
   export type CompanyUncheckedCreateInput = {
@@ -9910,6 +12586,7 @@ export namespace Prisma {
     tables?: TableUncheckedCreateNestedManyWithoutCompanyInput
     categories?: CategoryUncheckedCreateNestedManyWithoutCompanyInput
     products?: ProductUncheckedCreateNestedManyWithoutCompanyInput
+    cashierSessions?: CashierSessionUncheckedCreateNestedManyWithoutCompanyInput
   }
 
   export type CompanyUpdateInput = {
@@ -9920,6 +12597,7 @@ export namespace Prisma {
     tables?: TableUpdateManyWithoutCompanyNestedInput
     categories?: CategoryUpdateManyWithoutCompanyNestedInput
     products?: ProductUpdateManyWithoutCompanyNestedInput
+    cashierSessions?: CashierSessionUpdateManyWithoutCompanyNestedInput
   }
 
   export type CompanyUncheckedUpdateInput = {
@@ -9930,6 +12608,7 @@ export namespace Prisma {
     tables?: TableUncheckedUpdateManyWithoutCompanyNestedInput
     categories?: CategoryUncheckedUpdateManyWithoutCompanyNestedInput
     products?: ProductUncheckedUpdateManyWithoutCompanyNestedInput
+    cashierSessions?: CashierSessionUncheckedUpdateManyWithoutCompanyNestedInput
   }
 
   export type CompanyCreateManyInput = {
@@ -10294,6 +12973,141 @@ export namespace Prisma {
     unitPrice?: FloatFieldUpdateOperationsInput | number
   }
 
+  export type CashierSessionCreateInput = {
+    uuid?: string
+    openedAt?: Date | string
+    closedAt?: Date | string | null
+    openingBalance?: number
+    closingBalance?: number | null
+    status?: string
+    company: CompanyCreateNestedOneWithoutCashierSessionsInput
+    movements?: CashierMovementCreateNestedManyWithoutSessionInput
+  }
+
+  export type CashierSessionUncheckedCreateInput = {
+    uuid?: string
+    companyUuid: string
+    openedAt?: Date | string
+    closedAt?: Date | string | null
+    openingBalance?: number
+    closingBalance?: number | null
+    status?: string
+    movements?: CashierMovementUncheckedCreateNestedManyWithoutSessionInput
+  }
+
+  export type CashierSessionUpdateInput = {
+    uuid?: StringFieldUpdateOperationsInput | string
+    openedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    closedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    openingBalance?: FloatFieldUpdateOperationsInput | number
+    closingBalance?: NullableFloatFieldUpdateOperationsInput | number | null
+    status?: StringFieldUpdateOperationsInput | string
+    company?: CompanyUpdateOneRequiredWithoutCashierSessionsNestedInput
+    movements?: CashierMovementUpdateManyWithoutSessionNestedInput
+  }
+
+  export type CashierSessionUncheckedUpdateInput = {
+    uuid?: StringFieldUpdateOperationsInput | string
+    companyUuid?: StringFieldUpdateOperationsInput | string
+    openedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    closedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    openingBalance?: FloatFieldUpdateOperationsInput | number
+    closingBalance?: NullableFloatFieldUpdateOperationsInput | number | null
+    status?: StringFieldUpdateOperationsInput | string
+    movements?: CashierMovementUncheckedUpdateManyWithoutSessionNestedInput
+  }
+
+  export type CashierSessionCreateManyInput = {
+    uuid?: string
+    companyUuid: string
+    openedAt?: Date | string
+    closedAt?: Date | string | null
+    openingBalance?: number
+    closingBalance?: number | null
+    status?: string
+  }
+
+  export type CashierSessionUpdateManyMutationInput = {
+    uuid?: StringFieldUpdateOperationsInput | string
+    openedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    closedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    openingBalance?: FloatFieldUpdateOperationsInput | number
+    closingBalance?: NullableFloatFieldUpdateOperationsInput | number | null
+    status?: StringFieldUpdateOperationsInput | string
+  }
+
+  export type CashierSessionUncheckedUpdateManyInput = {
+    uuid?: StringFieldUpdateOperationsInput | string
+    companyUuid?: StringFieldUpdateOperationsInput | string
+    openedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    closedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    openingBalance?: FloatFieldUpdateOperationsInput | number
+    closingBalance?: NullableFloatFieldUpdateOperationsInput | number | null
+    status?: StringFieldUpdateOperationsInput | string
+  }
+
+  export type CashierMovementCreateInput = {
+    uuid?: string
+    type: string
+    amount: number
+    description?: string | null
+    createdAt?: Date | string
+    session: CashierSessionCreateNestedOneWithoutMovementsInput
+  }
+
+  export type CashierMovementUncheckedCreateInput = {
+    uuid?: string
+    sessionUuid: string
+    type: string
+    amount: number
+    description?: string | null
+    createdAt?: Date | string
+  }
+
+  export type CashierMovementUpdateInput = {
+    uuid?: StringFieldUpdateOperationsInput | string
+    type?: StringFieldUpdateOperationsInput | string
+    amount?: FloatFieldUpdateOperationsInput | number
+    description?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    session?: CashierSessionUpdateOneRequiredWithoutMovementsNestedInput
+  }
+
+  export type CashierMovementUncheckedUpdateInput = {
+    uuid?: StringFieldUpdateOperationsInput | string
+    sessionUuid?: StringFieldUpdateOperationsInput | string
+    type?: StringFieldUpdateOperationsInput | string
+    amount?: FloatFieldUpdateOperationsInput | number
+    description?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type CashierMovementCreateManyInput = {
+    uuid?: string
+    sessionUuid: string
+    type: string
+    amount: number
+    description?: string | null
+    createdAt?: Date | string
+  }
+
+  export type CashierMovementUpdateManyMutationInput = {
+    uuid?: StringFieldUpdateOperationsInput | string
+    type?: StringFieldUpdateOperationsInput | string
+    amount?: FloatFieldUpdateOperationsInput | number
+    description?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type CashierMovementUncheckedUpdateManyInput = {
+    uuid?: StringFieldUpdateOperationsInput | string
+    sessionUuid?: StringFieldUpdateOperationsInput | string
+    type?: StringFieldUpdateOperationsInput | string
+    amount?: FloatFieldUpdateOperationsInput | number
+    description?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
   export type StringFilter<$PrismaModel = never> = {
     equals?: string | StringFieldRefInput<$PrismaModel>
     in?: string[] | ListStringFieldRefInput<$PrismaModel>
@@ -10344,6 +13158,12 @@ export namespace Prisma {
     none?: ProductWhereInput
   }
 
+  export type CashierSessionListRelationFilter = {
+    every?: CashierSessionWhereInput
+    some?: CashierSessionWhereInput
+    none?: CashierSessionWhereInput
+  }
+
   export type UserOrderByRelationAggregateInput = {
     _count?: SortOrder
   }
@@ -10357,6 +13177,10 @@ export namespace Prisma {
   }
 
   export type ProductOrderByRelationAggregateInput = {
+    _count?: SortOrder
+  }
+
+  export type CashierSessionOrderByRelationAggregateInput = {
     _count?: SortOrder
   }
 
@@ -10697,6 +13521,186 @@ export namespace Prisma {
     unitPrice?: SortOrder
   }
 
+  export type DateTimeNullableFilter<$PrismaModel = never> = {
+    equals?: Date | string | DateTimeFieldRefInput<$PrismaModel> | null
+    in?: Date[] | string[] | ListDateTimeFieldRefInput<$PrismaModel> | null
+    notIn?: Date[] | string[] | ListDateTimeFieldRefInput<$PrismaModel> | null
+    lt?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    lte?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    gt?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    gte?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    not?: NestedDateTimeNullableFilter<$PrismaModel> | Date | string | null
+  }
+
+  export type FloatNullableFilter<$PrismaModel = never> = {
+    equals?: number | FloatFieldRefInput<$PrismaModel> | null
+    in?: number[] | ListFloatFieldRefInput<$PrismaModel> | null
+    notIn?: number[] | ListFloatFieldRefInput<$PrismaModel> | null
+    lt?: number | FloatFieldRefInput<$PrismaModel>
+    lte?: number | FloatFieldRefInput<$PrismaModel>
+    gt?: number | FloatFieldRefInput<$PrismaModel>
+    gte?: number | FloatFieldRefInput<$PrismaModel>
+    not?: NestedFloatNullableFilter<$PrismaModel> | number | null
+  }
+
+  export type CashierMovementListRelationFilter = {
+    every?: CashierMovementWhereInput
+    some?: CashierMovementWhereInput
+    none?: CashierMovementWhereInput
+  }
+
+  export type SortOrderInput = {
+    sort: SortOrder
+    nulls?: NullsOrder
+  }
+
+  export type CashierMovementOrderByRelationAggregateInput = {
+    _count?: SortOrder
+  }
+
+  export type CashierSessionCountOrderByAggregateInput = {
+    uuid?: SortOrder
+    companyUuid?: SortOrder
+    openedAt?: SortOrder
+    closedAt?: SortOrder
+    openingBalance?: SortOrder
+    closingBalance?: SortOrder
+    status?: SortOrder
+  }
+
+  export type CashierSessionAvgOrderByAggregateInput = {
+    openingBalance?: SortOrder
+    closingBalance?: SortOrder
+  }
+
+  export type CashierSessionMaxOrderByAggregateInput = {
+    uuid?: SortOrder
+    companyUuid?: SortOrder
+    openedAt?: SortOrder
+    closedAt?: SortOrder
+    openingBalance?: SortOrder
+    closingBalance?: SortOrder
+    status?: SortOrder
+  }
+
+  export type CashierSessionMinOrderByAggregateInput = {
+    uuid?: SortOrder
+    companyUuid?: SortOrder
+    openedAt?: SortOrder
+    closedAt?: SortOrder
+    openingBalance?: SortOrder
+    closingBalance?: SortOrder
+    status?: SortOrder
+  }
+
+  export type CashierSessionSumOrderByAggregateInput = {
+    openingBalance?: SortOrder
+    closingBalance?: SortOrder
+  }
+
+  export type DateTimeNullableWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: Date | string | DateTimeFieldRefInput<$PrismaModel> | null
+    in?: Date[] | string[] | ListDateTimeFieldRefInput<$PrismaModel> | null
+    notIn?: Date[] | string[] | ListDateTimeFieldRefInput<$PrismaModel> | null
+    lt?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    lte?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    gt?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    gte?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    not?: NestedDateTimeNullableWithAggregatesFilter<$PrismaModel> | Date | string | null
+    _count?: NestedIntNullableFilter<$PrismaModel>
+    _min?: NestedDateTimeNullableFilter<$PrismaModel>
+    _max?: NestedDateTimeNullableFilter<$PrismaModel>
+  }
+
+  export type FloatNullableWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: number | FloatFieldRefInput<$PrismaModel> | null
+    in?: number[] | ListFloatFieldRefInput<$PrismaModel> | null
+    notIn?: number[] | ListFloatFieldRefInput<$PrismaModel> | null
+    lt?: number | FloatFieldRefInput<$PrismaModel>
+    lte?: number | FloatFieldRefInput<$PrismaModel>
+    gt?: number | FloatFieldRefInput<$PrismaModel>
+    gte?: number | FloatFieldRefInput<$PrismaModel>
+    not?: NestedFloatNullableWithAggregatesFilter<$PrismaModel> | number | null
+    _count?: NestedIntNullableFilter<$PrismaModel>
+    _avg?: NestedFloatNullableFilter<$PrismaModel>
+    _sum?: NestedFloatNullableFilter<$PrismaModel>
+    _min?: NestedFloatNullableFilter<$PrismaModel>
+    _max?: NestedFloatNullableFilter<$PrismaModel>
+  }
+
+  export type StringNullableFilter<$PrismaModel = never> = {
+    equals?: string | StringFieldRefInput<$PrismaModel> | null
+    in?: string[] | ListStringFieldRefInput<$PrismaModel> | null
+    notIn?: string[] | ListStringFieldRefInput<$PrismaModel> | null
+    lt?: string | StringFieldRefInput<$PrismaModel>
+    lte?: string | StringFieldRefInput<$PrismaModel>
+    gt?: string | StringFieldRefInput<$PrismaModel>
+    gte?: string | StringFieldRefInput<$PrismaModel>
+    contains?: string | StringFieldRefInput<$PrismaModel>
+    startsWith?: string | StringFieldRefInput<$PrismaModel>
+    endsWith?: string | StringFieldRefInput<$PrismaModel>
+    mode?: QueryMode
+    not?: NestedStringNullableFilter<$PrismaModel> | string | null
+  }
+
+  export type CashierSessionScalarRelationFilter = {
+    is?: CashierSessionWhereInput
+    isNot?: CashierSessionWhereInput
+  }
+
+  export type CashierMovementCountOrderByAggregateInput = {
+    uuid?: SortOrder
+    sessionUuid?: SortOrder
+    type?: SortOrder
+    amount?: SortOrder
+    description?: SortOrder
+    createdAt?: SortOrder
+  }
+
+  export type CashierMovementAvgOrderByAggregateInput = {
+    amount?: SortOrder
+  }
+
+  export type CashierMovementMaxOrderByAggregateInput = {
+    uuid?: SortOrder
+    sessionUuid?: SortOrder
+    type?: SortOrder
+    amount?: SortOrder
+    description?: SortOrder
+    createdAt?: SortOrder
+  }
+
+  export type CashierMovementMinOrderByAggregateInput = {
+    uuid?: SortOrder
+    sessionUuid?: SortOrder
+    type?: SortOrder
+    amount?: SortOrder
+    description?: SortOrder
+    createdAt?: SortOrder
+  }
+
+  export type CashierMovementSumOrderByAggregateInput = {
+    amount?: SortOrder
+  }
+
+  export type StringNullableWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: string | StringFieldRefInput<$PrismaModel> | null
+    in?: string[] | ListStringFieldRefInput<$PrismaModel> | null
+    notIn?: string[] | ListStringFieldRefInput<$PrismaModel> | null
+    lt?: string | StringFieldRefInput<$PrismaModel>
+    lte?: string | StringFieldRefInput<$PrismaModel>
+    gt?: string | StringFieldRefInput<$PrismaModel>
+    gte?: string | StringFieldRefInput<$PrismaModel>
+    contains?: string | StringFieldRefInput<$PrismaModel>
+    startsWith?: string | StringFieldRefInput<$PrismaModel>
+    endsWith?: string | StringFieldRefInput<$PrismaModel>
+    mode?: QueryMode
+    not?: NestedStringNullableWithAggregatesFilter<$PrismaModel> | string | null
+    _count?: NestedIntNullableFilter<$PrismaModel>
+    _min?: NestedStringNullableFilter<$PrismaModel>
+    _max?: NestedStringNullableFilter<$PrismaModel>
+  }
+
   export type UserCreateNestedManyWithoutCompanyInput = {
     create?: XOR<UserCreateWithoutCompanyInput, UserUncheckedCreateWithoutCompanyInput> | UserCreateWithoutCompanyInput[] | UserUncheckedCreateWithoutCompanyInput[]
     connectOrCreate?: UserCreateOrConnectWithoutCompanyInput | UserCreateOrConnectWithoutCompanyInput[]
@@ -10725,6 +13729,13 @@ export namespace Prisma {
     connect?: ProductWhereUniqueInput | ProductWhereUniqueInput[]
   }
 
+  export type CashierSessionCreateNestedManyWithoutCompanyInput = {
+    create?: XOR<CashierSessionCreateWithoutCompanyInput, CashierSessionUncheckedCreateWithoutCompanyInput> | CashierSessionCreateWithoutCompanyInput[] | CashierSessionUncheckedCreateWithoutCompanyInput[]
+    connectOrCreate?: CashierSessionCreateOrConnectWithoutCompanyInput | CashierSessionCreateOrConnectWithoutCompanyInput[]
+    createMany?: CashierSessionCreateManyCompanyInputEnvelope
+    connect?: CashierSessionWhereUniqueInput | CashierSessionWhereUniqueInput[]
+  }
+
   export type UserUncheckedCreateNestedManyWithoutCompanyInput = {
     create?: XOR<UserCreateWithoutCompanyInput, UserUncheckedCreateWithoutCompanyInput> | UserCreateWithoutCompanyInput[] | UserUncheckedCreateWithoutCompanyInput[]
     connectOrCreate?: UserCreateOrConnectWithoutCompanyInput | UserCreateOrConnectWithoutCompanyInput[]
@@ -10751,6 +13762,13 @@ export namespace Prisma {
     connectOrCreate?: ProductCreateOrConnectWithoutCompanyInput | ProductCreateOrConnectWithoutCompanyInput[]
     createMany?: ProductCreateManyCompanyInputEnvelope
     connect?: ProductWhereUniqueInput | ProductWhereUniqueInput[]
+  }
+
+  export type CashierSessionUncheckedCreateNestedManyWithoutCompanyInput = {
+    create?: XOR<CashierSessionCreateWithoutCompanyInput, CashierSessionUncheckedCreateWithoutCompanyInput> | CashierSessionCreateWithoutCompanyInput[] | CashierSessionUncheckedCreateWithoutCompanyInput[]
+    connectOrCreate?: CashierSessionCreateOrConnectWithoutCompanyInput | CashierSessionCreateOrConnectWithoutCompanyInput[]
+    createMany?: CashierSessionCreateManyCompanyInputEnvelope
+    connect?: CashierSessionWhereUniqueInput | CashierSessionWhereUniqueInput[]
   }
 
   export type StringFieldUpdateOperationsInput = {
@@ -10817,6 +13835,20 @@ export namespace Prisma {
     deleteMany?: ProductScalarWhereInput | ProductScalarWhereInput[]
   }
 
+  export type CashierSessionUpdateManyWithoutCompanyNestedInput = {
+    create?: XOR<CashierSessionCreateWithoutCompanyInput, CashierSessionUncheckedCreateWithoutCompanyInput> | CashierSessionCreateWithoutCompanyInput[] | CashierSessionUncheckedCreateWithoutCompanyInput[]
+    connectOrCreate?: CashierSessionCreateOrConnectWithoutCompanyInput | CashierSessionCreateOrConnectWithoutCompanyInput[]
+    upsert?: CashierSessionUpsertWithWhereUniqueWithoutCompanyInput | CashierSessionUpsertWithWhereUniqueWithoutCompanyInput[]
+    createMany?: CashierSessionCreateManyCompanyInputEnvelope
+    set?: CashierSessionWhereUniqueInput | CashierSessionWhereUniqueInput[]
+    disconnect?: CashierSessionWhereUniqueInput | CashierSessionWhereUniqueInput[]
+    delete?: CashierSessionWhereUniqueInput | CashierSessionWhereUniqueInput[]
+    connect?: CashierSessionWhereUniqueInput | CashierSessionWhereUniqueInput[]
+    update?: CashierSessionUpdateWithWhereUniqueWithoutCompanyInput | CashierSessionUpdateWithWhereUniqueWithoutCompanyInput[]
+    updateMany?: CashierSessionUpdateManyWithWhereWithoutCompanyInput | CashierSessionUpdateManyWithWhereWithoutCompanyInput[]
+    deleteMany?: CashierSessionScalarWhereInput | CashierSessionScalarWhereInput[]
+  }
+
   export type UserUncheckedUpdateManyWithoutCompanyNestedInput = {
     create?: XOR<UserCreateWithoutCompanyInput, UserUncheckedCreateWithoutCompanyInput> | UserCreateWithoutCompanyInput[] | UserUncheckedCreateWithoutCompanyInput[]
     connectOrCreate?: UserCreateOrConnectWithoutCompanyInput | UserCreateOrConnectWithoutCompanyInput[]
@@ -10871,6 +13903,20 @@ export namespace Prisma {
     update?: ProductUpdateWithWhereUniqueWithoutCompanyInput | ProductUpdateWithWhereUniqueWithoutCompanyInput[]
     updateMany?: ProductUpdateManyWithWhereWithoutCompanyInput | ProductUpdateManyWithWhereWithoutCompanyInput[]
     deleteMany?: ProductScalarWhereInput | ProductScalarWhereInput[]
+  }
+
+  export type CashierSessionUncheckedUpdateManyWithoutCompanyNestedInput = {
+    create?: XOR<CashierSessionCreateWithoutCompanyInput, CashierSessionUncheckedCreateWithoutCompanyInput> | CashierSessionCreateWithoutCompanyInput[] | CashierSessionUncheckedCreateWithoutCompanyInput[]
+    connectOrCreate?: CashierSessionCreateOrConnectWithoutCompanyInput | CashierSessionCreateOrConnectWithoutCompanyInput[]
+    upsert?: CashierSessionUpsertWithWhereUniqueWithoutCompanyInput | CashierSessionUpsertWithWhereUniqueWithoutCompanyInput[]
+    createMany?: CashierSessionCreateManyCompanyInputEnvelope
+    set?: CashierSessionWhereUniqueInput | CashierSessionWhereUniqueInput[]
+    disconnect?: CashierSessionWhereUniqueInput | CashierSessionWhereUniqueInput[]
+    delete?: CashierSessionWhereUniqueInput | CashierSessionWhereUniqueInput[]
+    connect?: CashierSessionWhereUniqueInput | CashierSessionWhereUniqueInput[]
+    update?: CashierSessionUpdateWithWhereUniqueWithoutCompanyInput | CashierSessionUpdateWithWhereUniqueWithoutCompanyInput[]
+    updateMany?: CashierSessionUpdateManyWithWhereWithoutCompanyInput | CashierSessionUpdateManyWithWhereWithoutCompanyInput[]
+    deleteMany?: CashierSessionScalarWhereInput | CashierSessionScalarWhereInput[]
   }
 
   export type CompanyCreateNestedOneWithoutUsersInput = {
@@ -11173,6 +14219,92 @@ export namespace Prisma {
     update?: XOR<XOR<ProductUpdateToOneWithWhereWithoutOrderItemsInput, ProductUpdateWithoutOrderItemsInput>, ProductUncheckedUpdateWithoutOrderItemsInput>
   }
 
+  export type CompanyCreateNestedOneWithoutCashierSessionsInput = {
+    create?: XOR<CompanyCreateWithoutCashierSessionsInput, CompanyUncheckedCreateWithoutCashierSessionsInput>
+    connectOrCreate?: CompanyCreateOrConnectWithoutCashierSessionsInput
+    connect?: CompanyWhereUniqueInput
+  }
+
+  export type CashierMovementCreateNestedManyWithoutSessionInput = {
+    create?: XOR<CashierMovementCreateWithoutSessionInput, CashierMovementUncheckedCreateWithoutSessionInput> | CashierMovementCreateWithoutSessionInput[] | CashierMovementUncheckedCreateWithoutSessionInput[]
+    connectOrCreate?: CashierMovementCreateOrConnectWithoutSessionInput | CashierMovementCreateOrConnectWithoutSessionInput[]
+    createMany?: CashierMovementCreateManySessionInputEnvelope
+    connect?: CashierMovementWhereUniqueInput | CashierMovementWhereUniqueInput[]
+  }
+
+  export type CashierMovementUncheckedCreateNestedManyWithoutSessionInput = {
+    create?: XOR<CashierMovementCreateWithoutSessionInput, CashierMovementUncheckedCreateWithoutSessionInput> | CashierMovementCreateWithoutSessionInput[] | CashierMovementUncheckedCreateWithoutSessionInput[]
+    connectOrCreate?: CashierMovementCreateOrConnectWithoutSessionInput | CashierMovementCreateOrConnectWithoutSessionInput[]
+    createMany?: CashierMovementCreateManySessionInputEnvelope
+    connect?: CashierMovementWhereUniqueInput | CashierMovementWhereUniqueInput[]
+  }
+
+  export type NullableDateTimeFieldUpdateOperationsInput = {
+    set?: Date | string | null
+  }
+
+  export type NullableFloatFieldUpdateOperationsInput = {
+    set?: number | null
+    increment?: number
+    decrement?: number
+    multiply?: number
+    divide?: number
+  }
+
+  export type CompanyUpdateOneRequiredWithoutCashierSessionsNestedInput = {
+    create?: XOR<CompanyCreateWithoutCashierSessionsInput, CompanyUncheckedCreateWithoutCashierSessionsInput>
+    connectOrCreate?: CompanyCreateOrConnectWithoutCashierSessionsInput
+    upsert?: CompanyUpsertWithoutCashierSessionsInput
+    connect?: CompanyWhereUniqueInput
+    update?: XOR<XOR<CompanyUpdateToOneWithWhereWithoutCashierSessionsInput, CompanyUpdateWithoutCashierSessionsInput>, CompanyUncheckedUpdateWithoutCashierSessionsInput>
+  }
+
+  export type CashierMovementUpdateManyWithoutSessionNestedInput = {
+    create?: XOR<CashierMovementCreateWithoutSessionInput, CashierMovementUncheckedCreateWithoutSessionInput> | CashierMovementCreateWithoutSessionInput[] | CashierMovementUncheckedCreateWithoutSessionInput[]
+    connectOrCreate?: CashierMovementCreateOrConnectWithoutSessionInput | CashierMovementCreateOrConnectWithoutSessionInput[]
+    upsert?: CashierMovementUpsertWithWhereUniqueWithoutSessionInput | CashierMovementUpsertWithWhereUniqueWithoutSessionInput[]
+    createMany?: CashierMovementCreateManySessionInputEnvelope
+    set?: CashierMovementWhereUniqueInput | CashierMovementWhereUniqueInput[]
+    disconnect?: CashierMovementWhereUniqueInput | CashierMovementWhereUniqueInput[]
+    delete?: CashierMovementWhereUniqueInput | CashierMovementWhereUniqueInput[]
+    connect?: CashierMovementWhereUniqueInput | CashierMovementWhereUniqueInput[]
+    update?: CashierMovementUpdateWithWhereUniqueWithoutSessionInput | CashierMovementUpdateWithWhereUniqueWithoutSessionInput[]
+    updateMany?: CashierMovementUpdateManyWithWhereWithoutSessionInput | CashierMovementUpdateManyWithWhereWithoutSessionInput[]
+    deleteMany?: CashierMovementScalarWhereInput | CashierMovementScalarWhereInput[]
+  }
+
+  export type CashierMovementUncheckedUpdateManyWithoutSessionNestedInput = {
+    create?: XOR<CashierMovementCreateWithoutSessionInput, CashierMovementUncheckedCreateWithoutSessionInput> | CashierMovementCreateWithoutSessionInput[] | CashierMovementUncheckedCreateWithoutSessionInput[]
+    connectOrCreate?: CashierMovementCreateOrConnectWithoutSessionInput | CashierMovementCreateOrConnectWithoutSessionInput[]
+    upsert?: CashierMovementUpsertWithWhereUniqueWithoutSessionInput | CashierMovementUpsertWithWhereUniqueWithoutSessionInput[]
+    createMany?: CashierMovementCreateManySessionInputEnvelope
+    set?: CashierMovementWhereUniqueInput | CashierMovementWhereUniqueInput[]
+    disconnect?: CashierMovementWhereUniqueInput | CashierMovementWhereUniqueInput[]
+    delete?: CashierMovementWhereUniqueInput | CashierMovementWhereUniqueInput[]
+    connect?: CashierMovementWhereUniqueInput | CashierMovementWhereUniqueInput[]
+    update?: CashierMovementUpdateWithWhereUniqueWithoutSessionInput | CashierMovementUpdateWithWhereUniqueWithoutSessionInput[]
+    updateMany?: CashierMovementUpdateManyWithWhereWithoutSessionInput | CashierMovementUpdateManyWithWhereWithoutSessionInput[]
+    deleteMany?: CashierMovementScalarWhereInput | CashierMovementScalarWhereInput[]
+  }
+
+  export type CashierSessionCreateNestedOneWithoutMovementsInput = {
+    create?: XOR<CashierSessionCreateWithoutMovementsInput, CashierSessionUncheckedCreateWithoutMovementsInput>
+    connectOrCreate?: CashierSessionCreateOrConnectWithoutMovementsInput
+    connect?: CashierSessionWhereUniqueInput
+  }
+
+  export type NullableStringFieldUpdateOperationsInput = {
+    set?: string | null
+  }
+
+  export type CashierSessionUpdateOneRequiredWithoutMovementsNestedInput = {
+    create?: XOR<CashierSessionCreateWithoutMovementsInput, CashierSessionUncheckedCreateWithoutMovementsInput>
+    connectOrCreate?: CashierSessionCreateOrConnectWithoutMovementsInput
+    upsert?: CashierSessionUpsertWithoutMovementsInput
+    connect?: CashierSessionWhereUniqueInput
+    update?: XOR<XOR<CashierSessionUpdateToOneWithWhereWithoutMovementsInput, CashierSessionUpdateWithoutMovementsInput>, CashierSessionUncheckedUpdateWithoutMovementsInput>
+  }
+
   export type NestedStringFilter<$PrismaModel = never> = {
     equals?: string | StringFieldRefInput<$PrismaModel>
     in?: string[] | ListStringFieldRefInput<$PrismaModel>
@@ -11296,6 +14428,100 @@ export namespace Prisma {
     _max?: NestedIntFilter<$PrismaModel>
   }
 
+  export type NestedDateTimeNullableFilter<$PrismaModel = never> = {
+    equals?: Date | string | DateTimeFieldRefInput<$PrismaModel> | null
+    in?: Date[] | string[] | ListDateTimeFieldRefInput<$PrismaModel> | null
+    notIn?: Date[] | string[] | ListDateTimeFieldRefInput<$PrismaModel> | null
+    lt?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    lte?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    gt?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    gte?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    not?: NestedDateTimeNullableFilter<$PrismaModel> | Date | string | null
+  }
+
+  export type NestedFloatNullableFilter<$PrismaModel = never> = {
+    equals?: number | FloatFieldRefInput<$PrismaModel> | null
+    in?: number[] | ListFloatFieldRefInput<$PrismaModel> | null
+    notIn?: number[] | ListFloatFieldRefInput<$PrismaModel> | null
+    lt?: number | FloatFieldRefInput<$PrismaModel>
+    lte?: number | FloatFieldRefInput<$PrismaModel>
+    gt?: number | FloatFieldRefInput<$PrismaModel>
+    gte?: number | FloatFieldRefInput<$PrismaModel>
+    not?: NestedFloatNullableFilter<$PrismaModel> | number | null
+  }
+
+  export type NestedDateTimeNullableWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: Date | string | DateTimeFieldRefInput<$PrismaModel> | null
+    in?: Date[] | string[] | ListDateTimeFieldRefInput<$PrismaModel> | null
+    notIn?: Date[] | string[] | ListDateTimeFieldRefInput<$PrismaModel> | null
+    lt?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    lte?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    gt?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    gte?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    not?: NestedDateTimeNullableWithAggregatesFilter<$PrismaModel> | Date | string | null
+    _count?: NestedIntNullableFilter<$PrismaModel>
+    _min?: NestedDateTimeNullableFilter<$PrismaModel>
+    _max?: NestedDateTimeNullableFilter<$PrismaModel>
+  }
+
+  export type NestedIntNullableFilter<$PrismaModel = never> = {
+    equals?: number | IntFieldRefInput<$PrismaModel> | null
+    in?: number[] | ListIntFieldRefInput<$PrismaModel> | null
+    notIn?: number[] | ListIntFieldRefInput<$PrismaModel> | null
+    lt?: number | IntFieldRefInput<$PrismaModel>
+    lte?: number | IntFieldRefInput<$PrismaModel>
+    gt?: number | IntFieldRefInput<$PrismaModel>
+    gte?: number | IntFieldRefInput<$PrismaModel>
+    not?: NestedIntNullableFilter<$PrismaModel> | number | null
+  }
+
+  export type NestedFloatNullableWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: number | FloatFieldRefInput<$PrismaModel> | null
+    in?: number[] | ListFloatFieldRefInput<$PrismaModel> | null
+    notIn?: number[] | ListFloatFieldRefInput<$PrismaModel> | null
+    lt?: number | FloatFieldRefInput<$PrismaModel>
+    lte?: number | FloatFieldRefInput<$PrismaModel>
+    gt?: number | FloatFieldRefInput<$PrismaModel>
+    gte?: number | FloatFieldRefInput<$PrismaModel>
+    not?: NestedFloatNullableWithAggregatesFilter<$PrismaModel> | number | null
+    _count?: NestedIntNullableFilter<$PrismaModel>
+    _avg?: NestedFloatNullableFilter<$PrismaModel>
+    _sum?: NestedFloatNullableFilter<$PrismaModel>
+    _min?: NestedFloatNullableFilter<$PrismaModel>
+    _max?: NestedFloatNullableFilter<$PrismaModel>
+  }
+
+  export type NestedStringNullableFilter<$PrismaModel = never> = {
+    equals?: string | StringFieldRefInput<$PrismaModel> | null
+    in?: string[] | ListStringFieldRefInput<$PrismaModel> | null
+    notIn?: string[] | ListStringFieldRefInput<$PrismaModel> | null
+    lt?: string | StringFieldRefInput<$PrismaModel>
+    lte?: string | StringFieldRefInput<$PrismaModel>
+    gt?: string | StringFieldRefInput<$PrismaModel>
+    gte?: string | StringFieldRefInput<$PrismaModel>
+    contains?: string | StringFieldRefInput<$PrismaModel>
+    startsWith?: string | StringFieldRefInput<$PrismaModel>
+    endsWith?: string | StringFieldRefInput<$PrismaModel>
+    not?: NestedStringNullableFilter<$PrismaModel> | string | null
+  }
+
+  export type NestedStringNullableWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: string | StringFieldRefInput<$PrismaModel> | null
+    in?: string[] | ListStringFieldRefInput<$PrismaModel> | null
+    notIn?: string[] | ListStringFieldRefInput<$PrismaModel> | null
+    lt?: string | StringFieldRefInput<$PrismaModel>
+    lte?: string | StringFieldRefInput<$PrismaModel>
+    gt?: string | StringFieldRefInput<$PrismaModel>
+    gte?: string | StringFieldRefInput<$PrismaModel>
+    contains?: string | StringFieldRefInput<$PrismaModel>
+    startsWith?: string | StringFieldRefInput<$PrismaModel>
+    endsWith?: string | StringFieldRefInput<$PrismaModel>
+    not?: NestedStringNullableWithAggregatesFilter<$PrismaModel> | string | null
+    _count?: NestedIntNullableFilter<$PrismaModel>
+    _min?: NestedStringNullableFilter<$PrismaModel>
+    _max?: NestedStringNullableFilter<$PrismaModel>
+  }
+
   export type UserCreateWithoutCompanyInput = {
     uuid?: string
     email: string
@@ -11397,6 +14623,36 @@ export namespace Prisma {
 
   export type ProductCreateManyCompanyInputEnvelope = {
     data: ProductCreateManyCompanyInput | ProductCreateManyCompanyInput[]
+    skipDuplicates?: boolean
+  }
+
+  export type CashierSessionCreateWithoutCompanyInput = {
+    uuid?: string
+    openedAt?: Date | string
+    closedAt?: Date | string | null
+    openingBalance?: number
+    closingBalance?: number | null
+    status?: string
+    movements?: CashierMovementCreateNestedManyWithoutSessionInput
+  }
+
+  export type CashierSessionUncheckedCreateWithoutCompanyInput = {
+    uuid?: string
+    openedAt?: Date | string
+    closedAt?: Date | string | null
+    openingBalance?: number
+    closingBalance?: number | null
+    status?: string
+    movements?: CashierMovementUncheckedCreateNestedManyWithoutSessionInput
+  }
+
+  export type CashierSessionCreateOrConnectWithoutCompanyInput = {
+    where: CashierSessionWhereUniqueInput
+    create: XOR<CashierSessionCreateWithoutCompanyInput, CashierSessionUncheckedCreateWithoutCompanyInput>
+  }
+
+  export type CashierSessionCreateManyCompanyInputEnvelope = {
+    data: CashierSessionCreateManyCompanyInput | CashierSessionCreateManyCompanyInput[]
     skipDuplicates?: boolean
   }
 
@@ -11509,6 +14765,35 @@ export namespace Prisma {
     companyUuid?: StringFilter<"Product"> | string
   }
 
+  export type CashierSessionUpsertWithWhereUniqueWithoutCompanyInput = {
+    where: CashierSessionWhereUniqueInput
+    update: XOR<CashierSessionUpdateWithoutCompanyInput, CashierSessionUncheckedUpdateWithoutCompanyInput>
+    create: XOR<CashierSessionCreateWithoutCompanyInput, CashierSessionUncheckedCreateWithoutCompanyInput>
+  }
+
+  export type CashierSessionUpdateWithWhereUniqueWithoutCompanyInput = {
+    where: CashierSessionWhereUniqueInput
+    data: XOR<CashierSessionUpdateWithoutCompanyInput, CashierSessionUncheckedUpdateWithoutCompanyInput>
+  }
+
+  export type CashierSessionUpdateManyWithWhereWithoutCompanyInput = {
+    where: CashierSessionScalarWhereInput
+    data: XOR<CashierSessionUpdateManyMutationInput, CashierSessionUncheckedUpdateManyWithoutCompanyInput>
+  }
+
+  export type CashierSessionScalarWhereInput = {
+    AND?: CashierSessionScalarWhereInput | CashierSessionScalarWhereInput[]
+    OR?: CashierSessionScalarWhereInput[]
+    NOT?: CashierSessionScalarWhereInput | CashierSessionScalarWhereInput[]
+    uuid?: StringFilter<"CashierSession"> | string
+    companyUuid?: StringFilter<"CashierSession"> | string
+    openedAt?: DateTimeFilter<"CashierSession"> | Date | string
+    closedAt?: DateTimeNullableFilter<"CashierSession"> | Date | string | null
+    openingBalance?: FloatFilter<"CashierSession"> | number
+    closingBalance?: FloatNullableFilter<"CashierSession"> | number | null
+    status?: StringFilter<"CashierSession"> | string
+  }
+
   export type CompanyCreateWithoutUsersInput = {
     uuid?: string
     name: string
@@ -11516,6 +14801,7 @@ export namespace Prisma {
     tables?: TableCreateNestedManyWithoutCompanyInput
     categories?: CategoryCreateNestedManyWithoutCompanyInput
     products?: ProductCreateNestedManyWithoutCompanyInput
+    cashierSessions?: CashierSessionCreateNestedManyWithoutCompanyInput
   }
 
   export type CompanyUncheckedCreateWithoutUsersInput = {
@@ -11525,6 +14811,7 @@ export namespace Prisma {
     tables?: TableUncheckedCreateNestedManyWithoutCompanyInput
     categories?: CategoryUncheckedCreateNestedManyWithoutCompanyInput
     products?: ProductUncheckedCreateNestedManyWithoutCompanyInput
+    cashierSessions?: CashierSessionUncheckedCreateNestedManyWithoutCompanyInput
   }
 
   export type CompanyCreateOrConnectWithoutUsersInput = {
@@ -11550,6 +14837,7 @@ export namespace Prisma {
     tables?: TableUpdateManyWithoutCompanyNestedInput
     categories?: CategoryUpdateManyWithoutCompanyNestedInput
     products?: ProductUpdateManyWithoutCompanyNestedInput
+    cashierSessions?: CashierSessionUpdateManyWithoutCompanyNestedInput
   }
 
   export type CompanyUncheckedUpdateWithoutUsersInput = {
@@ -11559,6 +14847,7 @@ export namespace Prisma {
     tables?: TableUncheckedUpdateManyWithoutCompanyNestedInput
     categories?: CategoryUncheckedUpdateManyWithoutCompanyNestedInput
     products?: ProductUncheckedUpdateManyWithoutCompanyNestedInput
+    cashierSessions?: CashierSessionUncheckedUpdateManyWithoutCompanyNestedInput
   }
 
   export type CategoryCreateWithoutProductsInput = {
@@ -11585,6 +14874,7 @@ export namespace Prisma {
     users?: UserCreateNestedManyWithoutCompanyInput
     tables?: TableCreateNestedManyWithoutCompanyInput
     categories?: CategoryCreateNestedManyWithoutCompanyInput
+    cashierSessions?: CashierSessionCreateNestedManyWithoutCompanyInput
   }
 
   export type CompanyUncheckedCreateWithoutProductsInput = {
@@ -11594,6 +14884,7 @@ export namespace Prisma {
     users?: UserUncheckedCreateNestedManyWithoutCompanyInput
     tables?: TableUncheckedCreateNestedManyWithoutCompanyInput
     categories?: CategoryUncheckedCreateNestedManyWithoutCompanyInput
+    cashierSessions?: CashierSessionUncheckedCreateNestedManyWithoutCompanyInput
   }
 
   export type CompanyCreateOrConnectWithoutProductsInput = {
@@ -11666,6 +14957,7 @@ export namespace Prisma {
     users?: UserUpdateManyWithoutCompanyNestedInput
     tables?: TableUpdateManyWithoutCompanyNestedInput
     categories?: CategoryUpdateManyWithoutCompanyNestedInput
+    cashierSessions?: CashierSessionUpdateManyWithoutCompanyNestedInput
   }
 
   export type CompanyUncheckedUpdateWithoutProductsInput = {
@@ -11675,6 +14967,7 @@ export namespace Prisma {
     users?: UserUncheckedUpdateManyWithoutCompanyNestedInput
     tables?: TableUncheckedUpdateManyWithoutCompanyNestedInput
     categories?: CategoryUncheckedUpdateManyWithoutCompanyNestedInput
+    cashierSessions?: CashierSessionUncheckedUpdateManyWithoutCompanyNestedInput
   }
 
   export type OrderItemUpsertWithWhereUniqueWithoutProductInput = {
@@ -11711,6 +15004,7 @@ export namespace Prisma {
     users?: UserCreateNestedManyWithoutCompanyInput
     tables?: TableCreateNestedManyWithoutCompanyInput
     products?: ProductCreateNestedManyWithoutCompanyInput
+    cashierSessions?: CashierSessionCreateNestedManyWithoutCompanyInput
   }
 
   export type CompanyUncheckedCreateWithoutCategoriesInput = {
@@ -11720,6 +15014,7 @@ export namespace Prisma {
     users?: UserUncheckedCreateNestedManyWithoutCompanyInput
     tables?: TableUncheckedCreateNestedManyWithoutCompanyInput
     products?: ProductUncheckedCreateNestedManyWithoutCompanyInput
+    cashierSessions?: CashierSessionUncheckedCreateNestedManyWithoutCompanyInput
   }
 
   export type CompanyCreateOrConnectWithoutCategoriesInput = {
@@ -11775,6 +15070,7 @@ export namespace Prisma {
     users?: UserUpdateManyWithoutCompanyNestedInput
     tables?: TableUpdateManyWithoutCompanyNestedInput
     products?: ProductUpdateManyWithoutCompanyNestedInput
+    cashierSessions?: CashierSessionUpdateManyWithoutCompanyNestedInput
   }
 
   export type CompanyUncheckedUpdateWithoutCategoriesInput = {
@@ -11784,6 +15080,7 @@ export namespace Prisma {
     users?: UserUncheckedUpdateManyWithoutCompanyNestedInput
     tables?: TableUncheckedUpdateManyWithoutCompanyNestedInput
     products?: ProductUncheckedUpdateManyWithoutCompanyNestedInput
+    cashierSessions?: CashierSessionUncheckedUpdateManyWithoutCompanyNestedInput
   }
 
   export type ProductUpsertWithWhereUniqueWithoutCategoryInput = {
@@ -11809,6 +15106,7 @@ export namespace Prisma {
     users?: UserCreateNestedManyWithoutCompanyInput
     categories?: CategoryCreateNestedManyWithoutCompanyInput
     products?: ProductCreateNestedManyWithoutCompanyInput
+    cashierSessions?: CashierSessionCreateNestedManyWithoutCompanyInput
   }
 
   export type CompanyUncheckedCreateWithoutTablesInput = {
@@ -11818,6 +15116,7 @@ export namespace Prisma {
     users?: UserUncheckedCreateNestedManyWithoutCompanyInput
     categories?: CategoryUncheckedCreateNestedManyWithoutCompanyInput
     products?: ProductUncheckedCreateNestedManyWithoutCompanyInput
+    cashierSessions?: CashierSessionUncheckedCreateNestedManyWithoutCompanyInput
   }
 
   export type CompanyCreateOrConnectWithoutTablesInput = {
@@ -11867,6 +15166,7 @@ export namespace Prisma {
     users?: UserUpdateManyWithoutCompanyNestedInput
     categories?: CategoryUpdateManyWithoutCompanyNestedInput
     products?: ProductUpdateManyWithoutCompanyNestedInput
+    cashierSessions?: CashierSessionUpdateManyWithoutCompanyNestedInput
   }
 
   export type CompanyUncheckedUpdateWithoutTablesInput = {
@@ -11876,6 +15176,7 @@ export namespace Prisma {
     users?: UserUncheckedUpdateManyWithoutCompanyNestedInput
     categories?: CategoryUncheckedUpdateManyWithoutCompanyNestedInput
     products?: ProductUncheckedUpdateManyWithoutCompanyNestedInput
+    cashierSessions?: CashierSessionUncheckedUpdateManyWithoutCompanyNestedInput
   }
 
   export type OrderUpsertWithWhereUniqueWithoutTableInput = {
@@ -12092,6 +15393,172 @@ export namespace Prisma {
     companyUuid?: StringFieldUpdateOperationsInput | string
   }
 
+  export type CompanyCreateWithoutCashierSessionsInput = {
+    uuid?: string
+    name: string
+    createdAt?: Date | string
+    users?: UserCreateNestedManyWithoutCompanyInput
+    tables?: TableCreateNestedManyWithoutCompanyInput
+    categories?: CategoryCreateNestedManyWithoutCompanyInput
+    products?: ProductCreateNestedManyWithoutCompanyInput
+  }
+
+  export type CompanyUncheckedCreateWithoutCashierSessionsInput = {
+    uuid?: string
+    name: string
+    createdAt?: Date | string
+    users?: UserUncheckedCreateNestedManyWithoutCompanyInput
+    tables?: TableUncheckedCreateNestedManyWithoutCompanyInput
+    categories?: CategoryUncheckedCreateNestedManyWithoutCompanyInput
+    products?: ProductUncheckedCreateNestedManyWithoutCompanyInput
+  }
+
+  export type CompanyCreateOrConnectWithoutCashierSessionsInput = {
+    where: CompanyWhereUniqueInput
+    create: XOR<CompanyCreateWithoutCashierSessionsInput, CompanyUncheckedCreateWithoutCashierSessionsInput>
+  }
+
+  export type CashierMovementCreateWithoutSessionInput = {
+    uuid?: string
+    type: string
+    amount: number
+    description?: string | null
+    createdAt?: Date | string
+  }
+
+  export type CashierMovementUncheckedCreateWithoutSessionInput = {
+    uuid?: string
+    type: string
+    amount: number
+    description?: string | null
+    createdAt?: Date | string
+  }
+
+  export type CashierMovementCreateOrConnectWithoutSessionInput = {
+    where: CashierMovementWhereUniqueInput
+    create: XOR<CashierMovementCreateWithoutSessionInput, CashierMovementUncheckedCreateWithoutSessionInput>
+  }
+
+  export type CashierMovementCreateManySessionInputEnvelope = {
+    data: CashierMovementCreateManySessionInput | CashierMovementCreateManySessionInput[]
+    skipDuplicates?: boolean
+  }
+
+  export type CompanyUpsertWithoutCashierSessionsInput = {
+    update: XOR<CompanyUpdateWithoutCashierSessionsInput, CompanyUncheckedUpdateWithoutCashierSessionsInput>
+    create: XOR<CompanyCreateWithoutCashierSessionsInput, CompanyUncheckedCreateWithoutCashierSessionsInput>
+    where?: CompanyWhereInput
+  }
+
+  export type CompanyUpdateToOneWithWhereWithoutCashierSessionsInput = {
+    where?: CompanyWhereInput
+    data: XOR<CompanyUpdateWithoutCashierSessionsInput, CompanyUncheckedUpdateWithoutCashierSessionsInput>
+  }
+
+  export type CompanyUpdateWithoutCashierSessionsInput = {
+    uuid?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    users?: UserUpdateManyWithoutCompanyNestedInput
+    tables?: TableUpdateManyWithoutCompanyNestedInput
+    categories?: CategoryUpdateManyWithoutCompanyNestedInput
+    products?: ProductUpdateManyWithoutCompanyNestedInput
+  }
+
+  export type CompanyUncheckedUpdateWithoutCashierSessionsInput = {
+    uuid?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    users?: UserUncheckedUpdateManyWithoutCompanyNestedInput
+    tables?: TableUncheckedUpdateManyWithoutCompanyNestedInput
+    categories?: CategoryUncheckedUpdateManyWithoutCompanyNestedInput
+    products?: ProductUncheckedUpdateManyWithoutCompanyNestedInput
+  }
+
+  export type CashierMovementUpsertWithWhereUniqueWithoutSessionInput = {
+    where: CashierMovementWhereUniqueInput
+    update: XOR<CashierMovementUpdateWithoutSessionInput, CashierMovementUncheckedUpdateWithoutSessionInput>
+    create: XOR<CashierMovementCreateWithoutSessionInput, CashierMovementUncheckedCreateWithoutSessionInput>
+  }
+
+  export type CashierMovementUpdateWithWhereUniqueWithoutSessionInput = {
+    where: CashierMovementWhereUniqueInput
+    data: XOR<CashierMovementUpdateWithoutSessionInput, CashierMovementUncheckedUpdateWithoutSessionInput>
+  }
+
+  export type CashierMovementUpdateManyWithWhereWithoutSessionInput = {
+    where: CashierMovementScalarWhereInput
+    data: XOR<CashierMovementUpdateManyMutationInput, CashierMovementUncheckedUpdateManyWithoutSessionInput>
+  }
+
+  export type CashierMovementScalarWhereInput = {
+    AND?: CashierMovementScalarWhereInput | CashierMovementScalarWhereInput[]
+    OR?: CashierMovementScalarWhereInput[]
+    NOT?: CashierMovementScalarWhereInput | CashierMovementScalarWhereInput[]
+    uuid?: StringFilter<"CashierMovement"> | string
+    sessionUuid?: StringFilter<"CashierMovement"> | string
+    type?: StringFilter<"CashierMovement"> | string
+    amount?: FloatFilter<"CashierMovement"> | number
+    description?: StringNullableFilter<"CashierMovement"> | string | null
+    createdAt?: DateTimeFilter<"CashierMovement"> | Date | string
+  }
+
+  export type CashierSessionCreateWithoutMovementsInput = {
+    uuid?: string
+    openedAt?: Date | string
+    closedAt?: Date | string | null
+    openingBalance?: number
+    closingBalance?: number | null
+    status?: string
+    company: CompanyCreateNestedOneWithoutCashierSessionsInput
+  }
+
+  export type CashierSessionUncheckedCreateWithoutMovementsInput = {
+    uuid?: string
+    companyUuid: string
+    openedAt?: Date | string
+    closedAt?: Date | string | null
+    openingBalance?: number
+    closingBalance?: number | null
+    status?: string
+  }
+
+  export type CashierSessionCreateOrConnectWithoutMovementsInput = {
+    where: CashierSessionWhereUniqueInput
+    create: XOR<CashierSessionCreateWithoutMovementsInput, CashierSessionUncheckedCreateWithoutMovementsInput>
+  }
+
+  export type CashierSessionUpsertWithoutMovementsInput = {
+    update: XOR<CashierSessionUpdateWithoutMovementsInput, CashierSessionUncheckedUpdateWithoutMovementsInput>
+    create: XOR<CashierSessionCreateWithoutMovementsInput, CashierSessionUncheckedCreateWithoutMovementsInput>
+    where?: CashierSessionWhereInput
+  }
+
+  export type CashierSessionUpdateToOneWithWhereWithoutMovementsInput = {
+    where?: CashierSessionWhereInput
+    data: XOR<CashierSessionUpdateWithoutMovementsInput, CashierSessionUncheckedUpdateWithoutMovementsInput>
+  }
+
+  export type CashierSessionUpdateWithoutMovementsInput = {
+    uuid?: StringFieldUpdateOperationsInput | string
+    openedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    closedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    openingBalance?: FloatFieldUpdateOperationsInput | number
+    closingBalance?: NullableFloatFieldUpdateOperationsInput | number | null
+    status?: StringFieldUpdateOperationsInput | string
+    company?: CompanyUpdateOneRequiredWithoutCashierSessionsNestedInput
+  }
+
+  export type CashierSessionUncheckedUpdateWithoutMovementsInput = {
+    uuid?: StringFieldUpdateOperationsInput | string
+    companyUuid?: StringFieldUpdateOperationsInput | string
+    openedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    closedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    openingBalance?: FloatFieldUpdateOperationsInput | number
+    closingBalance?: NullableFloatFieldUpdateOperationsInput | number | null
+    status?: StringFieldUpdateOperationsInput | string
+  }
+
   export type UserCreateManyCompanyInput = {
     uuid?: string
     email: string
@@ -12119,6 +15586,15 @@ export namespace Prisma {
     active?: boolean
     description: string
     categoryUuid: string
+  }
+
+  export type CashierSessionCreateManyCompanyInput = {
+    uuid?: string
+    openedAt?: Date | string
+    closedAt?: Date | string | null
+    openingBalance?: number
+    closingBalance?: number | null
+    status?: string
   }
 
   export type UserUpdateWithoutCompanyInput = {
@@ -12212,6 +15688,35 @@ export namespace Prisma {
     active?: BoolFieldUpdateOperationsInput | boolean
     description?: StringFieldUpdateOperationsInput | string
     categoryUuid?: StringFieldUpdateOperationsInput | string
+  }
+
+  export type CashierSessionUpdateWithoutCompanyInput = {
+    uuid?: StringFieldUpdateOperationsInput | string
+    openedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    closedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    openingBalance?: FloatFieldUpdateOperationsInput | number
+    closingBalance?: NullableFloatFieldUpdateOperationsInput | number | null
+    status?: StringFieldUpdateOperationsInput | string
+    movements?: CashierMovementUpdateManyWithoutSessionNestedInput
+  }
+
+  export type CashierSessionUncheckedUpdateWithoutCompanyInput = {
+    uuid?: StringFieldUpdateOperationsInput | string
+    openedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    closedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    openingBalance?: FloatFieldUpdateOperationsInput | number
+    closingBalance?: NullableFloatFieldUpdateOperationsInput | number | null
+    status?: StringFieldUpdateOperationsInput | string
+    movements?: CashierMovementUncheckedUpdateManyWithoutSessionNestedInput
+  }
+
+  export type CashierSessionUncheckedUpdateManyWithoutCompanyInput = {
+    uuid?: StringFieldUpdateOperationsInput | string
+    openedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    closedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    openingBalance?: FloatFieldUpdateOperationsInput | number
+    closingBalance?: NullableFloatFieldUpdateOperationsInput | number | null
+    status?: StringFieldUpdateOperationsInput | string
   }
 
   export type OrderItemCreateManyProductInput = {
@@ -12332,6 +15837,38 @@ export namespace Prisma {
     productUuid?: StringFieldUpdateOperationsInput | string
     quantity?: IntFieldUpdateOperationsInput | number
     unitPrice?: FloatFieldUpdateOperationsInput | number
+  }
+
+  export type CashierMovementCreateManySessionInput = {
+    uuid?: string
+    type: string
+    amount: number
+    description?: string | null
+    createdAt?: Date | string
+  }
+
+  export type CashierMovementUpdateWithoutSessionInput = {
+    uuid?: StringFieldUpdateOperationsInput | string
+    type?: StringFieldUpdateOperationsInput | string
+    amount?: FloatFieldUpdateOperationsInput | number
+    description?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type CashierMovementUncheckedUpdateWithoutSessionInput = {
+    uuid?: StringFieldUpdateOperationsInput | string
+    type?: StringFieldUpdateOperationsInput | string
+    amount?: FloatFieldUpdateOperationsInput | number
+    description?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type CashierMovementUncheckedUpdateManyWithoutSessionInput = {
+    uuid?: StringFieldUpdateOperationsInput | string
+    type?: StringFieldUpdateOperationsInput | string
+    amount?: FloatFieldUpdateOperationsInput | number
+    description?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
 

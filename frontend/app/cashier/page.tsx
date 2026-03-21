@@ -1,107 +1,611 @@
 'use client';
 
-import { useState } from 'react';
+import { useState, useEffect, useCallback } from 'react';
+import { getAuthHeaders } from 'contexts/AuthContext';
 
-const CashierManagementPage = () => {
-    const [cashierStatus, setCashierStatus] = useState<'open' | 'closed'>('closed');
-    const [cashAmount, setCashAmount] = useState<number>(0);
+const API_URL = process.env.NEXT_PUBLIC_BASE_API_URL || 'http://localhost:3352';
 
-    const handleOpenCashier = () => {
-        setCashierStatus('open');
-        setCashAmount(0);
-    };
-
-    const handleCloseCashier = () => {
-        setCashierStatus('closed');
-    };
-
-    const handleAddCash = (amount: number) => {
-        setCashAmount((prev) => prev + amount);
-    };
-
-    return (
-        <div className="min-h-screen bg-gray-100 p-4 md:p-8">
-            <div className="max-w-4xl mx-auto space-y-6">
-                {/* Header */}
-                <header className="flex flex-col md:flex-row md:items-center md:justify-between gap-4">
-                    <div>
-                        <h1 className="text-2xl md:text-3xl font-bold text-gray-800">
-                            Caixa do Estabelecimento
-                        </h1>
-                        <p className="text-sm text-gray-500">
-                            Controle diário de abertura e fechamento
-                        </p>
-                    </div>
-
-                    <span
-                        className={`px-4 py-1 rounded-full text-sm font-semibold w-fit
-              ${cashierStatus === 'open'
-                                ? 'bg-green-100 text-green-700'
-                                : 'bg-red-100 text-red-700'
-                            }`}
-                    >
-                        {cashierStatus === 'open' ? 'Caixa Aberto' : 'Caixa Fechado'}
-                    </span>
-                </header>
-
-                {/* Cards */}
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                    {/* Montante */}
-                    <div className="bg-white rounded-xl shadow p-6">
-                        <p className="text-sm text-gray-500">Saldo em Caixa</p>
-                        <p className="text-3xl font-bold text-gray-800 mt-2">
-                            R$ {cashAmount.toFixed(2)}
-                        </p>
-                    </div>
-
-                    {/* Operação */}
-                    <div className="bg-white rounded-xl shadow p-6 space-y-4">
-                        <p className="text-sm text-gray-500">Operações</p>
-
-                        {cashierStatus === 'closed' ? (
-                            <button
-                                onClick={handleOpenCashier}
-                                className="w-full bg-green-600 hover:bg-green-700 transition text-white py-3 rounded-lg font-semibold"
-                            >
-                                Abrir Caixa
-                            </button>
-                        ) : (
-                            <div className="space-y-3">
-                                <button
-                                    onClick={handleCloseCashier}
-                                    className="w-full bg-red-600 hover:bg-red-700 transition text-white py-3 rounded-lg font-semibold"
-                                >
-                                    Fechar Caixa
-                                </button>
-
-                                <div className="grid grid-cols-2 gap-3">
-                                    {[0.05, 0.10, 0.25, 0.50, 1, 2, 5, 10, 20, 50, 100, 200].map((value) => (
-                                        <button
-                                            key={value}
-                                            onClick={() => handleAddCash(value)}
-                                            className="bg-black hover:bg-white transition text-white hover:text-black hover:border hover:border-black py-2 rounded-lg font-semibold"
-                                        >
-                                            R$ {value.toFixed(2)}
-                                        </button>
-                                    ))}
-                                </div>
-                            </div>
-                        )}
-                    </div>
-                </div>
-
-                {/* Extra: Informações úteis */}
-                <div className="bg-white rounded-xl shadow p-6">
-                    <p className="text-sm text-gray-500 mb-2">Informações</p>
-                    <ul className="text-sm text-gray-700 space-y-1">
-                        <li>• Ideal para controle diário do caixa</li>
-                        <li>• Use valores rápidos para sangrias e reforços</li>
-                        <li>• Pronto para integrar com vendas e relatórios</li>
-                    </ul>
-                </div>
-            </div>
-        </div>
-    );
+type CashierSession = {
+  uuid: string;
+  openedAt: string;
+  openingBalance: number;
+  status: string;
+  currentBalance: number;
+  movements: { uuid: string; type: string; amount: number; createdAt: string }[];
 };
 
-export default CashierManagementPage;
+type CashierStatus = {
+  hasOpenSession: boolean;
+  dailySales: number;
+  session?: CashierSession;
+};
+
+type CloseResult = {
+  success: boolean;
+  dailySales: number;
+  expectedTotal: number;
+  difference: number;
+};
+
+const RAPID_VALUES = [0.05, 0.10, 0.25, 0.50, 1, 2, 5, 10, 20, 50, 100, 200];
+
+function formatCurrency(value: number) {
+  return new Intl.NumberFormat('pt-BR', {
+    style: 'currency',
+    currency: 'BRL',
+  }).format(value);
+}
+
+function formatDateTime(iso: string) {
+  return new Date(iso).toLocaleString('pt-BR', {
+    day: '2-digit',
+    month: '2-digit',
+    year: 'numeric',
+    hour: '2-digit',
+    minute: '2-digit',
+  });
+}
+
+export default function CashierPage() {
+  const [status, setStatus] = useState<CashierStatus | null>(null);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState<string | null>(null);
+  const [showOpenModal, setShowOpenModal] = useState(false);
+  const [showCloseModal, setShowCloseModal] = useState(false);
+  const [showMovementModal, setShowMovementModal] = useState<'REINFORCEMENT' | 'SANGRIA' | null>(null);
+  const [openBalance, setOpenBalance] = useState<string>('0');
+  const [closeBalance, setCloseBalance] = useState<string>('');
+  const [movementAmount, setMovementAmount] = useState<string>('');
+  const [movementDescription, setMovementDescription] = useState<string>('');
+  const [submitting, setSubmitting] = useState(false);
+  const [history, setHistory] = useState<
+    { uuid: string; openedAt: string; closedAt: string | null; openingBalance: number; closingBalance: number | null; status: string }[]
+  >([]);
+  const [closeResult, setCloseResult] = useState<CloseResult | null>(null);
+
+  const fetchStatus = useCallback(async () => {
+    try {
+      const res = await fetch(`${API_URL}/cashier/status`, {
+        headers: getAuthHeaders(),
+      });
+      if (!res.ok) throw new Error('Erro ao carregar status do caixa');
+      const data = await res.json();
+      setStatus(data);
+      setError(null);
+    } catch (e) {
+      setError(e instanceof Error ? e.message : 'Erro desconhecido');
+    } finally {
+      setLoading(false);
+    }
+  }, []);
+
+  const fetchHistory = useCallback(async () => {
+    try {
+      const res = await fetch(`${API_URL}/cashier/history?limit=5`, {
+        headers: getAuthHeaders(),
+      });
+      if (res.ok) {
+        const data = await res.json();
+        setHistory(data);
+      }
+    } catch {
+      // ignore
+    }
+  }, []);
+
+  useEffect(() => {
+    fetchStatus();
+    fetchHistory();
+  }, [fetchStatus, fetchHistory]);
+
+  const handleOpen = async () => {
+    const val = parseFloat(openBalance.replace(',', '.')) || 0;
+    if (val < 0) {
+      setError('O valor de abertura deve ser maior ou igual a zero.');
+      return;
+    }
+    setSubmitting(true);
+    setError(null);
+    try {
+      const res = await fetch(`${API_URL}/cashier/open`, {
+        method: 'POST',
+        headers: { ...getAuthHeaders(), 'Content-Type': 'application/json' },
+        body: JSON.stringify({ openingBalance: val }),
+      });
+      if (!res.ok) {
+        const err = await res.json().catch(() => ({}));
+        throw new Error(err.message || 'Erro ao abrir caixa');
+      }
+      await fetchStatus();
+      setShowOpenModal(false);
+      setOpenBalance('0');
+    } catch (e) {
+      setError(e instanceof Error ? e.message : 'Erro ao abrir caixa');
+    } finally {
+      setSubmitting(false);
+    }
+  };
+
+  const handleAddQuick = async (amount: number, type: 'REINFORCEMENT' | 'SANGRIA') => {
+    const session = status?.session;
+    if (!session && type === 'SANGRIA') return;
+    if (session && type === 'SANGRIA' && amount > session.currentBalance) {
+      setError(`Saldo insuficiente. Saldo atual: ${formatCurrency(session.currentBalance)}`);
+      return;
+    }
+    setSubmitting(true);
+    setError(null);
+    try {
+      const res = await fetch(`${API_URL}/cashier/movement`, {
+        method: 'POST',
+        headers: { ...getAuthHeaders(), 'Content-Type': 'application/json' },
+        body: JSON.stringify({ type, amount }),
+      });
+      if (!res.ok) {
+        const err = await res.json().catch(() => ({}));
+        throw new Error(err.message || 'Erro na operação');
+      }
+      await fetchStatus();
+    } catch (e) {
+      setError(e instanceof Error ? e.message : 'Erro na operação');
+    } finally {
+      setSubmitting(false);
+    }
+  };
+
+  const handleAddMovement = async () => {
+    const val = parseFloat(movementAmount.replace(',', '.')) || 0;
+    const type = showMovementModal;
+    if (!type || val <= 0) {
+      setError('Informe um valor válido.');
+      return;
+    }
+    const session = status?.session;
+    if (session && type === 'SANGRIA' && val > session.currentBalance) {
+      setError(`Saldo insuficiente. Saldo atual: ${formatCurrency(session.currentBalance)}`);
+      return;
+    }
+    setSubmitting(true);
+    setError(null);
+    try {
+      const res = await fetch(`${API_URL}/cashier/movement`, {
+        method: 'POST',
+        headers: { ...getAuthHeaders(), 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          type,
+          amount: val,
+          description: movementDescription.trim() || undefined,
+        }),
+      });
+      if (!res.ok) {
+        const err = await res.json().catch(() => ({}));
+        throw new Error(err.message || 'Erro na operação');
+      }
+      await fetchStatus();
+      setShowMovementModal(null);
+      setMovementAmount('');
+      setMovementDescription('');
+    } catch (e) {
+      setError(e instanceof Error ? e.message : 'Erro na operação');
+    } finally {
+      setSubmitting(false);
+    }
+  };
+
+  const handleClose = async () => {
+    const val = parseFloat(closeBalance.replace(',', '.')) ?? 0;
+    if (val < 0) {
+      setError('O valor de fechamento deve ser maior ou igual a zero.');
+      return;
+    }
+    setSubmitting(true);
+    setError(null);
+    try {
+      const res = await fetch(`${API_URL}/cashier/close`, {
+        method: 'POST',
+        headers: { ...getAuthHeaders(), 'Content-Type': 'application/json' },
+        body: JSON.stringify({ closingBalance: val }),
+      });
+      if (!res.ok) {
+        const err = await res.json().catch(() => ({}));
+        throw new Error(err.message || 'Erro ao fechar caixa');
+      }
+      const data: CloseResult = await res.json();
+      setCloseResult(data);
+      await fetchStatus();
+      await fetchHistory();
+      setCloseBalance('');
+    } catch (e) {
+      setError(e instanceof Error ? e.message : 'Erro ao fechar caixa');
+    } finally {
+      setSubmitting(false);
+    }
+  };
+
+  const dismissCloseResult = () => {
+    setCloseResult(null);
+    setShowCloseModal(false);
+  };
+
+  if (loading) {
+    return (
+      <div className="min-h-screen bg-stone-50 p-4 md:p-8 flex items-center justify-center">
+        <div className="animate-pulse text-stone-500">Carregando...</div>
+      </div>
+    );
+  }
+
+  const hasOpenSession = status?.hasOpenSession ?? false;
+  const session = status?.session;
+  const currentBalance = session?.currentBalance ?? 0;
+  const dailySales = status?.dailySales ?? 0;
+  const expectedOnClose = session
+    ? session.openingBalance +
+      session.movements
+        .reduce(
+          (s, m) => s + (m.type === 'REINFORCEMENT' ? m.amount : -m.amount),
+          0
+        )
+    : 0;
+
+  return (
+    <div className="min-h-screen bg-stone-50 p-4 md:p-8">
+      <div className="max-w-4xl mx-auto space-y-6">
+        {/* Header */}
+        <header className="flex flex-col md:flex-row md:items-center md:justify-between gap-4">
+          <div>
+            <h1 className="text-2xl md:text-3xl font-bold text-stone-800">
+              Caixa do Estabelecimento
+            </h1>
+            <p className="text-sm text-stone-500">
+              Controle diário de abertura, fechamento e movimentações
+            </p>
+          </div>
+          <span
+            className={`px-4 py-2 rounded-full text-sm font-semibold w-fit
+              ${hasOpenSession ? 'bg-emerald-100 text-emerald-700' : 'bg-rose-100 text-rose-700'}`}
+          >
+            {hasOpenSession ? 'Caixa Aberto' : 'Caixa Fechado'}
+          </span>
+        </header>
+
+        {error && (
+          <div className="bg-rose-50 border border-rose-200 text-rose-700 px-4 py-3 rounded-lg text-sm">
+            {error}
+          </div>
+        )}
+
+        {/* Cards principais */}
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+          {/* Saldo em Caixa */}
+          <div className="bg-white rounded-xl shadow-sm border border-stone-200 p-6">
+            <p className="text-sm text-stone-500">Saldo em Caixa</p>
+            <p className="text-3xl font-bold text-stone-800 mt-2">
+              {formatCurrency(currentBalance)}
+            </p>
+            {session && (
+              <p className="text-xs text-stone-400 mt-1">
+                Abertura: {formatDateTime(session.openedAt)} • Valor inicial:{' '}
+                {formatCurrency(session.openingBalance)}
+              </p>
+            )}
+          </div>
+
+          {/* Vendas do dia */}
+          <div className="bg-white rounded-xl shadow-sm border border-stone-200 p-6">
+            <p className="text-sm text-stone-500">Vendas do dia (entregues)</p>
+            <p className="text-3xl font-bold text-stone-800 mt-2">
+              {formatCurrency(dailySales)}
+            </p>
+            <p className="text-xs text-stone-400 mt-1">
+              Pedidos com status Entregue
+            </p>
+          </div>
+        </div>
+
+        {/* Operações */}
+        <div className="bg-white rounded-xl shadow-sm border border-stone-200 p-6 space-y-4">
+          <p className="text-sm text-stone-500 font-medium">Operações</p>
+
+          {!hasOpenSession ? (
+            <div className="space-y-3">
+              <button
+                onClick={() => setShowOpenModal(true)}
+                className="w-full bg-emerald-600 hover:bg-emerald-700 transition text-white py-3 rounded-lg font-semibold"
+              >
+                Abrir Caixa
+              </button>
+            </div>
+          ) : (
+            <div className="space-y-4">
+              <div className="flex gap-3">
+                <button
+                  onClick={() => setShowCloseModal(true)}
+                  className="flex-1 bg-rose-600 hover:bg-rose-700 transition text-white py-3 rounded-lg font-semibold"
+                >
+                  Fechar Caixa
+                </button>
+                <button
+                  onClick={() => setShowMovementModal('REINFORCEMENT')}
+                  className="flex-1 bg-stone-800 hover:bg-stone-700 transition text-white py-3 rounded-lg font-semibold"
+                >
+                  Reforço
+                </button>
+                <button
+                  onClick={() => setShowMovementModal('SANGRIA')}
+                  className="flex-1 bg-amber-600 hover:bg-amber-700 transition text-white py-3 rounded-lg font-semibold"
+                >
+                  Sangria
+                </button>
+              </div>
+
+              {/* Valores rápidos */}
+              <div>
+                <p className="text-xs text-stone-400 mb-2">Reforço rápido</p>
+                <div className="grid grid-cols-4 sm:grid-cols-6 gap-2 mb-3">
+                  {RAPID_VALUES.map((value) => (
+                    <button
+                      key={`add-${value}`}
+                      onClick={() => handleAddQuick(value, 'REINFORCEMENT')}
+                      disabled={submitting}
+                      className="bg-stone-100 hover:bg-stone-200 py-2 rounded-lg text-sm font-medium text-stone-700 disabled:opacity-50"
+                    >
+                      +{formatCurrency(value)}
+                    </button>
+                  ))}
+                </div>
+                <p className="text-xs text-stone-400 mb-2">Sangria rápida</p>
+                <div className="grid grid-cols-4 sm:grid-cols-6 gap-2">
+                  {RAPID_VALUES.map((value) => (
+                    <button
+                      key={`sub-${value}`}
+                      onClick={() => handleAddQuick(value, 'SANGRIA')}
+                      disabled={submitting || value > currentBalance}
+                      className="bg-amber-50 hover:bg-amber-100 py-2 rounded-lg text-sm font-medium text-amber-700 disabled:opacity-50 disabled:cursor-not-allowed"
+                    >
+                      −{formatCurrency(value)}
+                    </button>
+                  ))}
+                </div>
+              </div>
+            </div>
+          )}
+        </div>
+
+        {/* Movimentações recentes */}
+        {session && session.movements.length > 0 && (
+          <div className="bg-white rounded-xl shadow-sm border border-stone-200 p-6">
+            <p className="text-sm text-stone-500 font-medium mb-3">
+              Movimentações recentes
+            </p>
+            <ul className="space-y-2 max-h-48 overflow-y-auto">
+              {session.movements.map((m) => (
+                <li
+                  key={m.uuid}
+                  className="flex justify-between items-center py-2 border-b border-stone-100 last:border-0"
+                >
+                  <span className="text-sm text-stone-600">
+                    {m.type === 'REINFORCEMENT' ? 'Reforço' : 'Sangria'} •{' '}
+                    {formatDateTime(m.createdAt)}
+                  </span>
+                  <span
+                    className={
+                      m.type === 'REINFORCEMENT'
+                        ? 'text-emerald-600 font-semibold'
+                        : 'text-amber-600 font-semibold'
+                    }
+                  >
+                    {m.type === 'REINFORCEMENT' ? '+' : '−'}
+                    {formatCurrency(m.amount)}
+                  </span>
+                </li>
+              ))}
+            </ul>
+          </div>
+        )}
+
+        {/* Histórico de sessões */}
+        {history.length > 0 && (
+          <div className="bg-white rounded-xl shadow-sm border border-stone-200 p-6">
+            <p className="text-sm text-stone-500 font-medium mb-3">
+              Últimas sessões
+            </p>
+            <ul className="space-y-2">
+              {history.map((h) => (
+                <li
+                  key={h.uuid}
+                  className="flex justify-between items-center py-2 border-b border-stone-100 last:border-0 text-sm"
+                >
+                  <span className="text-stone-600">
+                    {formatDateTime(h.openedAt)}
+                    {h.closedAt && ` → ${formatDateTime(h.closedAt)}`}
+                  </span>
+                  <span className="text-stone-800 font-medium">
+                    {formatCurrency(h.openingBalance)}
+                    {h.closingBalance != null &&
+                      ` → ${formatCurrency(h.closingBalance)}`}
+                  </span>
+                </li>
+              ))}
+            </ul>
+          </div>
+        )}
+      </div>
+
+      {/* Modal Abrir Caixa */}
+      {showOpenModal && (
+        <div className="fixed inset-0 bg-black/50 flex items-center justify-center p-4 z-50">
+          <div className="bg-white rounded-xl p-6 w-full max-w-sm shadow-xl">
+            <h3 className="text-lg font-semibold text-stone-800 mb-4">
+              Abrir Caixa
+            </h3>
+            <p className="text-sm text-stone-500 mb-3">
+              Informe o valor inicial em caixa (troco):
+            </p>
+            <input
+              type="text"
+              inputMode="decimal"
+              value={openBalance}
+              onChange={(e) => setOpenBalance(e.target.value)}
+              placeholder="0,00"
+              className="w-full border border-stone-300 rounded-lg px-4 py-3 text-lg"
+            />
+            <div className="flex gap-3 mt-6">
+              <button
+                onClick={() => setShowOpenModal(false)}
+                className="flex-1 py-2 border border-stone-300 rounded-lg font-medium text-stone-700"
+              >
+                Cancelar
+              </button>
+              <button
+                onClick={handleOpen}
+                disabled={submitting}
+                className="flex-1 py-2 bg-emerald-600 text-white rounded-lg font-semibold disabled:opacity-50"
+              >
+                {submitting ? 'Abrindo...' : 'Abrir'}
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
+
+      {/* Modal Fechar Caixa */}
+      {showCloseModal && (
+        <div className="fixed inset-0 bg-black/50 flex items-center justify-center p-4 z-50">
+          <div className="bg-white rounded-xl p-6 w-full max-w-sm shadow-xl">
+            {!closeResult ? (
+              <>
+                <h3 className="text-lg font-semibold text-stone-800 mb-4">
+                  Fechar Caixa
+                </h3>
+                <p className="text-sm text-stone-500 mb-2">
+                  Valor esperado em caixa (abertura + vendas + reforços − sangrias):
+                </p>
+                <p className="text-xl font-bold text-stone-800 mb-4">
+                  {formatCurrency(expectedOnClose)}
+                </p>
+                <p className="text-sm text-stone-500 mb-3">
+                  Informe o valor contado em caixa:
+                </p>
+                <input
+                  type="text"
+                  inputMode="decimal"
+                  value={closeBalance}
+                  onChange={(e) => setCloseBalance(e.target.value)}
+                  placeholder="0,00"
+                  className="w-full border border-stone-300 rounded-lg px-4 py-3 text-lg"
+                />
+                <div className="flex gap-3 mt-6">
+                  <button
+                    onClick={() => setShowCloseModal(false)}
+                    className="flex-1 py-2 border border-stone-300 rounded-lg font-medium text-stone-700"
+                  >
+                    Cancelar
+                  </button>
+                  <button
+                    onClick={handleClose}
+                    disabled={submitting}
+                    className="flex-1 py-2 bg-rose-600 text-white rounded-lg font-semibold disabled:opacity-50"
+                  >
+                    {submitting ? 'Fechando...' : 'Fechar'}
+                  </button>
+                </div>
+              </>
+            ) : (
+              <>
+                <h3 className="text-lg font-semibold text-stone-800 mb-4">
+                  Caixa Fechado
+                </h3>
+                <div className="space-y-2 text-sm">
+                  <p className="flex justify-between">
+                    <span className="text-stone-500">Vendas do dia:</span>
+                    <span className="font-semibold">
+                      {formatCurrency(closeResult.dailySales)}
+                    </span>
+                  </p>
+                  <p className="flex justify-between">
+                    <span className="text-stone-500">Valor esperado:</span>
+                    <span className="font-semibold">
+                      {formatCurrency(closeResult.expectedTotal)}
+                    </span>
+                  </p>
+                  <p className="flex justify-between">
+                    <span className="text-stone-500">Diferença:</span>
+                    <span
+                      className={
+                        closeResult.difference === 0
+                          ? 'text-emerald-600 font-semibold'
+                          : closeResult.difference > 0
+                            ? 'text-amber-600 font-semibold'
+                            : 'text-rose-600 font-semibold'
+                      }
+                    >
+                      {formatCurrency(closeResult.difference)}
+                    </span>
+                  </p>
+                </div>
+                <button
+                  onClick={dismissCloseResult}
+                  className="w-full mt-6 py-2 bg-stone-800 text-white rounded-lg font-semibold"
+                >
+                  OK
+                </button>
+              </>
+            )}
+          </div>
+        </div>
+      )}
+
+      {/* Modal Reforço / Sangria */}
+      {showMovementModal && (
+        <div className="fixed inset-0 bg-black/50 flex items-center justify-center p-4 z-50">
+          <div className="bg-white rounded-xl p-6 w-full max-w-sm shadow-xl">
+            <h3 className="text-lg font-semibold text-stone-800 mb-4">
+              {showMovementModal === 'REINFORCEMENT' ? 'Reforço' : 'Sangria'}
+            </h3>
+            <p className="text-sm text-stone-500 mb-3">Valor:</p>
+            <input
+              type="text"
+              inputMode="decimal"
+              value={movementAmount}
+              onChange={(e) => setMovementAmount(e.target.value)}
+              placeholder="0,00"
+              className="w-full border border-stone-300 rounded-lg px-4 py-3 text-lg mb-3"
+            />
+            <p className="text-sm text-stone-500 mb-2">Descrição (opcional):</p>
+            <input
+              type="text"
+              value={movementDescription}
+              onChange={(e) => setMovementDescription(e.target.value)}
+              placeholder="Ex: Troco para cliente"
+              className="w-full border border-stone-300 rounded-lg px-4 py-2 text-sm mb-4"
+            />
+            <div className="flex gap-3">
+              <button
+                onClick={() => {
+                  setShowMovementModal(null);
+                  setMovementAmount('');
+                  setMovementDescription('');
+                }}
+                className="flex-1 py-2 border border-stone-300 rounded-lg font-medium text-stone-700"
+              >
+                Cancelar
+              </button>
+              <button
+                onClick={handleAddMovement}
+                disabled={submitting}
+                className={`flex-1 py-2 text-white rounded-lg font-semibold disabled:opacity-50 ${
+                  showMovementModal === 'REINFORCEMENT'
+                    ? 'bg-stone-800'
+                    : 'bg-amber-600'
+                }`}
+              >
+                {submitting ? 'Salvando...' : 'Confirmar'}
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
+    </div>
+  );
+}

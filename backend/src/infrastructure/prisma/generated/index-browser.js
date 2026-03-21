@@ -24,12 +24,12 @@ exports.Prisma = Prisma
 exports.$Enums = {}
 
 /**
- * Prisma Client JS version: 7.2.0
- * Query Engine version: 0c8ef2ce45c83248ab3df073180d5eda9e8be7a3
+ * Prisma Client JS version: 7.3.0
+ * Query Engine version: 9d6ad21cbbceab97458517b147a6a09ff43aa735
  */
 Prisma.prismaVersion = {
-  client: "7.2.0",
-  engine: "0c8ef2ce45c83248ab3df073180d5eda9e8be7a3"
+  client: "7.3.0",
+  engine: "9d6ad21cbbceab97458517b147a6a09ff43aa735"
 }
 
 Prisma.PrismaClientKnownRequestError = () => {
@@ -174,6 +174,25 @@ exports.Prisma.OrderItemScalarFieldEnum = {
   unitPrice: 'unitPrice'
 };
 
+exports.Prisma.CashierSessionScalarFieldEnum = {
+  uuid: 'uuid',
+  companyUuid: 'companyUuid',
+  openedAt: 'openedAt',
+  closedAt: 'closedAt',
+  openingBalance: 'openingBalance',
+  closingBalance: 'closingBalance',
+  status: 'status'
+};
+
+exports.Prisma.CashierMovementScalarFieldEnum = {
+  uuid: 'uuid',
+  sessionUuid: 'sessionUuid',
+  type: 'type',
+  amount: 'amount',
+  description: 'description',
+  createdAt: 'createdAt'
+};
+
 exports.Prisma.SortOrder = {
   asc: 'asc',
   desc: 'desc'
@@ -184,6 +203,11 @@ exports.Prisma.QueryMode = {
   insensitive: 'insensitive'
 };
 
+exports.Prisma.NullsOrder = {
+  first: 'first',
+  last: 'last'
+};
+
 
 exports.Prisma.ModelName = {
   Company: 'Company',
@@ -192,7 +216,9 @@ exports.Prisma.ModelName = {
   Category: 'Category',
   Table: 'Table',
   Order: 'Order',
-  OrderItem: 'OrderItem'
+  OrderItem: 'OrderItem',
+  CashierSession: 'CashierSession',
+  CashierMovement: 'CashierMovement'
 };
 
 /**
