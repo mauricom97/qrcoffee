@@ -1,6 +1,7 @@
 'use client';
 
 import Navbar from "components/navbar";
+import PricingSection from "components/PricingSection";
 import Link from "next/link";
 import { useEffect, useState } from "react";
 import {
@@ -133,20 +134,6 @@ const WelcomePage = () => {
         { icon: FaHamburger, label: "Lanchonetes" },
         { icon: FaWineGlassAlt, label: "Bistrôs" },
         { icon: FaBeer, label: "Pubs" },
-    ];
-
-    const planoEssencial = [
-        "Gestão de mesas",
-        "Gestão de pedidos",
-        "Comandas digitais",
-        "Painel de controle",
-    ];
-
-    const planoProfissional = [
-        "Tudo do plano Essencial",
-        "Relatórios avançados",
-        "Múltiplos usuários",
-        "Recursos adicionais de atendimento",
     ];
 
     const feedbacks = [
@@ -416,40 +403,7 @@ const WelcomePage = () => {
             </section>
 
             {/* 9. Planos */}
-            <section id="planos" className={SECTION_PY}>
-                <div className={CONTAINER}>
-                    <h2 className="text-xl sm:text-2xl md:text-3xl font-bold text-center text-black mb-4 sm:mb-6">
-                        Planos
-                    </h2>
-                    <p className="text-center text-gray-600 text-sm sm:text-base mb-10 max-w-xl mx-auto">
-                        Plano simples e acessível para estabelecimentos de diferentes tamanhos.
-                    </p>
-                    <div className="grid grid-cols-1 md:grid-cols-2 gap-6 sm:gap-8 max-w-4xl mx-auto">
-                        <div className="bg-gray-50 p-6 sm:p-8 rounded-lg border-2 border-gray-200">
-                            <h3 className="text-lg font-bold text-black mb-4">Plano Essencial</h3>
-                            <ul className="space-y-2">
-                                {planoEssencial.map((item) => (
-                                    <li key={item} className="flex items-center gap-2 text-gray-700 text-sm sm:text-base">
-                                        <FaCheck className="w-4 h-4 text-zinc-600 flex-shrink-0" />
-                                        {item}
-                                    </li>
-                                ))}
-                            </ul>
-                        </div>
-                        <div className="bg-black text-white p-6 sm:p-8 rounded-lg border-2 border-black">
-                            <h3 className="text-lg font-bold mb-4">Plano Profissional</h3>
-                            <ul className="space-y-2">
-                                {planoProfissional.map((item) => (
-                                    <li key={item} className="flex items-center gap-2 text-gray-200 text-sm sm:text-base">
-                                        <FaCheck className="w-4 h-4 text-zinc-500 flex-shrink-0" />
-                                        {item}
-                                    </li>
-                                ))}
-                            </ul>
-                        </div>
-                    </div>
-                </div>
-            </section>
+            <PricingSection />
 
             {/* 10. Chamada final */}
             <section id="cta-final" className={`${SECTION_PY} bg-gray-50 border-y border-gray-200`}>
