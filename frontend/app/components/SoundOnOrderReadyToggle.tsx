@@ -3,10 +3,12 @@
 import { useState, useEffect } from "react";
 import { getAuthHeaders } from "contexts/AuthContext";
 import LoadingSpinner from "components/LoadingSpinner";
+import { useLocaleContext } from "i18n/LocaleContext";
 
 const API_URL = process.env.NEXT_PUBLIC_BASE_API_URL || "http://localhost:3352";
 
 export default function SoundOnOrderReadyToggle() {
+  const { t } = useLocaleContext();
   const [soundOnOrderReady, setSoundOnOrderReady] = useState(true);
   const [loading, setLoading] = useState(true);
   const [saving, setSaving] = useState(false);
@@ -36,12 +38,12 @@ export default function SoundOnOrderReadyToggle() {
     }
   };
 
-  if (loading) return <LoadingSpinner message="Carregando…" />;
+  if (loading) return <LoadingSpinner message={t("common.loading")} />;
 
   return (
     <label className="flex items-center justify-between cursor-pointer">
       <span className="text-sm text-zinc-700">
-        Reproduzir som quando pedido ficar pronto
+        {t("soundToggle.label")}
       </span>
       <button
         role="switch"

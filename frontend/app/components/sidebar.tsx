@@ -3,6 +3,8 @@
 import { useState } from "react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
+import { useLocaleContext } from "i18n/LocaleContext";
+import LanguageSwitcher from "components/LanguageSwitcher";
 import { HiOutlineDeviceTablet, HiMenu, HiX, HiOutlineLogout, HiOutlineCog } from "react-icons/hi";
 import { LuTableOfContents } from "react-icons/lu";
 import { FaHome, FaPhone } from "react-icons/fa";
@@ -19,6 +21,7 @@ const Sidebar = () => {
     const [cardapioModalOpen, setCardapioModalOpen] = useState(false);
     const { logout } = useAuth();
     const router = useRouter();
+    const { t } = useLocaleContext();
     const { user } = useAuth() || { companyName: '' };
     const handleLogout = () => {
         logout();
@@ -55,32 +58,32 @@ const Sidebar = () => {
                     <Link href="/dashboard" onClick={() => setIsOpen(false)}>
                         <li className="flex items-center space-x-3 hover:bg-stone-300 p-3 rounded-md cursor-pointer">
                             <FaHome className="text-xl" />
-                            <span className="text-lg font-medium">Dashboard</span>
+                            <span className="text-lg font-medium">{t("sidebar.dashboard")}</span>
                         </li>
                     </Link>
                     <Link href="/products" onClick={() => setIsOpen(false)}>
                         <li className="flex items-center space-x-3 hover:bg-stone-300 p-3 rounded-md cursor-pointer">
                             <GrCafeteria  className="text-xl" />
-                            <span className="text-lg font-medium">Produtos</span>
+                            <span className="text-lg font-medium">{t("sidebar.products")}</span>
                         </li>
                     </Link>
                     <Link href="/tables" onClick={() => setIsOpen(false)}>
                         <li className="flex items-center space-x-3 hover:bg-stone-300 p-3 rounded-md cursor-pointer">
                             <MdOutlineTableBar className="text-xl" />
-                            <span className="text-lg font-medium">Mesas</span>
+                            <span className="text-lg font-medium">{t("sidebar.tables")}</span>
                         </li>
                     </Link>
                     <Link href="/tabs" onClick={() => setIsOpen(false)}>
                         <li className="flex items-center space-x-3 hover:bg-stone-300 p-3 rounded-md cursor-pointer">
                             <HiOutlineDeviceTablet className="text-xl" />
-                            <span className="text-lg font-medium">Comandas</span>
+                            <span className="text-lg font-medium">{t("sidebar.tabs")}</span>
                         </li>
                     </Link>
 
                     <Link href="/orders" onClick={() => setIsOpen(false)}>
                         <li className="flex items-center space-x-3 hover:bg-stone-300 p-3 rounded-md cursor-pointer">
                             <LuTableOfContents className="text-xl" />
-                            <span className="text-lg font-medium">Pedidos</span>
+                            <span className="text-lg font-medium">{t("sidebar.orders")}</span>
                         </li>
                     </Link>
 
@@ -92,29 +95,33 @@ const Sidebar = () => {
                         }}
                     >
                         <FaQrcode className="text-xl" />
-                        <span className="text-lg font-medium">Cardápio</span>
+                        <span className="text-lg font-medium">{t("sidebar.menu")}</span>
                     </li>
 
                     <Link href="/cashier" onClick={() => setIsOpen(false)}>
                     <li className="flex items-center space-x-3 hover:bg-stone-300 p-3 rounded-md cursor-pointer">
                         <FaMoneyBillWave className="text-xl" />
-                        <span className="text-lg font-medium">Caixa</span>
+                        <span className="text-lg font-medium">{t("sidebar.cashier")}</span>
                     </li>
                     </Link>
 
                     <Link href="/stock" onClick={() => setIsOpen(false)}>
                     <li className="flex items-center space-x-3 hover:bg-stone-300 p-3 rounded-md cursor-pointer">
                         <FaBox  className="text-xl" />
-                        <span className="text-lg font-medium">Estoque</span>
+                        <span className="text-lg font-medium">{t("sidebar.stock")}</span>
                     </li>
                     </Link>
 
                     <Link href="/settings" onClick={() => setIsOpen(false)}>
                     <li className="flex items-center space-x-3 hover:bg-stone-300 p-3 rounded-md cursor-pointer">
                         <HiOutlineCog className="text-xl" />
-                        <span className="text-lg font-medium">Configurações</span>
+                        <span className="text-lg font-medium">{t("sidebar.settings")}</span>
                     </li>
                     </Link>
+
+                    <li className="mt-2 w-full px-3">
+                        <LanguageSwitcher className="w-full justify-center" />
+                    </li>
 
                     <li className="mt-4 pt-4 border-t border-stone-300">
                         <button
@@ -122,7 +129,7 @@ const Sidebar = () => {
                             className="flex items-center space-x-3 hover:bg-stone-300 p-3 rounded-md cursor-pointer w-full text-left"
                         >
                             <HiOutlineLogout className="text-xl" />
-                            <span className="text-lg font-medium">Sair</span>
+                            <span className="text-lg font-medium">{t("sidebar.logout")}</span>
                         </button>
                     </li>
                 </ul>

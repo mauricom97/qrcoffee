@@ -5,6 +5,7 @@ import { useSearchParams } from "next/navigation";
 import { FaShoppingCart, FaPlus, FaMinus, FaCheckCircle, FaSearch } from "react-icons/fa";
 import LoadingSpinner from "components/LoadingSpinner";
 import { useRealtimeUpdates } from "hooks/useRealtimeUpdates";
+import { useLocaleContext } from "i18n/LocaleContext";
 
 const API_URL = process.env.NEXT_PUBLIC_BASE_API_URL || "http://localhost:3352";
 
@@ -57,6 +58,7 @@ interface CartItem {
 }
 
 function CardapioContent() {
+  const { t } = useLocaleContext();
   const searchParams = useSearchParams();
   const mesaUuid = searchParams.get("mesa");
 
@@ -75,13 +77,13 @@ function CardapioContent() {
       setError(null);
       const res = await fetch(`${API_URL}/public/menu/${mesaUuid}`);
       if (!res.ok) {
-        if (res.status === 404) throw new Error("Mesa não encontrada.");
-        throw new Error("Erro ao carregar cardápio.");
+        if (res.status === 404) throw new Error(t("cardapio.errNotFound"));
+        throw new Error(t("cardapio.errLoad"));
       }
       const data: MenuResponse = await res.json();
       setMenu(data);
     } catch (e) {
-      setError(e instanceof Error ? e.message : "Erro ao carregar cardápio.");
+      setError(e instanceof Error ? e.message : t("cardapio.errLoad"));
     } finally {
       setLoading(false);
     }
@@ -148,12 +150,12 @@ function CardapioContent() {
       });
       if (!res.ok) {
         const err = await res.json().catch(() => ({}));
-        throw new Error(err?.message || "Erro ao enviar pedido.");
+        throw new Error(err?.message || t("cardapio.sendError"));
       }
       setOrderSent(true);
       setCart([]);
     } catch (e) {
-      setError(e instanceof Error ? e.message : "Erro ao enviar pedido.");
+      setError(e instanceof Error ? e.message : t("cardapio.sendError"));
     } finally {
       setOrdering(false);
     }
@@ -196,10 +198,10 @@ function CardapioContent() {
       >
         <div className="bg-white rounded-2xl shadow-lg p-8 max-w-md text-center">
           <h1 className="text-2xl font-bold mb-2" style={{ color: theme.textPrimary }}>
-            Cardápio Online
+            {t("cardapio.title")}
           </h1>
           <p style={{ color: theme.textMuted }}>
-            Escaneie o QR code da sua mesa para ver o cardápio e fazer seu pedido.
+            {t("cardapio.scanPrompt")}
           </p>
         </div>
       </div>
@@ -212,7 +214,7 @@ function CardapioContent() {
         className="min-h-screen flex items-center justify-center"
         style={{ backgroundColor: theme.background }}
       >
-        <LoadingSpinner message="Carregando cardápio…" />
+        <LoadingSpinner message={t("cardapio.loading")} />
       </div>
     );
   }
@@ -224,10 +226,10 @@ function CardapioContent() {
         style={{ backgroundColor: theme.background }}
       >
         <div className="bg-white rounded-2xl shadow-lg p-8 max-w-md text-center">
-          <h1 className="text-xl font-bold text-red-800 mb-2">Ops!</h1>
+          <h1 className="text-xl font-bold text-red-800 mb-2">{t("cardapio.oops")}</h1>
           <p className="text-zinc-600">{error}</p>
           <p className="text-sm text-zinc-500 mt-4">
-            Verifique se o QR code foi escaneado corretamente.
+            {t("cardapio.checkQr")}
           </p>
         </div>
       </div>
@@ -243,17 +245,17 @@ function CardapioContent() {
         <div className="bg-white rounded-2xl shadow-lg p-8 max-w-md text-center">
           <FaCheckCircle className="mx-auto text-5xl text-zinc-600 mb-4" />
           <h1 className="text-2xl font-bold text-zinc-800 mb-2">
-            Pedido enviado!
+            {t("cardapio.orderSent")}
           </h1>
           <p className="text-zinc-600">
-            Seu pedido foi recebido e está sendo preparado.
+            {t("cardapio.orderSentDesc")}
           </p>
           <button
             onClick={() => setOrderSent(false)}
             className="mt-6 w-full text-white rounded-xl py-3 font-medium disabled:opacity-50 hover:opacity-90 transition"
             style={{ backgroundColor: theme.primary }}
           >
-            Fazer outro pedido
+            {t("cardapio.anotherOrder")}
           </button>
         </div>
       </div>
@@ -270,9 +272,9 @@ function CardapioContent() {
         style={{ backgroundColor: theme.primary }}
       >
         <div className="max-w-3xl mx-auto px-4 py-4">
-          <h1 className="text-xl font-bold">Cardápio Online</h1>
+          <h1 className="text-xl font-bold">{t("cardapio.title")}</h1>
           <p className="text-sm opacity-90">
-            Mesa {menu?.table.number}
+            {t("cardapio.table")} {menu?.table.number}
             {menu?.table.description ? ` — ${menu.table.description}` : ""}
           </p>
         </div>
@@ -290,7 +292,7 @@ function CardapioContent() {
             <FaSearch className="absolute left-3 top-1/2 -translate-y-1/2 text-zinc-400 w-4 h-4" />
             <input
               type="text"
-              placeholder="Buscar produtos..."
+              placeholder={t("cardapio.searchPh")}
               value={searchText}
               onChange={(e) => setSearchText(e.target.value)}
               className="w-full pl-10 pr-4 py-2.5 rounded-xl border bg-white text-zinc-800 placeholder-zinc-400 focus:outline-none focus:ring-2 focus:ring-zinc-400"
@@ -311,7 +313,7 @@ function CardapioContent() {
                   : { borderColor: theme.accent }
               }
             >
-              Todas
+              {t("cardapio.allCategories")}
             </button>
             {menu?.categories.map((category) => (
               <button
@@ -337,7 +339,7 @@ function CardapioContent() {
         <div className="space-y-10">
           {filteredCategories.length === 0 ? (
             <p className="text-center text-zinc-500 py-8">
-              Nenhum produto encontrado com os filtros aplicados.
+              {t("cardapio.noneFiltered")}
             </p>
           ) : (
           filteredCategories.map((category) => (
@@ -373,7 +375,7 @@ function CardapioContent() {
                         className="flex items-center gap-2 text-white rounded-lg px-4 py-2 text-sm font-medium hover:opacity-90 transition"
                         style={{ backgroundColor: theme.primary }}
                       >
-                        <FaPlus className="text-xs" /> Adicionar
+                        <FaPlus className="text-xs" /> {t("cardapio.add")}
                       </button>
                     </div>
                   </div>
@@ -393,7 +395,7 @@ function CardapioContent() {
           <div className="max-w-3xl mx-auto px-4 py-4">
             <div className="flex items-center justify-between mb-3">
               <span className="font-semibold text-zinc-800 flex items-center gap-2">
-                <FaShoppingCart /> Carrinho ({cart.reduce((a, i) => a + i.quantity, 0)} itens)
+                <FaShoppingCart /> {t("cardapio.cart")} ({t("cardapio.cartItems", { count: cart.reduce((a, i) => a + i.quantity, 0) })})
               </span>
               <span
                 className="text-lg font-bold"
@@ -435,7 +437,7 @@ function CardapioContent() {
               className="w-full text-white rounded-xl py-3 font-semibold disabled:opacity-50 hover:opacity-90 transition"
               style={{ backgroundColor: theme.primary }}
             >
-              {ordering ? "Enviando…" : "Enviar pedido"}
+              {ordering ? t("cardapio.sending") : t("cardapio.placeOrder")}
             </button>
           </div>
         </div>
@@ -444,15 +446,18 @@ function CardapioContent() {
   );
 }
 
+function CardapioSuspenseFallback() {
+  const { t } = useLocaleContext();
+  return (
+    <div className="min-h-screen flex items-center justify-center" style={{ backgroundColor: DEFAULT_THEME.background }}>
+      <LoadingSpinner message={t("cardapio.fallbackLoading")} />
+    </div>
+  );
+}
+
 export default function CardapioPage() {
   return (
-    <Suspense
-      fallback={
-        <div className="min-h-screen flex items-center justify-center" style={{ backgroundColor: DEFAULT_THEME.background }}>
-          <LoadingSpinner message="Carregando…" />
-        </div>
-      }
-    >
+    <Suspense fallback={<CardapioSuspenseFallback />}>
       <CardapioContent />
     </Suspense>
   );

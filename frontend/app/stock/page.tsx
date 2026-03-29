@@ -1,6 +1,7 @@
 'use client'
 
-import { useState } from 'react'
+import { useState, useCallback } from 'react'
+import { useLocaleContext } from 'i18n/LocaleContext'
 
 const productsMock = [
   { id: 1, name: 'Coca-Cola 2L', category: 'Bebidas', stock: 12, price: 9.5 },
@@ -10,7 +11,17 @@ const productsMock = [
 ]
 
 export default function StockManagementPage() {
+  const { t, localeTag } = useLocaleContext()
   const [search, setSearch] = useState('')
+
+  const formatPrice = useCallback(
+    (value: number) =>
+      new Intl.NumberFormat(localeTag, {
+        style: 'currency',
+        currency: 'BRL',
+      }).format(value),
+    [localeTag]
+  )
 
   const filteredProducts = productsMock.filter(product =>
     product.name.toLowerCase().includes(search.toLowerCase())
@@ -23,33 +34,33 @@ export default function StockManagementPage() {
       {/* Header */}
       <div className='mt-15'>
         <h1 className="text-2xl font-semibold text-gray-800">
-          Gerenciamento de Estoque
+          {t('stock.title')}
         </h1>
         <p className="text-sm text-gray-500">
-          Controle e acompanhe os produtos do seu estabelecimento
+          {t('stock.subtitle')}
         </p>
       </div>
 
       {/* Cards de resumo */}
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
-        <SummaryCard title="Total de Produtos" value={productsMock.length} />
-        <SummaryCard title="Baixo Estoque" value={lowStock} danger />
-        <SummaryCard title="Categorias" value={2} />
-        <SummaryCard title="Itens em Estoque" value="38" />
+        <SummaryCard title={t('stock.totalProducts')} value={productsMock.length} />
+        <SummaryCard title={t('stock.lowStock')} value={lowStock} danger />
+        <SummaryCard title={t('stock.categories')} value={2} />
+        <SummaryCard title={t('stock.itemsInStock')} value="38" />
       </div>
 
       {/* Ações */}
       <div className="flex flex-col sm:flex-row gap-3 sm:items-center sm:justify-between">
         <input
           type="text"
-          placeholder="Buscar produto..."
+          placeholder={t('stock.searchPh')}
           value={search}
           onChange={e => setSearch(e.target.value)}
           className="w-full sm:w-72 rounded-lg border border-gray-300 px-4 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-zinc-900"
         />
 
         <button className="rounded-lg bg-zinc-900 px-4 py-2 text-sm font-medium text-white hover:bg-zinc-800 transition">
-          + Novo Produto
+          {t('stock.newProduct')}
         </button>
       </div>
 
@@ -58,11 +69,11 @@ export default function StockManagementPage() {
         <table className="w-full text-sm">
           <thead className="bg-gray-50 text-gray-600">
             <tr>
-              <th className="px-4 py-3 text-left">Produto</th>
-              <th className="px-4 py-3 text-left">Categoria</th>
-              <th className="px-4 py-3 text-center">Estoque</th>
-              <th className="px-4 py-3 text-right">Preço</th>
-              <th className="px-4 py-3 text-center">Status</th>
+              <th className="px-4 py-3 text-left">{t('stock.colProduct')}</th>
+              <th className="px-4 py-3 text-left">{t('stock.colCategory')}</th>
+              <th className="px-4 py-3 text-center">{t('stock.colStock')}</th>
+              <th className="px-4 py-3 text-right">{t('stock.colPrice')}</th>
+              <th className="px-4 py-3 text-center">{t('stock.colStatus')}</th>
             </tr>
           </thead>
 
@@ -79,7 +90,7 @@ export default function StockManagementPage() {
                   {product.stock}
                 </td>
                 <td className="px-4 py-3 text-gray-600 text-right">
-                  R$ {product.price.toFixed(2)}
+                  {formatPrice(product.price)}
                 </td>
                 <td className="px-4 py-3 text-center">
                   <StockStatus stock={product.stock} />
@@ -93,7 +104,7 @@ export default function StockManagementPage() {
                   colSpan={5}
                   className="px-4 py-6 text-center text-gray-500"
                 >
-                  Nenhum produto encontrado
+                  {t('stock.noneFound')}
                 </td>
               </tr>
             )}
@@ -134,17 +145,18 @@ function SummaryCard({
 }
 
 function StockStatus({ stock }: { stock: number }) {
+  const { t } = useLocaleContext()
   if (stock <= 5) {
     return (
       <span className="rounded-full bg-zinc-200 px-3 py-1 text-xs font-medium text-zinc-700">
-        Baixo
+        {t('stock.low')}
       </span>
     )
   }
 
   return (
     <span className="rounded-full bg-zinc-100 px-3 py-1 text-xs font-medium text-zinc-600">
-      Normal
+      {t('stock.normal')}
     </span>
   )
 }

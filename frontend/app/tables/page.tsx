@@ -11,17 +11,17 @@ import { Mesa } from "./interfaces/table.interface";
 import { getAuthHeaders } from "contexts/AuthContext";
 import ConfirmModal from "components/ConfirmModal";
 import LoadingSpinner from "components/LoadingSpinner";
+import { useLocaleContext } from "i18n/LocaleContext";
 
 const API_URL = process.env.NEXT_PUBLIC_BASE_API_URL || "http://localhost:3352";
 
 const TableManager: React.FC = () => {
   const { user } = useAuth();
+  const { t } = useLocaleContext();
   const [mesas, setMesas] = useState<Mesa[]>([]);
   const [loading, setLoading] = useState(true);
   const numeroMesa = mesas.length + 1;
-  const [descricao, setDescricao] = useState<string>(
-    "Nenhuma descrição informada."
-  );
+  const [descricao, setDescricao] = useState<string>("");
   const [editingMesa, setEditingMesa] = useState<Mesa | null>(null);
   const [editNumber, setEditNumber] = useState<number>(1);
   const [editDescricao, setEditDescricao] = useState<string>("");
@@ -56,12 +56,12 @@ const TableManager: React.FC = () => {
         headers: { "Content-Type": "application/json", ...getAuthHeaders() },
         body: JSON.stringify({
           number: numeroMesa,
-          description: descricao,
+          description: descricao.trim() || t("tables.noDesc"),
           baseUrl,
         }),
       });
       if (!response.ok) throw new Error("Erro ao criar mesa no servidor.");
-      setDescricao("Nenhuma descrição informada.");
+      setDescricao(t("tables.noDesc"));
       await loadMesas();
     } catch (error) {
       console.error("Erro ao adicionar mesa:", error);
@@ -141,18 +141,18 @@ const TableManager: React.FC = () => {
     <div className="min-h-screen bg-zinc-50 p-4 md:p-8">
       <div className="mx-auto max-w-6xl space-y-8">
         <header>
-          <h1 className="text-2xl font-semibold text-zinc-800">Mesas</h1>
+          <h1 className="text-2xl font-semibold text-zinc-800">{t("tables.title")}</h1>
           <p className="text-sm text-zinc-500">
-            Gerenciador de mesas do estabelecimento.
+            {t("tables.subtitle")}
           </p>
         </header>
 
         <div className="bg-white shadow-md rounded-lg p-6 mb-6 text-black">
-          <h2 className="text-xl font-semibold mb-4">Adicionar Mesa</h2>
+          <h2 className="text-xl font-semibold mb-4">{t("tables.addTitle")}</h2>
           <div className="flex flex-col md:flex-row gap-4">
             <input
               type="number"
-              placeholder="Número da Mesa"
+              placeholder={t("tables.numberPh")}
               value={numeroMesa}
               min={1}
               readOnly
@@ -160,7 +160,7 @@ const TableManager: React.FC = () => {
             />
             <input
               type="text"
-              placeholder="Descrição"
+              placeholder={t("tables.descPh")}
               value={descricao}
               onChange={(e) => setDescricao(e.target.value)}
               className="border rounded-lg p-2 flex-1"
@@ -169,13 +169,13 @@ const TableManager: React.FC = () => {
               onClick={addMesa}
               className="bg-white text-black border border-black hover:bg-black hover:text-white rounded-lg px-4 py-2"
             >
-              Adicionar Mesa
+              {t("tables.addBtn")}
             </button>
           </div>
         </div>
 
         {loading ? (
-          <LoadingSpinner message="Carregando mesas..." />
+          <LoadingSpinner message={t("tables.loading")} />
         ) : (
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6 text-black">
             {mesas.map((mesa) => (
@@ -186,7 +186,7 @@ const TableManager: React.FC = () => {
                 <div className="flex justify-between items-start gap-4 mb-3">
                   <div className="min-w-0 flex-1">
                     <h3 className="text-lg font-semibold text-zinc-800">
-                      Mesa {mesa.number}
+                      {t("common.table")} {mesa.number}
                     </h3>
                     <p className="text-zinc-600 text-sm mt-1 line-clamp-2">
                       {mesa.description}
@@ -196,7 +196,7 @@ const TableManager: React.FC = () => {
                     type="button"
                     onClick={() => printQRCode(mesa.qrCode, mesa.number)}
                     className="shrink-0 p-1.5 rounded-lg border border-zinc-300 bg-white hover:bg-zinc-50 transition"
-                    title="Imprimir QR Code"
+                    title={t("tables.printQr")}
                   >
                     <QRCode value={mesa.qrCode} size={56} />
                   </button>
@@ -209,21 +209,21 @@ const TableManager: React.FC = () => {
                     className="inline-flex items-center gap-1.5 bg-zinc-800 text-white rounded-lg px-3 py-2 text-sm font-medium hover:bg-zinc-900 transition"
                   >
                     <LuTableOfContents className="text-base" />
-                    Cardápio
+                    {t("tables.menuLink")}
                   </Link>
                   <button
                     type="button"
                     onClick={() => openEdit(mesa)}
                     className="inline-flex items-center px-3 py-2 text-sm font-medium rounded-lg border border-zinc-300 bg-white text-zinc-700 hover:bg-zinc-50 transition"
                   >
-                    Editar
+                    {t("common.edit")}
                   </button>
                   <button
                     type="button"
                     onClick={() => setMesaToDelete(mesa)}
                     className="inline-flex items-center px-3 py-2 text-sm font-medium rounded-lg border border-red-300 bg-white text-red-600 hover:bg-red-50 transition"
                   >
-                    Excluir
+                    {t("common.delete")}
                   </button>
                 </div>
               </div>
@@ -240,11 +240,11 @@ const TableManager: React.FC = () => {
               className="bg-white rounded-lg p-6 max-w-md w-full shadow-xl text-black"
               onClick={(e) => e.stopPropagation()}
             >
-              <h2 className="text-xl font-semibold mb-4">Editar Mesa</h2>
+              <h2 className="text-xl font-semibold mb-4">{t("tables.editTitle")}</h2>
               <div className="space-y-4">
                 <div>
                   <label className="block text-sm font-medium text-zinc-700 mb-1">
-                    Número
+                    {t("tables.number")}
                   </label>
                   <input
                     type="number"
@@ -256,7 +256,7 @@ const TableManager: React.FC = () => {
                 </div>
                 <div>
                   <label className="block text-sm font-medium text-zinc-700 mb-1">
-                    Descrição
+                    {t("common.description")}
                   </label>
                   <input
                     type="text"
@@ -272,14 +272,14 @@ const TableManager: React.FC = () => {
                   onClick={updateMesa}
                   className="flex-1 bg-black text-white rounded-lg py-2 hover:bg-zinc-800"
                 >
-                  Salvar
+                  {t("common.save")}
                 </button>
                 <button
                   type="button"
                   onClick={closeEdit}
                   className="flex-1 bg-zinc-200 text-zinc-800 rounded-lg py-2 hover:bg-zinc-300"
                 >
-                  Cancelar
+                  {t("common.cancel")}
                 </button>
               </div>
             </div>
@@ -291,13 +291,14 @@ const TableManager: React.FC = () => {
         open={!!mesaToDelete}
         onClose={() => setMesaToDelete(null)}
         onConfirm={() => mesaToDelete && deleteMesa(mesaToDelete)}
-        title="Excluir mesa"
+        title={t("tables.deleteTitle")}
         message={
           mesaToDelete
-            ? `Tem certeza que deseja excluir a mesa ${mesaToDelete.number}?`
+            ? t("tables.deleteMsg", { n: String(mesaToDelete.number) })
             : ""
         }
-        confirmLabel="Excluir"
+        confirmLabel={t("common.delete")}
+        cancelLabel={t("common.cancel")}
       />
     </div>
   );

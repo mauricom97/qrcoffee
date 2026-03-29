@@ -19,16 +19,10 @@ import { getAuthHeaders } from "contexts/AuthContext";
 import { useAuth } from "contexts/AuthContext";
 import LoadingSpinner from "components/LoadingSpinner";
 import { useRealtimeUpdates } from "hooks/useRealtimeUpdates";
+import { useLocaleContext } from "i18n/LocaleContext";
 
 const API_URL =
   process.env.NEXT_PUBLIC_BASE_API_URL || "http://localhost:3352";
-
-const STATUS_LABELS: Record<OrderStatus, string> = {
-  PENDING: "Pendente",
-  PREPARING: "Preparando",
-  READY: "Pronto",
-  DELIVERED: "Entregue",
-};
 
 function statusIcon(status: OrderStatus) {
   switch (status) {
@@ -58,6 +52,9 @@ function statusBadgeClass(status: OrderStatus): string {
 
 export default function TabPage() {
   const { user } = useAuth();
+  const { t, localeTag } = useLocaleContext();
+  const statusLabel = (s: OrderStatus) => t(`tabs.status.${s}`);
+
   const [comandas, setComandas] = useState<OrderDto[]>([]);
   const [tables, setTables] = useState<Mesa[]>([]);
   const [loading, setLoading] = useState(true);
@@ -74,15 +71,15 @@ export default function TabPage() {
       if (tableFilter) params.set("tableUuid", tableFilter);
       const url = `${API_URL}/comandas${params.toString() ? `?${params}` : ""}`;
       const res = await fetch(url, { headers: getAuthHeaders() });
-      if (!res.ok) throw new Error("Erro ao carregar comandas.");
+      if (!res.ok) throw new Error(t("tabs.loadError"));
       const data: OrderDto[] = await res.json();
       setComandas(Array.isArray(data) ? data : []);
     } catch (e) {
       console.error(e);
-      setError("Não foi possível carregar as comandas.");
+      setError(t("tabs.loadError"));
       setComandas([]);
     }
-  }, [statusFilter, tableFilter]);
+  }, [statusFilter, tableFilter, t]);
 
   const loadTables = useCallback(async () => {
     try {
@@ -113,7 +110,7 @@ export default function TabPage() {
         headers: { "Content-Type": "application/json", ...getAuthHeaders() },
         body: JSON.stringify({ status }),
       });
-      if (!res.ok) throw new Error("Erro ao atualizar status.");
+      if (!res.ok) throw new Error(t("tabs.updateError"));
       await loadComandas();
     } catch (e) {
       console.error(e);
@@ -128,6 +125,8 @@ export default function TabPage() {
     return acc + orderTotal;
   }, 0);
 
+  const statusKeys = ["PENDING", "PREPARING", "READY", "DELIVERED"] as OrderStatus[];
+
   return (
     <div className="min-h-screen bg-zinc-100 p-4 md:p-8">
       <div className="max-w-6xl mx-auto">
@@ -136,10 +135,11 @@ export default function TabPage() {
             <span className="bg-zinc-900 text-white p-2 rounded-xl">
               <FaClipboardList className="text-2xl" />
             </span>
-            Lista de Comandas
+            {t("tabs.title")}
           </h1>
           <div className="flex items-center gap-2">
             <button
+              type="button"
               onClick={() => setShowFilters((v) => !v)}
               className={`flex items-center gap-2 px-4 py-2 rounded-xl border transition-colors ${
                 showFilters || statusFilter || tableFilter
@@ -147,9 +147,10 @@ export default function TabPage() {
                   : "bg-white/80 text-zinc-900 border-zinc-200 hover:bg-white"
               }`}
             >
-              <FaFilter /> Filtros
+              <FaFilter /> {t("common.filters")}
             </button>
             <button
+              type="button"
               onClick={() => {
                 setLoading(true);
                 loadComandas().finally(() => setLoading(false));
@@ -157,16 +158,17 @@ export default function TabPage() {
               disabled={loading}
               className="flex items-center gap-2 px-4 py-2 rounded-xl bg-white/80 text-zinc-900 border border-zinc-200 hover:bg-white disabled:opacity-50"
             >
-              <FaSyncAlt className={loading ? "animate-spin" : ""} /> Atualizar
+              <FaSyncAlt className={loading ? "animate-spin" : ""} /> {t("common.refresh")}
             </button>
           </div>
         </header>
 
         {showFilters && (
           <div className="mb-6 p-4 rounded-2xl bg-white/90 border border-zinc-200 shadow-sm">
-            <p className="text-sm font-medium text-zinc-900 mb-3">Status</p>
+            <p className="text-sm font-medium text-zinc-900 mb-3">{t("common.status")}</p>
             <div className="flex flex-wrap gap-2 mb-4">
               <button
+                type="button"
                 onClick={() => setStatusFilter("")}
                 className={`rounded-lg px-3 py-1.5 text-sm border ${
                   !statusFilter
@@ -174,10 +176,11 @@ export default function TabPage() {
                     : "bg-white text-zinc-900 border-zinc-200 hover:bg-zinc-50"
                 }`}
               >
-                Todos
+                {t("common.all")}
               </button>
-              {(Object.keys(STATUS_LABELS) as OrderStatus[]).map((s) => (
+              {statusKeys.map((s) => (
                 <button
+                  type="button"
                   key={s}
                   onClick={() => setStatusFilter(s)}
                   className={`rounded-lg px-3 py-1.5 text-sm border ${
@@ -186,21 +189,21 @@ export default function TabPage() {
                       : "bg-white text-zinc-900 border-zinc-200 hover:bg-zinc-50"
                   }`}
                 >
-                  {STATUS_LABELS[s]}
+                  {statusLabel(s)}
                 </button>
               ))}
             </div>
-            <p className="text-sm font-medium text-zinc-900 mb-2">Mesa</p>
+            <p className="text-sm font-medium text-zinc-900 mb-2">{t("tabs.tableFilter")}</p>
             <select
               value={tableFilter}
               onChange={(e) => setTableFilter(e.target.value)}
               className="w-full max-w-xs rounded-lg border border-zinc-200 bg-white px-3 py-2 text-zinc-900"
             >
-              <option value="">Todas as mesas</option>
-              {tables.map((t) => (
-                <option key={t.uuid} value={t.uuid}>
-                  Mesa {t.number}
-                  {t.description ? ` — ${t.description}` : ""}
+              <option value="">{t("tabs.allTables")}</option>
+              {tables.map((tbl) => (
+                <option key={tbl.uuid} value={tbl.uuid}>
+                  {t("common.table")} {tbl.number}
+                  {tbl.description ? ` — ${tbl.description}` : ""}
                 </option>
               ))}
             </select>
@@ -214,25 +217,26 @@ export default function TabPage() {
         )}
 
         {loading ? (
-          <LoadingSpinner message="Carregando comandas…" />
+          <LoadingSpinner message={t("tabs.loading")} />
         ) : comandas.length === 0 ? (
           <div className="rounded-2xl bg-white/90 border border-zinc-200 p-12 text-center">
             <FaClipboardList className="mx-auto text-5xl text-zinc-400 mb-4" />
-            <p className="text-zinc-600 font-medium">Nenhuma comanda encontrada.</p>
+            <p className="text-zinc-600 font-medium">{t("tabs.none")}</p>
             <p className="text-sm text-zinc-600/80 mt-1">
               {statusFilter || tableFilter
-                ? "Tente alterar os filtros."
-                : "Os pedidos aparecerão aqui quando forem criados."}
+                ? t("tabs.hintFilters")
+                : t("tabs.hintEmpty")}
             </p>
             {(statusFilter || tableFilter) && (
               <button
+                type="button"
                 onClick={() => {
                   setStatusFilter("");
                   setTableFilter("");
                 }}
                 className="mt-4 text-zinc-900 underline font-medium"
               >
-                Limpar filtros
+                {t("tabs.clearFilters")}
               </button>
             )}
           </div>
@@ -255,7 +259,7 @@ export default function TabPage() {
                           <FaTable />
                         </span>
                         <span className="font-semibold text-zinc-900">
-                          Mesa {order.tableNumber}
+                          {t("common.table")} {order.tableNumber}
                         </span>
                       </div>
                       <span
@@ -264,11 +268,11 @@ export default function TabPage() {
                         )}`}
                       >
                         {statusIcon(order.status as OrderStatus)}{" "}
-                        {STATUS_LABELS[order.status as OrderStatus]}
+                        {statusLabel(order.status as OrderStatus)}
                       </span>
                     </div>
                     <p className="px-5 py-1 text-xs text-zinc-600">
-                      {new Date(order.createdAt).toLocaleString("pt-BR")}
+                      {new Date(order.createdAt).toLocaleString(localeTag)}
                     </p>
                     <ul className="px-5 py-3 space-y-3">
                       {order.items.map((item) => (
@@ -288,24 +292,25 @@ export default function TabPage() {
                     <div className="px-5 py-4 bg-zinc-50/80 border-t border-zinc-200 space-y-3">
                       <div className="flex justify-between items-center">
                         <span className="font-semibold text-zinc-900">
-                          Total da comanda
+                          {t("tabs.orderTotal")}
                         </span>
                         <span className="text-lg font-bold text-zinc-900">
                           R$ {orderTotal.toFixed(2)}
                         </span>
                       </div>
                       <div className="flex flex-wrap gap-1">
-                        {(Object.keys(STATUS_LABELS) as OrderStatus[])
+                        {statusKeys
                           .filter((s) => s !== order.status)
                           .map((s) => (
                             <button
+                              type="button"
                               key={s}
                               onClick={() =>
                                 handleUpdateStatus(order, s)
                               }
                               className="text-xs bg-white border border-zinc-200 text-zinc-900 rounded-lg px-2 py-1 hover:bg-zinc-100"
                             >
-                              → {STATUS_LABELS[s]}
+                              → {statusLabel(s)}
                             </button>
                           ))}
                       </div>
@@ -318,7 +323,7 @@ export default function TabPage() {
             <div className="mt-8 p-6 rounded-2xl bg-zinc-900 text-white shadow-lg">
               <div className="flex flex-wrap items-center justify-between gap-4">
                 <span className="text-lg font-semibold">
-                  Total geral das comandas
+                  {t("tabs.grandTotal")}
                 </span>
                 <span className="text-2xl font-bold">
                   R$ {grandTotal.toFixed(2)}

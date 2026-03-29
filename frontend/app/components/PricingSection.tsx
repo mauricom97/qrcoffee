@@ -3,60 +3,25 @@
 import Link from 'next/link';
 import { useState } from 'react';
 import { FaCheck } from 'react-icons/fa';
+import { useLocaleContext } from 'i18n/LocaleContext';
 
 const CONTAINER = 'max-w-5xl mx-auto px-4 sm:px-6 md:px-8 lg:px-10';
 const SECTION_PY = 'py-12 sm:py-16 md:py-20';
 
-type Plan = {
-  id: string;
-  name: string;
-  description: string;
+const PLAN_ORDER = ['essencial', 'profissional', 'pro'] as const;
+
+type PlanId = (typeof PLAN_ORDER)[number];
+
+type PlanDef = {
+  id: PlanId;
   monthlyPrice: number;
-  features: string[];
   highlighted?: boolean;
-  badge?: string;
 };
 
-const PLANS: Plan[] = [
-  {
-    id: 'essencial',
-    name: 'Essencial',
-    description: 'Ideal para bares pequenos começando a organizar o atendimento',
-    monthlyPrice: 79,
-    features: [
-      'Controle de pedidos',
-      'Controle de produtos',
-      'Até 10 mesas',
-      'Suporte básico',
-    ],
-  },
-  {
-    id: 'profissional',
-    name: 'Profissional',
-    description: 'Perfeito para a maioria dos restaurantes',
-    monthlyPrice: 99,
-    features: [
-      'Pedidos ilimitados',
-      'Produtos ilimitados',
-      'Mesas ilimitadas',
-      'Pedidos via QR Code',
-      'Suporte prioritário',
-    ],
-    highlighted: true,
-    badge: 'Mais popular',
-  },
-  {
-    id: 'pro',
-    name: 'Pro',
-    description: 'Para operações maiores que precisam de mais controle',
-    monthlyPrice: 149,
-    features: [
-      'Tudo do plano anterior',
-      'Multiusuários',
-      'Relatórios (placeholder)',
-      'Suporte prioritário',
-    ],
-  },
+const PLAN_META: PlanDef[] = [
+  { id: 'essencial', monthlyPrice: 79 },
+  { id: 'profissional', monthlyPrice: 99, highlighted: true },
+  { id: 'pro', monthlyPrice: 149 },
 ];
 
 /** Preço anual: 10x o mensal (equivalente a 2 meses grátis). */
@@ -70,27 +35,49 @@ function monthlyFromAnnual(monthly: number) {
 
 export default function PricingSection() {
   const [annual, setAnnual] = useState(false);
+  const { t, localeTag, messages } = useLocaleContext();
+  const pricing = messages.pricing as {
+    plans: Record<
+      string,
+      { name: string; description: string; features: string[] }
+    >;
+  };
+
+  const planKey = (id: PlanId) => {
+    const map: Record<PlanId, string> = {
+      essencial: 'essential',
+      profissional: 'professional',
+      pro: 'pro',
+    };
+    return map[id];
+  };
+
+  const formatMoney = (n: number) =>
+    new Intl.NumberFormat(localeTag, {
+      style: 'currency',
+      currency: 'BRL',
+      minimumFractionDigits: 0,
+      maximumFractionDigits: 0,
+    }).format(n);
 
   return (
     <section id="planos" className={`${SECTION_PY} bg-white border-y border-gray-200`}>
       <div className={CONTAINER}>
         <div className="text-center max-w-3xl mx-auto mb-10 sm:mb-12">
           <h2 className="text-2xl sm:text-3xl md:text-4xl font-bold text-black tracking-tight">
-            Planos simples para transformar seu atendimento
+            {t('pricing.title')}
           </h2>
           <p className="mt-4 text-base sm:text-lg text-gray-600 leading-relaxed">
-            Aumente a velocidade do salão, reduza erros e mantenha mesas e pedidos organizados — sem
-            complicação. Escolha o plano que combina com o tamanho da sua operação.
+            {t('pricing.subtitle')}
           </p>
         </div>
 
-        {/* Toggle mensal / anual */}
         <div className="flex flex-col sm:flex-row items-center justify-center gap-3 sm:gap-4 mb-10 sm:mb-12">
           <span
             className={`text-sm font-medium ${!annual ? 'text-black' : 'text-gray-500'}`}
             id="pricing-period-label"
           >
-            Mensal
+            {t('pricing.monthly')}
           </span>
           <button
             type="button"
@@ -108,24 +95,20 @@ export default function PricingSection() {
           </button>
           <div className="flex items-center gap-2">
             <span className={`text-sm font-medium ${annual ? 'text-black' : 'text-gray-500'}`}>
-              Anual
+              {t('pricing.annual')}
             </span>
             <span className="inline-flex items-center rounded-full bg-emerald-50 px-2.5 py-0.5 text-xs font-semibold text-emerald-800 ring-1 ring-inset ring-emerald-600/20">
-              2 meses grátis
+              {t('pricing.twoMonthsFree')}
             </span>
           </div>
         </div>
 
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 lg:gap-5 xl:gap-6 items-stretch max-w-6xl mx-auto">
-          {PLANS.map((plan) => {
+          {PLAN_META.map((plan) => {
+            const p = pricing.plans[planKey(plan.id)];
             const isFeatured = plan.highlighted;
             const displayMonthly = annual ? monthlyFromAnnual(plan.monthlyPrice) : plan.monthlyPrice;
-            const priceLabel = new Intl.NumberFormat('pt-BR', {
-              style: 'currency',
-              currency: 'BRL',
-              minimumFractionDigits: 0,
-              maximumFractionDigits: 0,
-            }).format(displayMonthly);
+            const priceLabel = formatMoney(displayMonthly);
 
             return (
               <article
@@ -136,18 +119,20 @@ export default function PricingSection() {
                     : 'border-gray-200 bg-white shadow-sm hover:border-gray-300'
                 }`}
               >
-                {plan.badge && (
+                {isFeatured && (
                   <div className="absolute -top-3 left-1/2 -translate-x-1/2">
                     <span className="inline-flex items-center rounded-full bg-black px-3 py-1 text-xs font-semibold uppercase tracking-wide text-white shadow-md">
-                      {plan.badge}
+                      {t('pricing.popular')}
                     </span>
                   </div>
                 )}
 
-                <div className={plan.badge ? 'pt-2' : ''}>
-                  <h3 className="text-lg font-bold text-black">Plano {plan.name}</h3>
+                <div className={isFeatured ? 'pt-2' : ''}>
+                  <h3 className="text-lg font-bold text-black">
+                    {t('pricing.planPrefix')} {p.name}
+                  </h3>
                   <p className="mt-2 text-sm text-gray-600 leading-relaxed min-h-[2.75rem]">
-                    {plan.description}
+                    {p.description}
                   </p>
                 </div>
 
@@ -156,20 +141,16 @@ export default function PricingSection() {
                     <span className="text-3xl sm:text-4xl font-bold tracking-tight text-black">
                       {priceLabel}
                     </span>
-                    <span className="text-gray-600 text-sm font-medium">/mês</span>
+                    <span className="text-gray-600 text-sm font-medium">{t('common.month')}</span>
                   </div>
                   {annual ? (
                     <p className="mt-2 text-sm text-emerald-700 font-medium">
-                      Faturamento anual:{' '}
-                      {new Intl.NumberFormat('pt-BR', {
-                        style: 'currency',
-                        currency: 'BRL',
-                        minimumFractionDigits: 0,
-                      }).format(annualTotal(plan.monthlyPrice))}{' '}
-                      · economize o equivalente a 2 meses
+                      {t('pricing.billingAnnual', {
+                        amount: formatMoney(annualTotal(plan.monthlyPrice)),
+                      })}
                     </p>
                   ) : (
-                    <p className="mt-2 text-sm text-gray-500">Cobrança mensal, cancele quando quiser.</p>
+                    <p className="mt-2 text-sm text-gray-500">{t('pricing.billingMonthly')}</p>
                   )}
                 </div>
 
@@ -181,11 +162,11 @@ export default function PricingSection() {
                       : 'bg-white text-black border-2 border-black hover:bg-black hover:text-white'
                   }`}
                 >
-                  Começar agora
+                  {t('pricing.cta')}
                 </Link>
 
                 <ul className="space-y-3 flex-1 border-t border-gray-200 pt-6">
-                  {plan.features.map((feature) => (
+                  {p.features.map((feature) => (
                     <li key={feature} className="flex items-start gap-3 text-sm text-gray-700">
                       <FaCheck
                         className={`mt-0.5 h-4 w-4 flex-shrink-0 ${isFeatured ? 'text-black' : 'text-zinc-600'}`}
@@ -201,8 +182,7 @@ export default function PricingSection() {
         </div>
 
         <p className="mt-10 text-center text-xs sm:text-sm text-gray-500 max-w-2xl mx-auto">
-          Valores exibidos em reais (BRL). No plano anual, você paga o equivalente a 10 meses e usa o
-          sistema o ano inteiro.
+          {t('common.currencyBrlNote')}
         </p>
       </div>
     </section>
