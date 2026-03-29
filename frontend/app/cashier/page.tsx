@@ -3,6 +3,7 @@
 import { useState, useEffect, useCallback } from 'react';
 import { getAuthHeaders } from 'contexts/AuthContext';
 import LoadingSpinner from 'components/LoadingSpinner';
+import { useLocaleContext } from 'i18n/LocaleContext';
 
 const API_URL = process.env.NEXT_PUBLIC_BASE_API_URL || 'http://localhost:3352';
 
@@ -30,24 +31,29 @@ type CloseResult = {
 
 const RAPID_VALUES = [0.05, 0.10, 0.25, 0.50, 1, 2, 5, 10, 20, 50, 100, 200];
 
-function formatCurrency(value: number) {
-  return new Intl.NumberFormat('pt-BR', {
-    style: 'currency',
-    currency: 'BRL',
-  }).format(value);
-}
-
-function formatDateTime(iso: string) {
-  return new Date(iso).toLocaleString('pt-BR', {
-    day: '2-digit',
-    month: '2-digit',
-    year: 'numeric',
-    hour: '2-digit',
-    minute: '2-digit',
-  });
-}
-
 export default function CashierPage() {
+  const { t, localeTag } = useLocaleContext();
+
+  const formatCurrency = useCallback(
+    (value: number) =>
+      new Intl.NumberFormat(localeTag, {
+        style: 'currency',
+        currency: 'BRL',
+      }).format(value),
+    [localeTag]
+  );
+
+  const formatDateTime = useCallback(
+    (iso: string) =>
+      new Date(iso).toLocaleString(localeTag, {
+        day: '2-digit',
+        month: '2-digit',
+        year: 'numeric',
+        hour: '2-digit',
+        minute: '2-digit',
+      }),
+    [localeTag]
+  );
   const [status, setStatus] = useState<CashierStatus | null>(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
@@ -69,16 +75,16 @@ export default function CashierPage() {
       const res = await fetch(`${API_URL}/cashier/status`, {
         headers: getAuthHeaders(),
       });
-      if (!res.ok) throw new Error('Erro ao carregar status do caixa');
+      if (!res.ok) throw new Error(t('cashier.errLoad'));
       const data = await res.json();
       setStatus(data);
       setError(null);
     } catch (e) {
-      setError(e instanceof Error ? e.message : 'Erro desconhecido');
+      setError(e instanceof Error ? e.message : t('cashier.errUnknown'));
     } finally {
       setLoading(false);
     }
-  }, []);
+  }, [t]);
 
   const fetchHistory = useCallback(async () => {
     try {
@@ -102,7 +108,7 @@ export default function CashierPage() {
   const handleOpen = async () => {
     const val = parseFloat(openBalance.replace(',', '.')) || 0;
     if (val < 0) {
-      setError('O valor de abertura deve ser maior ou igual a zero.');
+      setError(t('cashier.openValueInvalid'));
       return;
     }
     setSubmitting(true);
@@ -115,13 +121,13 @@ export default function CashierPage() {
       });
       if (!res.ok) {
         const err = await res.json().catch(() => ({}));
-        throw new Error(err.message || 'Erro ao abrir caixa');
+        throw new Error(err.message || t('cashier.openError'));
       }
       await fetchStatus();
       setShowOpenModal(false);
       setOpenBalance('0');
     } catch (e) {
-      setError(e instanceof Error ? e.message : 'Erro ao abrir caixa');
+      setError(e instanceof Error ? e.message : t('cashier.openError'));
     } finally {
       setSubmitting(false);
     }
@@ -131,7 +137,11 @@ export default function CashierPage() {
     const session = status?.session;
     if (!session && type === 'SANGRIA') return;
     if (session && type === 'SANGRIA' && amount > session.currentBalance) {
-      setError(`Saldo insuficiente. Saldo atual: ${formatCurrency(session.currentBalance)}`);
+      setError(
+        t('cashier.insufficient', {
+          balance: formatCurrency(session.currentBalance),
+        })
+      );
       return;
     }
     setSubmitting(true);
@@ -144,11 +154,11 @@ export default function CashierPage() {
       });
       if (!res.ok) {
         const err = await res.json().catch(() => ({}));
-        throw new Error(err.message || 'Erro na operação');
+        throw new Error(err.message || t('cashier.opError'));
       }
       await fetchStatus();
     } catch (e) {
-      setError(e instanceof Error ? e.message : 'Erro na operação');
+      setError(e instanceof Error ? e.message : t('cashier.opError'));
     } finally {
       setSubmitting(false);
     }
@@ -158,12 +168,16 @@ export default function CashierPage() {
     const val = parseFloat(movementAmount.replace(',', '.')) || 0;
     const type = showMovementModal;
     if (!type || val <= 0) {
-      setError('Informe um valor válido.');
+      setError(t('cashier.valueInvalid'));
       return;
     }
     const session = status?.session;
     if (session && type === 'SANGRIA' && val > session.currentBalance) {
-      setError(`Saldo insuficiente. Saldo atual: ${formatCurrency(session.currentBalance)}`);
+      setError(
+        t('cashier.insufficient', {
+          balance: formatCurrency(session.currentBalance),
+        })
+      );
       return;
     }
     setSubmitting(true);
@@ -180,14 +194,14 @@ export default function CashierPage() {
       });
       if (!res.ok) {
         const err = await res.json().catch(() => ({}));
-        throw new Error(err.message || 'Erro na operação');
+        throw new Error(err.message || t('cashier.opError'));
       }
       await fetchStatus();
       setShowMovementModal(null);
       setMovementAmount('');
       setMovementDescription('');
     } catch (e) {
-      setError(e instanceof Error ? e.message : 'Erro na operação');
+      setError(e instanceof Error ? e.message : t('cashier.opError'));
     } finally {
       setSubmitting(false);
     }
@@ -196,7 +210,7 @@ export default function CashierPage() {
   const handleClose = async () => {
     const val = parseFloat(closeBalance.replace(',', '.')) ?? 0;
     if (val < 0) {
-      setError('O valor de fechamento deve ser maior ou igual a zero.');
+      setError(t('cashier.closeValueInvalid'));
       return;
     }
     setSubmitting(true);
@@ -209,7 +223,7 @@ export default function CashierPage() {
       });
       if (!res.ok) {
         const err = await res.json().catch(() => ({}));
-        throw new Error(err.message || 'Erro ao fechar caixa');
+        throw new Error(err.message || t('cashier.closeError'));
       }
       const data: CloseResult = await res.json();
       setCloseResult(data);
@@ -217,7 +231,7 @@ export default function CashierPage() {
       await fetchHistory();
       setCloseBalance('');
     } catch (e) {
-      setError(e instanceof Error ? e.message : 'Erro ao fechar caixa');
+      setError(e instanceof Error ? e.message : t('cashier.closeError'));
     } finally {
       setSubmitting(false);
     }
@@ -231,7 +245,7 @@ export default function CashierPage() {
   if (loading) {
     return (
       <div className="min-h-screen bg-stone-50 p-4 md:p-8 flex items-center justify-center">
-        <LoadingSpinner message="Carregando caixa..." />
+        <LoadingSpinner message={t('cashier.loading')} />
       </div>
     );
   }
@@ -256,17 +270,17 @@ export default function CashierPage() {
         <header className="flex flex-col md:flex-row md:items-center md:justify-between gap-4">
           <div>
             <h1 className="text-2xl md:text-3xl font-bold text-stone-800">
-              Caixa do Estabelecimento
+              {t('cashier.pageTitle')}
             </h1>
             <p className="text-sm text-stone-500">
-              Controle diário de abertura, fechamento e movimentações
+              {t('cashier.pageSubtitle')}
             </p>
           </div>
           <span
             className={`px-4 py-2 rounded-full text-sm font-semibold w-fit
               ${hasOpenSession ? 'bg-zinc-200 text-zinc-800' : 'bg-zinc-100 text-zinc-600'}`}
           >
-            {hasOpenSession ? 'Caixa Aberto' : 'Caixa Fechado'}
+            {hasOpenSession ? t('cashier.open') : t('cashier.closed')}
           </span>
         </header>
 
@@ -280,33 +294,37 @@ export default function CashierPage() {
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
           {/* Saldo em Caixa */}
           <div className="bg-white rounded-xl shadow-sm border border-stone-200 p-6">
-            <p className="text-sm text-stone-500">Saldo em Caixa</p>
+            <p className="text-sm text-stone-500">{t('cashier.balance')}</p>
             <p className="text-3xl font-bold text-stone-800 mt-2">
               {formatCurrency(currentBalance)}
             </p>
             {session && (
               <p className="text-xs text-stone-400 mt-1">
-                Abertura: {formatDateTime(session.openedAt)} • Valor inicial:{' '}
-                {formatCurrency(session.openingBalance)}
+                {t('cashier.openingLine', {
+                  openedAt: formatDateTime(session.openedAt),
+                  amount: formatCurrency(session.openingBalance),
+                })}
               </p>
             )}
           </div>
 
           {/* Vendas do dia */}
           <div className="bg-white rounded-xl shadow-sm border border-stone-200 p-6">
-            <p className="text-sm text-stone-500">Vendas do dia (entregues)</p>
+            <p className="text-sm text-stone-500">{t('cashier.dailySales')}</p>
             <p className="text-3xl font-bold text-stone-800 mt-2">
               {formatCurrency(dailySales)}
             </p>
             <p className="text-xs text-stone-400 mt-1">
-              Pedidos com status Entregue
+              {t('cashier.deliveredHint')}
             </p>
           </div>
         </div>
 
         {/* Operações */}
         <div className="bg-white rounded-xl shadow-sm border border-stone-200 p-6 space-y-4">
-          <p className="text-sm text-stone-500 font-medium">Operações</p>
+          <p className="text-sm text-stone-500 font-medium">
+            {t('cashier.operations')}
+          </p>
 
           {!hasOpenSession ? (
             <div className="space-y-3">
@@ -314,7 +332,7 @@ export default function CashierPage() {
                 onClick={() => setShowOpenModal(true)}
                 className="w-full bg-zinc-900 hover:bg-zinc-800 transition text-white py-3 rounded-lg font-semibold"
               >
-                Abrir Caixa
+                {t('cashier.openRegister')}
               </button>
             </div>
           ) : (
@@ -324,25 +342,27 @@ export default function CashierPage() {
                   onClick={() => setShowCloseModal(true)}
                   className="flex-1 bg-zinc-700 hover:bg-zinc-600 transition text-white py-3 rounded-lg font-semibold"
                 >
-                  Fechar Caixa
+                  {t('cashier.closeRegister')}
                 </button>
                 <button
                   onClick={() => setShowMovementModal('REINFORCEMENT')}
                   className="flex-1 bg-stone-800 hover:bg-stone-700 transition text-white py-3 rounded-lg font-semibold"
                 >
-                  Reforço
+                  {t('cashier.reinforcement')}
                 </button>
                 <button
                   onClick={() => setShowMovementModal('SANGRIA')}
                   className="flex-1 bg-zinc-600 hover:bg-zinc-500 transition text-white py-3 rounded-lg font-semibold"
                 >
-                  Sangria
+                  {t('cashier.withdrawal')}
                 </button>
               </div>
 
               {/* Valores rápidos */}
               <div>
-                <p className="text-xs text-stone-400 mb-2">Reforço rápido</p>
+                <p className="text-xs text-stone-400 mb-2">
+                  {t('cashier.quickAdd')}
+                </p>
                 <div className="grid grid-cols-4 sm:grid-cols-6 gap-2 mb-3">
                   {RAPID_VALUES.map((value) => (
                     <button
@@ -355,7 +375,9 @@ export default function CashierPage() {
                     </button>
                   ))}
                 </div>
-                <p className="text-xs text-stone-400 mb-2">Sangria rápida</p>
+                <p className="text-xs text-stone-400 mb-2">
+                  {t('cashier.quickWithdraw')}
+                </p>
                 <div className="grid grid-cols-4 sm:grid-cols-6 gap-2">
                   {RAPID_VALUES.map((value) => (
                     <button
@@ -377,7 +399,7 @@ export default function CashierPage() {
         {session && session.movements.length > 0 && (
           <div className="bg-white rounded-xl shadow-sm border border-stone-200 p-6">
             <p className="text-sm text-stone-500 font-medium mb-3">
-              Movimentações recentes
+              {t('cashier.recentMovements')}
             </p>
             <ul className="space-y-2 max-h-48 overflow-y-auto">
               {session.movements.map((m) => (
@@ -386,8 +408,13 @@ export default function CashierPage() {
                   className="flex justify-between items-center py-2 border-b border-stone-100 last:border-0"
                 >
                   <span className="text-sm text-stone-600">
-                    {m.type === 'REINFORCEMENT' ? 'Reforço' : 'Sangria'} •{' '}
-                    {formatDateTime(m.createdAt)}
+                    {t('cashier.movementType', {
+                      type:
+                        m.type === 'REINFORCEMENT'
+                          ? t('cashier.reinforcement')
+                          : t('cashier.withdrawal'),
+                      date: formatDateTime(m.createdAt),
+                    })}
                   </span>
                   <span
                     className={
@@ -409,7 +436,7 @@ export default function CashierPage() {
         {history.length > 0 && (
           <div className="bg-white rounded-xl shadow-sm border border-stone-200 p-6">
             <p className="text-sm text-stone-500 font-medium mb-3">
-              Últimas sessões
+              {t('cashier.lastSessions')}
             </p>
             <ul className="space-y-2">
               {history.map((h) => (
@@ -438,17 +465,17 @@ export default function CashierPage() {
         <div className="fixed inset-0 bg-black/50 flex items-center justify-center p-4 z-50">
           <div className="bg-white rounded-xl p-6 w-full max-w-sm shadow-xl">
             <h3 className="text-lg font-semibold text-stone-800 mb-4">
-              Abrir Caixa
+              {t('cashier.openModalTitle')}
             </h3>
             <p className="text-sm text-stone-500 mb-3">
-              Informe o valor inicial em caixa (troco):
+              {t('cashier.openModalHint')}
             </p>
             <input
               type="text"
               inputMode="decimal"
               value={openBalance}
               onChange={(e) => setOpenBalance(e.target.value)}
-              placeholder="0,00"
+              placeholder={t('cashier.amountPlaceholder')}
               className="w-full border border-stone-300 rounded-lg px-4 py-3 text-lg"
             />
             <div className="flex gap-3 mt-6">
@@ -456,14 +483,14 @@ export default function CashierPage() {
                 onClick={() => setShowOpenModal(false)}
                 className="flex-1 py-2 border border-stone-300 rounded-lg font-medium text-stone-700"
               >
-                Cancelar
+                {t('common.cancel')}
               </button>
               <button
                 onClick={handleOpen}
                 disabled={submitting}
                 className="flex-1 py-2 bg-zinc-900 text-white rounded-lg font-semibold disabled:opacity-50"
               >
-                {submitting ? 'Abrindo...' : 'Abrir'}
+                {submitting ? t('cashier.opening') : t('cashier.openAction')}
               </button>
             </div>
           </div>
@@ -477,23 +504,23 @@ export default function CashierPage() {
             {!closeResult ? (
               <>
                 <h3 className="text-lg font-semibold text-stone-800 mb-4">
-                  Fechar Caixa
+                  {t('cashier.closeModalTitle')}
                 </h3>
                 <p className="text-sm text-stone-500 mb-2">
-                  Valor esperado em caixa (abertura + vendas + reforços − sangrias):
+                  {t('cashier.expectedLine')}
                 </p>
                 <p className="text-xl font-bold text-stone-800 mb-4">
                   {formatCurrency(expectedOnClose)}
                 </p>
                 <p className="text-sm text-stone-500 mb-3">
-                  Informe o valor contado em caixa:
+                  {t('cashier.countedHint')}
                 </p>
                 <input
                   type="text"
                   inputMode="decimal"
                   value={closeBalance}
                   onChange={(e) => setCloseBalance(e.target.value)}
-                  placeholder="0,00"
+                  placeholder={t('cashier.amountPlaceholder')}
                   className="w-full border border-stone-300 rounded-lg px-4 py-3 text-lg"
                 />
                 <div className="flex gap-3 mt-6">
@@ -501,37 +528,43 @@ export default function CashierPage() {
                     onClick={() => setShowCloseModal(false)}
                     className="flex-1 py-2 border border-stone-300 rounded-lg font-medium text-stone-700"
                   >
-                    Cancelar
+                    {t('common.cancel')}
                   </button>
                   <button
                     onClick={handleClose}
                     disabled={submitting}
                     className="flex-1 py-2 bg-zinc-700 text-white rounded-lg font-semibold disabled:opacity-50"
                   >
-                    {submitting ? 'Fechando...' : 'Fechar'}
+                    {submitting ? t('cashier.closing') : t('cashier.closeAction')}
                   </button>
                 </div>
               </>
             ) : (
               <>
                 <h3 className="text-lg font-semibold text-stone-800 mb-4">
-                  Caixa Fechado
+                  {t('cashier.closedTitle')}
                 </h3>
                 <div className="space-y-2 text-sm">
                   <p className="flex justify-between">
-                    <span className="text-stone-500">Vendas do dia:</span>
+                    <span className="text-stone-500">
+                      {t('cashier.dailySalesLabel')}
+                    </span>
                     <span className="font-semibold">
                       {formatCurrency(closeResult.dailySales)}
                     </span>
                   </p>
                   <p className="flex justify-between">
-                    <span className="text-stone-500">Valor esperado:</span>
+                    <span className="text-stone-500">
+                      {t('cashier.expectedLabel')}
+                    </span>
                     <span className="font-semibold">
                       {formatCurrency(closeResult.expectedTotal)}
                     </span>
                   </p>
                   <p className="flex justify-between">
-                    <span className="text-stone-500">Diferença:</span>
+                    <span className="text-stone-500">
+                      {t('cashier.differenceLabel')}
+                    </span>
                     <span
                       className={
                         closeResult.difference === 0
@@ -549,7 +582,7 @@ export default function CashierPage() {
                   onClick={dismissCloseResult}
                   className="w-full mt-6 py-2 bg-stone-800 text-white rounded-lg font-semibold"
                 >
-                  OK
+                  {t('common.ok')}
                 </button>
               </>
             )}
@@ -562,23 +595,29 @@ export default function CashierPage() {
         <div className="fixed inset-0 bg-black/50 flex items-center justify-center p-4 z-50">
           <div className="bg-white rounded-xl p-6 w-full max-w-sm shadow-xl">
             <h3 className="text-lg font-semibold text-stone-800 mb-4">
-              {showMovementModal === 'REINFORCEMENT' ? 'Reforço' : 'Sangria'}
+              {showMovementModal === 'REINFORCEMENT'
+                ? t('cashier.reinforcement')
+                : t('cashier.withdrawal')}
             </h3>
-            <p className="text-sm text-stone-500 mb-3">Valor:</p>
+            <p className="text-sm text-stone-500 mb-3">
+              {t('cashier.movementValue')}
+            </p>
             <input
               type="text"
               inputMode="decimal"
               value={movementAmount}
               onChange={(e) => setMovementAmount(e.target.value)}
-              placeholder="0,00"
+              placeholder={t('cashier.amountPlaceholder')}
               className="w-full border border-stone-300 rounded-lg px-4 py-3 text-lg mb-3"
             />
-            <p className="text-sm text-stone-500 mb-2">Descrição (opcional):</p>
+            <p className="text-sm text-stone-500 mb-2">
+              {t('cashier.movementDesc')}
+            </p>
             <input
               type="text"
               value={movementDescription}
               onChange={(e) => setMovementDescription(e.target.value)}
-              placeholder="Ex: Troco para cliente"
+              placeholder={t('cashier.movementDescPh')}
               className="w-full border border-stone-300 rounded-lg px-4 py-2 text-sm mb-4"
             />
             <div className="flex gap-3">
@@ -590,7 +629,7 @@ export default function CashierPage() {
                 }}
                 className="flex-1 py-2 border border-stone-300 rounded-lg font-medium text-stone-700"
               >
-                Cancelar
+                {t('common.cancel')}
               </button>
               <button
                 onClick={handleAddMovement}
@@ -601,7 +640,7 @@ export default function CashierPage() {
                     : 'bg-zinc-600'
                 }`}
               >
-                {submitting ? 'Salvando...' : 'Confirmar'}
+                {submitting ? t('cashier.saving') : t('common.confirm')}
               </button>
             </div>
           </div>

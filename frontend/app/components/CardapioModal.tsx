@@ -6,6 +6,7 @@ import { HiX } from "react-icons/hi";
 import { getAuthHeaders } from "contexts/AuthContext";
 import LoadingSpinner from "components/LoadingSpinner";
 import CardapioThemeForm from "components/CardapioThemeForm";
+import { useLocaleContext } from "i18n/LocaleContext";
 
 const API_URL = process.env.NEXT_PUBLIC_BASE_API_URL || "http://localhost:3352";
 const BASE_URL = process.env.NEXT_PUBLIC_BASE_FRONTEND_URL || (typeof window !== "undefined" ? window.location.origin : "");
@@ -22,6 +23,7 @@ interface CardapioModalProps {
 }
 
 export default function CardapioModal({ open, onClose }: CardapioModalProps) {
+  const { t } = useLocaleContext();
   const [activeTab, setActiveTab] = useState<"visualizar" | "aparencia">("visualizar");
   const [mesas, setMesas] = useState<Mesa[]>([]);
   const [loadingMesas, setLoadingMesas] = useState(true);
@@ -53,12 +55,13 @@ export default function CardapioModal({ open, onClose }: CardapioModalProps) {
         <div className="flex items-center justify-between p-4 border-b border-zinc-200">
           <h2 className="text-xl font-semibold text-zinc-800 flex items-center gap-2">
             <FaQrcode className="text-zinc-600" />
-            Cardápio Online
+            {t("cardapioModal.title")}
           </h2>
           <button
+            type="button"
             onClick={onClose}
             className="p-2 rounded-lg hover:bg-zinc-100 text-zinc-600 transition"
-            aria-label="Fechar"
+            aria-label={t("cardapioModal.close")}
           >
             <HiX className="text-xl" />
           </button>
@@ -66,6 +69,7 @@ export default function CardapioModal({ open, onClose }: CardapioModalProps) {
 
         <div className="flex border-b border-zinc-200">
           <button
+            type="button"
             onClick={() => setActiveTab("visualizar")}
             className={`flex-1 py-3 px-4 text-sm font-medium flex items-center justify-center gap-2 transition ${
               activeTab === "visualizar"
@@ -73,9 +77,10 @@ export default function CardapioModal({ open, onClose }: CardapioModalProps) {
                 : "text-zinc-600 hover:bg-zinc-50"
             }`}
           >
-            <FaExternalLinkAlt /> Visualizar
+            <FaExternalLinkAlt /> {t("cardapioModal.tabView")}
           </button>
           <button
+            type="button"
             onClick={() => setActiveTab("aparencia")}
             className={`flex-1 py-3 px-4 text-sm font-medium flex items-center justify-center gap-2 transition ${
               activeTab === "aparencia"
@@ -83,7 +88,7 @@ export default function CardapioModal({ open, onClose }: CardapioModalProps) {
                 : "text-zinc-600 hover:bg-zinc-50"
             }`}
           >
-            <FaPalette /> Aparência
+            <FaPalette /> {t("cardapioModal.tabLook")}
           </button>
         </div>
 
@@ -91,13 +96,13 @@ export default function CardapioModal({ open, onClose }: CardapioModalProps) {
           {activeTab === "visualizar" && (
             <div className="space-y-4">
               <p className="text-sm text-zinc-600">
-                Abra o cardápio em uma nova aba para visualizar ou compartilhar com os clientes.
+                {t("cardapioModal.intro")}
               </p>
               {loadingMesas ? (
-                <LoadingSpinner message="Carregando mesas…" />
+                <LoadingSpinner message={t("cardapioModal.loadingTables")} />
               ) : mesas.length === 0 ? (
                 <p className="text-sm text-zinc-500 py-4 text-center">
-                  Nenhuma mesa cadastrada. Cadastre mesas em Mesas para gerar links do cardápio.
+                  {t("cardapioModal.noTables")}
                 </p>
               ) : (
                 <ul className="space-y-2">
@@ -107,7 +112,7 @@ export default function CardapioModal({ open, onClose }: CardapioModalProps) {
                       className="flex items-center justify-between p-3 rounded-lg border border-zinc-200 hover:bg-zinc-50"
                     >
                       <div>
-                        <span className="font-medium text-zinc-800">Mesa {mesa.number}</span>
+                        <span className="font-medium text-zinc-800">{t("common.table")} {mesa.number}</span>
                         {mesa.description && (
                           <span className="text-sm text-zinc-500 ml-1">— {mesa.description}</span>
                         )}
@@ -118,7 +123,7 @@ export default function CardapioModal({ open, onClose }: CardapioModalProps) {
                         rel="noopener noreferrer"
                         className="text-sm font-medium text-zinc-900 hover:underline flex items-center gap-1"
                       >
-                        Abrir <FaExternalLinkAlt className="text-xs" />
+                        {t("cardapioModal.open")} <FaExternalLinkAlt className="text-xs" />
                       </a>
                     </li>
                   ))}

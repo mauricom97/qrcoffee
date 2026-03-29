@@ -6,6 +6,7 @@ import { getAuthHeaders } from "contexts/AuthContext";
 import { useAuth } from "contexts/AuthContext";
 import LoadingSpinner from "components/LoadingSpinner";
 import { useRealtimeUpdates } from "hooks/useRealtimeUpdates";
+import { useLocaleContext } from "i18n/LocaleContext";
 
 interface Category {
   uuid: string;
@@ -14,6 +15,15 @@ interface Category {
 
 export default function ProductsPage() {
   const { user } = useAuth();
+  const { t, localeTag } = useLocaleContext();
+  const formatPrice = useCallback(
+    (value: number) =>
+      new Intl.NumberFormat(localeTag, {
+        style: "currency",
+        currency: "BRL",
+      }).format(value),
+    [localeTag]
+  );
   const [loading, setLoading] = useState(true);
   const [products, setProducts] = useState<Product[]>([]);
   const [showForm, setShowForm] = useState(false);
@@ -301,14 +311,14 @@ export default function ProductsPage() {
       <div className="mx-auto max-w-6xl space-y-8">
         {/* Header */}
         <header>
-          <h1 className="text-2xl font-semibold text-zinc-800">Produtos</h1>
+          <h1 className="text-2xl font-semibold text-zinc-800">{t("products.title")}</h1>
           <p className="text-sm text-zinc-500">
-            Gerenciador de produtos a serem vendidos no estabelecimento.
+            {t("products.subtitle")}
           </p>
         </header>
 
         {loading ? (
-          <LoadingSpinner message="Carregando produtos..." />
+          <LoadingSpinner message={t("products.loading")} />
         ) : (
           <>
         {/* Add/Edit product button */}
@@ -323,19 +333,19 @@ export default function ProductsPage() {
           }}
           className="rounded-lg bg-zinc-900 px-4 py-2 text-sm font-medium text-white hover:bg-zinc-800 transition"
         >
-          {showForm ? "Cancelar" : "Adicionar Produto"}
+          {showForm ? t("common.cancel") : t("products.addProduct")}
         </button>
 
         {showForm && (
           <section className="text-black rounded-2xl bg-white p-4 shadow-sm md:p-6">
             <h2 className="mb-4 text-lg font-medium text-zinc-800">
-              {editingProduct ? "Editar Produto" : "Adicionar Novo Produto"}
+              {editingProduct ? t("products.editProduct") : t("products.addNew")}
             </h2>
 
             <div className="grid gap-4 md:grid-cols-4">
               <input
                 type="text"
-                placeholder="Nome do produto"
+                placeholder={t("products.namePh")}
                 value={newProduct.name}
                 onChange={(e) =>
                   setNewProduct({ ...newProduct, name: e.target.value })
@@ -346,7 +356,7 @@ export default function ProductsPage() {
               <input
                 type="number"
                 min={1}
-                placeholder="Preço"
+                placeholder={t("products.pricePh")}
                 value={newProduct.price}
                 onChange={(e) =>
                   setNewProduct({
@@ -368,7 +378,7 @@ export default function ProductsPage() {
                 className="rounded-lg border border-zinc-200 px-3 py-2 text-sm focus:outline-none focus:border-zinc-400"
               >
                 <option value="" disabled>
-                  Selecione uma categoria
+                  {t("products.selectCategory")}
                 </option>
                 {categories.map((category) => (
                   <option key={category.uuid} value={category.uuid}>
@@ -381,18 +391,18 @@ export default function ProductsPage() {
                 onClick={() => setShowCategoryModal(true)}
                 className="rounded-lg bg-zinc-900 px-4 py-2 text-sm font-medium text-white hover:bg-zinc-800 transition"
               >
-                Criar Categoria
+                {t("products.createCategory")}
               </button>
 
               {showCategoryModal && (
                 <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
                   <div className="bg-white p-6 rounded-2xl shadow-xl max-w-md w-full">
                     <h2 className="text-xl font-semibold text-zinc-800 mb-4">
-                      Criar Nova Categoria
+                      {t("products.newCategoryTitle")}
                     </h2>
                     <input
                       type="text"
-                      placeholder="Nome da categoria"
+                      placeholder={t("products.categoryNamePh")}
                       value={newCategoryName}
                       onChange={(e) => setNewCategoryName(e.target.value)}
                       className="w-full rounded-lg border border-zinc-200 px-3 py-2 text-sm focus:outline-none focus:border-zinc-400 mb-4"
@@ -405,7 +415,7 @@ export default function ProductsPage() {
                         }}
                         className="flex-1 rounded-lg bg-zinc-200 px-4 py-2 text-sm font-medium text-zinc-800 hover:bg-zinc-300 transition"
                       >
-                        Cancelar
+                        {t("common.cancel")}
                       </button>
                       <button
                         onClick={async () => {
@@ -418,7 +428,7 @@ export default function ProductsPage() {
                         }}
                         className="flex-1 rounded-lg bg-zinc-800 px-4 py-2 text-sm font-medium text-white hover:bg-zinc-700 transition"
                       >
-                        Criar Categoria
+                        {t("products.createCategory")}
                       </button>
                     </div>
                   </div>
@@ -437,13 +447,13 @@ export default function ProductsPage() {
                   }
                   className="h-4 w-4 rounded border-zinc-300"
                 />
-                Ativo
+                {t("products.activeLabel")}
               </label>
             </div>
 
             <div>
               <textarea
-                placeholder="Descrição do produto"
+                placeholder={t("products.descPh")}
                 value={newProduct.description}
                 onChange={(e) =>
                   setNewProduct({ ...newProduct, description: e.target.value })
@@ -454,7 +464,7 @@ export default function ProductsPage() {
 
             <div className="mt-4">
               <label className="block text-sm font-medium text-zinc-800 mb-2">
-                Upload de Imagens
+                {t("products.imageUpload")}
               </label>
               <input
                 type="file"
@@ -469,7 +479,7 @@ export default function ProductsPage() {
                     <div key={index} className="relative">
                       <img
                         src={img}
-                        alt={`Imagem ${index + 1}`}
+                        alt={t("products.imageAlt", { n: index + 1 })}
                         className="h-24 w-full object-cover rounded-lg"
                       />
                       <button
@@ -488,17 +498,21 @@ export default function ProductsPage() {
               onClick={handleSaveProduct}
               className="mt-4 rounded-lg bg-zinc-900 px-4 py-2 text-sm font-medium text-white hover:bg-zinc-800 transition w-full md:w-auto"
             >
-              {editingProduct ? "Atualizar Produto" : "Adicionar Produto"}
+              {editingProduct
+                ? t("products.updateProduct")
+                : t("products.addProduct")}
             </button>
           </section>
         )}
 
         <section className="rounded-2xl bg-white p-4 shadow-sm md:p-6">
-          <h2 className="mb-4 text-lg font-medium text-zinc-800">Filtros</h2>
+          <h2 className="mb-4 text-lg font-medium text-zinc-800">
+            {t("products.filters")}
+          </h2>
           <div className="grid gap-4 md:grid-cols-2">
             <input
               type="text"
-              placeholder="Buscar por nome"
+              placeholder={t("products.searchName")}
               onChange={async (e) => {
                 const searchTerm = e.target.value.trim();
                 if (searchTerm === "") {
@@ -554,7 +568,7 @@ export default function ProductsPage() {
               }}
               className="rounded-lg text-zinc-800 border border-zinc-200 px-3 py-2 text-sm focus:outline-none focus:border-zinc-400"
             >
-              <option value="">Todas as categorias</option>
+              <option value="">{t("products.allCategories")}</option>
               {categories.map((category) => (
                 <option key={category.uuid} value={category.name}>
                   {category.name}
@@ -581,13 +595,13 @@ export default function ProductsPage() {
                         {product.name}
                       </h3>
                       <p className="text-sm text-zinc-500 font-semibold">
-                        Descrição:{" "}
+                        {t("products.descLabel")}{" "}
                         <span className="font-normal">
                           {product.description || "—"}
                         </span>
                       </p>
                       <p className="text-lg font-semibold text-zinc-900">
-                        R$ {product.price.toFixed(2)}
+                        {formatPrice(product.price)}
                       </p>
                     </div>
 
@@ -599,7 +613,9 @@ export default function ProductsPage() {
                             : "bg-zinc-100 text-zinc-500"
                         }`}
                       >
-                        {product.active ? "Ativo" : "Inativo"}
+                        {product.active
+                          ? t("common.active")
+                          : t("common.inactive")}
                       </span>
 
                       <div className="flex gap-2 flex-wrap">
@@ -607,7 +623,7 @@ export default function ProductsPage() {
                           onClick={() => toggleStatus(product.uuid)}
                           className="rounded-lg border border-amber-400 px-3 py-1 text-xs text-amber-700 hover:bg-amber-50 transition"
                         >
-                          Mudar status
+                          {t("products.changeStatus")}
                         </button>
 
                         <button
@@ -617,21 +633,21 @@ export default function ProductsPage() {
                           }}
                           className="rounded-lg border border-red-200 px-3 py-1 text-xs text-red-600 hover:bg-red-50 transition"
                         >
-                          Excluir
+                          {t("common.delete")}
                         </button>
 
                         <button
                           onClick={() => setShowImages(product.uuid)}
                           className="rounded-lg border border-blue-200 px-3 py-1 text-xs text-blue-600 hover:bg-blue-50 transition"
                         >
-                          Mostrar imagens
+                          {t("products.showImages")}
                         </button>
 
                         <button
                           onClick={() => handleEdit(product)}
                           className="rounded-lg border border-blue-200 px-3 py-1 text-xs text-blue-600 hover:bg-blue-50 transition"
                         >
-                          Editar
+                          {t("common.edit")}
                         </button>
                       </div>
                     </div>
@@ -641,14 +657,16 @@ export default function ProductsPage() {
 
               {group.products.length === 0 && (
                 <p className="text-sm text-zinc-500">
-                  Nenhum produto nesta categoria.
+                  {t("products.noneInCategory")}
                 </p>
               )}
             </div>
           ))}
 
           {products.length === 0 && (
-            <p className="text-sm text-zinc-500">Nenhum produto registrado.</p>
+            <p className="text-sm text-zinc-500">
+              {t("products.noneRegistered")}
+            </p>
           )}
         </section>
           </>
@@ -659,7 +677,7 @@ export default function ProductsPage() {
         <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
           <div className="bg-white p-6 rounded-2xl shadow-xl max-w-4xl w-full max-h-[80vh] overflow-y-auto">
             <h2 className="text-xl font-semibold text-zinc-800 mb-4">
-              Imagens de {selectedProduct.name}
+              {t("products.imagesOf", { name: selectedProduct.name })}
             </h2>
 
             {selectedProduct.images && selectedProduct.images.length > 0 ? (
@@ -668,14 +686,14 @@ export default function ProductsPage() {
                   <img
                     key={idx}
                     src={img}
-                    alt={`Imagem ${idx + 1} de ${selectedProduct.name}`}
+                    alt={t("products.imageAlt", { n: idx + 1 })}
                     className="h-64 object-contain flex-shrink-0 rounded-lg"
                   />
                 ))}
               </div>
             ) : (
               <p className="text-sm text-zinc-500">
-                Nenhuma imagem disponível para este produto.
+                {t("products.noImages")}
               </p>
             )}
 
@@ -683,7 +701,7 @@ export default function ProductsPage() {
               onClick={() => setShowImages(null)}
               className="mt-6 w-full rounded-lg bg-zinc-900 px-4 py-2 text-sm font-medium text-white hover:bg-zinc-800 transition"
             >
-              Fechar
+              {t("common.close")}
             </button>
           </div>
         </div>
@@ -693,11 +711,13 @@ export default function ProductsPage() {
         <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
           <div className="bg-white p-6 rounded-2xl shadow-xl max-w-md w-full">
             <h2 className="text-xl font-semibold text-zinc-800 mb-4">
-              Confirmar Exclusão
+              {t("products.confirmDeleteTitle")}
             </h2>
             <p className="text-sm text-zinc-600 mb-6">
-              Tem certeza que deseja excluir o produto{" "}
-              {products.find((p) => p.uuid === productToDelete)?.name}?
+              {t("products.confirmDeleteMsg", {
+                name:
+                  products.find((p) => p.uuid === productToDelete)?.name ?? "",
+              })}
             </p>
             <div className="flex gap-4">
               <button
@@ -707,7 +727,7 @@ export default function ProductsPage() {
                 }}
                 className="flex-1 rounded-lg bg-zinc-200 px-4 py-2 text-sm font-medium text-zinc-800 hover:bg-zinc-300 transition"
               >
-                Cancelar
+                {t("common.cancel")}
               </button>
               <button
                 onClick={() => {
@@ -717,7 +737,7 @@ export default function ProductsPage() {
                 }}
                 className="flex-1 rounded-lg bg-red-600 px-4 py-2 text-sm font-medium text-white hover:bg-red-700 transition"
               >
-                Excluir
+                {t("common.delete")}
               </button>
             </div>
           </div>

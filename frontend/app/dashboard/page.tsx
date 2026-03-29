@@ -17,6 +17,7 @@ import {
 } from 'recharts';
 import { getAuthHeaders } from 'contexts/AuthContext';
 import LoadingSpinner from 'components/LoadingSpinner';
+import { useLocaleContext } from 'i18n/LocaleContext';
 
 const API_URL =
   process.env.NEXT_PUBLIC_BASE_API_URL || 'http://localhost:3352';
@@ -60,14 +61,15 @@ type FinancialSummary = {
   lastPeriodLabel: string;
 };
 
-function formatCurrency(value: number) {
-  return new Intl.NumberFormat('pt-BR', {
-    style: 'currency',
-    currency: 'BRL',
-  }).format(value);
-}
-
 export default function Dashboard() {
+  const { t, localeTag } = useLocaleContext();
+
+  function formatCurrency(value: number) {
+    return new Intl.NumberFormat(localeTag, {
+      style: 'currency',
+      currency: 'BRL',
+    }).format(value);
+  }
   const [activeTab, setActiveTab] = useState<'attendance' | 'financial'>(
     userPermission.canViewAttendance ? 'attendance' : 'financial'
   );
@@ -92,11 +94,11 @@ export default function Dashboard() {
       fetch(
         `${API_URL}/dashboard/attendance?period=${period}`,
         { headers: getAuthHeaders() }
-      ).then((r) => (r.ok ? r.json() : Promise.reject(new Error('Erro ao carregar atendimentos')))),
+      ).then((r) => (r.ok ? r.json() : Promise.reject(new Error(t('dashboard.errAttendance'))))),
       fetch(
         `${API_URL}/dashboard/attendance/summary`,
         { headers: getAuthHeaders() }
-      ).then((r) => (r.ok ? r.json() : Promise.reject(new Error('Erro ao carregar resumo')))),
+      ).then((r) => (r.ok ? r.json() : Promise.reject(new Error(t('dashboard.errSummary'))))),
     ])
       .then(([stats, summary]) => {
         setAttendanceData(stats);
@@ -114,11 +116,11 @@ export default function Dashboard() {
       fetch(
         `${API_URL}/dashboard/financial?period=${period}`,
         { headers: getAuthHeaders() }
-      ).then((r) => (r.ok ? r.json() : Promise.reject(new Error('Erro ao carregar financeiro')))),
+      ).then((r) => (r.ok ? r.json() : Promise.reject(new Error(t('dashboard.errFinancial'))))),
       fetch(
         `${API_URL}/dashboard/financial/summary`,
         { headers: getAuthHeaders() }
-      ).then((r) => (r.ok ? r.json() : Promise.reject(new Error('Erro ao carregar resumo')))),
+      ).then((r) => (r.ok ? r.json() : Promise.reject(new Error(t('dashboard.errSummary'))))),
     ])
       .then(([stats, summary]) => {
         setFinancialData(stats);
@@ -137,10 +139,10 @@ export default function Dashboard() {
       <div className="mx-auto max-w-7xl space-y-6 mt-15">
         <header>
           <h1 className="text-2xl md:text-3xl font-semibold text-zinc-800">
-            Dashboard
+            {t('dashboard.title')}
           </h1>
           <p className="text-sm text-zinc-500">
-            Acompanhamento de métricas do sistema
+            {t('dashboard.subtitle')}
           </p>
         </header>
 
@@ -154,7 +156,7 @@ export default function Dashboard() {
                   : 'bg-white text-zinc-600 hover:bg-zinc-200'
               }`}
             >
-              Atendimento
+              {t('dashboard.tabAttendance')}
             </button>
           )}
           {userPermission.canViewFinancial && (
@@ -166,7 +168,7 @@ export default function Dashboard() {
                   : 'bg-white text-zinc-600 hover:bg-zinc-200'
               }`}
             >
-              Financeiro
+              {t('dashboard.tabFinancial')}
             </button>
           )}
           <div className="ml-auto flex gap-1">
@@ -178,7 +180,7 @@ export default function Dashboard() {
                   : 'bg-white text-zinc-600 hover:bg-zinc-200'
               }`}
             >
-              7 dias
+              {t('dashboard.period7')}
             </button>
             <button
               onClick={() => setPeriod('month')}
@@ -188,7 +190,7 @@ export default function Dashboard() {
                   : 'bg-white text-zinc-600 hover:bg-zinc-200'
               }`}
             >
-              6 meses
+              {t('dashboard.period6m')}
             </button>
           </div>
         </div>
@@ -208,7 +210,7 @@ export default function Dashboard() {
               <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
                 <div className="rounded-xl bg-white p-4 shadow-sm border border-zinc-200">
                   <p className="text-xs font-medium text-zinc-500 uppercase tracking-wide">
-                    Total de pedidos
+                    {t('dashboard.totalOrders')}
                   </p>
                   <p className="mt-1 text-2xl font-semibold text-zinc-800">
                     {attendanceSummary.totalOrders}
@@ -219,7 +221,7 @@ export default function Dashboard() {
                 </div>
                 <div className="rounded-xl bg-white p-4 shadow-sm border border-zinc-200">
                   <p className="text-xs font-medium text-zinc-500 uppercase tracking-wide">
-                    Entregues
+                    {t('dashboard.delivered')}
                   </p>
                   <p className="mt-1 text-2xl font-semibold text-zinc-800">
                     {attendanceSummary.deliveredOrders}
@@ -227,7 +229,7 @@ export default function Dashboard() {
                 </div>
                 <div className="rounded-xl bg-white p-4 shadow-sm border border-zinc-200">
                   <p className="text-xs font-medium text-zinc-500 uppercase tracking-wide">
-                    Pendentes
+                    {t('dashboard.pending')}
                   </p>
                   <p className="mt-1 text-2xl font-semibold text-zinc-600">
                     {attendanceSummary.pendingOrders}
@@ -239,11 +241,11 @@ export default function Dashboard() {
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
               <div className="rounded-2xl bg-white p-4 shadow-sm border border-zinc-200">
                 <h2 className="mb-4 text-lg font-medium text-zinc-800">
-                  Pedidos por período
+                  {t('dashboard.ordersByPeriod')}
                 </h2>
                 {loading ? (
                   <div className="h-[300px] flex items-center justify-center">
-                    <LoadingSpinner message="Carregando..." />
+                    <LoadingSpinner message={t('common.loading')} />
                   </div>
                 ) : (
                   <ResponsiveContainer width="100%" height={300}>
@@ -253,9 +255,9 @@ export default function Dashboard() {
                       <YAxis />
                       <Tooltip />
                       <Legend />
-                      <Bar dataKey="total" name="Total" fill="#6366f1" radius={[4, 4, 0, 0]} />
-                      <Bar dataKey="delivered" name="Entregues" fill="#22c55e" radius={[4, 4, 0, 0]} />
-                      <Bar dataKey="pending" name="Pendentes" fill="#f59e0b" radius={[4, 4, 0, 0]} />
+                      <Bar dataKey="total" name={t('dashboard.chartTotal')} fill="#6366f1" radius={[4, 4, 0, 0]} />
+                      <Bar dataKey="delivered" name={t('dashboard.chartDelivered')} fill="#22c55e" radius={[4, 4, 0, 0]} />
+                      <Bar dataKey="pending" name={t('dashboard.chartPending')} fill="#f59e0b" radius={[4, 4, 0, 0]} />
                     </BarChart>
                   </ResponsiveContainer>
                 )}
@@ -263,11 +265,11 @@ export default function Dashboard() {
 
               <div className="rounded-2xl bg-white p-4 shadow-sm border border-zinc-200">
                 <h2 className="mb-4 text-lg font-medium text-zinc-800">
-                  Evolução de atendimentos
+                  {t('dashboard.attendanceTrend')}
                 </h2>
                 {loading ? (
                   <div className="h-[300px] flex items-center justify-center">
-                    <LoadingSpinner message="Carregando..." />
+                    <LoadingSpinner message={t('common.loading')} />
                   </div>
                 ) : (
                   <ResponsiveContainer width="100%" height={300}>
@@ -290,7 +292,7 @@ export default function Dashboard() {
                       <Area
                         type="monotone"
                         dataKey="total"
-                        name="Total"
+                        name={t('dashboard.chartTotal')}
                         stroke="#6366f1"
                         strokeWidth={2}
                         fillOpacity={1}
@@ -299,7 +301,7 @@ export default function Dashboard() {
                       <Area
                         type="monotone"
                         dataKey="delivered"
-                        name="Entregues"
+                        name={t('dashboard.chartDelivered')}
                         stroke="#22c55e"
                         strokeWidth={2}
                         fillOpacity={1}
@@ -322,7 +324,7 @@ export default function Dashboard() {
               <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
                 <div className="rounded-xl bg-white p-4 shadow-sm border border-zinc-200">
                   <p className="text-xs font-medium text-zinc-500 uppercase tracking-wide">
-                    Receita total
+                    {t('dashboard.totalRevenue')}
                   </p>
                   <p className="mt-1 text-2xl font-semibold text-zinc-800">
                     {formatCurrency(financialSummary.totalRevenue)}
@@ -333,7 +335,7 @@ export default function Dashboard() {
                 </div>
                 <div className="rounded-xl bg-white p-4 shadow-sm border border-zinc-200">
                   <p className="text-xs font-medium text-zinc-500 uppercase tracking-wide">
-                    Pedidos entregues
+                    {t('dashboard.deliveredOrders')}
                   </p>
                   <p className="mt-1 text-2xl font-semibold text-zinc-800">
                     {financialSummary.orderCount}
@@ -341,7 +343,7 @@ export default function Dashboard() {
                 </div>
                 <div className="rounded-xl bg-white p-4 shadow-sm border border-zinc-200">
                   <p className="text-xs font-medium text-zinc-500 uppercase tracking-wide">
-                    Ticket médio
+                    {t('dashboard.avgTicket')}
                   </p>
                   <p className="mt-1 text-2xl font-semibold text-zinc-800">
                     {financialSummary.orderCount
@@ -357,11 +359,11 @@ export default function Dashboard() {
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
               <div className="rounded-2xl bg-white p-4 shadow-sm border border-zinc-200">
                 <h2 className="mb-4 text-lg font-medium text-zinc-800">
-                  Receita por período
+                  {t('dashboard.revenueByPeriod')}
                 </h2>
                 {loading ? (
                   <div className="h-[300px] flex items-center justify-center">
-                    <LoadingSpinner message="Carregando..." />
+                    <LoadingSpinner message={t('common.loading')} />
                   </div>
                 ) : (
                   <ResponsiveContainer width="100%" height={300}>
@@ -371,14 +373,14 @@ export default function Dashboard() {
                       <YAxis tickFormatter={(v) => `R$ ${v}`} />
                       <Tooltip
                         formatter={(value: number | undefined) =>
-                          value != null ? [formatCurrency(value), 'Receita'] : []
+                          value != null ? [formatCurrency(value), t('dashboard.revenue')] : []
                         }
-                        labelFormatter={(label) => `Período: ${label}`}
+                        labelFormatter={(label) => `${t('dashboard.period')}: ${label}`}
                       />
                       <Line
                         type="monotone"
                         dataKey="revenue"
-                        name="Receita"
+                        name={t('dashboard.revenue')}
                         stroke="#0ea5e9"
                         strokeWidth={2}
                         dot={{ fill: '#0ea5e9', r: 4 }}
@@ -391,11 +393,11 @@ export default function Dashboard() {
 
               <div className="rounded-2xl bg-white p-4 shadow-sm border border-zinc-200">
                 <h2 className="mb-4 text-lg font-medium text-zinc-800">
-                  Pedidos entregues por período
+                  {t('dashboard.ordersDeliveredByPeriod')}
                 </h2>
                 {loading ? (
                   <div className="h-[300px] flex items-center justify-center">
-                    <LoadingSpinner message="Carregando..." />
+                    <LoadingSpinner message={t('common.loading')} />
                   </div>
                 ) : (
                   <ResponsiveContainer width="100%" height={300}>
@@ -406,7 +408,7 @@ export default function Dashboard() {
                       <Tooltip />
                       <Bar
                         dataKey="orderCount"
-                        name="Pedidos"
+                        name={t('dashboard.ordersLabel')}
                         fill="#8b5cf6"
                         radius={[4, 4, 0, 0]}
                       />
@@ -421,7 +423,7 @@ export default function Dashboard() {
         {!userPermission.canViewAttendance &&
           !userPermission.canViewFinancial && (
             <div className="rounded-xl bg-zinc-100 p-4 text-zinc-700">
-              Você não possui permissão para visualizar métricas.
+              {t('dashboard.noPermission')}
             </div>
           )}
       </div>

@@ -5,10 +5,12 @@ import { useRouter } from 'next/navigation';
 import Link from 'next/link';
 import { HiOutlineEye, HiOutlineEyeOff } from 'react-icons/hi';
 import { useAuth } from '../contexts/AuthContext';
+import { useLocaleContext } from 'i18n/LocaleContext';
 
 export default function LoginPage() {
   const router = useRouter();
   const { login, user } = useAuth();
+  const { t } = useLocaleContext();
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [showPassword, setShowPassword] = useState(false);
@@ -24,7 +26,7 @@ export default function LoginPage() {
       router.push('/dashboard');
       router.refresh();
     } catch (err) {
-      setError(err instanceof Error ? err.message : 'Falha ao entrar.');
+      setError(err instanceof Error ? err.message : t('auth.loginFailed'));
     } finally {
       setLoading(false);
     }
@@ -44,10 +46,10 @@ export default function LoginPage() {
     <div className="min-h-screen flex items-center justify-center bg-stone-50 px-4">
       <div className="w-full max-w-md bg-white border border-stone-200 rounded-lg p-8 shadow-md">
         <h1 className="text-2xl font-bold text-center text-stone-900 mb-1">
-          Entrar na sua conta
+          {t('auth.loginTitle')}
         </h1>
         <p className="text-center text-stone-600 mb-6 text-sm">
-          Use seu e-mail e senha para acessar o Super Atendimento
+          {t('auth.loginSubtitle')}
         </p>
 
         <form onSubmit={handleSubmit} className="space-y-5">
@@ -61,7 +63,7 @@ export default function LoginPage() {
           )}
           <div>
             <label htmlFor="email" className="block text-sm font-medium text-stone-700 mb-1.5">
-              E-mail
+              {t('auth.email')}
             </label>
             <input
               id="email"
@@ -71,12 +73,12 @@ export default function LoginPage() {
               required
               autoComplete="email"
               className="w-full px-4 py-2.5 border border-stone-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-stone-800 focus:border-transparent transition-shadow"
-              placeholder="exemplo@email.com"
+              placeholder={t('auth.emailPlaceholder')}
             />
           </div>
           <div>
             <label htmlFor="password" className="block text-sm font-medium text-stone-700 mb-1.5">
-              Senha
+              {t('auth.password')}
             </label>
             <div className="relative">
               <input
@@ -87,14 +89,14 @@ export default function LoginPage() {
                 required
                 autoComplete="current-password"
                 className="w-full px-4 py-2.5 pr-12 border border-stone-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-stone-800 focus:border-transparent transition-shadow"
-                placeholder="Digite sua senha"
+                placeholder={t('auth.passwordPlaceholder')}
               />
               <button
                 type="button"
                 onClick={() => setShowPassword(!showPassword)}
                 className="absolute right-3 top-1/2 -translate-y-1/2 p-1.5 text-stone-500 hover:text-stone-700 hover:bg-stone-100 rounded-md transition-colors"
-                aria-label={showPassword ? 'Ocultar senha' : 'Mostrar senha'}
-                title={showPassword ? 'Ocultar senha' : 'Mostrar senha'}
+                aria-label={showPassword ? t('auth.hidePassword') : t('auth.showPassword')}
+                title={showPassword ? t('auth.hidePassword') : t('auth.showPassword')}
               >
                 {showPassword ? (
                   <HiOutlineEyeOff className="w-5 h-5" />
@@ -109,19 +111,19 @@ export default function LoginPage() {
             disabled={loading}
             className="w-full py-3 bg-stone-900 text-white font-medium rounded-lg hover:bg-stone-800 disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
           >
-            {loading ? 'Entrando...' : 'Entrar'}
+            {loading ? t('auth.signingIn') : t('auth.signIn')}
           </button>
         </form>
 
         <p className="mt-6 text-center text-sm text-stone-600">
-          Não tem conta?{' '}
+          {t('auth.noAccount')}{' '}
           <Link href="/register" className="font-medium text-stone-900 hover:underline">
-            Cadastre sua empresa
+            {t('auth.registerLink')}
           </Link>
         </p>
         <p className="mt-2 text-center text-sm">
           <Link href="/" className="text-stone-500 hover:text-stone-900">
-            ← Voltar ao início
+            {t('common.backHome')}
           </Link>
         </p>
       </div>

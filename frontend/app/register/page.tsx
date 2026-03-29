@@ -4,10 +4,12 @@ import { useState, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
 import Link from 'next/link';
 import { useAuth } from '../contexts/AuthContext';
+import { useLocaleContext } from 'i18n/LocaleContext';
 
 export default function RegisterPage() {
   const router = useRouter();
   const { register: doRegister, user } = useAuth();
+  const { t } = useLocaleContext();
   const [companyName, setCompanyName] = useState('');
   const [userName, setUserName] = useState('');
   const [email, setEmail] = useState('');
@@ -20,11 +22,11 @@ export default function RegisterPage() {
     e.preventDefault();
     setError('');
     if (password !== confirmPassword) {
-      setError('As senhas não coincidem.');
+      setError(t('auth.passwordsMismatch'));
       return;
     }
     if (password.length < 6) {
-      setError('A senha deve ter pelo menos 6 caracteres.');
+      setError(t('auth.passwordTooShort'));
       return;
     }
     setLoading(true);
@@ -33,7 +35,7 @@ export default function RegisterPage() {
       router.push('/dashboard');
       router.refresh();
     } catch (err) {
-      setError(err instanceof Error ? err.message : 'Falha no cadastro.');
+      setError(err instanceof Error ? err.message : t('auth.registerFailed'));
     } finally {
       setLoading(false);
     }
@@ -53,10 +55,10 @@ export default function RegisterPage() {
     <div className="min-h-screen flex items-center justify-center bg-white px-4 py-12">
       <div className="w-full max-w-md border border-black rounded-sm p-8 shadow-lg">
         <h1 className="text-2xl font-bold text-center text-black mb-2">
-          Cadastrar empresa
+          {t('auth.registerTitle')}
         </h1>
         <p className="text-center text-gray-600 mb-6 text-sm">
-          Crie sua conta e comece a usar o QRCoffee
+          {t('auth.registerSubtitle')}
         </p>
 
         <form onSubmit={handleSubmit} className="space-y-4">
@@ -67,7 +69,7 @@ export default function RegisterPage() {
           )}
           <div>
             <label htmlFor="companyName" className="block text-sm font-medium text-black mb-1">
-              Nome da empresa
+              {t('auth.companyName')}
             </label>
             <input
               id="companyName"
@@ -76,12 +78,12 @@ export default function RegisterPage() {
               onChange={(e) => setCompanyName(e.target.value)}
               required
               className="w-full px-4 py-2 border border-black rounded-sm focus:outline-none focus:ring-2 focus:ring-black"
-              placeholder="Minha Cafeteria"
+              placeholder={t('auth.companyPlaceholder')}
             />
           </div>
           <div>
             <label htmlFor="userName" className="block text-sm font-medium text-black mb-1">
-              Seu nome
+              {t('auth.yourName')}
             </label>
             <input
               id="userName"
@@ -90,12 +92,12 @@ export default function RegisterPage() {
               onChange={(e) => setUserName(e.target.value)}
               required
               className="w-full px-4 py-2 border border-black rounded-sm focus:outline-none focus:ring-2 focus:ring-black"
-              placeholder="João Silva"
+              placeholder={t('auth.namePlaceholder')}
             />
           </div>
           <div>
             <label htmlFor="email" className="block text-sm font-medium text-black mb-1">
-              E-mail
+              {t('auth.email')}
             </label>
             <input
               id="email"
@@ -104,12 +106,12 @@ export default function RegisterPage() {
               onChange={(e) => setEmail(e.target.value)}
               required
               className="w-full px-4 py-2 border border-black rounded-sm focus:outline-none focus:ring-2 focus:ring-black"
-              placeholder="seu@email.com"
+              placeholder={t('auth.emailPlaceholder')}
             />
           </div>
           <div>
             <label htmlFor="password" className="block text-sm font-medium text-black mb-1">
-              Senha
+              {t('auth.password')}
             </label>
             <input
               id="password"
@@ -119,12 +121,12 @@ export default function RegisterPage() {
               required
               minLength={6}
               className="w-full px-4 py-2 border border-black rounded-sm focus:outline-none focus:ring-2 focus:ring-black"
-              placeholder="Mínimo 6 caracteres"
+              placeholder={t('auth.passwordMin')}
             />
           </div>
           <div>
             <label htmlFor="confirmPassword" className="block text-sm font-medium text-black mb-1">
-              Confirmar senha
+              {t('auth.confirmPassword')}
             </label>
             <input
               id="confirmPassword"
@@ -133,7 +135,7 @@ export default function RegisterPage() {
               onChange={(e) => setConfirmPassword(e.target.value)}
               required
               className="w-full px-4 py-2 border border-black rounded-sm focus:outline-none focus:ring-2 focus:ring-black"
-              placeholder="Repita a senha"
+              placeholder={t('auth.confirmPasswordPlaceholder')}
             />
           </div>
           <button
@@ -141,19 +143,19 @@ export default function RegisterPage() {
             disabled={loading}
             className="w-full py-3 bg-black text-white font-medium rounded-sm hover:bg-gray-800 disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
           >
-            {loading ? 'Cadastrando...' : 'Cadastrar'}
+            {loading ? t('auth.registering') : t('auth.register')}
           </button>
         </form>
 
         <p className="mt-6 text-center text-sm text-gray-600">
-          Já tem conta?{' '}
+          {t('auth.hasAccount')}{' '}
           <Link href="/login" className="font-medium text-black hover:underline">
-            Entrar
+            {t('auth.signIn')}
           </Link>
         </p>
         <p className="mt-2 text-center text-sm">
           <Link href="/" className="text-gray-500 hover:text-black">
-            ← Voltar ao início
+            {t('common.backHome')}
           </Link>
         </p>
       </div>

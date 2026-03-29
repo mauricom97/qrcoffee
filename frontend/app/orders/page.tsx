@@ -16,16 +16,10 @@ import { Mesa } from "../tables/interfaces/table.interface";
 import { getAuthHeaders } from "contexts/AuthContext";
 import ConfirmModal from "components/ConfirmModal";
 import LoadingSpinner from "components/LoadingSpinner";
+import { useLocaleContext } from "i18n/LocaleContext";
 
 const API_URL = process.env.NEXT_PUBLIC_BASE_API_URL || "http://localhost:3352";
 const SOUND_READY_URL = "/Ding - Sound Effect.mp3";
-
-const STATUS_LABELS: Record<OrderStatus, string> = {
-  PENDING: "Pendente",
-  PREPARING: "Preparando",
-  READY: "Pronto",
-  DELIVERED: "Entregue",
-};
 
 interface ProductOption {
   uuid: string;
@@ -42,6 +36,8 @@ interface NewOrderItem {
 
 export default function OrdersPage() {
   const { user } = useAuth();
+  const { t, localeTag } = useLocaleContext();
+  const statusLabel = (s: OrderStatus) => t(`orders.status.${s}`);
   const [orders, setOrders] = useState<OrderDto[]>([]);
   const [tables, setTables] = useState<Mesa[]>([]);
   const [products, setProducts] = useState<ProductOption[]>([]);
@@ -100,7 +96,7 @@ export default function OrdersPage() {
       setOrders(newOrders);
     } catch (e) {
       console.error(e);
-      setError("Não foi possível carregar os pedidos.");
+      setError(t("orders.loadError"));
     }
   }, [statusFilter]);
 
@@ -169,7 +165,7 @@ export default function OrdersPage() {
 
   const handleCreateOrder = async () => {
     if (!tableUuid || newItems.length === 0) {
-      setError("Selecione a mesa e adicione pelo menos um item.");
+      setError(t("orders.validationTableItems"));
       return;
     }
     setSaving(true);
@@ -190,12 +186,12 @@ export default function OrdersPage() {
       });
       if (!res.ok) {
         const err = await res.json().catch(() => ({}));
-        throw new Error(err?.message || "Erro ao criar pedido.");
+        throw new Error(err?.message || t("orders.createError"));
       }
       resetForm();
       await loadOrders();
     } catch (e) {
-      setError(e instanceof Error ? e.message : "Erro ao salvar pedido.");
+      setError(e instanceof Error ? e.message : t("orders.saveError"));
     } finally {
       setSaving(false);
     }
@@ -245,9 +241,9 @@ export default function OrdersPage() {
     <div className="min-h-screen bg-zinc-50 p-4 md:p-8">
       <div className="mx-auto max-w-6xl space-y-8">
         <header>
-          <h1 className="text-2xl font-semibold text-zinc-800">Pedidos</h1>
+          <h1 className="text-2xl font-semibold text-zinc-800">{t("orders.title")}</h1>
           <p className="text-sm text-zinc-500">
-            Gerencie os pedidos por mesa e status.
+            {t("orders.subtitle")}
           </p>
         </header>
 
@@ -261,7 +257,7 @@ export default function OrdersPage() {
                   : "bg-white text-zinc-700 border-zinc-300 hover:bg-zinc-50"
               }`}
             >
-              Todos
+              {t("common.all")}
             </button>
             {(["PENDING", "PREPARING", "READY", "DELIVERED"] as OrderStatus[]).map(
               (s) => (
@@ -274,7 +270,7 @@ export default function OrdersPage() {
                       : "bg-white text-zinc-700 border-zinc-300 hover:bg-zinc-50"
                   }`}
                 >
-                  {STATUS_LABELS[s]}
+                  {statusLabel(s)}
                 </button>
               )
             )}
@@ -286,13 +282,13 @@ export default function OrdersPage() {
             }}
             className="bg-white text-black border border-black hover:bg-black hover:text-white rounded-lg px-4 py-2 flex items-center gap-2 shrink-0"
           >
-            <FaPlus /> Novo pedido
+            <FaPlus /> {t("orders.newOrder")}
           </button>
         </div>
 
         {showForm && (
           <div className="bg-white shadow-md rounded-lg p-6 text-black border border-zinc-200">
-            <h2 className="text-xl font-semibold mb-4">Novo pedido</h2>
+            <h2 className="text-xl font-semibold mb-4">{t("orders.newOrderTitle")}</h2>
             {error && (
               <p className="mb-4 text-sm text-red-600 bg-red-50 p-2 rounded">
                 {error}
@@ -301,41 +297,41 @@ export default function OrdersPage() {
             <div className="space-y-4">
               <div>
                 <label className="block text-sm font-medium text-zinc-700 mb-1">
-                  Mesa
+                  {t("common.table")}
                 </label>
                 <select
                   value={tableUuid}
                   onChange={(e) => setTableUuid(e.target.value)}
                   className="w-full border border-zinc-300 rounded-lg p-2"
                 >
-                  <option value="">Selecione a mesa</option>
-                  {tables.map((t) => (
-                    <option key={t.uuid} value={t.uuid}>
-                      Mesa {t.number}
-                      {t.description ? ` — ${t.description}` : ""}
+                  <option value="">{t("orders.selectTable")}</option>
+                  {tables.map((tbl) => (
+                    <option key={tbl.uuid} value={tbl.uuid}>
+                      {t("common.table")} {tbl.number}
+                      {tbl.description ? ` — ${tbl.description}` : ""}
                     </option>
                   ))}
                 </select>
               </div>
               <div>
                 <label className="block text-sm font-medium text-zinc-700 mb-1">
-                  Status inicial
+                  {t("orders.initialStatus")}
                 </label>
                 <select
                   value={newStatus}
                   onChange={(e) => setNewStatus(e.target.value as OrderStatus)}
                   className="w-full border border-zinc-300 rounded-lg p-2"
                 >
-                  {(Object.keys(STATUS_LABELS) as OrderStatus[]).map((s) => (
+                  {(["PENDING", "PREPARING", "READY", "DELIVERED"] as OrderStatus[]).map((s) => (
                     <option key={s} value={s}>
-                      {STATUS_LABELS[s]}
+                      {statusLabel(s)}
                     </option>
                   ))}
                 </select>
               </div>
               <div>
                 <label className="block text-sm font-medium text-zinc-700 mb-1">
-                  Itens
+                  {t("orders.items")}
                 </label>
                 <div className="flex flex-wrap gap-2 mb-2">
                   <select
@@ -343,7 +339,7 @@ export default function OrdersPage() {
                     onChange={(e) => setSelectedProductUuid(e.target.value)}
                     className="flex-1 min-w-[180px] border border-zinc-300 rounded-lg p-2"
                   >
-                    <option value="">Produto</option>
+                    <option value="">{t("orders.productOption")}</option>
                     {products.map((p) => (
                       <option key={p.uuid} value={p.uuid}>
                         {p.name} — R$ {p.price.toFixed(2)}
@@ -364,7 +360,7 @@ export default function OrdersPage() {
                     onClick={addItem}
                     className="bg-zinc-100 hover:bg-zinc-200 text-zinc-800 rounded-lg px-4 py-2"
                   >
-                    Adicionar
+                    {t("orders.add")}
                   </button>
                 </div>
                 {newItems.length > 0 && (
@@ -383,7 +379,7 @@ export default function OrdersPage() {
                           onClick={() => removeItem(i)}
                           className="text-red-600 hover:text-red-700"
                         >
-                          Remover
+                          {t("orders.remove")}
                         </button>
                       </li>
                     ))}
@@ -396,13 +392,13 @@ export default function OrdersPage() {
                   disabled={saving}
                   className="flex-1 bg-black text-white rounded-lg py-2 hover:bg-zinc-800 disabled:opacity-50"
                 >
-                  {saving ? "Salvando…" : "Criar pedido"}
+                  {saving ? t("orders.saving") : t("orders.createOrder")}
                 </button>
                 <button
                   onClick={resetForm}
                   className="flex-1 bg-zinc-200 text-zinc-800 rounded-lg py-2 hover:bg-zinc-300"
                 >
-                  Cancelar
+                  {t("common.cancel")}
                 </button>
               </div>
             </div>
@@ -410,7 +406,7 @@ export default function OrdersPage() {
         )}
 
         {loading ? (
-          <LoadingSpinner message="Carregando pedidos…" />
+          <LoadingSpinner message={t("orders.loading")} />
         ) : (
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
             {orders.map((order) => (
@@ -421,7 +417,7 @@ export default function OrdersPage() {
                 <div className="flex justify-between items-start mb-4">
                   <div className="flex items-center gap-2">
                     <FaTable className="text-zinc-500" />
-                    <span className="font-semibold">Mesa {order.tableNumber}</span>
+                    <span className="font-semibold">{t("orders.tablePrefix")} {order.tableNumber}</span>
                   </div>
                   <span
                     className={`px-3 py-1 rounded-full text-xs font-medium ${statusColor(
@@ -433,11 +429,11 @@ export default function OrdersPage() {
                     ) : (
                       <FaHourglassHalf className="inline mr-1" />
                     )}
-                    {STATUS_LABELS[order.status]}
+                    {statusLabel(order.status)}
                   </span>
                 </div>
                 <p className="text-xs text-zinc-500 mb-3">
-                  {new Date(order.createdAt).toLocaleString("pt-BR")}
+                  {new Date(order.createdAt).toLocaleString(localeTag)}
                 </p>
                 <ul className="space-y-2 mb-4">
                   {order.items.map((item) => (
@@ -464,14 +460,14 @@ export default function OrdersPage() {
                           onClick={() => handleUpdateStatus(order, s)}
                           className="text-xs bg-zinc-100 hover:bg-zinc-200 text-zinc-700 rounded px-2 py-1"
                         >
-                          → {STATUS_LABELS[s]}
+                          → {statusLabel(s)}
                         </button>
                       ))}
                   </div>
                   <button
                     onClick={() => setOrderToDelete(order)}
                     className="text-red-600 hover:text-red-700 p-1"
-                    title="Excluir pedido"
+                    title={t("orders.deleteTitle")}
                   >
                     <FaTrash />
                   </button>
@@ -484,13 +480,13 @@ export default function OrdersPage() {
         {!loading && orders.length === 0 && (
           <div className="bg-white rounded-lg border border-zinc-200 p-8 text-center text-zinc-500">
             <FaClipboardList className="mx-auto text-4xl mb-2 opacity-50" />
-            <p>Nenhum pedido encontrado.</p>
+            <p>{t("orders.noneFound")}</p>
             {statusFilter && (
               <button
                 onClick={() => setStatusFilter("")}
                 className="mt-2 text-zinc-700 underline"
               >
-                Ver todos
+                {t("orders.seeAll")}
               </button>
             )}
           </div>
@@ -501,13 +497,14 @@ export default function OrdersPage() {
         open={!!orderToDelete}
         onClose={() => setOrderToDelete(null)}
         onConfirm={() => orderToDelete && handleDelete(orderToDelete)}
-        title="Excluir pedido"
+        title={t("orders.deleteOrderTitle")}
         message={
           orderToDelete
-            ? `Tem certeza que deseja excluir o pedido da mesa ${orderToDelete.tableNumber}?`
+            ? t("orders.deleteOrderMessage", { table: String(orderToDelete.tableNumber) })
             : ""
         }
-        confirmLabel="Excluir"
+        confirmLabel={t("common.delete")}
+        cancelLabel={t("common.cancel")}
       />
     </div>
   );
