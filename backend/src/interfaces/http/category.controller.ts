@@ -1,12 +1,16 @@
 import { Body, Controller, Get, Post, UseGuards } from '@nestjs/common';
 import { CreateCategoryUseCase } from '@/application/category/use-cases/create-category-usecase';
 import { FindAllCategoryUseCase } from '@/application/category/use-cases/find-all-category.usecase';
+import { PANEL_PERMISSION_CODES } from '@application/permissions/panel-permissions';
 import { JwtAuthGuard } from './guards/jwt-auth.guard';
+import { PermissionsGuard } from './guards/permissions.guard';
+import { RequirePanelPermission } from './decorators/require-permission.decorator';
 import { CompanyUuid } from './decorators/company.decorator';
 import { RealtimeGateway } from '@interfaces/websocket/realtime.gateway';
 
 @Controller('categories')
-@UseGuards(JwtAuthGuard)
+@UseGuards(JwtAuthGuard, PermissionsGuard)
+@RequirePanelPermission(PANEL_PERMISSION_CODES.PRODUCTS)
 export class CategoryController {
   constructor(
     private readonly createCategoryUseCase: CreateCategoryUseCase,

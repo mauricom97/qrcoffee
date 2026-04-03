@@ -17,12 +17,16 @@ import { FindOneOrderUseCase } from '@application/order/use-cases/find-one-order
 import { UpdateOrderUseCase } from '@application/order/use-cases/update-order.usecase';
 import { DeleteOrderUseCase } from '@application/order/use-cases/delete-order.usecase';
 import { OrderStatus } from '@domain/order/entities/order.entity';
+import { PANEL_PERMISSION_CODES } from '@application/permissions/panel-permissions';
 import { JwtAuthGuard } from './guards/jwt-auth.guard';
+import { PermissionsGuard } from './guards/permissions.guard';
+import { RequirePanelPermission } from './decorators/require-permission.decorator';
 import { CompanyUuid } from './decorators/company.decorator';
 import { RealtimeGateway } from '@interfaces/websocket/realtime.gateway';
 
 @Controller('orders')
-@UseGuards(JwtAuthGuard)
+@UseGuards(JwtAuthGuard, PermissionsGuard)
+@RequirePanelPermission(PANEL_PERMISSION_CODES.ORDERS)
 export class OrderController {
   constructor(
     private readonly createOrderUseCase: CreateOrderUseCase,

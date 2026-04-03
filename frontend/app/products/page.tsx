@@ -7,6 +7,8 @@ import { useAuth } from "contexts/AuthContext";
 import LoadingSpinner from "components/LoadingSpinner";
 import { useRealtimeUpdates } from "hooks/useRealtimeUpdates";
 import { useLocaleContext } from "i18n/LocaleContext";
+import { useRequirePanelPermission } from "hooks/useRequirePanelPermission";
+import { PANEL_PERMISSIONS } from "lib/panelPermissions";
 
 interface Category {
   uuid: string;
@@ -14,6 +16,7 @@ interface Category {
 }
 
 export default function ProductsPage() {
+  useRequirePanelPermission(PANEL_PERMISSIONS.PRODUCTS);
   const { user } = useAuth();
   const { t, localeTag } = useLocaleContext();
   const formatPrice = useCallback(

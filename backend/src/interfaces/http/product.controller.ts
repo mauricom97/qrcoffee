@@ -5,12 +5,16 @@ import { FindAllProductUseCase } from '@/application/product/use-cases/find-prod
 import { DestroyProductUseCase } from '@/application/product/use-cases/destroy-product.usecase';
 import { UpdateProductUseCase } from '@/application/product/use-cases/update-product.usecase';
 import { UpdateProductDTO } from '@/interfaces/product/dto/update-product.dto';
+import { PANEL_PERMISSION_CODES } from '@application/permissions/panel-permissions';
 import { JwtAuthGuard } from './guards/jwt-auth.guard';
+import { PermissionsGuard } from './guards/permissions.guard';
+import { RequirePanelPermission } from './decorators/require-permission.decorator';
 import { CompanyUuid } from './decorators/company.decorator';
 import { RealtimeGateway } from '@interfaces/websocket/realtime.gateway';
 
 @Controller('products')
-@UseGuards(JwtAuthGuard)
+@UseGuards(JwtAuthGuard, PermissionsGuard)
+@RequirePanelPermission(PANEL_PERMISSION_CODES.PRODUCTS)
 export class ProductController {
   constructor(
     private readonly createProductUseCase: CreateProductUseCase,

@@ -17,6 +17,8 @@ import { getAuthHeaders } from "contexts/AuthContext";
 import ConfirmModal from "components/ConfirmModal";
 import LoadingSpinner from "components/LoadingSpinner";
 import { useLocaleContext } from "i18n/LocaleContext";
+import { useRequirePanelPermission } from "hooks/useRequirePanelPermission";
+import { PANEL_PERMISSIONS } from "lib/panelPermissions";
 
 const API_URL = process.env.NEXT_PUBLIC_BASE_API_URL || "http://localhost:3352";
 const SOUND_READY_URL = "/Ding - Sound Effect.mp3";
@@ -35,6 +37,7 @@ interface NewOrderItem {
 }
 
 export default function OrdersPage() {
+  useRequirePanelPermission(PANEL_PERMISSIONS.ORDERS);
   const { user } = useAuth();
   const { t, localeTag } = useLocaleContext();
   const statusLabel = (s: OrderStatus) => t(`orders.status.${s}`);

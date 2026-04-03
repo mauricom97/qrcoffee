@@ -1,6 +1,8 @@
 import { Injectable, ConflictException, UnauthorizedException } from '@nestjs/common';
 import { JwtService } from '@nestjs/jwt';
 import * as bcrypt from 'bcrypt';
+import { UserRole } from '@infrastructure/prisma/generated';
+import { PermissionsService } from '@application/permissions/permissions.service';
 import { PrismaService } from '@infrastructure/prisma/prisma.service';
 
 export interface RegisterCompanyInput {
@@ -21,6 +23,8 @@ export interface AuthResult {
     uuid: string;
     email: string;
     name: string;
+    role: UserRole;
+    permissions: string[];
     companyUuid: string;
     companyName: string;
   };
@@ -31,6 +35,7 @@ export class AuthService {
   constructor(
     private readonly prisma: PrismaService,
     private readonly jwtService: JwtService,
+    private readonly permissionsService: PermissionsService,
   ) {}
 
   async register(input: RegisterCompanyInput): Promise<AuthResult> {
@@ -55,11 +60,12 @@ export class AuthService {
         passwordHash,
         name: input.userName,
         companyUuid: company.uuid,
+        role: UserRole.ADMIN,
       },
       include: { company: true },
     });
 
-    return this.buildAuthResult(user);
+    return await this.buildAuthResult(user);
   }
 
   async login(input: LoginInput): Promise<AuthResult> {
@@ -76,7 +82,7 @@ export class AuthService {
       throw new UnauthorizedException('E-mail ou senha inválidos.');
     }
 
-    return this.buildAuthResult(user);
+    return await this.buildAuthResult(user);
   }
 
   async validateUserByUuid(uuid: string) {
@@ -86,19 +92,22 @@ export class AuthService {
         uuid: true,
         email: true,
         name: true,
+        role: true,
         companyUuid: true,
         company: { select: { name: true } },
       },
     });
   }
 
-  private buildAuthResult(user: {
+  private async buildAuthResult(user: {
     uuid: string;
     email: string;
     name: string;
+    role: UserRole;
     companyUuid: string;
     company: { name: string };
-  }): AuthResult {
+  }): Promise<AuthResult> {
+    const permissions = await this.permissionsService.getEffectivePanelPermissions(user.uuid, user.role);
     const payload = {
       sub: user.uuid,
       email: user.email,
@@ -111,6 +120,8 @@ export class AuthService {
         uuid: user.uuid,
         email: user.email,
         name: user.name,
+        role: user.role,
+        permissions,
         companyUuid: user.companyUuid,
         companyName: user.company.name,
       },

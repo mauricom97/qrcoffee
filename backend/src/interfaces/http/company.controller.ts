@@ -1,6 +1,9 @@
 import { Body, Controller, Get, Patch, UseGuards } from '@nestjs/common';
 import { PrismaService } from '@infrastructure/prisma/prisma.service';
+import { PANEL_PERMISSION_CODES } from '@application/permissions/panel-permissions';
 import { JwtAuthGuard } from './guards/jwt-auth.guard';
+import { PermissionsGuard } from './guards/permissions.guard';
+import { RequirePanelPermission } from './decorators/require-permission.decorator';
 import { CompanyUuid } from './decorators/company.decorator';
 
 export type MenuTheme = {
@@ -13,7 +16,8 @@ export type MenuTheme = {
 };
 
 @Controller('company')
-@UseGuards(JwtAuthGuard)
+@UseGuards(JwtAuthGuard, PermissionsGuard)
+@RequirePanelPermission(PANEL_PERMISSION_CODES.SETTINGS)
 export class CompanyController {
   constructor(private readonly prisma: PrismaService) {}
 

@@ -12,10 +12,13 @@ import { getAuthHeaders } from "contexts/AuthContext";
 import ConfirmModal from "components/ConfirmModal";
 import LoadingSpinner from "components/LoadingSpinner";
 import { useLocaleContext } from "i18n/LocaleContext";
+import { useRequirePanelPermission } from "hooks/useRequirePanelPermission";
+import { PANEL_PERMISSIONS } from "lib/panelPermissions";
 
 const API_URL = process.env.NEXT_PUBLIC_BASE_API_URL || "http://localhost:3352";
 
 const TableManager: React.FC = () => {
+  useRequirePanelPermission(PANEL_PERMISSIONS.TABLES);
   const { user } = useAuth();
   const { t } = useLocaleContext();
   const [mesas, setMesas] = useState<Mesa[]>([]);

@@ -20,6 +20,8 @@ import { useAuth } from "contexts/AuthContext";
 import LoadingSpinner from "components/LoadingSpinner";
 import { useRealtimeUpdates } from "hooks/useRealtimeUpdates";
 import { useLocaleContext } from "i18n/LocaleContext";
+import { useRequirePanelPermission } from "hooks/useRequirePanelPermission";
+import { PANEL_PERMISSIONS } from "lib/panelPermissions";
 
 const API_URL =
   process.env.NEXT_PUBLIC_BASE_API_URL || "http://localhost:3352";
@@ -51,6 +53,7 @@ function statusBadgeClass(status: OrderStatus): string {
 }
 
 export default function TabPage() {
+  useRequirePanelPermission(PANEL_PERMISSIONS.TABS);
   const { user } = useAuth();
   const { t, localeTag } = useLocaleContext();
   const statusLabel = (s: OrderStatus) => t(`tabs.status.${s}`);

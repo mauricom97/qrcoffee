@@ -24,6 +24,16 @@ export type Company = $Result.DefaultSelection<Prisma.$CompanyPayload>
  */
 export type User = $Result.DefaultSelection<Prisma.$UserPayload>
 /**
+ * Model UserGroup
+ * 
+ */
+export type UserGroup = $Result.DefaultSelection<Prisma.$UserGroupPayload>
+/**
+ * Model UserGroupMember
+ * 
+ */
+export type UserGroupMember = $Result.DefaultSelection<Prisma.$UserGroupMemberPayload>
+/**
  * Model Product
  * 
  */
@@ -58,6 +68,23 @@ export type CashierSession = $Result.DefaultSelection<Prisma.$CashierSessionPayl
  * 
  */
 export type CashierMovement = $Result.DefaultSelection<Prisma.$CashierMovementPayload>
+
+/**
+ * Enums
+ */
+export namespace $Enums {
+  export const UserRole: {
+  ADMIN: 'ADMIN',
+  STAFF: 'STAFF'
+};
+
+export type UserRole = (typeof UserRole)[keyof typeof UserRole]
+
+}
+
+export type UserRole = $Enums.UserRole
+
+export const UserRole: typeof $Enums.UserRole
 
 /**
  * ##  Prisma Client ʲˢ
@@ -195,6 +222,26 @@ export class PrismaClient<
     * ```
     */
   get user(): Prisma.UserDelegate<ExtArgs, ClientOptions>;
+
+  /**
+   * `prisma.userGroup`: Exposes CRUD operations for the **UserGroup** model.
+    * Example usage:
+    * ```ts
+    * // Fetch zero or more UserGroups
+    * const userGroups = await prisma.userGroup.findMany()
+    * ```
+    */
+  get userGroup(): Prisma.UserGroupDelegate<ExtArgs, ClientOptions>;
+
+  /**
+   * `prisma.userGroupMember`: Exposes CRUD operations for the **UserGroupMember** model.
+    * Example usage:
+    * ```ts
+    * // Fetch zero or more UserGroupMembers
+    * const userGroupMembers = await prisma.userGroupMember.findMany()
+    * ```
+    */
+  get userGroupMember(): Prisma.UserGroupMemberDelegate<ExtArgs, ClientOptions>;
 
   /**
    * `prisma.product`: Exposes CRUD operations for the **Product** model.
@@ -701,6 +748,8 @@ export namespace Prisma {
   export const ModelName: {
     Company: 'Company',
     User: 'User',
+    UserGroup: 'UserGroup',
+    UserGroupMember: 'UserGroupMember',
     Product: 'Product',
     Category: 'Category',
     Table: 'Table',
@@ -723,7 +772,7 @@ export namespace Prisma {
       omit: GlobalOmitOptions
     }
     meta: {
-      modelProps: "company" | "user" | "product" | "category" | "table" | "order" | "orderItem" | "cashierSession" | "cashierMovement"
+      modelProps: "company" | "user" | "userGroup" | "userGroupMember" | "product" | "category" | "table" | "order" | "orderItem" | "cashierSession" | "cashierMovement"
       txIsolationLevel: Prisma.TransactionIsolationLevel
     }
     model: {
@@ -872,6 +921,154 @@ export namespace Prisma {
           count: {
             args: Prisma.UserCountArgs<ExtArgs>
             result: $Utils.Optional<UserCountAggregateOutputType> | number
+          }
+        }
+      }
+      UserGroup: {
+        payload: Prisma.$UserGroupPayload<ExtArgs>
+        fields: Prisma.UserGroupFieldRefs
+        operations: {
+          findUnique: {
+            args: Prisma.UserGroupFindUniqueArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$UserGroupPayload> | null
+          }
+          findUniqueOrThrow: {
+            args: Prisma.UserGroupFindUniqueOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$UserGroupPayload>
+          }
+          findFirst: {
+            args: Prisma.UserGroupFindFirstArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$UserGroupPayload> | null
+          }
+          findFirstOrThrow: {
+            args: Prisma.UserGroupFindFirstOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$UserGroupPayload>
+          }
+          findMany: {
+            args: Prisma.UserGroupFindManyArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$UserGroupPayload>[]
+          }
+          create: {
+            args: Prisma.UserGroupCreateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$UserGroupPayload>
+          }
+          createMany: {
+            args: Prisma.UserGroupCreateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          createManyAndReturn: {
+            args: Prisma.UserGroupCreateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$UserGroupPayload>[]
+          }
+          delete: {
+            args: Prisma.UserGroupDeleteArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$UserGroupPayload>
+          }
+          update: {
+            args: Prisma.UserGroupUpdateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$UserGroupPayload>
+          }
+          deleteMany: {
+            args: Prisma.UserGroupDeleteManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateMany: {
+            args: Prisma.UserGroupUpdateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateManyAndReturn: {
+            args: Prisma.UserGroupUpdateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$UserGroupPayload>[]
+          }
+          upsert: {
+            args: Prisma.UserGroupUpsertArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$UserGroupPayload>
+          }
+          aggregate: {
+            args: Prisma.UserGroupAggregateArgs<ExtArgs>
+            result: $Utils.Optional<AggregateUserGroup>
+          }
+          groupBy: {
+            args: Prisma.UserGroupGroupByArgs<ExtArgs>
+            result: $Utils.Optional<UserGroupGroupByOutputType>[]
+          }
+          count: {
+            args: Prisma.UserGroupCountArgs<ExtArgs>
+            result: $Utils.Optional<UserGroupCountAggregateOutputType> | number
+          }
+        }
+      }
+      UserGroupMember: {
+        payload: Prisma.$UserGroupMemberPayload<ExtArgs>
+        fields: Prisma.UserGroupMemberFieldRefs
+        operations: {
+          findUnique: {
+            args: Prisma.UserGroupMemberFindUniqueArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$UserGroupMemberPayload> | null
+          }
+          findUniqueOrThrow: {
+            args: Prisma.UserGroupMemberFindUniqueOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$UserGroupMemberPayload>
+          }
+          findFirst: {
+            args: Prisma.UserGroupMemberFindFirstArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$UserGroupMemberPayload> | null
+          }
+          findFirstOrThrow: {
+            args: Prisma.UserGroupMemberFindFirstOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$UserGroupMemberPayload>
+          }
+          findMany: {
+            args: Prisma.UserGroupMemberFindManyArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$UserGroupMemberPayload>[]
+          }
+          create: {
+            args: Prisma.UserGroupMemberCreateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$UserGroupMemberPayload>
+          }
+          createMany: {
+            args: Prisma.UserGroupMemberCreateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          createManyAndReturn: {
+            args: Prisma.UserGroupMemberCreateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$UserGroupMemberPayload>[]
+          }
+          delete: {
+            args: Prisma.UserGroupMemberDeleteArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$UserGroupMemberPayload>
+          }
+          update: {
+            args: Prisma.UserGroupMemberUpdateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$UserGroupMemberPayload>
+          }
+          deleteMany: {
+            args: Prisma.UserGroupMemberDeleteManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateMany: {
+            args: Prisma.UserGroupMemberUpdateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateManyAndReturn: {
+            args: Prisma.UserGroupMemberUpdateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$UserGroupMemberPayload>[]
+          }
+          upsert: {
+            args: Prisma.UserGroupMemberUpsertArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$UserGroupMemberPayload>
+          }
+          aggregate: {
+            args: Prisma.UserGroupMemberAggregateArgs<ExtArgs>
+            result: $Utils.Optional<AggregateUserGroupMember>
+          }
+          groupBy: {
+            args: Prisma.UserGroupMemberGroupByArgs<ExtArgs>
+            result: $Utils.Optional<UserGroupMemberGroupByOutputType>[]
+          }
+          count: {
+            args: Prisma.UserGroupMemberCountArgs<ExtArgs>
+            result: $Utils.Optional<UserGroupMemberCountAggregateOutputType> | number
           }
         }
       }
@@ -1503,6 +1700,8 @@ export namespace Prisma {
   export type GlobalOmitConfig = {
     company?: CompanyOmit
     user?: UserOmit
+    userGroup?: UserGroupOmit
+    userGroupMember?: UserGroupMemberOmit
     product?: ProductOmit
     category?: CategoryOmit
     table?: TableOmit
@@ -1591,6 +1790,7 @@ export namespace Prisma {
 
   export type CompanyCountOutputType = {
     users: number
+    userGroups: number
     tables: number
     categories: number
     products: number
@@ -1599,6 +1799,7 @@ export namespace Prisma {
 
   export type CompanyCountOutputTypeSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     users?: boolean | CompanyCountOutputTypeCountUsersArgs
+    userGroups?: boolean | CompanyCountOutputTypeCountUserGroupsArgs
     tables?: boolean | CompanyCountOutputTypeCountTablesArgs
     categories?: boolean | CompanyCountOutputTypeCountCategoriesArgs
     products?: boolean | CompanyCountOutputTypeCountProductsArgs
@@ -1621,6 +1822,13 @@ export namespace Prisma {
    */
   export type CompanyCountOutputTypeCountUsersArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     where?: UserWhereInput
+  }
+
+  /**
+   * CompanyCountOutputType without action
+   */
+  export type CompanyCountOutputTypeCountUserGroupsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: UserGroupWhereInput
   }
 
   /**
@@ -1649,6 +1857,68 @@ export namespace Prisma {
    */
   export type CompanyCountOutputTypeCountCashierSessionsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     where?: CashierSessionWhereInput
+  }
+
+
+  /**
+   * Count Type UserCountOutputType
+   */
+
+  export type UserCountOutputType = {
+    groupMembers: number
+  }
+
+  export type UserCountOutputTypeSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    groupMembers?: boolean | UserCountOutputTypeCountGroupMembersArgs
+  }
+
+  // Custom InputTypes
+  /**
+   * UserCountOutputType without action
+   */
+  export type UserCountOutputTypeDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the UserCountOutputType
+     */
+    select?: UserCountOutputTypeSelect<ExtArgs> | null
+  }
+
+  /**
+   * UserCountOutputType without action
+   */
+  export type UserCountOutputTypeCountGroupMembersArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: UserGroupMemberWhereInput
+  }
+
+
+  /**
+   * Count Type UserGroupCountOutputType
+   */
+
+  export type UserGroupCountOutputType = {
+    members: number
+  }
+
+  export type UserGroupCountOutputTypeSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    members?: boolean | UserGroupCountOutputTypeCountMembersArgs
+  }
+
+  // Custom InputTypes
+  /**
+   * UserGroupCountOutputType without action
+   */
+  export type UserGroupCountOutputTypeDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the UserGroupCountOutputType
+     */
+    select?: UserGroupCountOutputTypeSelect<ExtArgs> | null
+  }
+
+  /**
+   * UserGroupCountOutputType without action
+   */
+  export type UserGroupCountOutputTypeCountMembersArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: UserGroupMemberWhereInput
   }
 
 
@@ -1976,6 +2246,7 @@ export namespace Prisma {
     soundOnOrderReady?: boolean
     createdAt?: boolean
     users?: boolean | Company$usersArgs<ExtArgs>
+    userGroups?: boolean | Company$userGroupsArgs<ExtArgs>
     tables?: boolean | Company$tablesArgs<ExtArgs>
     categories?: boolean | Company$categoriesArgs<ExtArgs>
     products?: boolean | Company$productsArgs<ExtArgs>
@@ -2010,6 +2281,7 @@ export namespace Prisma {
   export type CompanyOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"uuid" | "name" | "menuTheme" | "soundOnOrderReady" | "createdAt", ExtArgs["result"]["company"]>
   export type CompanyInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     users?: boolean | Company$usersArgs<ExtArgs>
+    userGroups?: boolean | Company$userGroupsArgs<ExtArgs>
     tables?: boolean | Company$tablesArgs<ExtArgs>
     categories?: boolean | Company$categoriesArgs<ExtArgs>
     products?: boolean | Company$productsArgs<ExtArgs>
@@ -2023,6 +2295,7 @@ export namespace Prisma {
     name: "Company"
     objects: {
       users: Prisma.$UserPayload<ExtArgs>[]
+      userGroups: Prisma.$UserGroupPayload<ExtArgs>[]
       tables: Prisma.$TablePayload<ExtArgs>[]
       categories: Prisma.$CategoryPayload<ExtArgs>[]
       products: Prisma.$ProductPayload<ExtArgs>[]
@@ -2429,6 +2702,7 @@ export namespace Prisma {
   export interface Prisma__CompanyClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
     readonly [Symbol.toStringTag]: "PrismaPromise"
     users<T extends Company$usersArgs<ExtArgs> = {}>(args?: Subset<T, Company$usersArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$UserPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+    userGroups<T extends Company$userGroupsArgs<ExtArgs> = {}>(args?: Subset<T, Company$userGroupsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$UserGroupPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     tables<T extends Company$tablesArgs<ExtArgs> = {}>(args?: Subset<T, Company$tablesArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$TablePayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     categories<T extends Company$categoriesArgs<ExtArgs> = {}>(args?: Subset<T, Company$categoriesArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$CategoryPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     products<T extends Company$productsArgs<ExtArgs> = {}>(args?: Subset<T, Company$productsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$ProductPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
@@ -2879,6 +3153,30 @@ export namespace Prisma {
   }
 
   /**
+   * Company.userGroups
+   */
+  export type Company$userGroupsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the UserGroup
+     */
+    select?: UserGroupSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the UserGroup
+     */
+    omit?: UserGroupOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: UserGroupInclude<ExtArgs> | null
+    where?: UserGroupWhereInput
+    orderBy?: UserGroupOrderByWithRelationInput | UserGroupOrderByWithRelationInput[]
+    cursor?: UserGroupWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: UserGroupScalarFieldEnum | UserGroupScalarFieldEnum[]
+  }
+
+  /**
    * Company.tables
    */
   export type Company$tablesArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
@@ -3008,6 +3306,7 @@ export namespace Prisma {
     email: string | null
     passwordHash: string | null
     name: string | null
+    role: $Enums.UserRole | null
     companyUuid: string | null
     createdAt: Date | null
   }
@@ -3017,6 +3316,7 @@ export namespace Prisma {
     email: string | null
     passwordHash: string | null
     name: string | null
+    role: $Enums.UserRole | null
     companyUuid: string | null
     createdAt: Date | null
   }
@@ -3026,6 +3326,7 @@ export namespace Prisma {
     email: number
     passwordHash: number
     name: number
+    role: number
     companyUuid: number
     createdAt: number
     _all: number
@@ -3037,6 +3338,7 @@ export namespace Prisma {
     email?: true
     passwordHash?: true
     name?: true
+    role?: true
     companyUuid?: true
     createdAt?: true
   }
@@ -3046,6 +3348,7 @@ export namespace Prisma {
     email?: true
     passwordHash?: true
     name?: true
+    role?: true
     companyUuid?: true
     createdAt?: true
   }
@@ -3055,6 +3358,7 @@ export namespace Prisma {
     email?: true
     passwordHash?: true
     name?: true
+    role?: true
     companyUuid?: true
     createdAt?: true
     _all?: true
@@ -3137,6 +3441,7 @@ export namespace Prisma {
     email: string
     passwordHash: string
     name: string
+    role: $Enums.UserRole
     companyUuid: string
     createdAt: Date
     _count: UserCountAggregateOutputType | null
@@ -3163,9 +3468,12 @@ export namespace Prisma {
     email?: boolean
     passwordHash?: boolean
     name?: boolean
+    role?: boolean
     companyUuid?: boolean
     createdAt?: boolean
     company?: boolean | CompanyDefaultArgs<ExtArgs>
+    groupMembers?: boolean | User$groupMembersArgs<ExtArgs>
+    _count?: boolean | UserCountOutputTypeDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["user"]>
 
   export type UserSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
@@ -3173,6 +3481,7 @@ export namespace Prisma {
     email?: boolean
     passwordHash?: boolean
     name?: boolean
+    role?: boolean
     companyUuid?: boolean
     createdAt?: boolean
     company?: boolean | CompanyDefaultArgs<ExtArgs>
@@ -3183,6 +3492,7 @@ export namespace Prisma {
     email?: boolean
     passwordHash?: boolean
     name?: boolean
+    role?: boolean
     companyUuid?: boolean
     createdAt?: boolean
     company?: boolean | CompanyDefaultArgs<ExtArgs>
@@ -3193,13 +3503,16 @@ export namespace Prisma {
     email?: boolean
     passwordHash?: boolean
     name?: boolean
+    role?: boolean
     companyUuid?: boolean
     createdAt?: boolean
   }
 
-  export type UserOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"uuid" | "email" | "passwordHash" | "name" | "companyUuid" | "createdAt", ExtArgs["result"]["user"]>
+  export type UserOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"uuid" | "email" | "passwordHash" | "name" | "role" | "companyUuid" | "createdAt", ExtArgs["result"]["user"]>
   export type UserInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     company?: boolean | CompanyDefaultArgs<ExtArgs>
+    groupMembers?: boolean | User$groupMembersArgs<ExtArgs>
+    _count?: boolean | UserCountOutputTypeDefaultArgs<ExtArgs>
   }
   export type UserIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     company?: boolean | CompanyDefaultArgs<ExtArgs>
@@ -3212,12 +3525,14 @@ export namespace Prisma {
     name: "User"
     objects: {
       company: Prisma.$CompanyPayload<ExtArgs>
+      groupMembers: Prisma.$UserGroupMemberPayload<ExtArgs>[]
     }
     scalars: $Extensions.GetPayloadResult<{
       uuid: string
       email: string
       passwordHash: string
       name: string
+      role: $Enums.UserRole
       companyUuid: string
       createdAt: Date
     }, ExtArgs["result"]["user"]>
@@ -3615,6 +3930,7 @@ export namespace Prisma {
   export interface Prisma__UserClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
     readonly [Symbol.toStringTag]: "PrismaPromise"
     company<T extends CompanyDefaultArgs<ExtArgs> = {}>(args?: Subset<T, CompanyDefaultArgs<ExtArgs>>): Prisma__CompanyClient<$Result.GetResult<Prisma.$CompanyPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+    groupMembers<T extends User$groupMembersArgs<ExtArgs> = {}>(args?: Subset<T, User$groupMembersArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$UserGroupMemberPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     /**
      * Attaches callbacks for the resolution and/or rejection of the Promise.
      * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -3648,6 +3964,7 @@ export namespace Prisma {
     readonly email: FieldRef<"User", 'String'>
     readonly passwordHash: FieldRef<"User", 'String'>
     readonly name: FieldRef<"User", 'String'>
+    readonly role: FieldRef<"User", 'UserRole'>
     readonly companyUuid: FieldRef<"User", 'String'>
     readonly createdAt: FieldRef<"User", 'DateTime'>
   }
@@ -4046,6 +4363,30 @@ export namespace Prisma {
   }
 
   /**
+   * User.groupMembers
+   */
+  export type User$groupMembersArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the UserGroupMember
+     */
+    select?: UserGroupMemberSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the UserGroupMember
+     */
+    omit?: UserGroupMemberOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: UserGroupMemberInclude<ExtArgs> | null
+    where?: UserGroupMemberWhereInput
+    orderBy?: UserGroupMemberOrderByWithRelationInput | UserGroupMemberOrderByWithRelationInput[]
+    cursor?: UserGroupMemberWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: UserGroupMemberScalarFieldEnum | UserGroupMemberScalarFieldEnum[]
+  }
+
+  /**
    * User without action
    */
   export type UserDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
@@ -4061,6 +4402,2120 @@ export namespace Prisma {
      * Choose, which related nodes to fetch as well
      */
     include?: UserInclude<ExtArgs> | null
+  }
+
+
+  /**
+   * Model UserGroup
+   */
+
+  export type AggregateUserGroup = {
+    _count: UserGroupCountAggregateOutputType | null
+    _min: UserGroupMinAggregateOutputType | null
+    _max: UserGroupMaxAggregateOutputType | null
+  }
+
+  export type UserGroupMinAggregateOutputType = {
+    uuid: string | null
+    name: string | null
+    companyUuid: string | null
+    createdAt: Date | null
+  }
+
+  export type UserGroupMaxAggregateOutputType = {
+    uuid: string | null
+    name: string | null
+    companyUuid: string | null
+    createdAt: Date | null
+  }
+
+  export type UserGroupCountAggregateOutputType = {
+    uuid: number
+    name: number
+    permissions: number
+    companyUuid: number
+    createdAt: number
+    _all: number
+  }
+
+
+  export type UserGroupMinAggregateInputType = {
+    uuid?: true
+    name?: true
+    companyUuid?: true
+    createdAt?: true
+  }
+
+  export type UserGroupMaxAggregateInputType = {
+    uuid?: true
+    name?: true
+    companyUuid?: true
+    createdAt?: true
+  }
+
+  export type UserGroupCountAggregateInputType = {
+    uuid?: true
+    name?: true
+    permissions?: true
+    companyUuid?: true
+    createdAt?: true
+    _all?: true
+  }
+
+  export type UserGroupAggregateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which UserGroup to aggregate.
+     */
+    where?: UserGroupWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of UserGroups to fetch.
+     */
+    orderBy?: UserGroupOrderByWithRelationInput | UserGroupOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the start position
+     */
+    cursor?: UserGroupWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` UserGroups from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` UserGroups.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Count returned UserGroups
+    **/
+    _count?: true | UserGroupCountAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the minimum value
+    **/
+    _min?: UserGroupMinAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the maximum value
+    **/
+    _max?: UserGroupMaxAggregateInputType
+  }
+
+  export type GetUserGroupAggregateType<T extends UserGroupAggregateArgs> = {
+        [P in keyof T & keyof AggregateUserGroup]: P extends '_count' | 'count'
+      ? T[P] extends true
+        ? number
+        : GetScalarType<T[P], AggregateUserGroup[P]>
+      : GetScalarType<T[P], AggregateUserGroup[P]>
+  }
+
+
+
+
+  export type UserGroupGroupByArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: UserGroupWhereInput
+    orderBy?: UserGroupOrderByWithAggregationInput | UserGroupOrderByWithAggregationInput[]
+    by: UserGroupScalarFieldEnum[] | UserGroupScalarFieldEnum
+    having?: UserGroupScalarWhereWithAggregatesInput
+    take?: number
+    skip?: number
+    _count?: UserGroupCountAggregateInputType | true
+    _min?: UserGroupMinAggregateInputType
+    _max?: UserGroupMaxAggregateInputType
+  }
+
+  export type UserGroupGroupByOutputType = {
+    uuid: string
+    name: string
+    permissions: string[]
+    companyUuid: string
+    createdAt: Date
+    _count: UserGroupCountAggregateOutputType | null
+    _min: UserGroupMinAggregateOutputType | null
+    _max: UserGroupMaxAggregateOutputType | null
+  }
+
+  type GetUserGroupGroupByPayload<T extends UserGroupGroupByArgs> = Prisma.PrismaPromise<
+    Array<
+      PickEnumerable<UserGroupGroupByOutputType, T['by']> &
+        {
+          [P in ((keyof T) & (keyof UserGroupGroupByOutputType))]: P extends '_count'
+            ? T[P] extends boolean
+              ? number
+              : GetScalarType<T[P], UserGroupGroupByOutputType[P]>
+            : GetScalarType<T[P], UserGroupGroupByOutputType[P]>
+        }
+      >
+    >
+
+
+  export type UserGroupSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    uuid?: boolean
+    name?: boolean
+    permissions?: boolean
+    companyUuid?: boolean
+    createdAt?: boolean
+    company?: boolean | CompanyDefaultArgs<ExtArgs>
+    members?: boolean | UserGroup$membersArgs<ExtArgs>
+    _count?: boolean | UserGroupCountOutputTypeDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["userGroup"]>
+
+  export type UserGroupSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    uuid?: boolean
+    name?: boolean
+    permissions?: boolean
+    companyUuid?: boolean
+    createdAt?: boolean
+    company?: boolean | CompanyDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["userGroup"]>
+
+  export type UserGroupSelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    uuid?: boolean
+    name?: boolean
+    permissions?: boolean
+    companyUuid?: boolean
+    createdAt?: boolean
+    company?: boolean | CompanyDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["userGroup"]>
+
+  export type UserGroupSelectScalar = {
+    uuid?: boolean
+    name?: boolean
+    permissions?: boolean
+    companyUuid?: boolean
+    createdAt?: boolean
+  }
+
+  export type UserGroupOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"uuid" | "name" | "permissions" | "companyUuid" | "createdAt", ExtArgs["result"]["userGroup"]>
+  export type UserGroupInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    company?: boolean | CompanyDefaultArgs<ExtArgs>
+    members?: boolean | UserGroup$membersArgs<ExtArgs>
+    _count?: boolean | UserGroupCountOutputTypeDefaultArgs<ExtArgs>
+  }
+  export type UserGroupIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    company?: boolean | CompanyDefaultArgs<ExtArgs>
+  }
+  export type UserGroupIncludeUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    company?: boolean | CompanyDefaultArgs<ExtArgs>
+  }
+
+  export type $UserGroupPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    name: "UserGroup"
+    objects: {
+      company: Prisma.$CompanyPayload<ExtArgs>
+      members: Prisma.$UserGroupMemberPayload<ExtArgs>[]
+    }
+    scalars: $Extensions.GetPayloadResult<{
+      uuid: string
+      name: string
+      /**
+       * * Códigos de área do painel (ex.: PRODUCTS, ORDERS). Uniao nos grupos do usuario define o acesso de STAFF.
+       */
+      permissions: string[]
+      companyUuid: string
+      createdAt: Date
+    }, ExtArgs["result"]["userGroup"]>
+    composites: {}
+  }
+
+  type UserGroupGetPayload<S extends boolean | null | undefined | UserGroupDefaultArgs> = $Result.GetResult<Prisma.$UserGroupPayload, S>
+
+  type UserGroupCountArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> =
+    Omit<UserGroupFindManyArgs, 'select' | 'include' | 'distinct' | 'omit'> & {
+      select?: UserGroupCountAggregateInputType | true
+    }
+
+  export interface UserGroupDelegate<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> {
+    [K: symbol]: { types: Prisma.TypeMap<ExtArgs>['model']['UserGroup'], meta: { name: 'UserGroup' } }
+    /**
+     * Find zero or one UserGroup that matches the filter.
+     * @param {UserGroupFindUniqueArgs} args - Arguments to find a UserGroup
+     * @example
+     * // Get one UserGroup
+     * const userGroup = await prisma.userGroup.findUnique({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUnique<T extends UserGroupFindUniqueArgs>(args: SelectSubset<T, UserGroupFindUniqueArgs<ExtArgs>>): Prisma__UserGroupClient<$Result.GetResult<Prisma.$UserGroupPayload<ExtArgs>, T, "findUnique", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find one UserGroup that matches the filter or throw an error with `error.code='P2025'`
+     * if no matches were found.
+     * @param {UserGroupFindUniqueOrThrowArgs} args - Arguments to find a UserGroup
+     * @example
+     * // Get one UserGroup
+     * const userGroup = await prisma.userGroup.findUniqueOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUniqueOrThrow<T extends UserGroupFindUniqueOrThrowArgs>(args: SelectSubset<T, UserGroupFindUniqueOrThrowArgs<ExtArgs>>): Prisma__UserGroupClient<$Result.GetResult<Prisma.$UserGroupPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first UserGroup that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {UserGroupFindFirstArgs} args - Arguments to find a UserGroup
+     * @example
+     * // Get one UserGroup
+     * const userGroup = await prisma.userGroup.findFirst({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirst<T extends UserGroupFindFirstArgs>(args?: SelectSubset<T, UserGroupFindFirstArgs<ExtArgs>>): Prisma__UserGroupClient<$Result.GetResult<Prisma.$UserGroupPayload<ExtArgs>, T, "findFirst", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first UserGroup that matches the filter or
+     * throw `PrismaKnownClientError` with `P2025` code if no matches were found.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {UserGroupFindFirstOrThrowArgs} args - Arguments to find a UserGroup
+     * @example
+     * // Get one UserGroup
+     * const userGroup = await prisma.userGroup.findFirstOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirstOrThrow<T extends UserGroupFindFirstOrThrowArgs>(args?: SelectSubset<T, UserGroupFindFirstOrThrowArgs<ExtArgs>>): Prisma__UserGroupClient<$Result.GetResult<Prisma.$UserGroupPayload<ExtArgs>, T, "findFirstOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find zero or more UserGroups that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {UserGroupFindManyArgs} args - Arguments to filter and select certain fields only.
+     * @example
+     * // Get all UserGroups
+     * const userGroups = await prisma.userGroup.findMany()
+     * 
+     * // Get first 10 UserGroups
+     * const userGroups = await prisma.userGroup.findMany({ take: 10 })
+     * 
+     * // Only select the `uuid`
+     * const userGroupWithUuidOnly = await prisma.userGroup.findMany({ select: { uuid: true } })
+     * 
+     */
+    findMany<T extends UserGroupFindManyArgs>(args?: SelectSubset<T, UserGroupFindManyArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$UserGroupPayload<ExtArgs>, T, "findMany", GlobalOmitOptions>>
+
+    /**
+     * Create a UserGroup.
+     * @param {UserGroupCreateArgs} args - Arguments to create a UserGroup.
+     * @example
+     * // Create one UserGroup
+     * const UserGroup = await prisma.userGroup.create({
+     *   data: {
+     *     // ... data to create a UserGroup
+     *   }
+     * })
+     * 
+     */
+    create<T extends UserGroupCreateArgs>(args: SelectSubset<T, UserGroupCreateArgs<ExtArgs>>): Prisma__UserGroupClient<$Result.GetResult<Prisma.$UserGroupPayload<ExtArgs>, T, "create", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Create many UserGroups.
+     * @param {UserGroupCreateManyArgs} args - Arguments to create many UserGroups.
+     * @example
+     * // Create many UserGroups
+     * const userGroup = await prisma.userGroup.createMany({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     *     
+     */
+    createMany<T extends UserGroupCreateManyArgs>(args?: SelectSubset<T, UserGroupCreateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Create many UserGroups and returns the data saved in the database.
+     * @param {UserGroupCreateManyAndReturnArgs} args - Arguments to create many UserGroups.
+     * @example
+     * // Create many UserGroups
+     * const userGroup = await prisma.userGroup.createManyAndReturn({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Create many UserGroups and only return the `uuid`
+     * const userGroupWithUuidOnly = await prisma.userGroup.createManyAndReturn({
+     *   select: { uuid: true },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    createManyAndReturn<T extends UserGroupCreateManyAndReturnArgs>(args?: SelectSubset<T, UserGroupCreateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$UserGroupPayload<ExtArgs>, T, "createManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Delete a UserGroup.
+     * @param {UserGroupDeleteArgs} args - Arguments to delete one UserGroup.
+     * @example
+     * // Delete one UserGroup
+     * const UserGroup = await prisma.userGroup.delete({
+     *   where: {
+     *     // ... filter to delete one UserGroup
+     *   }
+     * })
+     * 
+     */
+    delete<T extends UserGroupDeleteArgs>(args: SelectSubset<T, UserGroupDeleteArgs<ExtArgs>>): Prisma__UserGroupClient<$Result.GetResult<Prisma.$UserGroupPayload<ExtArgs>, T, "delete", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Update one UserGroup.
+     * @param {UserGroupUpdateArgs} args - Arguments to update one UserGroup.
+     * @example
+     * // Update one UserGroup
+     * const userGroup = await prisma.userGroup.update({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    update<T extends UserGroupUpdateArgs>(args: SelectSubset<T, UserGroupUpdateArgs<ExtArgs>>): Prisma__UserGroupClient<$Result.GetResult<Prisma.$UserGroupPayload<ExtArgs>, T, "update", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Delete zero or more UserGroups.
+     * @param {UserGroupDeleteManyArgs} args - Arguments to filter UserGroups to delete.
+     * @example
+     * // Delete a few UserGroups
+     * const { count } = await prisma.userGroup.deleteMany({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     * 
+     */
+    deleteMany<T extends UserGroupDeleteManyArgs>(args?: SelectSubset<T, UserGroupDeleteManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more UserGroups.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {UserGroupUpdateManyArgs} args - Arguments to update one or more rows.
+     * @example
+     * // Update many UserGroups
+     * const userGroup = await prisma.userGroup.updateMany({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    updateMany<T extends UserGroupUpdateManyArgs>(args: SelectSubset<T, UserGroupUpdateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more UserGroups and returns the data updated in the database.
+     * @param {UserGroupUpdateManyAndReturnArgs} args - Arguments to update many UserGroups.
+     * @example
+     * // Update many UserGroups
+     * const userGroup = await prisma.userGroup.updateManyAndReturn({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Update zero or more UserGroups and only return the `uuid`
+     * const userGroupWithUuidOnly = await prisma.userGroup.updateManyAndReturn({
+     *   select: { uuid: true },
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    updateManyAndReturn<T extends UserGroupUpdateManyAndReturnArgs>(args: SelectSubset<T, UserGroupUpdateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$UserGroupPayload<ExtArgs>, T, "updateManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Create or update one UserGroup.
+     * @param {UserGroupUpsertArgs} args - Arguments to update or create a UserGroup.
+     * @example
+     * // Update or create a UserGroup
+     * const userGroup = await prisma.userGroup.upsert({
+     *   create: {
+     *     // ... data to create a UserGroup
+     *   },
+     *   update: {
+     *     // ... in case it already exists, update
+     *   },
+     *   where: {
+     *     // ... the filter for the UserGroup we want to update
+     *   }
+     * })
+     */
+    upsert<T extends UserGroupUpsertArgs>(args: SelectSubset<T, UserGroupUpsertArgs<ExtArgs>>): Prisma__UserGroupClient<$Result.GetResult<Prisma.$UserGroupPayload<ExtArgs>, T, "upsert", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+
+    /**
+     * Count the number of UserGroups.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {UserGroupCountArgs} args - Arguments to filter UserGroups to count.
+     * @example
+     * // Count the number of UserGroups
+     * const count = await prisma.userGroup.count({
+     *   where: {
+     *     // ... the filter for the UserGroups we want to count
+     *   }
+     * })
+    **/
+    count<T extends UserGroupCountArgs>(
+      args?: Subset<T, UserGroupCountArgs>,
+    ): Prisma.PrismaPromise<
+      T extends $Utils.Record<'select', any>
+        ? T['select'] extends true
+          ? number
+          : GetScalarType<T['select'], UserGroupCountAggregateOutputType>
+        : number
+    >
+
+    /**
+     * Allows you to perform aggregations operations on a UserGroup.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {UserGroupAggregateArgs} args - Select which aggregations you would like to apply and on what fields.
+     * @example
+     * // Ordered by age ascending
+     * // Where email contains prisma.io
+     * // Limited to the 10 users
+     * const aggregations = await prisma.user.aggregate({
+     *   _avg: {
+     *     age: true,
+     *   },
+     *   where: {
+     *     email: {
+     *       contains: "prisma.io",
+     *     },
+     *   },
+     *   orderBy: {
+     *     age: "asc",
+     *   },
+     *   take: 10,
+     * })
+    **/
+    aggregate<T extends UserGroupAggregateArgs>(args: Subset<T, UserGroupAggregateArgs>): Prisma.PrismaPromise<GetUserGroupAggregateType<T>>
+
+    /**
+     * Group by UserGroup.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {UserGroupGroupByArgs} args - Group by arguments.
+     * @example
+     * // Group by city, order by createdAt, get count
+     * const result = await prisma.user.groupBy({
+     *   by: ['city', 'createdAt'],
+     *   orderBy: {
+     *     createdAt: true
+     *   },
+     *   _count: {
+     *     _all: true
+     *   },
+     * })
+     * 
+    **/
+    groupBy<
+      T extends UserGroupGroupByArgs,
+      HasSelectOrTake extends Or<
+        Extends<'skip', Keys<T>>,
+        Extends<'take', Keys<T>>
+      >,
+      OrderByArg extends True extends HasSelectOrTake
+        ? { orderBy: UserGroupGroupByArgs['orderBy'] }
+        : { orderBy?: UserGroupGroupByArgs['orderBy'] },
+      OrderFields extends ExcludeUnderscoreKeys<Keys<MaybeTupleToUnion<T['orderBy']>>>,
+      ByFields extends MaybeTupleToUnion<T['by']>,
+      ByValid extends Has<ByFields, OrderFields>,
+      HavingFields extends GetHavingFields<T['having']>,
+      HavingValid extends Has<ByFields, HavingFields>,
+      ByEmpty extends T['by'] extends never[] ? True : False,
+      InputErrors extends ByEmpty extends True
+      ? `Error: "by" must not be empty.`
+      : HavingValid extends False
+      ? {
+          [P in HavingFields]: P extends ByFields
+            ? never
+            : P extends string
+            ? `Error: Field "${P}" used in "having" needs to be provided in "by".`
+            : [
+                Error,
+                'Field ',
+                P,
+                ` in "having" needs to be provided in "by"`,
+              ]
+        }[HavingFields]
+      : 'take' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "take", you also need to provide "orderBy"'
+      : 'skip' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "skip", you also need to provide "orderBy"'
+      : ByValid extends True
+      ? {}
+      : {
+          [P in OrderFields]: P extends ByFields
+            ? never
+            : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+        }[OrderFields]
+    >(args: SubsetIntersection<T, UserGroupGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetUserGroupGroupByPayload<T> : Prisma.PrismaPromise<InputErrors>
+  /**
+   * Fields of the UserGroup model
+   */
+  readonly fields: UserGroupFieldRefs;
+  }
+
+  /**
+   * The delegate class that acts as a "Promise-like" for UserGroup.
+   * Why is this prefixed with `Prisma__`?
+   * Because we want to prevent naming conflicts as mentioned in
+   * https://github.com/prisma/prisma-client-js/issues/707
+   */
+  export interface Prisma__UserGroupClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
+    readonly [Symbol.toStringTag]: "PrismaPromise"
+    company<T extends CompanyDefaultArgs<ExtArgs> = {}>(args?: Subset<T, CompanyDefaultArgs<ExtArgs>>): Prisma__CompanyClient<$Result.GetResult<Prisma.$CompanyPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+    members<T extends UserGroup$membersArgs<ExtArgs> = {}>(args?: Subset<T, UserGroup$membersArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$UserGroupMemberPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+    /**
+     * Attaches callbacks for the resolution and/or rejection of the Promise.
+     * @param onfulfilled The callback to execute when the Promise is resolved.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of which ever callback is executed.
+     */
+    then<TResult1 = T, TResult2 = never>(onfulfilled?: ((value: T) => TResult1 | PromiseLike<TResult1>) | undefined | null, onrejected?: ((reason: any) => TResult2 | PromiseLike<TResult2>) | undefined | null): $Utils.JsPromise<TResult1 | TResult2>
+    /**
+     * Attaches a callback for only the rejection of the Promise.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of the callback.
+     */
+    catch<TResult = never>(onrejected?: ((reason: any) => TResult | PromiseLike<TResult>) | undefined | null): $Utils.JsPromise<T | TResult>
+    /**
+     * Attaches a callback that is invoked when the Promise is settled (fulfilled or rejected). The
+     * resolved value cannot be modified from the callback.
+     * @param onfinally The callback to execute when the Promise is settled (fulfilled or rejected).
+     * @returns A Promise for the completion of the callback.
+     */
+    finally(onfinally?: (() => void) | undefined | null): $Utils.JsPromise<T>
+  }
+
+
+
+
+  /**
+   * Fields of the UserGroup model
+   */
+  interface UserGroupFieldRefs {
+    readonly uuid: FieldRef<"UserGroup", 'String'>
+    readonly name: FieldRef<"UserGroup", 'String'>
+    readonly permissions: FieldRef<"UserGroup", 'String[]'>
+    readonly companyUuid: FieldRef<"UserGroup", 'String'>
+    readonly createdAt: FieldRef<"UserGroup", 'DateTime'>
+  }
+    
+
+  // Custom InputTypes
+  /**
+   * UserGroup findUnique
+   */
+  export type UserGroupFindUniqueArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the UserGroup
+     */
+    select?: UserGroupSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the UserGroup
+     */
+    omit?: UserGroupOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: UserGroupInclude<ExtArgs> | null
+    /**
+     * Filter, which UserGroup to fetch.
+     */
+    where: UserGroupWhereUniqueInput
+  }
+
+  /**
+   * UserGroup findUniqueOrThrow
+   */
+  export type UserGroupFindUniqueOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the UserGroup
+     */
+    select?: UserGroupSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the UserGroup
+     */
+    omit?: UserGroupOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: UserGroupInclude<ExtArgs> | null
+    /**
+     * Filter, which UserGroup to fetch.
+     */
+    where: UserGroupWhereUniqueInput
+  }
+
+  /**
+   * UserGroup findFirst
+   */
+  export type UserGroupFindFirstArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the UserGroup
+     */
+    select?: UserGroupSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the UserGroup
+     */
+    omit?: UserGroupOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: UserGroupInclude<ExtArgs> | null
+    /**
+     * Filter, which UserGroup to fetch.
+     */
+    where?: UserGroupWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of UserGroups to fetch.
+     */
+    orderBy?: UserGroupOrderByWithRelationInput | UserGroupOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for UserGroups.
+     */
+    cursor?: UserGroupWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` UserGroups from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` UserGroups.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of UserGroups.
+     */
+    distinct?: UserGroupScalarFieldEnum | UserGroupScalarFieldEnum[]
+  }
+
+  /**
+   * UserGroup findFirstOrThrow
+   */
+  export type UserGroupFindFirstOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the UserGroup
+     */
+    select?: UserGroupSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the UserGroup
+     */
+    omit?: UserGroupOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: UserGroupInclude<ExtArgs> | null
+    /**
+     * Filter, which UserGroup to fetch.
+     */
+    where?: UserGroupWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of UserGroups to fetch.
+     */
+    orderBy?: UserGroupOrderByWithRelationInput | UserGroupOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for UserGroups.
+     */
+    cursor?: UserGroupWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` UserGroups from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` UserGroups.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of UserGroups.
+     */
+    distinct?: UserGroupScalarFieldEnum | UserGroupScalarFieldEnum[]
+  }
+
+  /**
+   * UserGroup findMany
+   */
+  export type UserGroupFindManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the UserGroup
+     */
+    select?: UserGroupSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the UserGroup
+     */
+    omit?: UserGroupOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: UserGroupInclude<ExtArgs> | null
+    /**
+     * Filter, which UserGroups to fetch.
+     */
+    where?: UserGroupWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of UserGroups to fetch.
+     */
+    orderBy?: UserGroupOrderByWithRelationInput | UserGroupOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for listing UserGroups.
+     */
+    cursor?: UserGroupWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` UserGroups from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` UserGroups.
+     */
+    skip?: number
+    distinct?: UserGroupScalarFieldEnum | UserGroupScalarFieldEnum[]
+  }
+
+  /**
+   * UserGroup create
+   */
+  export type UserGroupCreateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the UserGroup
+     */
+    select?: UserGroupSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the UserGroup
+     */
+    omit?: UserGroupOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: UserGroupInclude<ExtArgs> | null
+    /**
+     * The data needed to create a UserGroup.
+     */
+    data: XOR<UserGroupCreateInput, UserGroupUncheckedCreateInput>
+  }
+
+  /**
+   * UserGroup createMany
+   */
+  export type UserGroupCreateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to create many UserGroups.
+     */
+    data: UserGroupCreateManyInput | UserGroupCreateManyInput[]
+    skipDuplicates?: boolean
+  }
+
+  /**
+   * UserGroup createManyAndReturn
+   */
+  export type UserGroupCreateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the UserGroup
+     */
+    select?: UserGroupSelectCreateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the UserGroup
+     */
+    omit?: UserGroupOmit<ExtArgs> | null
+    /**
+     * The data used to create many UserGroups.
+     */
+    data: UserGroupCreateManyInput | UserGroupCreateManyInput[]
+    skipDuplicates?: boolean
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: UserGroupIncludeCreateManyAndReturn<ExtArgs> | null
+  }
+
+  /**
+   * UserGroup update
+   */
+  export type UserGroupUpdateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the UserGroup
+     */
+    select?: UserGroupSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the UserGroup
+     */
+    omit?: UserGroupOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: UserGroupInclude<ExtArgs> | null
+    /**
+     * The data needed to update a UserGroup.
+     */
+    data: XOR<UserGroupUpdateInput, UserGroupUncheckedUpdateInput>
+    /**
+     * Choose, which UserGroup to update.
+     */
+    where: UserGroupWhereUniqueInput
+  }
+
+  /**
+   * UserGroup updateMany
+   */
+  export type UserGroupUpdateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to update UserGroups.
+     */
+    data: XOR<UserGroupUpdateManyMutationInput, UserGroupUncheckedUpdateManyInput>
+    /**
+     * Filter which UserGroups to update
+     */
+    where?: UserGroupWhereInput
+    /**
+     * Limit how many UserGroups to update.
+     */
+    limit?: number
+  }
+
+  /**
+   * UserGroup updateManyAndReturn
+   */
+  export type UserGroupUpdateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the UserGroup
+     */
+    select?: UserGroupSelectUpdateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the UserGroup
+     */
+    omit?: UserGroupOmit<ExtArgs> | null
+    /**
+     * The data used to update UserGroups.
+     */
+    data: XOR<UserGroupUpdateManyMutationInput, UserGroupUncheckedUpdateManyInput>
+    /**
+     * Filter which UserGroups to update
+     */
+    where?: UserGroupWhereInput
+    /**
+     * Limit how many UserGroups to update.
+     */
+    limit?: number
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: UserGroupIncludeUpdateManyAndReturn<ExtArgs> | null
+  }
+
+  /**
+   * UserGroup upsert
+   */
+  export type UserGroupUpsertArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the UserGroup
+     */
+    select?: UserGroupSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the UserGroup
+     */
+    omit?: UserGroupOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: UserGroupInclude<ExtArgs> | null
+    /**
+     * The filter to search for the UserGroup to update in case it exists.
+     */
+    where: UserGroupWhereUniqueInput
+    /**
+     * In case the UserGroup found by the `where` argument doesn't exist, create a new UserGroup with this data.
+     */
+    create: XOR<UserGroupCreateInput, UserGroupUncheckedCreateInput>
+    /**
+     * In case the UserGroup was found with the provided `where` argument, update it with this data.
+     */
+    update: XOR<UserGroupUpdateInput, UserGroupUncheckedUpdateInput>
+  }
+
+  /**
+   * UserGroup delete
+   */
+  export type UserGroupDeleteArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the UserGroup
+     */
+    select?: UserGroupSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the UserGroup
+     */
+    omit?: UserGroupOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: UserGroupInclude<ExtArgs> | null
+    /**
+     * Filter which UserGroup to delete.
+     */
+    where: UserGroupWhereUniqueInput
+  }
+
+  /**
+   * UserGroup deleteMany
+   */
+  export type UserGroupDeleteManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which UserGroups to delete
+     */
+    where?: UserGroupWhereInput
+    /**
+     * Limit how many UserGroups to delete.
+     */
+    limit?: number
+  }
+
+  /**
+   * UserGroup.members
+   */
+  export type UserGroup$membersArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the UserGroupMember
+     */
+    select?: UserGroupMemberSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the UserGroupMember
+     */
+    omit?: UserGroupMemberOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: UserGroupMemberInclude<ExtArgs> | null
+    where?: UserGroupMemberWhereInput
+    orderBy?: UserGroupMemberOrderByWithRelationInput | UserGroupMemberOrderByWithRelationInput[]
+    cursor?: UserGroupMemberWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: UserGroupMemberScalarFieldEnum | UserGroupMemberScalarFieldEnum[]
+  }
+
+  /**
+   * UserGroup without action
+   */
+  export type UserGroupDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the UserGroup
+     */
+    select?: UserGroupSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the UserGroup
+     */
+    omit?: UserGroupOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: UserGroupInclude<ExtArgs> | null
+  }
+
+
+  /**
+   * Model UserGroupMember
+   */
+
+  export type AggregateUserGroupMember = {
+    _count: UserGroupMemberCountAggregateOutputType | null
+    _min: UserGroupMemberMinAggregateOutputType | null
+    _max: UserGroupMemberMaxAggregateOutputType | null
+  }
+
+  export type UserGroupMemberMinAggregateOutputType = {
+    userUuid: string | null
+    groupUuid: string | null
+  }
+
+  export type UserGroupMemberMaxAggregateOutputType = {
+    userUuid: string | null
+    groupUuid: string | null
+  }
+
+  export type UserGroupMemberCountAggregateOutputType = {
+    userUuid: number
+    groupUuid: number
+    _all: number
+  }
+
+
+  export type UserGroupMemberMinAggregateInputType = {
+    userUuid?: true
+    groupUuid?: true
+  }
+
+  export type UserGroupMemberMaxAggregateInputType = {
+    userUuid?: true
+    groupUuid?: true
+  }
+
+  export type UserGroupMemberCountAggregateInputType = {
+    userUuid?: true
+    groupUuid?: true
+    _all?: true
+  }
+
+  export type UserGroupMemberAggregateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which UserGroupMember to aggregate.
+     */
+    where?: UserGroupMemberWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of UserGroupMembers to fetch.
+     */
+    orderBy?: UserGroupMemberOrderByWithRelationInput | UserGroupMemberOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the start position
+     */
+    cursor?: UserGroupMemberWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` UserGroupMembers from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` UserGroupMembers.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Count returned UserGroupMembers
+    **/
+    _count?: true | UserGroupMemberCountAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the minimum value
+    **/
+    _min?: UserGroupMemberMinAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the maximum value
+    **/
+    _max?: UserGroupMemberMaxAggregateInputType
+  }
+
+  export type GetUserGroupMemberAggregateType<T extends UserGroupMemberAggregateArgs> = {
+        [P in keyof T & keyof AggregateUserGroupMember]: P extends '_count' | 'count'
+      ? T[P] extends true
+        ? number
+        : GetScalarType<T[P], AggregateUserGroupMember[P]>
+      : GetScalarType<T[P], AggregateUserGroupMember[P]>
+  }
+
+
+
+
+  export type UserGroupMemberGroupByArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: UserGroupMemberWhereInput
+    orderBy?: UserGroupMemberOrderByWithAggregationInput | UserGroupMemberOrderByWithAggregationInput[]
+    by: UserGroupMemberScalarFieldEnum[] | UserGroupMemberScalarFieldEnum
+    having?: UserGroupMemberScalarWhereWithAggregatesInput
+    take?: number
+    skip?: number
+    _count?: UserGroupMemberCountAggregateInputType | true
+    _min?: UserGroupMemberMinAggregateInputType
+    _max?: UserGroupMemberMaxAggregateInputType
+  }
+
+  export type UserGroupMemberGroupByOutputType = {
+    userUuid: string
+    groupUuid: string
+    _count: UserGroupMemberCountAggregateOutputType | null
+    _min: UserGroupMemberMinAggregateOutputType | null
+    _max: UserGroupMemberMaxAggregateOutputType | null
+  }
+
+  type GetUserGroupMemberGroupByPayload<T extends UserGroupMemberGroupByArgs> = Prisma.PrismaPromise<
+    Array<
+      PickEnumerable<UserGroupMemberGroupByOutputType, T['by']> &
+        {
+          [P in ((keyof T) & (keyof UserGroupMemberGroupByOutputType))]: P extends '_count'
+            ? T[P] extends boolean
+              ? number
+              : GetScalarType<T[P], UserGroupMemberGroupByOutputType[P]>
+            : GetScalarType<T[P], UserGroupMemberGroupByOutputType[P]>
+        }
+      >
+    >
+
+
+  export type UserGroupMemberSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    userUuid?: boolean
+    groupUuid?: boolean
+    user?: boolean | UserDefaultArgs<ExtArgs>
+    group?: boolean | UserGroupDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["userGroupMember"]>
+
+  export type UserGroupMemberSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    userUuid?: boolean
+    groupUuid?: boolean
+    user?: boolean | UserDefaultArgs<ExtArgs>
+    group?: boolean | UserGroupDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["userGroupMember"]>
+
+  export type UserGroupMemberSelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    userUuid?: boolean
+    groupUuid?: boolean
+    user?: boolean | UserDefaultArgs<ExtArgs>
+    group?: boolean | UserGroupDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["userGroupMember"]>
+
+  export type UserGroupMemberSelectScalar = {
+    userUuid?: boolean
+    groupUuid?: boolean
+  }
+
+  export type UserGroupMemberOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"userUuid" | "groupUuid", ExtArgs["result"]["userGroupMember"]>
+  export type UserGroupMemberInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    user?: boolean | UserDefaultArgs<ExtArgs>
+    group?: boolean | UserGroupDefaultArgs<ExtArgs>
+  }
+  export type UserGroupMemberIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    user?: boolean | UserDefaultArgs<ExtArgs>
+    group?: boolean | UserGroupDefaultArgs<ExtArgs>
+  }
+  export type UserGroupMemberIncludeUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    user?: boolean | UserDefaultArgs<ExtArgs>
+    group?: boolean | UserGroupDefaultArgs<ExtArgs>
+  }
+
+  export type $UserGroupMemberPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    name: "UserGroupMember"
+    objects: {
+      user: Prisma.$UserPayload<ExtArgs>
+      group: Prisma.$UserGroupPayload<ExtArgs>
+    }
+    scalars: $Extensions.GetPayloadResult<{
+      userUuid: string
+      groupUuid: string
+    }, ExtArgs["result"]["userGroupMember"]>
+    composites: {}
+  }
+
+  type UserGroupMemberGetPayload<S extends boolean | null | undefined | UserGroupMemberDefaultArgs> = $Result.GetResult<Prisma.$UserGroupMemberPayload, S>
+
+  type UserGroupMemberCountArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> =
+    Omit<UserGroupMemberFindManyArgs, 'select' | 'include' | 'distinct' | 'omit'> & {
+      select?: UserGroupMemberCountAggregateInputType | true
+    }
+
+  export interface UserGroupMemberDelegate<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> {
+    [K: symbol]: { types: Prisma.TypeMap<ExtArgs>['model']['UserGroupMember'], meta: { name: 'UserGroupMember' } }
+    /**
+     * Find zero or one UserGroupMember that matches the filter.
+     * @param {UserGroupMemberFindUniqueArgs} args - Arguments to find a UserGroupMember
+     * @example
+     * // Get one UserGroupMember
+     * const userGroupMember = await prisma.userGroupMember.findUnique({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUnique<T extends UserGroupMemberFindUniqueArgs>(args: SelectSubset<T, UserGroupMemberFindUniqueArgs<ExtArgs>>): Prisma__UserGroupMemberClient<$Result.GetResult<Prisma.$UserGroupMemberPayload<ExtArgs>, T, "findUnique", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find one UserGroupMember that matches the filter or throw an error with `error.code='P2025'`
+     * if no matches were found.
+     * @param {UserGroupMemberFindUniqueOrThrowArgs} args - Arguments to find a UserGroupMember
+     * @example
+     * // Get one UserGroupMember
+     * const userGroupMember = await prisma.userGroupMember.findUniqueOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUniqueOrThrow<T extends UserGroupMemberFindUniqueOrThrowArgs>(args: SelectSubset<T, UserGroupMemberFindUniqueOrThrowArgs<ExtArgs>>): Prisma__UserGroupMemberClient<$Result.GetResult<Prisma.$UserGroupMemberPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first UserGroupMember that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {UserGroupMemberFindFirstArgs} args - Arguments to find a UserGroupMember
+     * @example
+     * // Get one UserGroupMember
+     * const userGroupMember = await prisma.userGroupMember.findFirst({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirst<T extends UserGroupMemberFindFirstArgs>(args?: SelectSubset<T, UserGroupMemberFindFirstArgs<ExtArgs>>): Prisma__UserGroupMemberClient<$Result.GetResult<Prisma.$UserGroupMemberPayload<ExtArgs>, T, "findFirst", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first UserGroupMember that matches the filter or
+     * throw `PrismaKnownClientError` with `P2025` code if no matches were found.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {UserGroupMemberFindFirstOrThrowArgs} args - Arguments to find a UserGroupMember
+     * @example
+     * // Get one UserGroupMember
+     * const userGroupMember = await prisma.userGroupMember.findFirstOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirstOrThrow<T extends UserGroupMemberFindFirstOrThrowArgs>(args?: SelectSubset<T, UserGroupMemberFindFirstOrThrowArgs<ExtArgs>>): Prisma__UserGroupMemberClient<$Result.GetResult<Prisma.$UserGroupMemberPayload<ExtArgs>, T, "findFirstOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find zero or more UserGroupMembers that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {UserGroupMemberFindManyArgs} args - Arguments to filter and select certain fields only.
+     * @example
+     * // Get all UserGroupMembers
+     * const userGroupMembers = await prisma.userGroupMember.findMany()
+     * 
+     * // Get first 10 UserGroupMembers
+     * const userGroupMembers = await prisma.userGroupMember.findMany({ take: 10 })
+     * 
+     * // Only select the `userUuid`
+     * const userGroupMemberWithUserUuidOnly = await prisma.userGroupMember.findMany({ select: { userUuid: true } })
+     * 
+     */
+    findMany<T extends UserGroupMemberFindManyArgs>(args?: SelectSubset<T, UserGroupMemberFindManyArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$UserGroupMemberPayload<ExtArgs>, T, "findMany", GlobalOmitOptions>>
+
+    /**
+     * Create a UserGroupMember.
+     * @param {UserGroupMemberCreateArgs} args - Arguments to create a UserGroupMember.
+     * @example
+     * // Create one UserGroupMember
+     * const UserGroupMember = await prisma.userGroupMember.create({
+     *   data: {
+     *     // ... data to create a UserGroupMember
+     *   }
+     * })
+     * 
+     */
+    create<T extends UserGroupMemberCreateArgs>(args: SelectSubset<T, UserGroupMemberCreateArgs<ExtArgs>>): Prisma__UserGroupMemberClient<$Result.GetResult<Prisma.$UserGroupMemberPayload<ExtArgs>, T, "create", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Create many UserGroupMembers.
+     * @param {UserGroupMemberCreateManyArgs} args - Arguments to create many UserGroupMembers.
+     * @example
+     * // Create many UserGroupMembers
+     * const userGroupMember = await prisma.userGroupMember.createMany({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     *     
+     */
+    createMany<T extends UserGroupMemberCreateManyArgs>(args?: SelectSubset<T, UserGroupMemberCreateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Create many UserGroupMembers and returns the data saved in the database.
+     * @param {UserGroupMemberCreateManyAndReturnArgs} args - Arguments to create many UserGroupMembers.
+     * @example
+     * // Create many UserGroupMembers
+     * const userGroupMember = await prisma.userGroupMember.createManyAndReturn({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Create many UserGroupMembers and only return the `userUuid`
+     * const userGroupMemberWithUserUuidOnly = await prisma.userGroupMember.createManyAndReturn({
+     *   select: { userUuid: true },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    createManyAndReturn<T extends UserGroupMemberCreateManyAndReturnArgs>(args?: SelectSubset<T, UserGroupMemberCreateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$UserGroupMemberPayload<ExtArgs>, T, "createManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Delete a UserGroupMember.
+     * @param {UserGroupMemberDeleteArgs} args - Arguments to delete one UserGroupMember.
+     * @example
+     * // Delete one UserGroupMember
+     * const UserGroupMember = await prisma.userGroupMember.delete({
+     *   where: {
+     *     // ... filter to delete one UserGroupMember
+     *   }
+     * })
+     * 
+     */
+    delete<T extends UserGroupMemberDeleteArgs>(args: SelectSubset<T, UserGroupMemberDeleteArgs<ExtArgs>>): Prisma__UserGroupMemberClient<$Result.GetResult<Prisma.$UserGroupMemberPayload<ExtArgs>, T, "delete", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Update one UserGroupMember.
+     * @param {UserGroupMemberUpdateArgs} args - Arguments to update one UserGroupMember.
+     * @example
+     * // Update one UserGroupMember
+     * const userGroupMember = await prisma.userGroupMember.update({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    update<T extends UserGroupMemberUpdateArgs>(args: SelectSubset<T, UserGroupMemberUpdateArgs<ExtArgs>>): Prisma__UserGroupMemberClient<$Result.GetResult<Prisma.$UserGroupMemberPayload<ExtArgs>, T, "update", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Delete zero or more UserGroupMembers.
+     * @param {UserGroupMemberDeleteManyArgs} args - Arguments to filter UserGroupMembers to delete.
+     * @example
+     * // Delete a few UserGroupMembers
+     * const { count } = await prisma.userGroupMember.deleteMany({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     * 
+     */
+    deleteMany<T extends UserGroupMemberDeleteManyArgs>(args?: SelectSubset<T, UserGroupMemberDeleteManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more UserGroupMembers.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {UserGroupMemberUpdateManyArgs} args - Arguments to update one or more rows.
+     * @example
+     * // Update many UserGroupMembers
+     * const userGroupMember = await prisma.userGroupMember.updateMany({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    updateMany<T extends UserGroupMemberUpdateManyArgs>(args: SelectSubset<T, UserGroupMemberUpdateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more UserGroupMembers and returns the data updated in the database.
+     * @param {UserGroupMemberUpdateManyAndReturnArgs} args - Arguments to update many UserGroupMembers.
+     * @example
+     * // Update many UserGroupMembers
+     * const userGroupMember = await prisma.userGroupMember.updateManyAndReturn({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Update zero or more UserGroupMembers and only return the `userUuid`
+     * const userGroupMemberWithUserUuidOnly = await prisma.userGroupMember.updateManyAndReturn({
+     *   select: { userUuid: true },
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    updateManyAndReturn<T extends UserGroupMemberUpdateManyAndReturnArgs>(args: SelectSubset<T, UserGroupMemberUpdateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$UserGroupMemberPayload<ExtArgs>, T, "updateManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Create or update one UserGroupMember.
+     * @param {UserGroupMemberUpsertArgs} args - Arguments to update or create a UserGroupMember.
+     * @example
+     * // Update or create a UserGroupMember
+     * const userGroupMember = await prisma.userGroupMember.upsert({
+     *   create: {
+     *     // ... data to create a UserGroupMember
+     *   },
+     *   update: {
+     *     // ... in case it already exists, update
+     *   },
+     *   where: {
+     *     // ... the filter for the UserGroupMember we want to update
+     *   }
+     * })
+     */
+    upsert<T extends UserGroupMemberUpsertArgs>(args: SelectSubset<T, UserGroupMemberUpsertArgs<ExtArgs>>): Prisma__UserGroupMemberClient<$Result.GetResult<Prisma.$UserGroupMemberPayload<ExtArgs>, T, "upsert", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+
+    /**
+     * Count the number of UserGroupMembers.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {UserGroupMemberCountArgs} args - Arguments to filter UserGroupMembers to count.
+     * @example
+     * // Count the number of UserGroupMembers
+     * const count = await prisma.userGroupMember.count({
+     *   where: {
+     *     // ... the filter for the UserGroupMembers we want to count
+     *   }
+     * })
+    **/
+    count<T extends UserGroupMemberCountArgs>(
+      args?: Subset<T, UserGroupMemberCountArgs>,
+    ): Prisma.PrismaPromise<
+      T extends $Utils.Record<'select', any>
+        ? T['select'] extends true
+          ? number
+          : GetScalarType<T['select'], UserGroupMemberCountAggregateOutputType>
+        : number
+    >
+
+    /**
+     * Allows you to perform aggregations operations on a UserGroupMember.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {UserGroupMemberAggregateArgs} args - Select which aggregations you would like to apply and on what fields.
+     * @example
+     * // Ordered by age ascending
+     * // Where email contains prisma.io
+     * // Limited to the 10 users
+     * const aggregations = await prisma.user.aggregate({
+     *   _avg: {
+     *     age: true,
+     *   },
+     *   where: {
+     *     email: {
+     *       contains: "prisma.io",
+     *     },
+     *   },
+     *   orderBy: {
+     *     age: "asc",
+     *   },
+     *   take: 10,
+     * })
+    **/
+    aggregate<T extends UserGroupMemberAggregateArgs>(args: Subset<T, UserGroupMemberAggregateArgs>): Prisma.PrismaPromise<GetUserGroupMemberAggregateType<T>>
+
+    /**
+     * Group by UserGroupMember.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {UserGroupMemberGroupByArgs} args - Group by arguments.
+     * @example
+     * // Group by city, order by createdAt, get count
+     * const result = await prisma.user.groupBy({
+     *   by: ['city', 'createdAt'],
+     *   orderBy: {
+     *     createdAt: true
+     *   },
+     *   _count: {
+     *     _all: true
+     *   },
+     * })
+     * 
+    **/
+    groupBy<
+      T extends UserGroupMemberGroupByArgs,
+      HasSelectOrTake extends Or<
+        Extends<'skip', Keys<T>>,
+        Extends<'take', Keys<T>>
+      >,
+      OrderByArg extends True extends HasSelectOrTake
+        ? { orderBy: UserGroupMemberGroupByArgs['orderBy'] }
+        : { orderBy?: UserGroupMemberGroupByArgs['orderBy'] },
+      OrderFields extends ExcludeUnderscoreKeys<Keys<MaybeTupleToUnion<T['orderBy']>>>,
+      ByFields extends MaybeTupleToUnion<T['by']>,
+      ByValid extends Has<ByFields, OrderFields>,
+      HavingFields extends GetHavingFields<T['having']>,
+      HavingValid extends Has<ByFields, HavingFields>,
+      ByEmpty extends T['by'] extends never[] ? True : False,
+      InputErrors extends ByEmpty extends True
+      ? `Error: "by" must not be empty.`
+      : HavingValid extends False
+      ? {
+          [P in HavingFields]: P extends ByFields
+            ? never
+            : P extends string
+            ? `Error: Field "${P}" used in "having" needs to be provided in "by".`
+            : [
+                Error,
+                'Field ',
+                P,
+                ` in "having" needs to be provided in "by"`,
+              ]
+        }[HavingFields]
+      : 'take' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "take", you also need to provide "orderBy"'
+      : 'skip' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "skip", you also need to provide "orderBy"'
+      : ByValid extends True
+      ? {}
+      : {
+          [P in OrderFields]: P extends ByFields
+            ? never
+            : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+        }[OrderFields]
+    >(args: SubsetIntersection<T, UserGroupMemberGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetUserGroupMemberGroupByPayload<T> : Prisma.PrismaPromise<InputErrors>
+  /**
+   * Fields of the UserGroupMember model
+   */
+  readonly fields: UserGroupMemberFieldRefs;
+  }
+
+  /**
+   * The delegate class that acts as a "Promise-like" for UserGroupMember.
+   * Why is this prefixed with `Prisma__`?
+   * Because we want to prevent naming conflicts as mentioned in
+   * https://github.com/prisma/prisma-client-js/issues/707
+   */
+  export interface Prisma__UserGroupMemberClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
+    readonly [Symbol.toStringTag]: "PrismaPromise"
+    user<T extends UserDefaultArgs<ExtArgs> = {}>(args?: Subset<T, UserDefaultArgs<ExtArgs>>): Prisma__UserClient<$Result.GetResult<Prisma.$UserPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+    group<T extends UserGroupDefaultArgs<ExtArgs> = {}>(args?: Subset<T, UserGroupDefaultArgs<ExtArgs>>): Prisma__UserGroupClient<$Result.GetResult<Prisma.$UserGroupPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+    /**
+     * Attaches callbacks for the resolution and/or rejection of the Promise.
+     * @param onfulfilled The callback to execute when the Promise is resolved.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of which ever callback is executed.
+     */
+    then<TResult1 = T, TResult2 = never>(onfulfilled?: ((value: T) => TResult1 | PromiseLike<TResult1>) | undefined | null, onrejected?: ((reason: any) => TResult2 | PromiseLike<TResult2>) | undefined | null): $Utils.JsPromise<TResult1 | TResult2>
+    /**
+     * Attaches a callback for only the rejection of the Promise.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of the callback.
+     */
+    catch<TResult = never>(onrejected?: ((reason: any) => TResult | PromiseLike<TResult>) | undefined | null): $Utils.JsPromise<T | TResult>
+    /**
+     * Attaches a callback that is invoked when the Promise is settled (fulfilled or rejected). The
+     * resolved value cannot be modified from the callback.
+     * @param onfinally The callback to execute when the Promise is settled (fulfilled or rejected).
+     * @returns A Promise for the completion of the callback.
+     */
+    finally(onfinally?: (() => void) | undefined | null): $Utils.JsPromise<T>
+  }
+
+
+
+
+  /**
+   * Fields of the UserGroupMember model
+   */
+  interface UserGroupMemberFieldRefs {
+    readonly userUuid: FieldRef<"UserGroupMember", 'String'>
+    readonly groupUuid: FieldRef<"UserGroupMember", 'String'>
+  }
+    
+
+  // Custom InputTypes
+  /**
+   * UserGroupMember findUnique
+   */
+  export type UserGroupMemberFindUniqueArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the UserGroupMember
+     */
+    select?: UserGroupMemberSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the UserGroupMember
+     */
+    omit?: UserGroupMemberOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: UserGroupMemberInclude<ExtArgs> | null
+    /**
+     * Filter, which UserGroupMember to fetch.
+     */
+    where: UserGroupMemberWhereUniqueInput
+  }
+
+  /**
+   * UserGroupMember findUniqueOrThrow
+   */
+  export type UserGroupMemberFindUniqueOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the UserGroupMember
+     */
+    select?: UserGroupMemberSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the UserGroupMember
+     */
+    omit?: UserGroupMemberOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: UserGroupMemberInclude<ExtArgs> | null
+    /**
+     * Filter, which UserGroupMember to fetch.
+     */
+    where: UserGroupMemberWhereUniqueInput
+  }
+
+  /**
+   * UserGroupMember findFirst
+   */
+  export type UserGroupMemberFindFirstArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the UserGroupMember
+     */
+    select?: UserGroupMemberSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the UserGroupMember
+     */
+    omit?: UserGroupMemberOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: UserGroupMemberInclude<ExtArgs> | null
+    /**
+     * Filter, which UserGroupMember to fetch.
+     */
+    where?: UserGroupMemberWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of UserGroupMembers to fetch.
+     */
+    orderBy?: UserGroupMemberOrderByWithRelationInput | UserGroupMemberOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for UserGroupMembers.
+     */
+    cursor?: UserGroupMemberWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` UserGroupMembers from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` UserGroupMembers.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of UserGroupMembers.
+     */
+    distinct?: UserGroupMemberScalarFieldEnum | UserGroupMemberScalarFieldEnum[]
+  }
+
+  /**
+   * UserGroupMember findFirstOrThrow
+   */
+  export type UserGroupMemberFindFirstOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the UserGroupMember
+     */
+    select?: UserGroupMemberSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the UserGroupMember
+     */
+    omit?: UserGroupMemberOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: UserGroupMemberInclude<ExtArgs> | null
+    /**
+     * Filter, which UserGroupMember to fetch.
+     */
+    where?: UserGroupMemberWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of UserGroupMembers to fetch.
+     */
+    orderBy?: UserGroupMemberOrderByWithRelationInput | UserGroupMemberOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for UserGroupMembers.
+     */
+    cursor?: UserGroupMemberWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` UserGroupMembers from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` UserGroupMembers.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of UserGroupMembers.
+     */
+    distinct?: UserGroupMemberScalarFieldEnum | UserGroupMemberScalarFieldEnum[]
+  }
+
+  /**
+   * UserGroupMember findMany
+   */
+  export type UserGroupMemberFindManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the UserGroupMember
+     */
+    select?: UserGroupMemberSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the UserGroupMember
+     */
+    omit?: UserGroupMemberOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: UserGroupMemberInclude<ExtArgs> | null
+    /**
+     * Filter, which UserGroupMembers to fetch.
+     */
+    where?: UserGroupMemberWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of UserGroupMembers to fetch.
+     */
+    orderBy?: UserGroupMemberOrderByWithRelationInput | UserGroupMemberOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for listing UserGroupMembers.
+     */
+    cursor?: UserGroupMemberWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` UserGroupMembers from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` UserGroupMembers.
+     */
+    skip?: number
+    distinct?: UserGroupMemberScalarFieldEnum | UserGroupMemberScalarFieldEnum[]
+  }
+
+  /**
+   * UserGroupMember create
+   */
+  export type UserGroupMemberCreateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the UserGroupMember
+     */
+    select?: UserGroupMemberSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the UserGroupMember
+     */
+    omit?: UserGroupMemberOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: UserGroupMemberInclude<ExtArgs> | null
+    /**
+     * The data needed to create a UserGroupMember.
+     */
+    data: XOR<UserGroupMemberCreateInput, UserGroupMemberUncheckedCreateInput>
+  }
+
+  /**
+   * UserGroupMember createMany
+   */
+  export type UserGroupMemberCreateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to create many UserGroupMembers.
+     */
+    data: UserGroupMemberCreateManyInput | UserGroupMemberCreateManyInput[]
+    skipDuplicates?: boolean
+  }
+
+  /**
+   * UserGroupMember createManyAndReturn
+   */
+  export type UserGroupMemberCreateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the UserGroupMember
+     */
+    select?: UserGroupMemberSelectCreateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the UserGroupMember
+     */
+    omit?: UserGroupMemberOmit<ExtArgs> | null
+    /**
+     * The data used to create many UserGroupMembers.
+     */
+    data: UserGroupMemberCreateManyInput | UserGroupMemberCreateManyInput[]
+    skipDuplicates?: boolean
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: UserGroupMemberIncludeCreateManyAndReturn<ExtArgs> | null
+  }
+
+  /**
+   * UserGroupMember update
+   */
+  export type UserGroupMemberUpdateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the UserGroupMember
+     */
+    select?: UserGroupMemberSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the UserGroupMember
+     */
+    omit?: UserGroupMemberOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: UserGroupMemberInclude<ExtArgs> | null
+    /**
+     * The data needed to update a UserGroupMember.
+     */
+    data: XOR<UserGroupMemberUpdateInput, UserGroupMemberUncheckedUpdateInput>
+    /**
+     * Choose, which UserGroupMember to update.
+     */
+    where: UserGroupMemberWhereUniqueInput
+  }
+
+  /**
+   * UserGroupMember updateMany
+   */
+  export type UserGroupMemberUpdateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to update UserGroupMembers.
+     */
+    data: XOR<UserGroupMemberUpdateManyMutationInput, UserGroupMemberUncheckedUpdateManyInput>
+    /**
+     * Filter which UserGroupMembers to update
+     */
+    where?: UserGroupMemberWhereInput
+    /**
+     * Limit how many UserGroupMembers to update.
+     */
+    limit?: number
+  }
+
+  /**
+   * UserGroupMember updateManyAndReturn
+   */
+  export type UserGroupMemberUpdateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the UserGroupMember
+     */
+    select?: UserGroupMemberSelectUpdateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the UserGroupMember
+     */
+    omit?: UserGroupMemberOmit<ExtArgs> | null
+    /**
+     * The data used to update UserGroupMembers.
+     */
+    data: XOR<UserGroupMemberUpdateManyMutationInput, UserGroupMemberUncheckedUpdateManyInput>
+    /**
+     * Filter which UserGroupMembers to update
+     */
+    where?: UserGroupMemberWhereInput
+    /**
+     * Limit how many UserGroupMembers to update.
+     */
+    limit?: number
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: UserGroupMemberIncludeUpdateManyAndReturn<ExtArgs> | null
+  }
+
+  /**
+   * UserGroupMember upsert
+   */
+  export type UserGroupMemberUpsertArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the UserGroupMember
+     */
+    select?: UserGroupMemberSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the UserGroupMember
+     */
+    omit?: UserGroupMemberOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: UserGroupMemberInclude<ExtArgs> | null
+    /**
+     * The filter to search for the UserGroupMember to update in case it exists.
+     */
+    where: UserGroupMemberWhereUniqueInput
+    /**
+     * In case the UserGroupMember found by the `where` argument doesn't exist, create a new UserGroupMember with this data.
+     */
+    create: XOR<UserGroupMemberCreateInput, UserGroupMemberUncheckedCreateInput>
+    /**
+     * In case the UserGroupMember was found with the provided `where` argument, update it with this data.
+     */
+    update: XOR<UserGroupMemberUpdateInput, UserGroupMemberUncheckedUpdateInput>
+  }
+
+  /**
+   * UserGroupMember delete
+   */
+  export type UserGroupMemberDeleteArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the UserGroupMember
+     */
+    select?: UserGroupMemberSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the UserGroupMember
+     */
+    omit?: UserGroupMemberOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: UserGroupMemberInclude<ExtArgs> | null
+    /**
+     * Filter which UserGroupMember to delete.
+     */
+    where: UserGroupMemberWhereUniqueInput
+  }
+
+  /**
+   * UserGroupMember deleteMany
+   */
+  export type UserGroupMemberDeleteManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which UserGroupMembers to delete
+     */
+    where?: UserGroupMemberWhereInput
+    /**
+     * Limit how many UserGroupMembers to delete.
+     */
+    limit?: number
+  }
+
+  /**
+   * UserGroupMember without action
+   */
+  export type UserGroupMemberDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the UserGroupMember
+     */
+    select?: UserGroupMemberSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the UserGroupMember
+     */
+    omit?: UserGroupMemberOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: UserGroupMemberInclude<ExtArgs> | null
   }
 
 
@@ -11870,11 +14325,31 @@ export namespace Prisma {
     email: 'email',
     passwordHash: 'passwordHash',
     name: 'name',
+    role: 'role',
     companyUuid: 'companyUuid',
     createdAt: 'createdAt'
   };
 
   export type UserScalarFieldEnum = (typeof UserScalarFieldEnum)[keyof typeof UserScalarFieldEnum]
+
+
+  export const UserGroupScalarFieldEnum: {
+    uuid: 'uuid',
+    name: 'name',
+    permissions: 'permissions',
+    companyUuid: 'companyUuid',
+    createdAt: 'createdAt'
+  };
+
+  export type UserGroupScalarFieldEnum = (typeof UserGroupScalarFieldEnum)[keyof typeof UserGroupScalarFieldEnum]
+
+
+  export const UserGroupMemberScalarFieldEnum: {
+    userUuid: 'userUuid',
+    groupUuid: 'groupUuid'
+  };
+
+  export type UserGroupMemberScalarFieldEnum = (typeof UserGroupMemberScalarFieldEnum)[keyof typeof UserGroupMemberScalarFieldEnum]
 
 
   export const ProductScalarFieldEnum: {
@@ -12021,6 +14496,20 @@ export namespace Prisma {
 
 
   /**
+   * Reference to a field of type 'UserRole'
+   */
+  export type EnumUserRoleFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'UserRole'>
+    
+
+
+  /**
+   * Reference to a field of type 'UserRole[]'
+   */
+  export type ListEnumUserRoleFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'UserRole[]'>
+    
+
+
+  /**
    * Reference to a field of type 'Float'
    */
   export type FloatFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Float'>
@@ -12061,6 +14550,7 @@ export namespace Prisma {
     soundOnOrderReady?: BoolFilter<"Company"> | boolean
     createdAt?: DateTimeFilter<"Company"> | Date | string
     users?: UserListRelationFilter
+    userGroups?: UserGroupListRelationFilter
     tables?: TableListRelationFilter
     categories?: CategoryListRelationFilter
     products?: ProductListRelationFilter
@@ -12074,6 +14564,7 @@ export namespace Prisma {
     soundOnOrderReady?: SortOrder
     createdAt?: SortOrder
     users?: UserOrderByRelationAggregateInput
+    userGroups?: UserGroupOrderByRelationAggregateInput
     tables?: TableOrderByRelationAggregateInput
     categories?: CategoryOrderByRelationAggregateInput
     products?: ProductOrderByRelationAggregateInput
@@ -12090,6 +14581,7 @@ export namespace Prisma {
     soundOnOrderReady?: BoolFilter<"Company"> | boolean
     createdAt?: DateTimeFilter<"Company"> | Date | string
     users?: UserListRelationFilter
+    userGroups?: UserGroupListRelationFilter
     tables?: TableListRelationFilter
     categories?: CategoryListRelationFilter
     products?: ProductListRelationFilter
@@ -12126,9 +14618,11 @@ export namespace Prisma {
     email?: StringFilter<"User"> | string
     passwordHash?: StringFilter<"User"> | string
     name?: StringFilter<"User"> | string
+    role?: EnumUserRoleFilter<"User"> | $Enums.UserRole
     companyUuid?: StringFilter<"User"> | string
     createdAt?: DateTimeFilter<"User"> | Date | string
     company?: XOR<CompanyScalarRelationFilter, CompanyWhereInput>
+    groupMembers?: UserGroupMemberListRelationFilter
   }
 
   export type UserOrderByWithRelationInput = {
@@ -12136,9 +14630,11 @@ export namespace Prisma {
     email?: SortOrder
     passwordHash?: SortOrder
     name?: SortOrder
+    role?: SortOrder
     companyUuid?: SortOrder
     createdAt?: SortOrder
     company?: CompanyOrderByWithRelationInput
+    groupMembers?: UserGroupMemberOrderByRelationAggregateInput
   }
 
   export type UserWhereUniqueInput = Prisma.AtLeast<{
@@ -12149,9 +14645,11 @@ export namespace Prisma {
     NOT?: UserWhereInput | UserWhereInput[]
     passwordHash?: StringFilter<"User"> | string
     name?: StringFilter<"User"> | string
+    role?: EnumUserRoleFilter<"User"> | $Enums.UserRole
     companyUuid?: StringFilter<"User"> | string
     createdAt?: DateTimeFilter<"User"> | Date | string
     company?: XOR<CompanyScalarRelationFilter, CompanyWhereInput>
+    groupMembers?: UserGroupMemberListRelationFilter
   }, "uuid" | "email">
 
   export type UserOrderByWithAggregationInput = {
@@ -12159,6 +14657,7 @@ export namespace Prisma {
     email?: SortOrder
     passwordHash?: SortOrder
     name?: SortOrder
+    role?: SortOrder
     companyUuid?: SortOrder
     createdAt?: SortOrder
     _count?: UserCountOrderByAggregateInput
@@ -12174,8 +14673,111 @@ export namespace Prisma {
     email?: StringWithAggregatesFilter<"User"> | string
     passwordHash?: StringWithAggregatesFilter<"User"> | string
     name?: StringWithAggregatesFilter<"User"> | string
+    role?: EnumUserRoleWithAggregatesFilter<"User"> | $Enums.UserRole
     companyUuid?: StringWithAggregatesFilter<"User"> | string
     createdAt?: DateTimeWithAggregatesFilter<"User"> | Date | string
+  }
+
+  export type UserGroupWhereInput = {
+    AND?: UserGroupWhereInput | UserGroupWhereInput[]
+    OR?: UserGroupWhereInput[]
+    NOT?: UserGroupWhereInput | UserGroupWhereInput[]
+    uuid?: StringFilter<"UserGroup"> | string
+    name?: StringFilter<"UserGroup"> | string
+    permissions?: StringNullableListFilter<"UserGroup">
+    companyUuid?: StringFilter<"UserGroup"> | string
+    createdAt?: DateTimeFilter<"UserGroup"> | Date | string
+    company?: XOR<CompanyScalarRelationFilter, CompanyWhereInput>
+    members?: UserGroupMemberListRelationFilter
+  }
+
+  export type UserGroupOrderByWithRelationInput = {
+    uuid?: SortOrder
+    name?: SortOrder
+    permissions?: SortOrder
+    companyUuid?: SortOrder
+    createdAt?: SortOrder
+    company?: CompanyOrderByWithRelationInput
+    members?: UserGroupMemberOrderByRelationAggregateInput
+  }
+
+  export type UserGroupWhereUniqueInput = Prisma.AtLeast<{
+    uuid?: string
+    AND?: UserGroupWhereInput | UserGroupWhereInput[]
+    OR?: UserGroupWhereInput[]
+    NOT?: UserGroupWhereInput | UserGroupWhereInput[]
+    name?: StringFilter<"UserGroup"> | string
+    permissions?: StringNullableListFilter<"UserGroup">
+    companyUuid?: StringFilter<"UserGroup"> | string
+    createdAt?: DateTimeFilter<"UserGroup"> | Date | string
+    company?: XOR<CompanyScalarRelationFilter, CompanyWhereInput>
+    members?: UserGroupMemberListRelationFilter
+  }, "uuid">
+
+  export type UserGroupOrderByWithAggregationInput = {
+    uuid?: SortOrder
+    name?: SortOrder
+    permissions?: SortOrder
+    companyUuid?: SortOrder
+    createdAt?: SortOrder
+    _count?: UserGroupCountOrderByAggregateInput
+    _max?: UserGroupMaxOrderByAggregateInput
+    _min?: UserGroupMinOrderByAggregateInput
+  }
+
+  export type UserGroupScalarWhereWithAggregatesInput = {
+    AND?: UserGroupScalarWhereWithAggregatesInput | UserGroupScalarWhereWithAggregatesInput[]
+    OR?: UserGroupScalarWhereWithAggregatesInput[]
+    NOT?: UserGroupScalarWhereWithAggregatesInput | UserGroupScalarWhereWithAggregatesInput[]
+    uuid?: StringWithAggregatesFilter<"UserGroup"> | string
+    name?: StringWithAggregatesFilter<"UserGroup"> | string
+    permissions?: StringNullableListFilter<"UserGroup">
+    companyUuid?: StringWithAggregatesFilter<"UserGroup"> | string
+    createdAt?: DateTimeWithAggregatesFilter<"UserGroup"> | Date | string
+  }
+
+  export type UserGroupMemberWhereInput = {
+    AND?: UserGroupMemberWhereInput | UserGroupMemberWhereInput[]
+    OR?: UserGroupMemberWhereInput[]
+    NOT?: UserGroupMemberWhereInput | UserGroupMemberWhereInput[]
+    userUuid?: StringFilter<"UserGroupMember"> | string
+    groupUuid?: StringFilter<"UserGroupMember"> | string
+    user?: XOR<UserScalarRelationFilter, UserWhereInput>
+    group?: XOR<UserGroupScalarRelationFilter, UserGroupWhereInput>
+  }
+
+  export type UserGroupMemberOrderByWithRelationInput = {
+    userUuid?: SortOrder
+    groupUuid?: SortOrder
+    user?: UserOrderByWithRelationInput
+    group?: UserGroupOrderByWithRelationInput
+  }
+
+  export type UserGroupMemberWhereUniqueInput = Prisma.AtLeast<{
+    userUuid_groupUuid?: UserGroupMemberUserUuidGroupUuidCompoundUniqueInput
+    AND?: UserGroupMemberWhereInput | UserGroupMemberWhereInput[]
+    OR?: UserGroupMemberWhereInput[]
+    NOT?: UserGroupMemberWhereInput | UserGroupMemberWhereInput[]
+    userUuid?: StringFilter<"UserGroupMember"> | string
+    groupUuid?: StringFilter<"UserGroupMember"> | string
+    user?: XOR<UserScalarRelationFilter, UserWhereInput>
+    group?: XOR<UserGroupScalarRelationFilter, UserGroupWhereInput>
+  }, "userUuid_groupUuid">
+
+  export type UserGroupMemberOrderByWithAggregationInput = {
+    userUuid?: SortOrder
+    groupUuid?: SortOrder
+    _count?: UserGroupMemberCountOrderByAggregateInput
+    _max?: UserGroupMemberMaxOrderByAggregateInput
+    _min?: UserGroupMemberMinOrderByAggregateInput
+  }
+
+  export type UserGroupMemberScalarWhereWithAggregatesInput = {
+    AND?: UserGroupMemberScalarWhereWithAggregatesInput | UserGroupMemberScalarWhereWithAggregatesInput[]
+    OR?: UserGroupMemberScalarWhereWithAggregatesInput[]
+    NOT?: UserGroupMemberScalarWhereWithAggregatesInput | UserGroupMemberScalarWhereWithAggregatesInput[]
+    userUuid?: StringWithAggregatesFilter<"UserGroupMember"> | string
+    groupUuid?: StringWithAggregatesFilter<"UserGroupMember"> | string
   }
 
   export type ProductWhereInput = {
@@ -12612,6 +15214,7 @@ export namespace Prisma {
     soundOnOrderReady?: boolean
     createdAt?: Date | string
     users?: UserCreateNestedManyWithoutCompanyInput
+    userGroups?: UserGroupCreateNestedManyWithoutCompanyInput
     tables?: TableCreateNestedManyWithoutCompanyInput
     categories?: CategoryCreateNestedManyWithoutCompanyInput
     products?: ProductCreateNestedManyWithoutCompanyInput
@@ -12625,6 +15228,7 @@ export namespace Prisma {
     soundOnOrderReady?: boolean
     createdAt?: Date | string
     users?: UserUncheckedCreateNestedManyWithoutCompanyInput
+    userGroups?: UserGroupUncheckedCreateNestedManyWithoutCompanyInput
     tables?: TableUncheckedCreateNestedManyWithoutCompanyInput
     categories?: CategoryUncheckedCreateNestedManyWithoutCompanyInput
     products?: ProductUncheckedCreateNestedManyWithoutCompanyInput
@@ -12638,6 +15242,7 @@ export namespace Prisma {
     soundOnOrderReady?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     users?: UserUpdateManyWithoutCompanyNestedInput
+    userGroups?: UserGroupUpdateManyWithoutCompanyNestedInput
     tables?: TableUpdateManyWithoutCompanyNestedInput
     categories?: CategoryUpdateManyWithoutCompanyNestedInput
     products?: ProductUpdateManyWithoutCompanyNestedInput
@@ -12651,6 +15256,7 @@ export namespace Prisma {
     soundOnOrderReady?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     users?: UserUncheckedUpdateManyWithoutCompanyNestedInput
+    userGroups?: UserGroupUncheckedUpdateManyWithoutCompanyNestedInput
     tables?: TableUncheckedUpdateManyWithoutCompanyNestedInput
     categories?: CategoryUncheckedUpdateManyWithoutCompanyNestedInput
     products?: ProductUncheckedUpdateManyWithoutCompanyNestedInput
@@ -12686,8 +15292,10 @@ export namespace Prisma {
     email: string
     passwordHash: string
     name: string
+    role?: $Enums.UserRole
     createdAt?: Date | string
     company: CompanyCreateNestedOneWithoutUsersInput
+    groupMembers?: UserGroupMemberCreateNestedManyWithoutUserInput
   }
 
   export type UserUncheckedCreateInput = {
@@ -12695,8 +15303,10 @@ export namespace Prisma {
     email: string
     passwordHash: string
     name: string
+    role?: $Enums.UserRole
     companyUuid: string
     createdAt?: Date | string
+    groupMembers?: UserGroupMemberUncheckedCreateNestedManyWithoutUserInput
   }
 
   export type UserUpdateInput = {
@@ -12704,8 +15314,10 @@ export namespace Prisma {
     email?: StringFieldUpdateOperationsInput | string
     passwordHash?: StringFieldUpdateOperationsInput | string
     name?: StringFieldUpdateOperationsInput | string
+    role?: EnumUserRoleFieldUpdateOperationsInput | $Enums.UserRole
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     company?: CompanyUpdateOneRequiredWithoutUsersNestedInput
+    groupMembers?: UserGroupMemberUpdateManyWithoutUserNestedInput
   }
 
   export type UserUncheckedUpdateInput = {
@@ -12713,8 +15325,10 @@ export namespace Prisma {
     email?: StringFieldUpdateOperationsInput | string
     passwordHash?: StringFieldUpdateOperationsInput | string
     name?: StringFieldUpdateOperationsInput | string
+    role?: EnumUserRoleFieldUpdateOperationsInput | $Enums.UserRole
     companyUuid?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    groupMembers?: UserGroupMemberUncheckedUpdateManyWithoutUserNestedInput
   }
 
   export type UserCreateManyInput = {
@@ -12722,6 +15336,7 @@ export namespace Prisma {
     email: string
     passwordHash: string
     name: string
+    role?: $Enums.UserRole
     companyUuid: string
     createdAt?: Date | string
   }
@@ -12731,6 +15346,7 @@ export namespace Prisma {
     email?: StringFieldUpdateOperationsInput | string
     passwordHash?: StringFieldUpdateOperationsInput | string
     name?: StringFieldUpdateOperationsInput | string
+    role?: EnumUserRoleFieldUpdateOperationsInput | $Enums.UserRole
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
@@ -12739,8 +15355,102 @@ export namespace Prisma {
     email?: StringFieldUpdateOperationsInput | string
     passwordHash?: StringFieldUpdateOperationsInput | string
     name?: StringFieldUpdateOperationsInput | string
+    role?: EnumUserRoleFieldUpdateOperationsInput | $Enums.UserRole
     companyUuid?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type UserGroupCreateInput = {
+    uuid?: string
+    name: string
+    permissions?: UserGroupCreatepermissionsInput | string[]
+    createdAt?: Date | string
+    company: CompanyCreateNestedOneWithoutUserGroupsInput
+    members?: UserGroupMemberCreateNestedManyWithoutGroupInput
+  }
+
+  export type UserGroupUncheckedCreateInput = {
+    uuid?: string
+    name: string
+    permissions?: UserGroupCreatepermissionsInput | string[]
+    companyUuid: string
+    createdAt?: Date | string
+    members?: UserGroupMemberUncheckedCreateNestedManyWithoutGroupInput
+  }
+
+  export type UserGroupUpdateInput = {
+    uuid?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    permissions?: UserGroupUpdatepermissionsInput | string[]
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    company?: CompanyUpdateOneRequiredWithoutUserGroupsNestedInput
+    members?: UserGroupMemberUpdateManyWithoutGroupNestedInput
+  }
+
+  export type UserGroupUncheckedUpdateInput = {
+    uuid?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    permissions?: UserGroupUpdatepermissionsInput | string[]
+    companyUuid?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    members?: UserGroupMemberUncheckedUpdateManyWithoutGroupNestedInput
+  }
+
+  export type UserGroupCreateManyInput = {
+    uuid?: string
+    name: string
+    permissions?: UserGroupCreatepermissionsInput | string[]
+    companyUuid: string
+    createdAt?: Date | string
+  }
+
+  export type UserGroupUpdateManyMutationInput = {
+    uuid?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    permissions?: UserGroupUpdatepermissionsInput | string[]
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type UserGroupUncheckedUpdateManyInput = {
+    uuid?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    permissions?: UserGroupUpdatepermissionsInput | string[]
+    companyUuid?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type UserGroupMemberCreateInput = {
+    user: UserCreateNestedOneWithoutGroupMembersInput
+    group: UserGroupCreateNestedOneWithoutMembersInput
+  }
+
+  export type UserGroupMemberUncheckedCreateInput = {
+    userUuid: string
+    groupUuid: string
+  }
+
+  export type UserGroupMemberUpdateInput = {
+    user?: UserUpdateOneRequiredWithoutGroupMembersNestedInput
+    group?: UserGroupUpdateOneRequiredWithoutMembersNestedInput
+  }
+
+  export type UserGroupMemberUncheckedUpdateInput = {
+    userUuid?: StringFieldUpdateOperationsInput | string
+    groupUuid?: StringFieldUpdateOperationsInput | string
+  }
+
+  export type UserGroupMemberCreateManyInput = {
+    userUuid: string
+    groupUuid: string
+  }
+
+  export type UserGroupMemberUpdateManyMutationInput = {
+
+  }
+
+  export type UserGroupMemberUncheckedUpdateManyInput = {
+    userUuid?: StringFieldUpdateOperationsInput | string
+    groupUuid?: StringFieldUpdateOperationsInput | string
   }
 
   export type ProductCreateInput = {
@@ -13212,6 +15922,12 @@ export namespace Prisma {
     none?: UserWhereInput
   }
 
+  export type UserGroupListRelationFilter = {
+    every?: UserGroupWhereInput
+    some?: UserGroupWhereInput
+    none?: UserGroupWhereInput
+  }
+
   export type TableListRelationFilter = {
     every?: TableWhereInput
     some?: TableWhereInput
@@ -13242,6 +15958,10 @@ export namespace Prisma {
   }
 
   export type UserOrderByRelationAggregateInput = {
+    _count?: SortOrder
+  }
+
+  export type UserGroupOrderByRelationAggregateInput = {
     _count?: SortOrder
   }
 
@@ -13343,9 +16063,26 @@ export namespace Prisma {
     _max?: NestedDateTimeFilter<$PrismaModel>
   }
 
+  export type EnumUserRoleFilter<$PrismaModel = never> = {
+    equals?: $Enums.UserRole | EnumUserRoleFieldRefInput<$PrismaModel>
+    in?: $Enums.UserRole[] | ListEnumUserRoleFieldRefInput<$PrismaModel>
+    notIn?: $Enums.UserRole[] | ListEnumUserRoleFieldRefInput<$PrismaModel>
+    not?: NestedEnumUserRoleFilter<$PrismaModel> | $Enums.UserRole
+  }
+
   export type CompanyScalarRelationFilter = {
     is?: CompanyWhereInput
     isNot?: CompanyWhereInput
+  }
+
+  export type UserGroupMemberListRelationFilter = {
+    every?: UserGroupMemberWhereInput
+    some?: UserGroupMemberWhereInput
+    none?: UserGroupMemberWhereInput
+  }
+
+  export type UserGroupMemberOrderByRelationAggregateInput = {
+    _count?: SortOrder
   }
 
   export type UserCountOrderByAggregateInput = {
@@ -13353,6 +16090,7 @@ export namespace Prisma {
     email?: SortOrder
     passwordHash?: SortOrder
     name?: SortOrder
+    role?: SortOrder
     companyUuid?: SortOrder
     createdAt?: SortOrder
   }
@@ -13362,6 +16100,7 @@ export namespace Prisma {
     email?: SortOrder
     passwordHash?: SortOrder
     name?: SortOrder
+    role?: SortOrder
     companyUuid?: SortOrder
     createdAt?: SortOrder
   }
@@ -13371,8 +16110,79 @@ export namespace Prisma {
     email?: SortOrder
     passwordHash?: SortOrder
     name?: SortOrder
+    role?: SortOrder
     companyUuid?: SortOrder
     createdAt?: SortOrder
+  }
+
+  export type EnumUserRoleWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: $Enums.UserRole | EnumUserRoleFieldRefInput<$PrismaModel>
+    in?: $Enums.UserRole[] | ListEnumUserRoleFieldRefInput<$PrismaModel>
+    notIn?: $Enums.UserRole[] | ListEnumUserRoleFieldRefInput<$PrismaModel>
+    not?: NestedEnumUserRoleWithAggregatesFilter<$PrismaModel> | $Enums.UserRole
+    _count?: NestedIntFilter<$PrismaModel>
+    _min?: NestedEnumUserRoleFilter<$PrismaModel>
+    _max?: NestedEnumUserRoleFilter<$PrismaModel>
+  }
+
+  export type StringNullableListFilter<$PrismaModel = never> = {
+    equals?: string[] | ListStringFieldRefInput<$PrismaModel> | null
+    has?: string | StringFieldRefInput<$PrismaModel> | null
+    hasEvery?: string[] | ListStringFieldRefInput<$PrismaModel>
+    hasSome?: string[] | ListStringFieldRefInput<$PrismaModel>
+    isEmpty?: boolean
+  }
+
+  export type UserGroupCountOrderByAggregateInput = {
+    uuid?: SortOrder
+    name?: SortOrder
+    permissions?: SortOrder
+    companyUuid?: SortOrder
+    createdAt?: SortOrder
+  }
+
+  export type UserGroupMaxOrderByAggregateInput = {
+    uuid?: SortOrder
+    name?: SortOrder
+    companyUuid?: SortOrder
+    createdAt?: SortOrder
+  }
+
+  export type UserGroupMinOrderByAggregateInput = {
+    uuid?: SortOrder
+    name?: SortOrder
+    companyUuid?: SortOrder
+    createdAt?: SortOrder
+  }
+
+  export type UserScalarRelationFilter = {
+    is?: UserWhereInput
+    isNot?: UserWhereInput
+  }
+
+  export type UserGroupScalarRelationFilter = {
+    is?: UserGroupWhereInput
+    isNot?: UserGroupWhereInput
+  }
+
+  export type UserGroupMemberUserUuidGroupUuidCompoundUniqueInput = {
+    userUuid: string
+    groupUuid: string
+  }
+
+  export type UserGroupMemberCountOrderByAggregateInput = {
+    userUuid?: SortOrder
+    groupUuid?: SortOrder
+  }
+
+  export type UserGroupMemberMaxOrderByAggregateInput = {
+    userUuid?: SortOrder
+    groupUuid?: SortOrder
+  }
+
+  export type UserGroupMemberMinOrderByAggregateInput = {
+    userUuid?: SortOrder
+    groupUuid?: SortOrder
   }
 
   export type FloatFilter<$PrismaModel = never> = {
@@ -13766,6 +16576,13 @@ export namespace Prisma {
     connect?: UserWhereUniqueInput | UserWhereUniqueInput[]
   }
 
+  export type UserGroupCreateNestedManyWithoutCompanyInput = {
+    create?: XOR<UserGroupCreateWithoutCompanyInput, UserGroupUncheckedCreateWithoutCompanyInput> | UserGroupCreateWithoutCompanyInput[] | UserGroupUncheckedCreateWithoutCompanyInput[]
+    connectOrCreate?: UserGroupCreateOrConnectWithoutCompanyInput | UserGroupCreateOrConnectWithoutCompanyInput[]
+    createMany?: UserGroupCreateManyCompanyInputEnvelope
+    connect?: UserGroupWhereUniqueInput | UserGroupWhereUniqueInput[]
+  }
+
   export type TableCreateNestedManyWithoutCompanyInput = {
     create?: XOR<TableCreateWithoutCompanyInput, TableUncheckedCreateWithoutCompanyInput> | TableCreateWithoutCompanyInput[] | TableUncheckedCreateWithoutCompanyInput[]
     connectOrCreate?: TableCreateOrConnectWithoutCompanyInput | TableCreateOrConnectWithoutCompanyInput[]
@@ -13799,6 +16616,13 @@ export namespace Prisma {
     connectOrCreate?: UserCreateOrConnectWithoutCompanyInput | UserCreateOrConnectWithoutCompanyInput[]
     createMany?: UserCreateManyCompanyInputEnvelope
     connect?: UserWhereUniqueInput | UserWhereUniqueInput[]
+  }
+
+  export type UserGroupUncheckedCreateNestedManyWithoutCompanyInput = {
+    create?: XOR<UserGroupCreateWithoutCompanyInput, UserGroupUncheckedCreateWithoutCompanyInput> | UserGroupCreateWithoutCompanyInput[] | UserGroupUncheckedCreateWithoutCompanyInput[]
+    connectOrCreate?: UserGroupCreateOrConnectWithoutCompanyInput | UserGroupCreateOrConnectWithoutCompanyInput[]
+    createMany?: UserGroupCreateManyCompanyInputEnvelope
+    connect?: UserGroupWhereUniqueInput | UserGroupWhereUniqueInput[]
   }
 
   export type TableUncheckedCreateNestedManyWithoutCompanyInput = {
@@ -13857,6 +16681,20 @@ export namespace Prisma {
     update?: UserUpdateWithWhereUniqueWithoutCompanyInput | UserUpdateWithWhereUniqueWithoutCompanyInput[]
     updateMany?: UserUpdateManyWithWhereWithoutCompanyInput | UserUpdateManyWithWhereWithoutCompanyInput[]
     deleteMany?: UserScalarWhereInput | UserScalarWhereInput[]
+  }
+
+  export type UserGroupUpdateManyWithoutCompanyNestedInput = {
+    create?: XOR<UserGroupCreateWithoutCompanyInput, UserGroupUncheckedCreateWithoutCompanyInput> | UserGroupCreateWithoutCompanyInput[] | UserGroupUncheckedCreateWithoutCompanyInput[]
+    connectOrCreate?: UserGroupCreateOrConnectWithoutCompanyInput | UserGroupCreateOrConnectWithoutCompanyInput[]
+    upsert?: UserGroupUpsertWithWhereUniqueWithoutCompanyInput | UserGroupUpsertWithWhereUniqueWithoutCompanyInput[]
+    createMany?: UserGroupCreateManyCompanyInputEnvelope
+    set?: UserGroupWhereUniqueInput | UserGroupWhereUniqueInput[]
+    disconnect?: UserGroupWhereUniqueInput | UserGroupWhereUniqueInput[]
+    delete?: UserGroupWhereUniqueInput | UserGroupWhereUniqueInput[]
+    connect?: UserGroupWhereUniqueInput | UserGroupWhereUniqueInput[]
+    update?: UserGroupUpdateWithWhereUniqueWithoutCompanyInput | UserGroupUpdateWithWhereUniqueWithoutCompanyInput[]
+    updateMany?: UserGroupUpdateManyWithWhereWithoutCompanyInput | UserGroupUpdateManyWithWhereWithoutCompanyInput[]
+    deleteMany?: UserGroupScalarWhereInput | UserGroupScalarWhereInput[]
   }
 
   export type TableUpdateManyWithoutCompanyNestedInput = {
@@ -13929,6 +16767,20 @@ export namespace Prisma {
     deleteMany?: UserScalarWhereInput | UserScalarWhereInput[]
   }
 
+  export type UserGroupUncheckedUpdateManyWithoutCompanyNestedInput = {
+    create?: XOR<UserGroupCreateWithoutCompanyInput, UserGroupUncheckedCreateWithoutCompanyInput> | UserGroupCreateWithoutCompanyInput[] | UserGroupUncheckedCreateWithoutCompanyInput[]
+    connectOrCreate?: UserGroupCreateOrConnectWithoutCompanyInput | UserGroupCreateOrConnectWithoutCompanyInput[]
+    upsert?: UserGroupUpsertWithWhereUniqueWithoutCompanyInput | UserGroupUpsertWithWhereUniqueWithoutCompanyInput[]
+    createMany?: UserGroupCreateManyCompanyInputEnvelope
+    set?: UserGroupWhereUniqueInput | UserGroupWhereUniqueInput[]
+    disconnect?: UserGroupWhereUniqueInput | UserGroupWhereUniqueInput[]
+    delete?: UserGroupWhereUniqueInput | UserGroupWhereUniqueInput[]
+    connect?: UserGroupWhereUniqueInput | UserGroupWhereUniqueInput[]
+    update?: UserGroupUpdateWithWhereUniqueWithoutCompanyInput | UserGroupUpdateWithWhereUniqueWithoutCompanyInput[]
+    updateMany?: UserGroupUpdateManyWithWhereWithoutCompanyInput | UserGroupUpdateManyWithWhereWithoutCompanyInput[]
+    deleteMany?: UserGroupScalarWhereInput | UserGroupScalarWhereInput[]
+  }
+
   export type TableUncheckedUpdateManyWithoutCompanyNestedInput = {
     create?: XOR<TableCreateWithoutCompanyInput, TableUncheckedCreateWithoutCompanyInput> | TableCreateWithoutCompanyInput[] | TableUncheckedCreateWithoutCompanyInput[]
     connectOrCreate?: TableCreateOrConnectWithoutCompanyInput | TableCreateOrConnectWithoutCompanyInput[]
@@ -13991,12 +16843,151 @@ export namespace Prisma {
     connect?: CompanyWhereUniqueInput
   }
 
+  export type UserGroupMemberCreateNestedManyWithoutUserInput = {
+    create?: XOR<UserGroupMemberCreateWithoutUserInput, UserGroupMemberUncheckedCreateWithoutUserInput> | UserGroupMemberCreateWithoutUserInput[] | UserGroupMemberUncheckedCreateWithoutUserInput[]
+    connectOrCreate?: UserGroupMemberCreateOrConnectWithoutUserInput | UserGroupMemberCreateOrConnectWithoutUserInput[]
+    createMany?: UserGroupMemberCreateManyUserInputEnvelope
+    connect?: UserGroupMemberWhereUniqueInput | UserGroupMemberWhereUniqueInput[]
+  }
+
+  export type UserGroupMemberUncheckedCreateNestedManyWithoutUserInput = {
+    create?: XOR<UserGroupMemberCreateWithoutUserInput, UserGroupMemberUncheckedCreateWithoutUserInput> | UserGroupMemberCreateWithoutUserInput[] | UserGroupMemberUncheckedCreateWithoutUserInput[]
+    connectOrCreate?: UserGroupMemberCreateOrConnectWithoutUserInput | UserGroupMemberCreateOrConnectWithoutUserInput[]
+    createMany?: UserGroupMemberCreateManyUserInputEnvelope
+    connect?: UserGroupMemberWhereUniqueInput | UserGroupMemberWhereUniqueInput[]
+  }
+
+  export type EnumUserRoleFieldUpdateOperationsInput = {
+    set?: $Enums.UserRole
+  }
+
   export type CompanyUpdateOneRequiredWithoutUsersNestedInput = {
     create?: XOR<CompanyCreateWithoutUsersInput, CompanyUncheckedCreateWithoutUsersInput>
     connectOrCreate?: CompanyCreateOrConnectWithoutUsersInput
     upsert?: CompanyUpsertWithoutUsersInput
     connect?: CompanyWhereUniqueInput
     update?: XOR<XOR<CompanyUpdateToOneWithWhereWithoutUsersInput, CompanyUpdateWithoutUsersInput>, CompanyUncheckedUpdateWithoutUsersInput>
+  }
+
+  export type UserGroupMemberUpdateManyWithoutUserNestedInput = {
+    create?: XOR<UserGroupMemberCreateWithoutUserInput, UserGroupMemberUncheckedCreateWithoutUserInput> | UserGroupMemberCreateWithoutUserInput[] | UserGroupMemberUncheckedCreateWithoutUserInput[]
+    connectOrCreate?: UserGroupMemberCreateOrConnectWithoutUserInput | UserGroupMemberCreateOrConnectWithoutUserInput[]
+    upsert?: UserGroupMemberUpsertWithWhereUniqueWithoutUserInput | UserGroupMemberUpsertWithWhereUniqueWithoutUserInput[]
+    createMany?: UserGroupMemberCreateManyUserInputEnvelope
+    set?: UserGroupMemberWhereUniqueInput | UserGroupMemberWhereUniqueInput[]
+    disconnect?: UserGroupMemberWhereUniqueInput | UserGroupMemberWhereUniqueInput[]
+    delete?: UserGroupMemberWhereUniqueInput | UserGroupMemberWhereUniqueInput[]
+    connect?: UserGroupMemberWhereUniqueInput | UserGroupMemberWhereUniqueInput[]
+    update?: UserGroupMemberUpdateWithWhereUniqueWithoutUserInput | UserGroupMemberUpdateWithWhereUniqueWithoutUserInput[]
+    updateMany?: UserGroupMemberUpdateManyWithWhereWithoutUserInput | UserGroupMemberUpdateManyWithWhereWithoutUserInput[]
+    deleteMany?: UserGroupMemberScalarWhereInput | UserGroupMemberScalarWhereInput[]
+  }
+
+  export type UserGroupMemberUncheckedUpdateManyWithoutUserNestedInput = {
+    create?: XOR<UserGroupMemberCreateWithoutUserInput, UserGroupMemberUncheckedCreateWithoutUserInput> | UserGroupMemberCreateWithoutUserInput[] | UserGroupMemberUncheckedCreateWithoutUserInput[]
+    connectOrCreate?: UserGroupMemberCreateOrConnectWithoutUserInput | UserGroupMemberCreateOrConnectWithoutUserInput[]
+    upsert?: UserGroupMemberUpsertWithWhereUniqueWithoutUserInput | UserGroupMemberUpsertWithWhereUniqueWithoutUserInput[]
+    createMany?: UserGroupMemberCreateManyUserInputEnvelope
+    set?: UserGroupMemberWhereUniqueInput | UserGroupMemberWhereUniqueInput[]
+    disconnect?: UserGroupMemberWhereUniqueInput | UserGroupMemberWhereUniqueInput[]
+    delete?: UserGroupMemberWhereUniqueInput | UserGroupMemberWhereUniqueInput[]
+    connect?: UserGroupMemberWhereUniqueInput | UserGroupMemberWhereUniqueInput[]
+    update?: UserGroupMemberUpdateWithWhereUniqueWithoutUserInput | UserGroupMemberUpdateWithWhereUniqueWithoutUserInput[]
+    updateMany?: UserGroupMemberUpdateManyWithWhereWithoutUserInput | UserGroupMemberUpdateManyWithWhereWithoutUserInput[]
+    deleteMany?: UserGroupMemberScalarWhereInput | UserGroupMemberScalarWhereInput[]
+  }
+
+  export type UserGroupCreatepermissionsInput = {
+    set: string[]
+  }
+
+  export type CompanyCreateNestedOneWithoutUserGroupsInput = {
+    create?: XOR<CompanyCreateWithoutUserGroupsInput, CompanyUncheckedCreateWithoutUserGroupsInput>
+    connectOrCreate?: CompanyCreateOrConnectWithoutUserGroupsInput
+    connect?: CompanyWhereUniqueInput
+  }
+
+  export type UserGroupMemberCreateNestedManyWithoutGroupInput = {
+    create?: XOR<UserGroupMemberCreateWithoutGroupInput, UserGroupMemberUncheckedCreateWithoutGroupInput> | UserGroupMemberCreateWithoutGroupInput[] | UserGroupMemberUncheckedCreateWithoutGroupInput[]
+    connectOrCreate?: UserGroupMemberCreateOrConnectWithoutGroupInput | UserGroupMemberCreateOrConnectWithoutGroupInput[]
+    createMany?: UserGroupMemberCreateManyGroupInputEnvelope
+    connect?: UserGroupMemberWhereUniqueInput | UserGroupMemberWhereUniqueInput[]
+  }
+
+  export type UserGroupMemberUncheckedCreateNestedManyWithoutGroupInput = {
+    create?: XOR<UserGroupMemberCreateWithoutGroupInput, UserGroupMemberUncheckedCreateWithoutGroupInput> | UserGroupMemberCreateWithoutGroupInput[] | UserGroupMemberUncheckedCreateWithoutGroupInput[]
+    connectOrCreate?: UserGroupMemberCreateOrConnectWithoutGroupInput | UserGroupMemberCreateOrConnectWithoutGroupInput[]
+    createMany?: UserGroupMemberCreateManyGroupInputEnvelope
+    connect?: UserGroupMemberWhereUniqueInput | UserGroupMemberWhereUniqueInput[]
+  }
+
+  export type UserGroupUpdatepermissionsInput = {
+    set?: string[]
+    push?: string | string[]
+  }
+
+  export type CompanyUpdateOneRequiredWithoutUserGroupsNestedInput = {
+    create?: XOR<CompanyCreateWithoutUserGroupsInput, CompanyUncheckedCreateWithoutUserGroupsInput>
+    connectOrCreate?: CompanyCreateOrConnectWithoutUserGroupsInput
+    upsert?: CompanyUpsertWithoutUserGroupsInput
+    connect?: CompanyWhereUniqueInput
+    update?: XOR<XOR<CompanyUpdateToOneWithWhereWithoutUserGroupsInput, CompanyUpdateWithoutUserGroupsInput>, CompanyUncheckedUpdateWithoutUserGroupsInput>
+  }
+
+  export type UserGroupMemberUpdateManyWithoutGroupNestedInput = {
+    create?: XOR<UserGroupMemberCreateWithoutGroupInput, UserGroupMemberUncheckedCreateWithoutGroupInput> | UserGroupMemberCreateWithoutGroupInput[] | UserGroupMemberUncheckedCreateWithoutGroupInput[]
+    connectOrCreate?: UserGroupMemberCreateOrConnectWithoutGroupInput | UserGroupMemberCreateOrConnectWithoutGroupInput[]
+    upsert?: UserGroupMemberUpsertWithWhereUniqueWithoutGroupInput | UserGroupMemberUpsertWithWhereUniqueWithoutGroupInput[]
+    createMany?: UserGroupMemberCreateManyGroupInputEnvelope
+    set?: UserGroupMemberWhereUniqueInput | UserGroupMemberWhereUniqueInput[]
+    disconnect?: UserGroupMemberWhereUniqueInput | UserGroupMemberWhereUniqueInput[]
+    delete?: UserGroupMemberWhereUniqueInput | UserGroupMemberWhereUniqueInput[]
+    connect?: UserGroupMemberWhereUniqueInput | UserGroupMemberWhereUniqueInput[]
+    update?: UserGroupMemberUpdateWithWhereUniqueWithoutGroupInput | UserGroupMemberUpdateWithWhereUniqueWithoutGroupInput[]
+    updateMany?: UserGroupMemberUpdateManyWithWhereWithoutGroupInput | UserGroupMemberUpdateManyWithWhereWithoutGroupInput[]
+    deleteMany?: UserGroupMemberScalarWhereInput | UserGroupMemberScalarWhereInput[]
+  }
+
+  export type UserGroupMemberUncheckedUpdateManyWithoutGroupNestedInput = {
+    create?: XOR<UserGroupMemberCreateWithoutGroupInput, UserGroupMemberUncheckedCreateWithoutGroupInput> | UserGroupMemberCreateWithoutGroupInput[] | UserGroupMemberUncheckedCreateWithoutGroupInput[]
+    connectOrCreate?: UserGroupMemberCreateOrConnectWithoutGroupInput | UserGroupMemberCreateOrConnectWithoutGroupInput[]
+    upsert?: UserGroupMemberUpsertWithWhereUniqueWithoutGroupInput | UserGroupMemberUpsertWithWhereUniqueWithoutGroupInput[]
+    createMany?: UserGroupMemberCreateManyGroupInputEnvelope
+    set?: UserGroupMemberWhereUniqueInput | UserGroupMemberWhereUniqueInput[]
+    disconnect?: UserGroupMemberWhereUniqueInput | UserGroupMemberWhereUniqueInput[]
+    delete?: UserGroupMemberWhereUniqueInput | UserGroupMemberWhereUniqueInput[]
+    connect?: UserGroupMemberWhereUniqueInput | UserGroupMemberWhereUniqueInput[]
+    update?: UserGroupMemberUpdateWithWhereUniqueWithoutGroupInput | UserGroupMemberUpdateWithWhereUniqueWithoutGroupInput[]
+    updateMany?: UserGroupMemberUpdateManyWithWhereWithoutGroupInput | UserGroupMemberUpdateManyWithWhereWithoutGroupInput[]
+    deleteMany?: UserGroupMemberScalarWhereInput | UserGroupMemberScalarWhereInput[]
+  }
+
+  export type UserCreateNestedOneWithoutGroupMembersInput = {
+    create?: XOR<UserCreateWithoutGroupMembersInput, UserUncheckedCreateWithoutGroupMembersInput>
+    connectOrCreate?: UserCreateOrConnectWithoutGroupMembersInput
+    connect?: UserWhereUniqueInput
+  }
+
+  export type UserGroupCreateNestedOneWithoutMembersInput = {
+    create?: XOR<UserGroupCreateWithoutMembersInput, UserGroupUncheckedCreateWithoutMembersInput>
+    connectOrCreate?: UserGroupCreateOrConnectWithoutMembersInput
+    connect?: UserGroupWhereUniqueInput
+  }
+
+  export type UserUpdateOneRequiredWithoutGroupMembersNestedInput = {
+    create?: XOR<UserCreateWithoutGroupMembersInput, UserUncheckedCreateWithoutGroupMembersInput>
+    connectOrCreate?: UserCreateOrConnectWithoutGroupMembersInput
+    upsert?: UserUpsertWithoutGroupMembersInput
+    connect?: UserWhereUniqueInput
+    update?: XOR<XOR<UserUpdateToOneWithWhereWithoutGroupMembersInput, UserUpdateWithoutGroupMembersInput>, UserUncheckedUpdateWithoutGroupMembersInput>
+  }
+
+  export type UserGroupUpdateOneRequiredWithoutMembersNestedInput = {
+    create?: XOR<UserGroupCreateWithoutMembersInput, UserGroupUncheckedCreateWithoutMembersInput>
+    connectOrCreate?: UserGroupCreateOrConnectWithoutMembersInput
+    upsert?: UserGroupUpsertWithoutMembersInput
+    connect?: UserGroupWhereUniqueInput
+    update?: XOR<XOR<UserGroupUpdateToOneWithWhereWithoutMembersInput, UserGroupUpdateWithoutMembersInput>, UserGroupUncheckedUpdateWithoutMembersInput>
   }
 
   export type CategoryCreateNestedOneWithoutProductsInput = {
@@ -14485,6 +17476,23 @@ export namespace Prisma {
     _max?: NestedDateTimeFilter<$PrismaModel>
   }
 
+  export type NestedEnumUserRoleFilter<$PrismaModel = never> = {
+    equals?: $Enums.UserRole | EnumUserRoleFieldRefInput<$PrismaModel>
+    in?: $Enums.UserRole[] | ListEnumUserRoleFieldRefInput<$PrismaModel>
+    notIn?: $Enums.UserRole[] | ListEnumUserRoleFieldRefInput<$PrismaModel>
+    not?: NestedEnumUserRoleFilter<$PrismaModel> | $Enums.UserRole
+  }
+
+  export type NestedEnumUserRoleWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: $Enums.UserRole | EnumUserRoleFieldRefInput<$PrismaModel>
+    in?: $Enums.UserRole[] | ListEnumUserRoleFieldRefInput<$PrismaModel>
+    notIn?: $Enums.UserRole[] | ListEnumUserRoleFieldRefInput<$PrismaModel>
+    not?: NestedEnumUserRoleWithAggregatesFilter<$PrismaModel> | $Enums.UserRole
+    _count?: NestedIntFilter<$PrismaModel>
+    _min?: NestedEnumUserRoleFilter<$PrismaModel>
+    _max?: NestedEnumUserRoleFilter<$PrismaModel>
+  }
+
   export type NestedFloatFilter<$PrismaModel = never> = {
     equals?: number | FloatFieldRefInput<$PrismaModel>
     in?: number[] | ListFloatFieldRefInput<$PrismaModel>
@@ -14585,7 +17593,9 @@ export namespace Prisma {
     email: string
     passwordHash: string
     name: string
+    role?: $Enums.UserRole
     createdAt?: Date | string
+    groupMembers?: UserGroupMemberCreateNestedManyWithoutUserInput
   }
 
   export type UserUncheckedCreateWithoutCompanyInput = {
@@ -14593,7 +17603,9 @@ export namespace Prisma {
     email: string
     passwordHash: string
     name: string
+    role?: $Enums.UserRole
     createdAt?: Date | string
+    groupMembers?: UserGroupMemberUncheckedCreateNestedManyWithoutUserInput
   }
 
   export type UserCreateOrConnectWithoutCompanyInput = {
@@ -14603,6 +17615,32 @@ export namespace Prisma {
 
   export type UserCreateManyCompanyInputEnvelope = {
     data: UserCreateManyCompanyInput | UserCreateManyCompanyInput[]
+    skipDuplicates?: boolean
+  }
+
+  export type UserGroupCreateWithoutCompanyInput = {
+    uuid?: string
+    name: string
+    permissions?: UserGroupCreatepermissionsInput | string[]
+    createdAt?: Date | string
+    members?: UserGroupMemberCreateNestedManyWithoutGroupInput
+  }
+
+  export type UserGroupUncheckedCreateWithoutCompanyInput = {
+    uuid?: string
+    name: string
+    permissions?: UserGroupCreatepermissionsInput | string[]
+    createdAt?: Date | string
+    members?: UserGroupMemberUncheckedCreateNestedManyWithoutGroupInput
+  }
+
+  export type UserGroupCreateOrConnectWithoutCompanyInput = {
+    where: UserGroupWhereUniqueInput
+    create: XOR<UserGroupCreateWithoutCompanyInput, UserGroupUncheckedCreateWithoutCompanyInput>
+  }
+
+  export type UserGroupCreateManyCompanyInputEnvelope = {
+    data: UserGroupCreateManyCompanyInput | UserGroupCreateManyCompanyInput[]
     skipDuplicates?: boolean
   }
 
@@ -14738,8 +17776,36 @@ export namespace Prisma {
     email?: StringFilter<"User"> | string
     passwordHash?: StringFilter<"User"> | string
     name?: StringFilter<"User"> | string
+    role?: EnumUserRoleFilter<"User"> | $Enums.UserRole
     companyUuid?: StringFilter<"User"> | string
     createdAt?: DateTimeFilter<"User"> | Date | string
+  }
+
+  export type UserGroupUpsertWithWhereUniqueWithoutCompanyInput = {
+    where: UserGroupWhereUniqueInput
+    update: XOR<UserGroupUpdateWithoutCompanyInput, UserGroupUncheckedUpdateWithoutCompanyInput>
+    create: XOR<UserGroupCreateWithoutCompanyInput, UserGroupUncheckedCreateWithoutCompanyInput>
+  }
+
+  export type UserGroupUpdateWithWhereUniqueWithoutCompanyInput = {
+    where: UserGroupWhereUniqueInput
+    data: XOR<UserGroupUpdateWithoutCompanyInput, UserGroupUncheckedUpdateWithoutCompanyInput>
+  }
+
+  export type UserGroupUpdateManyWithWhereWithoutCompanyInput = {
+    where: UserGroupScalarWhereInput
+    data: XOR<UserGroupUpdateManyMutationInput, UserGroupUncheckedUpdateManyWithoutCompanyInput>
+  }
+
+  export type UserGroupScalarWhereInput = {
+    AND?: UserGroupScalarWhereInput | UserGroupScalarWhereInput[]
+    OR?: UserGroupScalarWhereInput[]
+    NOT?: UserGroupScalarWhereInput | UserGroupScalarWhereInput[]
+    uuid?: StringFilter<"UserGroup"> | string
+    name?: StringFilter<"UserGroup"> | string
+    permissions?: StringNullableListFilter<"UserGroup">
+    companyUuid?: StringFilter<"UserGroup"> | string
+    createdAt?: DateTimeFilter<"UserGroup"> | Date | string
   }
 
   export type TableUpsertWithWhereUniqueWithoutCompanyInput = {
@@ -14858,6 +17924,7 @@ export namespace Prisma {
     menuTheme?: string | null
     soundOnOrderReady?: boolean
     createdAt?: Date | string
+    userGroups?: UserGroupCreateNestedManyWithoutCompanyInput
     tables?: TableCreateNestedManyWithoutCompanyInput
     categories?: CategoryCreateNestedManyWithoutCompanyInput
     products?: ProductCreateNestedManyWithoutCompanyInput
@@ -14870,6 +17937,7 @@ export namespace Prisma {
     menuTheme?: string | null
     soundOnOrderReady?: boolean
     createdAt?: Date | string
+    userGroups?: UserGroupUncheckedCreateNestedManyWithoutCompanyInput
     tables?: TableUncheckedCreateNestedManyWithoutCompanyInput
     categories?: CategoryUncheckedCreateNestedManyWithoutCompanyInput
     products?: ProductUncheckedCreateNestedManyWithoutCompanyInput
@@ -14879,6 +17947,24 @@ export namespace Prisma {
   export type CompanyCreateOrConnectWithoutUsersInput = {
     where: CompanyWhereUniqueInput
     create: XOR<CompanyCreateWithoutUsersInput, CompanyUncheckedCreateWithoutUsersInput>
+  }
+
+  export type UserGroupMemberCreateWithoutUserInput = {
+    group: UserGroupCreateNestedOneWithoutMembersInput
+  }
+
+  export type UserGroupMemberUncheckedCreateWithoutUserInput = {
+    groupUuid: string
+  }
+
+  export type UserGroupMemberCreateOrConnectWithoutUserInput = {
+    where: UserGroupMemberWhereUniqueInput
+    create: XOR<UserGroupMemberCreateWithoutUserInput, UserGroupMemberUncheckedCreateWithoutUserInput>
+  }
+
+  export type UserGroupMemberCreateManyUserInputEnvelope = {
+    data: UserGroupMemberCreateManyUserInput | UserGroupMemberCreateManyUserInput[]
+    skipDuplicates?: boolean
   }
 
   export type CompanyUpsertWithoutUsersInput = {
@@ -14898,6 +17984,7 @@ export namespace Prisma {
     menuTheme?: NullableStringFieldUpdateOperationsInput | string | null
     soundOnOrderReady?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    userGroups?: UserGroupUpdateManyWithoutCompanyNestedInput
     tables?: TableUpdateManyWithoutCompanyNestedInput
     categories?: CategoryUpdateManyWithoutCompanyNestedInput
     products?: ProductUpdateManyWithoutCompanyNestedInput
@@ -14910,10 +17997,241 @@ export namespace Prisma {
     menuTheme?: NullableStringFieldUpdateOperationsInput | string | null
     soundOnOrderReady?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    userGroups?: UserGroupUncheckedUpdateManyWithoutCompanyNestedInput
     tables?: TableUncheckedUpdateManyWithoutCompanyNestedInput
     categories?: CategoryUncheckedUpdateManyWithoutCompanyNestedInput
     products?: ProductUncheckedUpdateManyWithoutCompanyNestedInput
     cashierSessions?: CashierSessionUncheckedUpdateManyWithoutCompanyNestedInput
+  }
+
+  export type UserGroupMemberUpsertWithWhereUniqueWithoutUserInput = {
+    where: UserGroupMemberWhereUniqueInput
+    update: XOR<UserGroupMemberUpdateWithoutUserInput, UserGroupMemberUncheckedUpdateWithoutUserInput>
+    create: XOR<UserGroupMemberCreateWithoutUserInput, UserGroupMemberUncheckedCreateWithoutUserInput>
+  }
+
+  export type UserGroupMemberUpdateWithWhereUniqueWithoutUserInput = {
+    where: UserGroupMemberWhereUniqueInput
+    data: XOR<UserGroupMemberUpdateWithoutUserInput, UserGroupMemberUncheckedUpdateWithoutUserInput>
+  }
+
+  export type UserGroupMemberUpdateManyWithWhereWithoutUserInput = {
+    where: UserGroupMemberScalarWhereInput
+    data: XOR<UserGroupMemberUpdateManyMutationInput, UserGroupMemberUncheckedUpdateManyWithoutUserInput>
+  }
+
+  export type UserGroupMemberScalarWhereInput = {
+    AND?: UserGroupMemberScalarWhereInput | UserGroupMemberScalarWhereInput[]
+    OR?: UserGroupMemberScalarWhereInput[]
+    NOT?: UserGroupMemberScalarWhereInput | UserGroupMemberScalarWhereInput[]
+    userUuid?: StringFilter<"UserGroupMember"> | string
+    groupUuid?: StringFilter<"UserGroupMember"> | string
+  }
+
+  export type CompanyCreateWithoutUserGroupsInput = {
+    uuid?: string
+    name: string
+    menuTheme?: string | null
+    soundOnOrderReady?: boolean
+    createdAt?: Date | string
+    users?: UserCreateNestedManyWithoutCompanyInput
+    tables?: TableCreateNestedManyWithoutCompanyInput
+    categories?: CategoryCreateNestedManyWithoutCompanyInput
+    products?: ProductCreateNestedManyWithoutCompanyInput
+    cashierSessions?: CashierSessionCreateNestedManyWithoutCompanyInput
+  }
+
+  export type CompanyUncheckedCreateWithoutUserGroupsInput = {
+    uuid?: string
+    name: string
+    menuTheme?: string | null
+    soundOnOrderReady?: boolean
+    createdAt?: Date | string
+    users?: UserUncheckedCreateNestedManyWithoutCompanyInput
+    tables?: TableUncheckedCreateNestedManyWithoutCompanyInput
+    categories?: CategoryUncheckedCreateNestedManyWithoutCompanyInput
+    products?: ProductUncheckedCreateNestedManyWithoutCompanyInput
+    cashierSessions?: CashierSessionUncheckedCreateNestedManyWithoutCompanyInput
+  }
+
+  export type CompanyCreateOrConnectWithoutUserGroupsInput = {
+    where: CompanyWhereUniqueInput
+    create: XOR<CompanyCreateWithoutUserGroupsInput, CompanyUncheckedCreateWithoutUserGroupsInput>
+  }
+
+  export type UserGroupMemberCreateWithoutGroupInput = {
+    user: UserCreateNestedOneWithoutGroupMembersInput
+  }
+
+  export type UserGroupMemberUncheckedCreateWithoutGroupInput = {
+    userUuid: string
+  }
+
+  export type UserGroupMemberCreateOrConnectWithoutGroupInput = {
+    where: UserGroupMemberWhereUniqueInput
+    create: XOR<UserGroupMemberCreateWithoutGroupInput, UserGroupMemberUncheckedCreateWithoutGroupInput>
+  }
+
+  export type UserGroupMemberCreateManyGroupInputEnvelope = {
+    data: UserGroupMemberCreateManyGroupInput | UserGroupMemberCreateManyGroupInput[]
+    skipDuplicates?: boolean
+  }
+
+  export type CompanyUpsertWithoutUserGroupsInput = {
+    update: XOR<CompanyUpdateWithoutUserGroupsInput, CompanyUncheckedUpdateWithoutUserGroupsInput>
+    create: XOR<CompanyCreateWithoutUserGroupsInput, CompanyUncheckedCreateWithoutUserGroupsInput>
+    where?: CompanyWhereInput
+  }
+
+  export type CompanyUpdateToOneWithWhereWithoutUserGroupsInput = {
+    where?: CompanyWhereInput
+    data: XOR<CompanyUpdateWithoutUserGroupsInput, CompanyUncheckedUpdateWithoutUserGroupsInput>
+  }
+
+  export type CompanyUpdateWithoutUserGroupsInput = {
+    uuid?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    menuTheme?: NullableStringFieldUpdateOperationsInput | string | null
+    soundOnOrderReady?: BoolFieldUpdateOperationsInput | boolean
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    users?: UserUpdateManyWithoutCompanyNestedInput
+    tables?: TableUpdateManyWithoutCompanyNestedInput
+    categories?: CategoryUpdateManyWithoutCompanyNestedInput
+    products?: ProductUpdateManyWithoutCompanyNestedInput
+    cashierSessions?: CashierSessionUpdateManyWithoutCompanyNestedInput
+  }
+
+  export type CompanyUncheckedUpdateWithoutUserGroupsInput = {
+    uuid?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    menuTheme?: NullableStringFieldUpdateOperationsInput | string | null
+    soundOnOrderReady?: BoolFieldUpdateOperationsInput | boolean
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    users?: UserUncheckedUpdateManyWithoutCompanyNestedInput
+    tables?: TableUncheckedUpdateManyWithoutCompanyNestedInput
+    categories?: CategoryUncheckedUpdateManyWithoutCompanyNestedInput
+    products?: ProductUncheckedUpdateManyWithoutCompanyNestedInput
+    cashierSessions?: CashierSessionUncheckedUpdateManyWithoutCompanyNestedInput
+  }
+
+  export type UserGroupMemberUpsertWithWhereUniqueWithoutGroupInput = {
+    where: UserGroupMemberWhereUniqueInput
+    update: XOR<UserGroupMemberUpdateWithoutGroupInput, UserGroupMemberUncheckedUpdateWithoutGroupInput>
+    create: XOR<UserGroupMemberCreateWithoutGroupInput, UserGroupMemberUncheckedCreateWithoutGroupInput>
+  }
+
+  export type UserGroupMemberUpdateWithWhereUniqueWithoutGroupInput = {
+    where: UserGroupMemberWhereUniqueInput
+    data: XOR<UserGroupMemberUpdateWithoutGroupInput, UserGroupMemberUncheckedUpdateWithoutGroupInput>
+  }
+
+  export type UserGroupMemberUpdateManyWithWhereWithoutGroupInput = {
+    where: UserGroupMemberScalarWhereInput
+    data: XOR<UserGroupMemberUpdateManyMutationInput, UserGroupMemberUncheckedUpdateManyWithoutGroupInput>
+  }
+
+  export type UserCreateWithoutGroupMembersInput = {
+    uuid?: string
+    email: string
+    passwordHash: string
+    name: string
+    role?: $Enums.UserRole
+    createdAt?: Date | string
+    company: CompanyCreateNestedOneWithoutUsersInput
+  }
+
+  export type UserUncheckedCreateWithoutGroupMembersInput = {
+    uuid?: string
+    email: string
+    passwordHash: string
+    name: string
+    role?: $Enums.UserRole
+    companyUuid: string
+    createdAt?: Date | string
+  }
+
+  export type UserCreateOrConnectWithoutGroupMembersInput = {
+    where: UserWhereUniqueInput
+    create: XOR<UserCreateWithoutGroupMembersInput, UserUncheckedCreateWithoutGroupMembersInput>
+  }
+
+  export type UserGroupCreateWithoutMembersInput = {
+    uuid?: string
+    name: string
+    permissions?: UserGroupCreatepermissionsInput | string[]
+    createdAt?: Date | string
+    company: CompanyCreateNestedOneWithoutUserGroupsInput
+  }
+
+  export type UserGroupUncheckedCreateWithoutMembersInput = {
+    uuid?: string
+    name: string
+    permissions?: UserGroupCreatepermissionsInput | string[]
+    companyUuid: string
+    createdAt?: Date | string
+  }
+
+  export type UserGroupCreateOrConnectWithoutMembersInput = {
+    where: UserGroupWhereUniqueInput
+    create: XOR<UserGroupCreateWithoutMembersInput, UserGroupUncheckedCreateWithoutMembersInput>
+  }
+
+  export type UserUpsertWithoutGroupMembersInput = {
+    update: XOR<UserUpdateWithoutGroupMembersInput, UserUncheckedUpdateWithoutGroupMembersInput>
+    create: XOR<UserCreateWithoutGroupMembersInput, UserUncheckedCreateWithoutGroupMembersInput>
+    where?: UserWhereInput
+  }
+
+  export type UserUpdateToOneWithWhereWithoutGroupMembersInput = {
+    where?: UserWhereInput
+    data: XOR<UserUpdateWithoutGroupMembersInput, UserUncheckedUpdateWithoutGroupMembersInput>
+  }
+
+  export type UserUpdateWithoutGroupMembersInput = {
+    uuid?: StringFieldUpdateOperationsInput | string
+    email?: StringFieldUpdateOperationsInput | string
+    passwordHash?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    role?: EnumUserRoleFieldUpdateOperationsInput | $Enums.UserRole
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    company?: CompanyUpdateOneRequiredWithoutUsersNestedInput
+  }
+
+  export type UserUncheckedUpdateWithoutGroupMembersInput = {
+    uuid?: StringFieldUpdateOperationsInput | string
+    email?: StringFieldUpdateOperationsInput | string
+    passwordHash?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    role?: EnumUserRoleFieldUpdateOperationsInput | $Enums.UserRole
+    companyUuid?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type UserGroupUpsertWithoutMembersInput = {
+    update: XOR<UserGroupUpdateWithoutMembersInput, UserGroupUncheckedUpdateWithoutMembersInput>
+    create: XOR<UserGroupCreateWithoutMembersInput, UserGroupUncheckedCreateWithoutMembersInput>
+    where?: UserGroupWhereInput
+  }
+
+  export type UserGroupUpdateToOneWithWhereWithoutMembersInput = {
+    where?: UserGroupWhereInput
+    data: XOR<UserGroupUpdateWithoutMembersInput, UserGroupUncheckedUpdateWithoutMembersInput>
+  }
+
+  export type UserGroupUpdateWithoutMembersInput = {
+    uuid?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    permissions?: UserGroupUpdatepermissionsInput | string[]
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    company?: CompanyUpdateOneRequiredWithoutUserGroupsNestedInput
+  }
+
+  export type UserGroupUncheckedUpdateWithoutMembersInput = {
+    uuid?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    permissions?: UserGroupUpdatepermissionsInput | string[]
+    companyUuid?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
   export type CategoryCreateWithoutProductsInput = {
@@ -14940,6 +18258,7 @@ export namespace Prisma {
     soundOnOrderReady?: boolean
     createdAt?: Date | string
     users?: UserCreateNestedManyWithoutCompanyInput
+    userGroups?: UserGroupCreateNestedManyWithoutCompanyInput
     tables?: TableCreateNestedManyWithoutCompanyInput
     categories?: CategoryCreateNestedManyWithoutCompanyInput
     cashierSessions?: CashierSessionCreateNestedManyWithoutCompanyInput
@@ -14952,6 +18271,7 @@ export namespace Prisma {
     soundOnOrderReady?: boolean
     createdAt?: Date | string
     users?: UserUncheckedCreateNestedManyWithoutCompanyInput
+    userGroups?: UserGroupUncheckedCreateNestedManyWithoutCompanyInput
     tables?: TableUncheckedCreateNestedManyWithoutCompanyInput
     categories?: CategoryUncheckedCreateNestedManyWithoutCompanyInput
     cashierSessions?: CashierSessionUncheckedCreateNestedManyWithoutCompanyInput
@@ -15027,6 +18347,7 @@ export namespace Prisma {
     soundOnOrderReady?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     users?: UserUpdateManyWithoutCompanyNestedInput
+    userGroups?: UserGroupUpdateManyWithoutCompanyNestedInput
     tables?: TableUpdateManyWithoutCompanyNestedInput
     categories?: CategoryUpdateManyWithoutCompanyNestedInput
     cashierSessions?: CashierSessionUpdateManyWithoutCompanyNestedInput
@@ -15039,6 +18360,7 @@ export namespace Prisma {
     soundOnOrderReady?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     users?: UserUncheckedUpdateManyWithoutCompanyNestedInput
+    userGroups?: UserGroupUncheckedUpdateManyWithoutCompanyNestedInput
     tables?: TableUncheckedUpdateManyWithoutCompanyNestedInput
     categories?: CategoryUncheckedUpdateManyWithoutCompanyNestedInput
     cashierSessions?: CashierSessionUncheckedUpdateManyWithoutCompanyNestedInput
@@ -15078,6 +18400,7 @@ export namespace Prisma {
     soundOnOrderReady?: boolean
     createdAt?: Date | string
     users?: UserCreateNestedManyWithoutCompanyInput
+    userGroups?: UserGroupCreateNestedManyWithoutCompanyInput
     tables?: TableCreateNestedManyWithoutCompanyInput
     products?: ProductCreateNestedManyWithoutCompanyInput
     cashierSessions?: CashierSessionCreateNestedManyWithoutCompanyInput
@@ -15090,6 +18413,7 @@ export namespace Prisma {
     soundOnOrderReady?: boolean
     createdAt?: Date | string
     users?: UserUncheckedCreateNestedManyWithoutCompanyInput
+    userGroups?: UserGroupUncheckedCreateNestedManyWithoutCompanyInput
     tables?: TableUncheckedCreateNestedManyWithoutCompanyInput
     products?: ProductUncheckedCreateNestedManyWithoutCompanyInput
     cashierSessions?: CashierSessionUncheckedCreateNestedManyWithoutCompanyInput
@@ -15148,6 +18472,7 @@ export namespace Prisma {
     soundOnOrderReady?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     users?: UserUpdateManyWithoutCompanyNestedInput
+    userGroups?: UserGroupUpdateManyWithoutCompanyNestedInput
     tables?: TableUpdateManyWithoutCompanyNestedInput
     products?: ProductUpdateManyWithoutCompanyNestedInput
     cashierSessions?: CashierSessionUpdateManyWithoutCompanyNestedInput
@@ -15160,6 +18485,7 @@ export namespace Prisma {
     soundOnOrderReady?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     users?: UserUncheckedUpdateManyWithoutCompanyNestedInput
+    userGroups?: UserGroupUncheckedUpdateManyWithoutCompanyNestedInput
     tables?: TableUncheckedUpdateManyWithoutCompanyNestedInput
     products?: ProductUncheckedUpdateManyWithoutCompanyNestedInput
     cashierSessions?: CashierSessionUncheckedUpdateManyWithoutCompanyNestedInput
@@ -15188,6 +18514,7 @@ export namespace Prisma {
     soundOnOrderReady?: boolean
     createdAt?: Date | string
     users?: UserCreateNestedManyWithoutCompanyInput
+    userGroups?: UserGroupCreateNestedManyWithoutCompanyInput
     categories?: CategoryCreateNestedManyWithoutCompanyInput
     products?: ProductCreateNestedManyWithoutCompanyInput
     cashierSessions?: CashierSessionCreateNestedManyWithoutCompanyInput
@@ -15200,6 +18527,7 @@ export namespace Prisma {
     soundOnOrderReady?: boolean
     createdAt?: Date | string
     users?: UserUncheckedCreateNestedManyWithoutCompanyInput
+    userGroups?: UserGroupUncheckedCreateNestedManyWithoutCompanyInput
     categories?: CategoryUncheckedCreateNestedManyWithoutCompanyInput
     products?: ProductUncheckedCreateNestedManyWithoutCompanyInput
     cashierSessions?: CashierSessionUncheckedCreateNestedManyWithoutCompanyInput
@@ -15252,6 +18580,7 @@ export namespace Prisma {
     soundOnOrderReady?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     users?: UserUpdateManyWithoutCompanyNestedInput
+    userGroups?: UserGroupUpdateManyWithoutCompanyNestedInput
     categories?: CategoryUpdateManyWithoutCompanyNestedInput
     products?: ProductUpdateManyWithoutCompanyNestedInput
     cashierSessions?: CashierSessionUpdateManyWithoutCompanyNestedInput
@@ -15264,6 +18593,7 @@ export namespace Prisma {
     soundOnOrderReady?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     users?: UserUncheckedUpdateManyWithoutCompanyNestedInput
+    userGroups?: UserGroupUncheckedUpdateManyWithoutCompanyNestedInput
     categories?: CategoryUncheckedUpdateManyWithoutCompanyNestedInput
     products?: ProductUncheckedUpdateManyWithoutCompanyNestedInput
     cashierSessions?: CashierSessionUncheckedUpdateManyWithoutCompanyNestedInput
@@ -15490,6 +18820,7 @@ export namespace Prisma {
     soundOnOrderReady?: boolean
     createdAt?: Date | string
     users?: UserCreateNestedManyWithoutCompanyInput
+    userGroups?: UserGroupCreateNestedManyWithoutCompanyInput
     tables?: TableCreateNestedManyWithoutCompanyInput
     categories?: CategoryCreateNestedManyWithoutCompanyInput
     products?: ProductCreateNestedManyWithoutCompanyInput
@@ -15502,6 +18833,7 @@ export namespace Prisma {
     soundOnOrderReady?: boolean
     createdAt?: Date | string
     users?: UserUncheckedCreateNestedManyWithoutCompanyInput
+    userGroups?: UserGroupUncheckedCreateNestedManyWithoutCompanyInput
     tables?: TableUncheckedCreateNestedManyWithoutCompanyInput
     categories?: CategoryUncheckedCreateNestedManyWithoutCompanyInput
     products?: ProductUncheckedCreateNestedManyWithoutCompanyInput
@@ -15556,6 +18888,7 @@ export namespace Prisma {
     soundOnOrderReady?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     users?: UserUpdateManyWithoutCompanyNestedInput
+    userGroups?: UserGroupUpdateManyWithoutCompanyNestedInput
     tables?: TableUpdateManyWithoutCompanyNestedInput
     categories?: CategoryUpdateManyWithoutCompanyNestedInput
     products?: ProductUpdateManyWithoutCompanyNestedInput
@@ -15568,6 +18901,7 @@ export namespace Prisma {
     soundOnOrderReady?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     users?: UserUncheckedUpdateManyWithoutCompanyNestedInput
+    userGroups?: UserGroupUncheckedUpdateManyWithoutCompanyNestedInput
     tables?: TableUncheckedUpdateManyWithoutCompanyNestedInput
     categories?: CategoryUncheckedUpdateManyWithoutCompanyNestedInput
     products?: ProductUncheckedUpdateManyWithoutCompanyNestedInput
@@ -15662,6 +18996,14 @@ export namespace Prisma {
     email: string
     passwordHash: string
     name: string
+    role?: $Enums.UserRole
+    createdAt?: Date | string
+  }
+
+  export type UserGroupCreateManyCompanyInput = {
+    uuid?: string
+    name: string
+    permissions?: UserGroupCreatepermissionsInput | string[]
     createdAt?: Date | string
   }
 
@@ -15700,7 +19042,9 @@ export namespace Prisma {
     email?: StringFieldUpdateOperationsInput | string
     passwordHash?: StringFieldUpdateOperationsInput | string
     name?: StringFieldUpdateOperationsInput | string
+    role?: EnumUserRoleFieldUpdateOperationsInput | $Enums.UserRole
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    groupMembers?: UserGroupMemberUpdateManyWithoutUserNestedInput
   }
 
   export type UserUncheckedUpdateWithoutCompanyInput = {
@@ -15708,7 +19052,9 @@ export namespace Prisma {
     email?: StringFieldUpdateOperationsInput | string
     passwordHash?: StringFieldUpdateOperationsInput | string
     name?: StringFieldUpdateOperationsInput | string
+    role?: EnumUserRoleFieldUpdateOperationsInput | $Enums.UserRole
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    groupMembers?: UserGroupMemberUncheckedUpdateManyWithoutUserNestedInput
   }
 
   export type UserUncheckedUpdateManyWithoutCompanyInput = {
@@ -15716,6 +19062,30 @@ export namespace Prisma {
     email?: StringFieldUpdateOperationsInput | string
     passwordHash?: StringFieldUpdateOperationsInput | string
     name?: StringFieldUpdateOperationsInput | string
+    role?: EnumUserRoleFieldUpdateOperationsInput | $Enums.UserRole
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type UserGroupUpdateWithoutCompanyInput = {
+    uuid?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    permissions?: UserGroupUpdatepermissionsInput | string[]
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    members?: UserGroupMemberUpdateManyWithoutGroupNestedInput
+  }
+
+  export type UserGroupUncheckedUpdateWithoutCompanyInput = {
+    uuid?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    permissions?: UserGroupUpdatepermissionsInput | string[]
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    members?: UserGroupMemberUncheckedUpdateManyWithoutGroupNestedInput
+  }
+
+  export type UserGroupUncheckedUpdateManyWithoutCompanyInput = {
+    uuid?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    permissions?: UserGroupUpdatepermissionsInput | string[]
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
@@ -15815,6 +19185,38 @@ export namespace Prisma {
     openingBalance?: FloatFieldUpdateOperationsInput | number
     closingBalance?: NullableFloatFieldUpdateOperationsInput | number | null
     status?: StringFieldUpdateOperationsInput | string
+  }
+
+  export type UserGroupMemberCreateManyUserInput = {
+    groupUuid: string
+  }
+
+  export type UserGroupMemberUpdateWithoutUserInput = {
+    group?: UserGroupUpdateOneRequiredWithoutMembersNestedInput
+  }
+
+  export type UserGroupMemberUncheckedUpdateWithoutUserInput = {
+    groupUuid?: StringFieldUpdateOperationsInput | string
+  }
+
+  export type UserGroupMemberUncheckedUpdateManyWithoutUserInput = {
+    groupUuid?: StringFieldUpdateOperationsInput | string
+  }
+
+  export type UserGroupMemberCreateManyGroupInput = {
+    userUuid: string
+  }
+
+  export type UserGroupMemberUpdateWithoutGroupInput = {
+    user?: UserUpdateOneRequiredWithoutGroupMembersNestedInput
+  }
+
+  export type UserGroupMemberUncheckedUpdateWithoutGroupInput = {
+    userUuid?: StringFieldUpdateOperationsInput | string
+  }
+
+  export type UserGroupMemberUncheckedUpdateManyWithoutGroupInput = {
+    userUuid?: StringFieldUpdateOperationsInput | string
   }
 
   export type OrderItemCreateManyProductInput = {

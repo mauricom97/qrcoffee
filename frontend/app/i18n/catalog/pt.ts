@@ -52,6 +52,56 @@ export const ptMessages = {
     settings: "Configurações",
     logout: "Sair",
   },
+  team: {
+    title: "Equipe e grupos",
+    subtitle:
+      "Cadastre usuários, defina administradores e organize a equipe em grupos. Quem cria a empresa é administrador por padrão.",
+    usersTitle: "Usuários",
+    groupsTitle: "Grupos de usuários",
+    addUser: "Novo usuário",
+    addGroup: "Novo grupo",
+    email: "E-mail",
+    name: "Nome",
+    password: "Senha inicial",
+    role: "Papel",
+    roleAdmin: "Administrador",
+    roleStaff: "Equipe",
+    createUser: "Cadastrar usuário",
+    creating: "Cadastrando…",
+    groupName: "Nome do grupo",
+    createGroup: "Criar grupo",
+    creatingGroup: "Criando…",
+    saveGroup: "Salvar nome",
+    deleteGroup: "Excluir grupo",
+    deleteUser: "Remover usuário",
+    members: "Membros",
+    addMember: "Adicionar ao grupo",
+    removeMember: "Remover",
+    selectUser: "Selecione o usuário",
+    noUsers: "Nenhum usuário além do administrador.",
+    noGroups: "Nenhum grupo. Crie um para organizar a equipe.",
+    loadError: "Não foi possível carregar a equipe.",
+    adminOnly: "Apenas administradores podem acessar esta página.",
+    groups: "Grupos",
+    you: "Você",
+    confirmDeleteUser: "Remover este usuário? Esta ação não pode ser desfeita.",
+    confirmDeleteGroup: "Excluir este grupo? Os vínculos com usuários serão removidos.",
+    accessTitle: "Acessos no painel",
+    savePermissions: "Salvar permissões",
+    newGroupAccessHint:
+      "Marque o que os usuários deste grupo poderão usar. Você pode ajustar depois.",
+    perm: {
+      DASHBOARD: "Dashboard",
+      PRODUCTS: "Produtos e categorias",
+      TABLES: "Mesas",
+      TABS: "Comandas",
+      ORDERS: "Pedidos",
+      MENU: "Cardápio (QR e links)",
+      CASHIER: "Caixa",
+      STOCK: "Estoque",
+      SETTINGS: "Configurações",
+    },
+  },
   navbar: {
     brand: "Super Atendimento",
     registerCompany: "Cadastrar empresa",
@@ -90,11 +140,15 @@ export const ptMessages = {
   },
   settings: {
     title: "Configurações",
-    subtitle: "Personalize a aparência e o comportamento do sistema.",
+    subtitle:
+      "Personalize idioma, aparência, pedidos e — se for administrador — equipe e grupos.",
     ordersSection: "Pedidos",
     appearanceTitle: "Aparência do Cardápio",
     appearanceDesc:
       "Personalize as cores do cardápio online conforme a identidade do seu estabelecimento.",
+    languageTitle: "Idioma",
+    languageDesc:
+      "Escolha o idioma da interface do painel (produtos, pedidos, configurações, etc.).",
     footerNote:
       "As alterações serão refletidas no cardápio online acessado pelos clientes via QR code.",
   },
@@ -130,6 +184,8 @@ export const ptMessages = {
     loadingTables: "Carregando mesas…",
     noTables:
       "Nenhuma mesa cadastrada. Cadastre mesas em Mesas para gerar links do cardápio.",
+    noTableAccess:
+      "Você não tem permissão para listar mesas. Peça acesso à área “Mesas” ao administrador.",
     open: "Abrir",
   },
   dashboard: {

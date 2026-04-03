@@ -52,6 +52,56 @@ export const enMessages = {
     settings: "Settings",
     logout: "Log out",
   },
+  team: {
+    title: "Team & user groups",
+    subtitle:
+      "Add users, assign admins, and organize staff into groups. The person who registers the company is an administrator by default.",
+    usersTitle: "Users",
+    groupsTitle: "User groups",
+    addUser: "New user",
+    addGroup: "New group",
+    email: "Email",
+    name: "Name",
+    password: "Initial password",
+    role: "Role",
+    roleAdmin: "Administrator",
+    roleStaff: "Staff",
+    createUser: "Create user",
+    creating: "Creating…",
+    groupName: "Group name",
+    createGroup: "Create group",
+    creatingGroup: "Creating…",
+    saveGroup: "Save name",
+    deleteGroup: "Delete group",
+    deleteUser: "Remove user",
+    members: "Members",
+    addMember: "Add to group",
+    removeMember: "Remove",
+    selectUser: "Select user",
+    noUsers: "No other users yet.",
+    noGroups: "No groups yet. Create one to organize your team.",
+    loadError: "Could not load team data.",
+    adminOnly: "Only administrators can access this page.",
+    groups: "Groups",
+    you: "You",
+    confirmDeleteUser: "Remove this user? This cannot be undone.",
+    confirmDeleteGroup: "Delete this group? User memberships will be removed.",
+    accessTitle: "Panel access",
+    savePermissions: "Save permissions",
+    newGroupAccessHint:
+      "Choose what users in this group can use. You can change this later.",
+    perm: {
+      DASHBOARD: "Dashboard",
+      PRODUCTS: "Products & categories",
+      TABLES: "Tables",
+      TABS: "Tabs (comandas)",
+      ORDERS: "Orders",
+      MENU: "Menu (QR & links)",
+      CASHIER: "Cashier",
+      STOCK: "Stock",
+      SETTINGS: "Settings",
+    },
+  },
   navbar: {
     brand: "Super Service",
     registerCompany: "Register business",
@@ -90,11 +140,15 @@ export const enMessages = {
   },
   settings: {
     title: "Settings",
-    subtitle: "Customize the look and behavior of the system.",
+    subtitle:
+      "Customize language, appearance, orders — and if you’re an admin, team and groups.",
     ordersSection: "Orders",
     appearanceTitle: "Menu appearance",
     appearanceDesc:
       "Customize online menu colors to match your brand.",
+    languageTitle: "Language",
+    languageDesc:
+      "Choose the language for the admin panel (products, orders, settings, etc.).",
     footerNote:
       "Changes apply to the online menu customers open via QR code.",
   },
@@ -130,6 +184,8 @@ export const enMessages = {
     loadingTables: "Loading tables…",
     noTables:
       "No tables yet. Add tables under Tables to generate menu links.",
+    noTableAccess:
+      "You don’t have permission to list tables. Ask an admin for “Tables” access.",
     open: "Open",
   },
   dashboard: {

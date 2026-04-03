@@ -5,9 +5,11 @@ import { AuthController } from './auth.controller';
 import { AuthService } from '@application/auth/auth.service';
 import { JwtStrategy } from './strategies/jwt.strategy';
 import { PrismaService } from '@infrastructure/prisma/prisma.service';
+import { PermissionsModule } from './permissions.module';
 
 @Module({
   imports: [
+    PermissionsModule,
     PassportModule.register({ defaultStrategy: 'jwt' }),
     JwtModule.register({
       secret: process.env.JWT_SECRET || 'qrcoffee-jwt-secret-change-in-production',

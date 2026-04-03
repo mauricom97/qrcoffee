@@ -8,9 +8,10 @@ import { DeleteOrderUseCase } from '@application/order/use-cases/delete-order.us
 import { OrderPrismaRepository } from '@infrastructure/order/repositories/order-prisma.repository';
 import { PrismaService } from '@infrastructure/prisma/prisma.service';
 import { RealtimeModule } from '@interfaces/websocket/realtime.module';
+import { PermissionsModule } from './permissions.module';
 
 @Module({
-  imports: [RealtimeModule],
+  imports: [RealtimeModule, PermissionsModule],
   controllers: [OrderController],
   exports: [
     CreateOrderUseCase,

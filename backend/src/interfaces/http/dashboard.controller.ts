@@ -1,11 +1,15 @@
 import { Controller, Get, Query, UseGuards } from '@nestjs/common';
 import { DashboardService } from '@application/dashboard/dashboard.service';
 import type { DashboardPeriod } from '@application/dashboard/dashboard.service';
+import { PANEL_PERMISSION_CODES } from '@application/permissions/panel-permissions';
 import { JwtAuthGuard } from './guards/jwt-auth.guard';
+import { PermissionsGuard } from './guards/permissions.guard';
+import { RequirePanelPermission } from './decorators/require-permission.decorator';
 import { CompanyUuid } from './decorators/company.decorator';
 
 @Controller('dashboard')
-@UseGuards(JwtAuthGuard)
+@UseGuards(JwtAuthGuard, PermissionsGuard)
+@RequirePanelPermission(PANEL_PERMISSION_CODES.DASHBOARD)
 export class DashboardController {
   constructor(private readonly dashboardService: DashboardService) {}
 
