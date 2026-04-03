@@ -27,11 +27,24 @@ export class AuthController {
 
   @Get('me')
   @UseGuards(JwtAuthGuard)
-  async me(@Req() req: { user: { uuid: string; email: string; name: string; companyUuid: string; company: { name: string } } }) {
+  async me(
+    @Req()
+    req: {
+      user: {
+        uuid: string;
+        email: string;
+        name: string;
+        role: string;
+        companyUuid: string;
+        company: { name: string };
+      };
+    },
+  ) {
     return {
       uuid: req.user.uuid,
       email: req.user.email,
       name: req.user.name,
+      role: req.user.role,
       companyUuid: req.user.companyUuid,
       companyName: req.user.company.name,
     };

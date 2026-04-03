@@ -1,6 +1,7 @@
 import { Injectable, ConflictException, UnauthorizedException } from '@nestjs/common';
 import { JwtService } from '@nestjs/jwt';
 import * as bcrypt from 'bcrypt';
+import { UserRole } from '@infrastructure/prisma/generated';
 import { PrismaService } from '@infrastructure/prisma/prisma.service';
 
 export interface RegisterCompanyInput {
@@ -21,6 +22,7 @@ export interface AuthResult {
     uuid: string;
     email: string;
     name: string;
+    role: UserRole;
     companyUuid: string;
     companyName: string;
   };
@@ -55,6 +57,7 @@ export class AuthService {
         passwordHash,
         name: input.userName,
         companyUuid: company.uuid,
+        role: UserRole.ADMIN,
       },
       include: { company: true },
     });
@@ -86,6 +89,7 @@ export class AuthService {
         uuid: true,
         email: true,
         name: true,
+        role: true,
         companyUuid: true,
         company: { select: { name: true } },
       },
@@ -96,6 +100,7 @@ export class AuthService {
     uuid: string;
     email: string;
     name: string;
+    role: UserRole;
     companyUuid: string;
     company: { name: string };
   }): AuthResult {
@@ -111,6 +116,7 @@ export class AuthService {
         uuid: user.uuid,
         email: user.email,
         name: user.name,
+        role: user.role,
         companyUuid: user.companyUuid,
         companyName: user.company.name,
       },

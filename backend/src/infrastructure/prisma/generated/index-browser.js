@@ -133,8 +133,21 @@ exports.Prisma.UserScalarFieldEnum = {
   email: 'email',
   passwordHash: 'passwordHash',
   name: 'name',
+  role: 'role',
   companyUuid: 'companyUuid',
   createdAt: 'createdAt'
+};
+
+exports.Prisma.UserGroupScalarFieldEnum = {
+  uuid: 'uuid',
+  name: 'name',
+  companyUuid: 'companyUuid',
+  createdAt: 'createdAt'
+};
+
+exports.Prisma.UserGroupMemberScalarFieldEnum = {
+  userUuid: 'userUuid',
+  groupUuid: 'groupUuid'
 };
 
 exports.Prisma.ProductScalarFieldEnum = {
@@ -209,11 +222,16 @@ exports.Prisma.NullsOrder = {
   first: 'first',
   last: 'last'
 };
-
+exports.UserRole = exports.$Enums.UserRole = {
+  ADMIN: 'ADMIN',
+  STAFF: 'STAFF'
+};
 
 exports.Prisma.ModelName = {
   Company: 'Company',
   User: 'User',
+  UserGroup: 'UserGroup',
+  UserGroupMember: 'UserGroupMember',
   Product: 'Product',
   Category: 'Category',
   Table: 'Table',

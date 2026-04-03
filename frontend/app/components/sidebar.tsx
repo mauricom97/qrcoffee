@@ -5,7 +5,7 @@ import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useLocaleContext } from "i18n/LocaleContext";
 import LanguageSwitcher from "components/LanguageSwitcher";
-import { HiOutlineDeviceTablet, HiMenu, HiX, HiOutlineLogout, HiOutlineCog } from "react-icons/hi";
+import { HiOutlineDeviceTablet, HiMenu, HiX, HiOutlineLogout, HiOutlineCog, HiOutlineUserGroup } from "react-icons/hi";
 import { LuTableOfContents } from "react-icons/lu";
 import { FaHome, FaPhone } from "react-icons/fa";
 import { MdOutlineTableBar } from "react-icons/md";
@@ -19,10 +19,9 @@ import CardapioModal from "components/CardapioModal";
 const Sidebar = () => {
     const [isOpen, setIsOpen] = useState(false);
     const [cardapioModalOpen, setCardapioModalOpen] = useState(false);
-    const { logout } = useAuth();
+    const { logout, user } = useAuth();
     const router = useRouter();
     const { t } = useLocaleContext();
-    const { user } = useAuth() || { companyName: '' };
     const handleLogout = () => {
         logout();
         setIsOpen(false);
@@ -111,6 +110,15 @@ const Sidebar = () => {
                         <span className="text-lg font-medium">{t("sidebar.stock")}</span>
                     </li>
                     </Link>
+
+                    {user?.role === "ADMIN" ? (
+                    <Link href="/team" onClick={() => setIsOpen(false)}>
+                    <li className="flex items-center space-x-3 hover:bg-stone-300 p-3 rounded-md cursor-pointer">
+                        <HiOutlineUserGroup className="text-xl" />
+                        <span className="text-lg font-medium">{t("sidebar.team")}</span>
+                    </li>
+                    </Link>
+                    ) : null}
 
                     <Link href="/settings" onClick={() => setIsOpen(false)}>
                     <li className="flex items-center space-x-3 hover:bg-stone-300 p-3 rounded-md cursor-pointer">

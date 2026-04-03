@@ -8,6 +8,7 @@ export type AuthUser = {
   uuid: string;
   email: string;
   name: string;
+  role: 'ADMIN' | 'STAFF';
   companyUuid: string;
   companyName: string;
 };
@@ -39,12 +40,20 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
   const [token, setToken] = useState<string | null>(null);
   const [isLoading, setIsLoading] = useState(true);
 
-  const persistAuth = useCallback((newToken: string, newUser: AuthUser) => {
+  const persistAuth = useCallback((newToken: string, newUser: Record<string, unknown>) => {
     if (typeof window === 'undefined') return;
+    const normalized: AuthUser = {
+      uuid: String(newUser.uuid),
+      email: String(newUser.email),
+      name: String(newUser.name),
+      role: newUser.role === 'STAFF' ? 'STAFF' : 'ADMIN',
+      companyUuid: String(newUser.companyUuid),
+      companyName: String(newUser.companyName),
+    };
     window.localStorage.setItem(STORAGE_TOKEN, newToken);
-    window.localStorage.setItem(STORAGE_USER, JSON.stringify(newUser));
+    window.localStorage.setItem(STORAGE_USER, JSON.stringify(normalized));
     setToken(newToken);
-    setUser(newUser);
+    setUser(normalized);
   }, []);
 
   const logout = useCallback(() => {
@@ -67,7 +76,27 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
       });
       if (res.ok) {
         const data = await res.json();
-        setUser(data);
+        setUser({
+          uuid: data.uuid,
+          email: data.email,
+          name: data.name,
+          role: data.role === 'STAFF' ? 'STAFF' : 'ADMIN',
+          companyUuid: data.companyUuid,
+          companyName: data.companyName,
+        });
+        if (typeof window !== 'undefined') {
+          window.localStorage.setItem(
+            STORAGE_USER,
+            JSON.stringify({
+              uuid: data.uuid,
+              email: data.email,
+              name: data.name,
+              role: data.role === 'STAFF' ? 'STAFF' : 'ADMIN',
+              companyUuid: data.companyUuid,
+              companyName: data.companyName,
+            }),
+          );
+        }
         setToken(t);
       } else {
         logout();
@@ -85,7 +114,15 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
     if (t && u) {
       try {
         setToken(t);
-        setUser(JSON.parse(u) as AuthUser);
+        const raw = JSON.parse(u) as Record<string, unknown>;
+        setUser({
+          uuid: String(raw.uuid),
+          email: String(raw.email),
+          name: String(raw.name),
+          role: raw.role === 'STAFF' ? 'STAFF' : 'ADMIN',
+          companyUuid: String(raw.companyUuid),
+          companyName: String(raw.companyName),
+        });
       } catch {
         logout();
       }

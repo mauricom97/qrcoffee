@@ -8,6 +8,11 @@ datasource db {
   relationMode = "prisma"
 }
 
+enum UserRole {
+  ADMIN
+  STAFF
+}
+
 model Company {
   uuid              String           @id @default(uuid())
   name              String
@@ -15,6 +20,7 @@ model Company {
   soundOnOrderReady Boolean          @default(true)
   createdAt         DateTime         @default(now())
   users             User[]
+  userGroups        UserGroup[]
   tables            Table[]
   categories        Category[]
   products          Product[]
@@ -22,16 +28,39 @@ model Company {
 }
 
 model User {
-  uuid         String   @id @default(uuid())
-  email        String   @unique
+  uuid         String            @id @default(uuid())
+  email        String            @unique
   passwordHash String
   name         String
+  role         UserRole          @default(STAFF)
   companyUuid  String
-  company      Company  @relation(fields: [companyUuid], references: [uuid], onDelete: Cascade)
-  createdAt    DateTime @default(now())
+  company      Company           @relation(fields: [companyUuid], references: [uuid], onDelete: Cascade)
+  createdAt    DateTime          @default(now())
+  groupMembers UserGroupMember[]
 
   @@index([companyUuid])
   @@index([email])
+}
+
+model UserGroup {
+  uuid        String            @id @default(uuid())
+  name        String
+  companyUuid String
+  company     Company           @relation(fields: [companyUuid], references: [uuid], onDelete: Cascade)
+  createdAt   DateTime          @default(now())
+  members     UserGroupMember[]
+
+  @@index([companyUuid])
+}
+
+model UserGroupMember {
+  userUuid  String
+  groupUuid String
+  user      User      @relation(fields: [userUuid], references: [uuid], onDelete: Cascade)
+  group     UserGroup @relation(fields: [groupUuid], references: [uuid], onDelete: Cascade)
+
+  @@id([userUuid, groupUuid])
+  @@index([groupUuid])
 }
 
 model Product {
