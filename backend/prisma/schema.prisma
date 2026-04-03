@@ -43,12 +43,14 @@ model User {
 }
 
 model UserGroup {
-  uuid        String   @id @default(uuid())
-  name        String
-  companyUuid String
-  company     Company  @relation(fields: [companyUuid], references: [uuid], onDelete: Cascade)
-  createdAt   DateTime @default(now())
-  members     UserGroupMember[]
+  uuid          String   @id @default(uuid())
+  name          String
+  /** Códigos de área do painel (ex.: PRODUCTS, ORDERS). Uniao nos grupos do usuario define o acesso de STAFF. */
+  permissions   String[] @default([])
+  companyUuid   String
+  company       Company  @relation(fields: [companyUuid], references: [uuid], onDelete: Cascade)
+  createdAt     DateTime @default(now())
+  members       UserGroupMember[]
 
   @@index([companyUuid])
 }

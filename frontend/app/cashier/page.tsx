@@ -4,6 +4,8 @@ import { useState, useEffect, useCallback } from 'react';
 import { getAuthHeaders } from 'contexts/AuthContext';
 import LoadingSpinner from 'components/LoadingSpinner';
 import { useLocaleContext } from 'i18n/LocaleContext';
+import { useRequirePanelPermission } from 'hooks/useRequirePanelPermission';
+import { PANEL_PERMISSIONS } from 'lib/panelPermissions';
 
 const API_URL = process.env.NEXT_PUBLIC_BASE_API_URL || 'http://localhost:3352';
 
@@ -32,6 +34,7 @@ type CloseResult = {
 const RAPID_VALUES = [0.05, 0.10, 0.25, 0.50, 1, 2, 5, 10, 20, 50, 100, 200];
 
 export default function CashierPage() {
+  useRequirePanelPermission(PANEL_PERMISSIONS.CASHIER);
   const { t, localeTag } = useLocaleContext();
 
   const formatCurrency = useCallback(

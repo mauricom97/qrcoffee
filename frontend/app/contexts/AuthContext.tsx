@@ -1,14 +1,30 @@
 'use client';
 
 import React, { createContext, useCallback, useContext, useEffect, useState } from 'react';
+import { PANEL_PERMISSION_LIST } from 'lib/panelPermissions';
 
 const API_URL = process.env.NEXT_PUBLIC_BASE_API_URL || 'http://localhost:3352';
+
+function normalizePermissions(
+  role: 'ADMIN' | 'STAFF',
+  raw: unknown,
+): string[] {
+  if (Array.isArray(raw) && raw.every((x) => typeof x === 'string')) {
+    return raw as string[];
+  }
+  if (role === 'ADMIN') {
+    return [...PANEL_PERMISSION_LIST];
+  }
+  return [];
+}
 
 export type AuthUser = {
   uuid: string;
   email: string;
   name: string;
   role: 'ADMIN' | 'STAFF';
+  /** Uniao das permissoes dos grupos (STAFF); ADMIN recebe todas pela API. */
+  permissions: string[];
   companyUuid: string;
   companyName: string;
 };
@@ -42,11 +58,13 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
 
   const persistAuth = useCallback((newToken: string, newUser: Record<string, unknown>) => {
     if (typeof window === 'undefined') return;
+    const role = newUser.role === 'STAFF' ? 'STAFF' : 'ADMIN';
     const normalized: AuthUser = {
       uuid: String(newUser.uuid),
       email: String(newUser.email),
       name: String(newUser.name),
-      role: newUser.role === 'STAFF' ? 'STAFF' : 'ADMIN',
+      role,
+      permissions: normalizePermissions(role, newUser.permissions),
       companyUuid: String(newUser.companyUuid),
       companyName: String(newUser.companyName),
     };
@@ -76,11 +94,14 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
       });
       if (res.ok) {
         const data = await res.json();
+        const role = data.role === 'STAFF' ? 'STAFF' : 'ADMIN';
+        const permissions = normalizePermissions(role, data.permissions);
         setUser({
           uuid: data.uuid,
           email: data.email,
           name: data.name,
-          role: data.role === 'STAFF' ? 'STAFF' : 'ADMIN',
+          role,
+          permissions,
           companyUuid: data.companyUuid,
           companyName: data.companyName,
         });
@@ -91,7 +112,8 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
               uuid: data.uuid,
               email: data.email,
               name: data.name,
-              role: data.role === 'STAFF' ? 'STAFF' : 'ADMIN',
+              role,
+              permissions,
               companyUuid: data.companyUuid,
               companyName: data.companyName,
             }),
@@ -115,11 +137,13 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
       try {
         setToken(t);
         const raw = JSON.parse(u) as Record<string, unknown>;
+        const role = raw.role === 'STAFF' ? 'STAFF' : 'ADMIN';
         setUser({
           uuid: String(raw.uuid),
           email: String(raw.email),
           name: String(raw.name),
-          role: raw.role === 'STAFF' ? 'STAFF' : 'ADMIN',
+          role,
+          permissions: normalizePermissions(role, raw.permissions),
           companyUuid: String(raw.companyUuid),
           companyName: String(raw.companyName),
         });

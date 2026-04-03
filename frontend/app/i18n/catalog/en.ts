@@ -50,7 +50,6 @@ export const enMessages = {
     cashier: "Cashier",
     stock: "Stock",
     settings: "Settings",
-    team: "Team & groups",
     logout: "Log out",
   },
   team: {
@@ -87,6 +86,21 @@ export const enMessages = {
     you: "You",
     confirmDeleteUser: "Remove this user? This cannot be undone.",
     confirmDeleteGroup: "Delete this group? User memberships will be removed.",
+    accessTitle: "Panel access",
+    savePermissions: "Save permissions",
+    newGroupAccessHint:
+      "Choose what users in this group can use. You can change this later.",
+    perm: {
+      DASHBOARD: "Dashboard",
+      PRODUCTS: "Products & categories",
+      TABLES: "Tables",
+      TABS: "Tabs (comandas)",
+      ORDERS: "Orders",
+      MENU: "Menu (QR & links)",
+      CASHIER: "Cashier",
+      STOCK: "Stock",
+      SETTINGS: "Settings",
+    },
   },
   navbar: {
     brand: "Super Service",
@@ -126,11 +140,15 @@ export const enMessages = {
   },
   settings: {
     title: "Settings",
-    subtitle: "Customize the look and behavior of the system.",
+    subtitle:
+      "Customize language, appearance, orders — and if you’re an admin, team and groups.",
     ordersSection: "Orders",
     appearanceTitle: "Menu appearance",
     appearanceDesc:
       "Customize online menu colors to match your brand.",
+    languageTitle: "Language",
+    languageDesc:
+      "Choose the language for the admin panel (products, orders, settings, etc.).",
     footerNote:
       "Changes apply to the online menu customers open via QR code.",
   },
@@ -166,6 +184,8 @@ export const enMessages = {
     loadingTables: "Loading tables…",
     noTables:
       "No tables yet. Add tables under Tables to generate menu links.",
+    noTableAccess:
+      "You don’t have permission to list tables. Ask an admin for “Tables” access.",
     open: "Open",
   },
   dashboard: {

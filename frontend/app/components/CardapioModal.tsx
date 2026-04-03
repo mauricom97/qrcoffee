@@ -3,7 +3,8 @@
 import { useState, useEffect } from "react";
 import { FaQrcode, FaExternalLinkAlt, FaPalette } from "react-icons/fa";
 import { HiX } from "react-icons/hi";
-import { getAuthHeaders } from "contexts/AuthContext";
+import { getAuthHeaders, useAuth } from "contexts/AuthContext";
+import { PANEL_PERMISSIONS, userHasPanelPermission } from "lib/panelPermissions";
 import LoadingSpinner from "components/LoadingSpinner";
 import CardapioThemeForm from "components/CardapioThemeForm";
 import { useLocaleContext } from "i18n/LocaleContext";
@@ -24,12 +25,34 @@ interface CardapioModalProps {
 
 export default function CardapioModal({ open, onClose }: CardapioModalProps) {
   const { t } = useLocaleContext();
+  const { user } = useAuth();
+  const canListTables = userHasPanelPermission(
+    user?.role ?? "STAFF",
+    user?.permissions,
+    PANEL_PERMISSIONS.TABLES,
+  );
+  const canEditAppearance = userHasPanelPermission(
+    user?.role ?? "STAFF",
+    user?.permissions,
+    PANEL_PERMISSIONS.SETTINGS,
+  );
   const [activeTab, setActiveTab] = useState<"visualizar" | "aparencia">("visualizar");
   const [mesas, setMesas] = useState<Mesa[]>([]);
   const [loadingMesas, setLoadingMesas] = useState(true);
 
   useEffect(() => {
+    if (!canEditAppearance && activeTab === "aparencia") {
+      setActiveTab("visualizar");
+    }
+  }, [canEditAppearance, activeTab]);
+
+  useEffect(() => {
     if (open) {
+      if (!canListTables) {
+        setMesas([]);
+        setLoadingMesas(false);
+        return;
+      }
       setLoadingMesas(true);
       fetch(`${API_URL}/tables`, { headers: getAuthHeaders() })
         .then((r) => (r.ok ? r.json() : []))
@@ -37,7 +60,7 @@ export default function CardapioModal({ open, onClose }: CardapioModalProps) {
         .catch(() => setMesas([]))
         .finally(() => setLoadingMesas(false));
     }
-  }, [open]);
+  }, [open, canListTables]);
 
   if (!open) return null;
 
@@ -79,17 +102,19 @@ export default function CardapioModal({ open, onClose }: CardapioModalProps) {
           >
             <FaExternalLinkAlt /> {t("cardapioModal.tabView")}
           </button>
-          <button
-            type="button"
-            onClick={() => setActiveTab("aparencia")}
-            className={`flex-1 py-3 px-4 text-sm font-medium flex items-center justify-center gap-2 transition ${
-              activeTab === "aparencia"
-                ? "text-zinc-900 border-b-2 border-zinc-900 bg-zinc-50"
-                : "text-zinc-600 hover:bg-zinc-50"
-            }`}
-          >
-            <FaPalette /> {t("cardapioModal.tabLook")}
-          </button>
+          {canEditAppearance ? (
+            <button
+              type="button"
+              onClick={() => setActiveTab("aparencia")}
+              className={`flex-1 py-3 px-4 text-sm font-medium flex items-center justify-center gap-2 transition ${
+                activeTab === "aparencia"
+                  ? "text-zinc-900 border-b-2 border-zinc-900 bg-zinc-50"
+                  : "text-zinc-600 hover:bg-zinc-50"
+              }`}
+            >
+              <FaPalette /> {t("cardapioModal.tabLook")}
+            </button>
+          ) : null}
         </div>
 
         <div className="flex-1 overflow-y-auto p-4">
@@ -100,6 +125,10 @@ export default function CardapioModal({ open, onClose }: CardapioModalProps) {
               </p>
               {loadingMesas ? (
                 <LoadingSpinner message={t("cardapioModal.loadingTables")} />
+              ) : !canListTables ? (
+                <p className="text-sm text-zinc-500 py-4 text-center">
+                  {t("cardapioModal.noTableAccess")}
+                </p>
               ) : mesas.length === 0 ? (
                 <p className="text-sm text-zinc-500 py-4 text-center">
                   {t("cardapioModal.noTables")}

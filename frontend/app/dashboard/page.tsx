@@ -18,6 +18,8 @@ import {
 import { getAuthHeaders } from 'contexts/AuthContext';
 import LoadingSpinner from 'components/LoadingSpinner';
 import { useLocaleContext } from 'i18n/LocaleContext';
+import { useRequirePanelPermission } from 'hooks/useRequirePanelPermission';
+import { PANEL_PERMISSIONS } from 'lib/panelPermissions';
 
 const API_URL =
   process.env.NEXT_PUBLIC_BASE_API_URL || 'http://localhost:3352';
@@ -62,6 +64,7 @@ type FinancialSummary = {
 };
 
 export default function Dashboard() {
+  useRequirePanelPermission(PANEL_PERMISSIONS.DASHBOARD);
   const { t, localeTag } = useLocaleContext();
 
   function formatCurrency(value: number) {

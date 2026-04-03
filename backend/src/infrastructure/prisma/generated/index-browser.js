@@ -141,6 +141,7 @@ exports.Prisma.UserScalarFieldEnum = {
 exports.Prisma.UserGroupScalarFieldEnum = {
   uuid: 'uuid',
   name: 'name',
+  permissions: 'permissions',
   companyUuid: 'companyUuid',
   createdAt: 'createdAt'
 };

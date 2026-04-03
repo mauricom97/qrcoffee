@@ -4432,6 +4432,7 @@ export namespace Prisma {
   export type UserGroupCountAggregateOutputType = {
     uuid: number
     name: number
+    permissions: number
     companyUuid: number
     createdAt: number
     _all: number
@@ -4455,6 +4456,7 @@ export namespace Prisma {
   export type UserGroupCountAggregateInputType = {
     uuid?: true
     name?: true
+    permissions?: true
     companyUuid?: true
     createdAt?: true
     _all?: true
@@ -4535,6 +4537,7 @@ export namespace Prisma {
   export type UserGroupGroupByOutputType = {
     uuid: string
     name: string
+    permissions: string[]
     companyUuid: string
     createdAt: Date
     _count: UserGroupCountAggregateOutputType | null
@@ -4559,6 +4562,7 @@ export namespace Prisma {
   export type UserGroupSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
     uuid?: boolean
     name?: boolean
+    permissions?: boolean
     companyUuid?: boolean
     createdAt?: boolean
     company?: boolean | CompanyDefaultArgs<ExtArgs>
@@ -4569,6 +4573,7 @@ export namespace Prisma {
   export type UserGroupSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
     uuid?: boolean
     name?: boolean
+    permissions?: boolean
     companyUuid?: boolean
     createdAt?: boolean
     company?: boolean | CompanyDefaultArgs<ExtArgs>
@@ -4577,6 +4582,7 @@ export namespace Prisma {
   export type UserGroupSelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
     uuid?: boolean
     name?: boolean
+    permissions?: boolean
     companyUuid?: boolean
     createdAt?: boolean
     company?: boolean | CompanyDefaultArgs<ExtArgs>
@@ -4585,11 +4591,12 @@ export namespace Prisma {
   export type UserGroupSelectScalar = {
     uuid?: boolean
     name?: boolean
+    permissions?: boolean
     companyUuid?: boolean
     createdAt?: boolean
   }
 
-  export type UserGroupOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"uuid" | "name" | "companyUuid" | "createdAt", ExtArgs["result"]["userGroup"]>
+  export type UserGroupOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"uuid" | "name" | "permissions" | "companyUuid" | "createdAt", ExtArgs["result"]["userGroup"]>
   export type UserGroupInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     company?: boolean | CompanyDefaultArgs<ExtArgs>
     members?: boolean | UserGroup$membersArgs<ExtArgs>
@@ -4611,6 +4618,10 @@ export namespace Prisma {
     scalars: $Extensions.GetPayloadResult<{
       uuid: string
       name: string
+      /**
+       * * Códigos de área do painel (ex.: PRODUCTS, ORDERS). Uniao nos grupos do usuario define o acesso de STAFF.
+       */
+      permissions: string[]
       companyUuid: string
       createdAt: Date
     }, ExtArgs["result"]["userGroup"]>
@@ -5040,6 +5051,7 @@ export namespace Prisma {
   interface UserGroupFieldRefs {
     readonly uuid: FieldRef<"UserGroup", 'String'>
     readonly name: FieldRef<"UserGroup", 'String'>
+    readonly permissions: FieldRef<"UserGroup", 'String[]'>
     readonly companyUuid: FieldRef<"UserGroup", 'String'>
     readonly createdAt: FieldRef<"UserGroup", 'DateTime'>
   }
@@ -14324,6 +14336,7 @@ export namespace Prisma {
   export const UserGroupScalarFieldEnum: {
     uuid: 'uuid',
     name: 'name',
+    permissions: 'permissions',
     companyUuid: 'companyUuid',
     createdAt: 'createdAt'
   };
@@ -14671,6 +14684,7 @@ export namespace Prisma {
     NOT?: UserGroupWhereInput | UserGroupWhereInput[]
     uuid?: StringFilter<"UserGroup"> | string
     name?: StringFilter<"UserGroup"> | string
+    permissions?: StringNullableListFilter<"UserGroup">
     companyUuid?: StringFilter<"UserGroup"> | string
     createdAt?: DateTimeFilter<"UserGroup"> | Date | string
     company?: XOR<CompanyScalarRelationFilter, CompanyWhereInput>
@@ -14680,6 +14694,7 @@ export namespace Prisma {
   export type UserGroupOrderByWithRelationInput = {
     uuid?: SortOrder
     name?: SortOrder
+    permissions?: SortOrder
     companyUuid?: SortOrder
     createdAt?: SortOrder
     company?: CompanyOrderByWithRelationInput
@@ -14692,6 +14707,7 @@ export namespace Prisma {
     OR?: UserGroupWhereInput[]
     NOT?: UserGroupWhereInput | UserGroupWhereInput[]
     name?: StringFilter<"UserGroup"> | string
+    permissions?: StringNullableListFilter<"UserGroup">
     companyUuid?: StringFilter<"UserGroup"> | string
     createdAt?: DateTimeFilter<"UserGroup"> | Date | string
     company?: XOR<CompanyScalarRelationFilter, CompanyWhereInput>
@@ -14701,6 +14717,7 @@ export namespace Prisma {
   export type UserGroupOrderByWithAggregationInput = {
     uuid?: SortOrder
     name?: SortOrder
+    permissions?: SortOrder
     companyUuid?: SortOrder
     createdAt?: SortOrder
     _count?: UserGroupCountOrderByAggregateInput
@@ -14714,6 +14731,7 @@ export namespace Prisma {
     NOT?: UserGroupScalarWhereWithAggregatesInput | UserGroupScalarWhereWithAggregatesInput[]
     uuid?: StringWithAggregatesFilter<"UserGroup"> | string
     name?: StringWithAggregatesFilter<"UserGroup"> | string
+    permissions?: StringNullableListFilter<"UserGroup">
     companyUuid?: StringWithAggregatesFilter<"UserGroup"> | string
     createdAt?: DateTimeWithAggregatesFilter<"UserGroup"> | Date | string
   }
@@ -15345,6 +15363,7 @@ export namespace Prisma {
   export type UserGroupCreateInput = {
     uuid?: string
     name: string
+    permissions?: UserGroupCreatepermissionsInput | string[]
     createdAt?: Date | string
     company: CompanyCreateNestedOneWithoutUserGroupsInput
     members?: UserGroupMemberCreateNestedManyWithoutGroupInput
@@ -15353,6 +15372,7 @@ export namespace Prisma {
   export type UserGroupUncheckedCreateInput = {
     uuid?: string
     name: string
+    permissions?: UserGroupCreatepermissionsInput | string[]
     companyUuid: string
     createdAt?: Date | string
     members?: UserGroupMemberUncheckedCreateNestedManyWithoutGroupInput
@@ -15361,6 +15381,7 @@ export namespace Prisma {
   export type UserGroupUpdateInput = {
     uuid?: StringFieldUpdateOperationsInput | string
     name?: StringFieldUpdateOperationsInput | string
+    permissions?: UserGroupUpdatepermissionsInput | string[]
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     company?: CompanyUpdateOneRequiredWithoutUserGroupsNestedInput
     members?: UserGroupMemberUpdateManyWithoutGroupNestedInput
@@ -15369,6 +15390,7 @@ export namespace Prisma {
   export type UserGroupUncheckedUpdateInput = {
     uuid?: StringFieldUpdateOperationsInput | string
     name?: StringFieldUpdateOperationsInput | string
+    permissions?: UserGroupUpdatepermissionsInput | string[]
     companyUuid?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     members?: UserGroupMemberUncheckedUpdateManyWithoutGroupNestedInput
@@ -15377,6 +15399,7 @@ export namespace Prisma {
   export type UserGroupCreateManyInput = {
     uuid?: string
     name: string
+    permissions?: UserGroupCreatepermissionsInput | string[]
     companyUuid: string
     createdAt?: Date | string
   }
@@ -15384,12 +15407,14 @@ export namespace Prisma {
   export type UserGroupUpdateManyMutationInput = {
     uuid?: StringFieldUpdateOperationsInput | string
     name?: StringFieldUpdateOperationsInput | string
+    permissions?: UserGroupUpdatepermissionsInput | string[]
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
   export type UserGroupUncheckedUpdateManyInput = {
     uuid?: StringFieldUpdateOperationsInput | string
     name?: StringFieldUpdateOperationsInput | string
+    permissions?: UserGroupUpdatepermissionsInput | string[]
     companyUuid?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
@@ -16100,9 +16125,18 @@ export namespace Prisma {
     _max?: NestedEnumUserRoleFilter<$PrismaModel>
   }
 
+  export type StringNullableListFilter<$PrismaModel = never> = {
+    equals?: string[] | ListStringFieldRefInput<$PrismaModel> | null
+    has?: string | StringFieldRefInput<$PrismaModel> | null
+    hasEvery?: string[] | ListStringFieldRefInput<$PrismaModel>
+    hasSome?: string[] | ListStringFieldRefInput<$PrismaModel>
+    isEmpty?: boolean
+  }
+
   export type UserGroupCountOrderByAggregateInput = {
     uuid?: SortOrder
     name?: SortOrder
+    permissions?: SortOrder
     companyUuid?: SortOrder
     createdAt?: SortOrder
   }
@@ -16863,6 +16897,10 @@ export namespace Prisma {
     deleteMany?: UserGroupMemberScalarWhereInput | UserGroupMemberScalarWhereInput[]
   }
 
+  export type UserGroupCreatepermissionsInput = {
+    set: string[]
+  }
+
   export type CompanyCreateNestedOneWithoutUserGroupsInput = {
     create?: XOR<CompanyCreateWithoutUserGroupsInput, CompanyUncheckedCreateWithoutUserGroupsInput>
     connectOrCreate?: CompanyCreateOrConnectWithoutUserGroupsInput
@@ -16881,6 +16919,11 @@ export namespace Prisma {
     connectOrCreate?: UserGroupMemberCreateOrConnectWithoutGroupInput | UserGroupMemberCreateOrConnectWithoutGroupInput[]
     createMany?: UserGroupMemberCreateManyGroupInputEnvelope
     connect?: UserGroupMemberWhereUniqueInput | UserGroupMemberWhereUniqueInput[]
+  }
+
+  export type UserGroupUpdatepermissionsInput = {
+    set?: string[]
+    push?: string | string[]
   }
 
   export type CompanyUpdateOneRequiredWithoutUserGroupsNestedInput = {
@@ -17578,6 +17621,7 @@ export namespace Prisma {
   export type UserGroupCreateWithoutCompanyInput = {
     uuid?: string
     name: string
+    permissions?: UserGroupCreatepermissionsInput | string[]
     createdAt?: Date | string
     members?: UserGroupMemberCreateNestedManyWithoutGroupInput
   }
@@ -17585,6 +17629,7 @@ export namespace Prisma {
   export type UserGroupUncheckedCreateWithoutCompanyInput = {
     uuid?: string
     name: string
+    permissions?: UserGroupCreatepermissionsInput | string[]
     createdAt?: Date | string
     members?: UserGroupMemberUncheckedCreateNestedManyWithoutGroupInput
   }
@@ -17758,6 +17803,7 @@ export namespace Prisma {
     NOT?: UserGroupScalarWhereInput | UserGroupScalarWhereInput[]
     uuid?: StringFilter<"UserGroup"> | string
     name?: StringFilter<"UserGroup"> | string
+    permissions?: StringNullableListFilter<"UserGroup">
     companyUuid?: StringFilter<"UserGroup"> | string
     createdAt?: DateTimeFilter<"UserGroup"> | Date | string
   }
@@ -18112,6 +18158,7 @@ export namespace Prisma {
   export type UserGroupCreateWithoutMembersInput = {
     uuid?: string
     name: string
+    permissions?: UserGroupCreatepermissionsInput | string[]
     createdAt?: Date | string
     company: CompanyCreateNestedOneWithoutUserGroupsInput
   }
@@ -18119,6 +18166,7 @@ export namespace Prisma {
   export type UserGroupUncheckedCreateWithoutMembersInput = {
     uuid?: string
     name: string
+    permissions?: UserGroupCreatepermissionsInput | string[]
     companyUuid: string
     createdAt?: Date | string
   }
@@ -18173,6 +18221,7 @@ export namespace Prisma {
   export type UserGroupUpdateWithoutMembersInput = {
     uuid?: StringFieldUpdateOperationsInput | string
     name?: StringFieldUpdateOperationsInput | string
+    permissions?: UserGroupUpdatepermissionsInput | string[]
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     company?: CompanyUpdateOneRequiredWithoutUserGroupsNestedInput
   }
@@ -18180,6 +18229,7 @@ export namespace Prisma {
   export type UserGroupUncheckedUpdateWithoutMembersInput = {
     uuid?: StringFieldUpdateOperationsInput | string
     name?: StringFieldUpdateOperationsInput | string
+    permissions?: UserGroupUpdatepermissionsInput | string[]
     companyUuid?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
@@ -18953,6 +19003,7 @@ export namespace Prisma {
   export type UserGroupCreateManyCompanyInput = {
     uuid?: string
     name: string
+    permissions?: UserGroupCreatepermissionsInput | string[]
     createdAt?: Date | string
   }
 
@@ -19018,6 +19069,7 @@ export namespace Prisma {
   export type UserGroupUpdateWithoutCompanyInput = {
     uuid?: StringFieldUpdateOperationsInput | string
     name?: StringFieldUpdateOperationsInput | string
+    permissions?: UserGroupUpdatepermissionsInput | string[]
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     members?: UserGroupMemberUpdateManyWithoutGroupNestedInput
   }
@@ -19025,6 +19077,7 @@ export namespace Prisma {
   export type UserGroupUncheckedUpdateWithoutCompanyInput = {
     uuid?: StringFieldUpdateOperationsInput | string
     name?: StringFieldUpdateOperationsInput | string
+    permissions?: UserGroupUpdatepermissionsInput | string[]
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     members?: UserGroupMemberUncheckedUpdateManyWithoutGroupNestedInput
   }
@@ -19032,6 +19085,7 @@ export namespace Prisma {
   export type UserGroupUncheckedUpdateManyWithoutCompanyInput = {
     uuid?: StringFieldUpdateOperationsInput | string
     name?: StringFieldUpdateOperationsInput | string
+    permissions?: UserGroupUpdatepermissionsInput | string[]
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 

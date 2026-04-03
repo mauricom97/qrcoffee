@@ -9,9 +9,10 @@ import { DestroyProductUseCase } from '@application/product/use-cases/destroy-pr
 import { ProductPrismaRepository } from '@infrastructure/product/repositories/product-prisma.repository';
 import { PrismaService } from '@infrastructure/prisma/prisma.service';
 import { RealtimeModule } from '@interfaces/websocket/realtime.module';
+import { PermissionsModule } from './permissions.module';
 
 @Module({
-  imports: [RealtimeModule],
+  imports: [RealtimeModule, PermissionsModule],
   controllers: [ProductController],
   providers: [
     PrismaService,

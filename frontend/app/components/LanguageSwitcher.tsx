@@ -4,12 +4,23 @@ import { useLocaleContext } from "i18n/LocaleContext";
 import type { Locale } from "i18n/types";
 import { LOCALES } from "i18n/types";
 
-export default function LanguageSwitcher({ className = "" }: { className?: string }) {
+export default function LanguageSwitcher({
+  className = "",
+  hideLabel = false,
+}: {
+  className?: string;
+  /** Quando true, só o select é exibido (útil se o título já está na página). */
+  hideLabel?: boolean;
+}) {
   const { locale, setLocale, t } = useLocaleContext();
 
   return (
     <label className={`inline-flex items-center gap-2 text-sm ${className}`}>
-      <span className="text-zinc-500 sr-only sm:not-sr-only">{t("language.label")}</span>
+      {!hideLabel ? (
+        <span className="text-zinc-500 sr-only sm:not-sr-only">
+          {t("language.label")}
+        </span>
+      ) : null}
       <select
         value={locale}
         onChange={(e) => setLocale(e.target.value as Locale)}

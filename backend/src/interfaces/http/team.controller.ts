@@ -14,6 +14,7 @@ import {
   UseGuards,
 } from '@nestjs/common';
 import * as bcrypt from 'bcrypt';
+import { normalizePanelPermissions } from '@application/permissions/panel-permissions';
 import { UserRole } from '@infrastructure/prisma/generated';
 import { PrismaService } from '@infrastructure/prisma/prisma.service';
 import { CompanyUuid, CurrentUser } from './decorators/company.decorator';
@@ -195,6 +196,7 @@ export class TeamController {
       select: {
         uuid: true,
         name: true,
+        permissions: true,
         createdAt: true,
         members: {
           select: {
@@ -213,14 +215,18 @@ export class TeamController {
   }
 
   @Post('groups')
-  async createGroup(@CompanyUuid() companyUuid: string, @Body() body: { name: string }) {
+  async createGroup(
+    @CompanyUuid() companyUuid: string,
+    @Body() body: { name: string; permissions?: string[] },
+  ) {
     const name = body.name?.trim();
     if (!name) {
       throw new BadRequestException('Nome do grupo é obrigatório.');
     }
+    const permissions = normalizePanelPermissions(body.permissions);
     return this.prisma.client.userGroup.create({
-      data: { name, companyUuid },
-      select: { uuid: true, name: true, createdAt: true },
+      data: { name, companyUuid, permissions },
+      select: { uuid: true, name: true, permissions: true, createdAt: true },
     });
   }
 
@@ -228,7 +234,7 @@ export class TeamController {
   async updateGroup(
     @CompanyUuid() companyUuid: string,
     @Param('uuid', ParseUUIDPipe) uuid: string,
-    @Body() body: { name: string },
+    @Body() body: { name?: string; permissions?: string[] },
   ) {
     const group = await this.prisma.client.userGroup.findFirst({
       where: { uuid, companyUuid },
@@ -236,14 +242,24 @@ export class TeamController {
     if (!group) {
       throw new NotFoundException('Grupo não encontrado.');
     }
-    const name = body.name?.trim();
-    if (!name) {
-      throw new BadRequestException('Nome do grupo é obrigatório.');
+    const data: { name?: string; permissions?: string[] } = {};
+    if (body.name !== undefined) {
+      const name = body.name.trim();
+      if (!name) {
+        throw new BadRequestException('Nome inválido.');
+      }
+      data.name = name;
+    }
+    if (body.permissions !== undefined) {
+      data.permissions = normalizePanelPermissions(body.permissions);
+    }
+    if (Object.keys(data).length === 0) {
+      throw new BadRequestException('Nada para atualizar.');
     }
     return this.prisma.client.userGroup.update({
       where: { uuid },
-      data: { name },
-      select: { uuid: true, name: true, createdAt: true },
+      data,
+      select: { uuid: true, name: true, permissions: true, createdAt: true },
     });
   }
 

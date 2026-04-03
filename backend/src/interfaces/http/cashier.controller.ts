@@ -8,11 +8,15 @@ import {
   BadRequestException,
 } from '@nestjs/common';
 import { CashierService, MovementType } from '@application/cashier/cashier.service';
+import { PANEL_PERMISSION_CODES } from '@application/permissions/panel-permissions';
 import { JwtAuthGuard } from './guards/jwt-auth.guard';
+import { PermissionsGuard } from './guards/permissions.guard';
+import { RequirePanelPermission } from './decorators/require-permission.decorator';
 import { CompanyUuid } from './decorators/company.decorator';
 
 @Controller('cashier')
-@UseGuards(JwtAuthGuard)
+@UseGuards(JwtAuthGuard, PermissionsGuard)
+@RequirePanelPermission(PANEL_PERMISSION_CODES.CASHIER)
 export class CashierController {
   constructor(private readonly cashierService: CashierService) {}
 

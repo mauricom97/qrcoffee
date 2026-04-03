@@ -8,9 +8,10 @@ import { DeleteTableUseCase } from '@application/table/use-cases/delete-table.us
 import { TablePrismaRepository } from '@infrastructure/table/repositories/table-prisma.repository';
 import { PrismaService } from '@infrastructure/prisma/prisma.service';
 import { RealtimeModule } from '@interfaces/websocket/realtime.module';
+import { PermissionsModule } from './permissions.module';
 
 @Module({
-    imports: [RealtimeModule],
+    imports: [RealtimeModule, PermissionsModule],
     controllers: [TableController],
     providers: [
         PrismaService,

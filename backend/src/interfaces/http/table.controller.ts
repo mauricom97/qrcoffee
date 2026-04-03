@@ -5,12 +5,16 @@ import { FindAllTableUseCase } from '@application/table/use-cases/find-table.use
 import { FindOneTableUseCase } from '@application/table/use-cases/find-one-table.usecase';
 import { UpdateTableUseCase } from '@application/table/use-cases/update-table.usecase';
 import { DeleteTableUseCase } from '@application/table/use-cases/delete-table.usecase';
+import { PANEL_PERMISSION_CODES } from '@application/permissions/panel-permissions';
 import { JwtAuthGuard } from './guards/jwt-auth.guard';
+import { PermissionsGuard } from './guards/permissions.guard';
+import { RequirePanelPermission } from './decorators/require-permission.decorator';
 import { CompanyUuid } from './decorators/company.decorator';
 import { RealtimeGateway } from '@interfaces/websocket/realtime.gateway';
 
 @Controller('tables')
-@UseGuards(JwtAuthGuard)
+@UseGuards(JwtAuthGuard, PermissionsGuard)
+@RequirePanelPermission(PANEL_PERMISSION_CODES.TABLES)
 export class TableController {
   constructor(
     private readonly createTableUseCase: CreateTableUseCase,

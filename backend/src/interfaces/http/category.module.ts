@@ -8,9 +8,10 @@ import { CategoryPrismaRepository } from '@infrastructure/category/repositories/
 import { PrismaService } from '@infrastructure/prisma/prisma.service'
 
 import { RealtimeModule } from '@interfaces/websocket/realtime.module'
+import { PermissionsModule } from './permissions.module'
 
 @Module({
-  imports: [RealtimeModule],
+  imports: [RealtimeModule, PermissionsModule],
   controllers: [CategoryController],
   providers: [
     PrismaService,

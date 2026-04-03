@@ -50,7 +50,6 @@ export const esMessages = {
     cashier: "Caja",
     stock: "Stock",
     settings: "Ajustes",
-    team: "Equipo y grupos",
     logout: "Salir",
   },
   team: {
@@ -87,6 +86,21 @@ export const esMessages = {
     you: "Usted",
     confirmDeleteUser: "¿Eliminar este usuario? No se puede deshacer.",
     confirmDeleteGroup: "¿Eliminar este grupo? Se quitarán las membresías.",
+    accessTitle: "Accesos en el panel",
+    savePermissions: "Guardar permisos",
+    newGroupAccessHint:
+      "Marque lo que los usuarios de este grupo pueden usar. Puede cambiarlo después.",
+    perm: {
+      DASHBOARD: "Panel",
+      PRODUCTS: "Productos y categorías",
+      TABLES: "Mesas",
+      TABS: "Comandas",
+      ORDERS: "Pedidos",
+      MENU: "Menú (QR y enlaces)",
+      CASHIER: "Caja",
+      STOCK: "Stock",
+      SETTINGS: "Ajustes",
+    },
   },
   navbar: {
     brand: "Super Atención",
@@ -126,11 +140,15 @@ export const esMessages = {
   },
   settings: {
     title: "Ajustes",
-    subtitle: "Personalice la apariencia y el comportamiento del sistema.",
+    subtitle:
+      "Personalice idioma, apariencia, pedidos y — si es administrador — equipo y grupos.",
     ordersSection: "Pedidos",
     appearanceTitle: "Apariencia del menú",
     appearanceDesc:
       "Personalice los colores del menú online según la identidad de su establecimiento.",
+    languageTitle: "Idioma",
+    languageDesc:
+      "Elija el idioma del panel (productos, pedidos, ajustes, etc.).",
     footerNote:
       "Los cambios se reflejarán en el menú online que abren los clientes por QR.",
   },
@@ -166,6 +184,8 @@ export const esMessages = {
     loadingTables: "Cargando mesas…",
     noTables:
       "Ninguna mesa registrada. Registre mesas en Mesas para generar enlaces.",
+    noTableAccess:
+      "No tiene permiso para listar mesas. Pida acceso a “Mesas” al administrador.",
     open: "Abrir",
   },
   dashboard: {

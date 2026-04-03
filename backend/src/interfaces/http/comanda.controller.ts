@@ -16,12 +16,16 @@ import { UpdateOrderUseCase } from '@application/order/use-cases/update-order.us
 import { DeleteOrderUseCase } from '@application/order/use-cases/delete-order.usecase';
 import { OrderStatus } from '@domain/order/entities/order.entity';
 import { OrderListDto } from '@domain/order/repositories/order.repository';
+import { PANEL_PERMISSION_CODES } from '@application/permissions/panel-permissions';
 import { JwtAuthGuard } from './guards/jwt-auth.guard';
+import { PermissionsGuard } from './guards/permissions.guard';
+import { RequirePanelPermission } from './decorators/require-permission.decorator';
 import { CompanyUuid } from './decorators/company.decorator';
 import { RealtimeGateway } from '@interfaces/websocket/realtime.gateway';
 
 @Controller('comandas')
-@UseGuards(JwtAuthGuard)
+@UseGuards(JwtAuthGuard, PermissionsGuard)
+@RequirePanelPermission(PANEL_PERMISSION_CODES.TABS)
 export class ComandaController {
   constructor(
     private readonly findAllOrderUseCase: FindAllOrderUseCase,

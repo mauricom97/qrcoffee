@@ -4,8 +4,7 @@ import { useState } from "react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useLocaleContext } from "i18n/LocaleContext";
-import LanguageSwitcher from "components/LanguageSwitcher";
-import { HiOutlineDeviceTablet, HiMenu, HiX, HiOutlineLogout, HiOutlineCog, HiOutlineUserGroup } from "react-icons/hi";
+import { HiOutlineDeviceTablet, HiMenu, HiX, HiOutlineLogout, HiOutlineCog } from "react-icons/hi";
 import { LuTableOfContents } from "react-icons/lu";
 import { FaHome, FaPhone } from "react-icons/fa";
 import { MdOutlineTableBar } from "react-icons/md";
@@ -15,6 +14,7 @@ import { FaQrcode } from "react-icons/fa";
 import { FaBox } from "react-icons/fa";
 import { useAuth } from "../contexts/AuthContext";
 import CardapioModal from "components/CardapioModal";
+import { PANEL_PERMISSIONS, userHasPanelPermission } from "lib/panelPermissions";
 
 const Sidebar = () => {
     const [isOpen, setIsOpen] = useState(false);
@@ -54,38 +54,49 @@ const Sidebar = () => {
 
                 <h1 className="uppercase text-2xl font-bold text-center mb-6">{user?.companyName || ''}</h1>
                 <ul className="space-y-4 w-full">
+                    {user && userHasPanelPermission(user.role, user.permissions, PANEL_PERMISSIONS.DASHBOARD) ? (
                     <Link href="/dashboard" onClick={() => setIsOpen(false)}>
                         <li className="flex items-center space-x-3 hover:bg-stone-300 p-3 rounded-md cursor-pointer">
                             <FaHome className="text-xl" />
                             <span className="text-lg font-medium">{t("sidebar.dashboard")}</span>
                         </li>
                     </Link>
+                    ) : null}
+                    {user && userHasPanelPermission(user.role, user.permissions, PANEL_PERMISSIONS.PRODUCTS) ? (
                     <Link href="/products" onClick={() => setIsOpen(false)}>
                         <li className="flex items-center space-x-3 hover:bg-stone-300 p-3 rounded-md cursor-pointer">
                             <GrCafeteria  className="text-xl" />
                             <span className="text-lg font-medium">{t("sidebar.products")}</span>
                         </li>
                     </Link>
+                    ) : null}
+                    {user && userHasPanelPermission(user.role, user.permissions, PANEL_PERMISSIONS.TABLES) ? (
                     <Link href="/tables" onClick={() => setIsOpen(false)}>
                         <li className="flex items-center space-x-3 hover:bg-stone-300 p-3 rounded-md cursor-pointer">
                             <MdOutlineTableBar className="text-xl" />
                             <span className="text-lg font-medium">{t("sidebar.tables")}</span>
                         </li>
                     </Link>
+                    ) : null}
+                    {user && userHasPanelPermission(user.role, user.permissions, PANEL_PERMISSIONS.TABS) ? (
                     <Link href="/tabs" onClick={() => setIsOpen(false)}>
                         <li className="flex items-center space-x-3 hover:bg-stone-300 p-3 rounded-md cursor-pointer">
                             <HiOutlineDeviceTablet className="text-xl" />
                             <span className="text-lg font-medium">{t("sidebar.tabs")}</span>
                         </li>
                     </Link>
+                    ) : null}
 
+                    {user && userHasPanelPermission(user.role, user.permissions, PANEL_PERMISSIONS.ORDERS) ? (
                     <Link href="/orders" onClick={() => setIsOpen(false)}>
                         <li className="flex items-center space-x-3 hover:bg-stone-300 p-3 rounded-md cursor-pointer">
                             <LuTableOfContents className="text-xl" />
                             <span className="text-lg font-medium">{t("sidebar.orders")}</span>
                         </li>
                     </Link>
+                    ) : null}
 
+                    {user && userHasPanelPermission(user.role, user.permissions, PANEL_PERMISSIONS.MENU) ? (
                     <li
                         className="flex items-center space-x-3 hover:bg-stone-300 p-3 rounded-md cursor-pointer"
                         onClick={() => {
@@ -96,40 +107,34 @@ const Sidebar = () => {
                         <FaQrcode className="text-xl" />
                         <span className="text-lg font-medium">{t("sidebar.menu")}</span>
                     </li>
+                    ) : null}
 
+                    {user && userHasPanelPermission(user.role, user.permissions, PANEL_PERMISSIONS.CASHIER) ? (
                     <Link href="/cashier" onClick={() => setIsOpen(false)}>
                     <li className="flex items-center space-x-3 hover:bg-stone-300 p-3 rounded-md cursor-pointer">
                         <FaMoneyBillWave className="text-xl" />
                         <span className="text-lg font-medium">{t("sidebar.cashier")}</span>
                     </li>
                     </Link>
+                    ) : null}
 
+                    {user && userHasPanelPermission(user.role, user.permissions, PANEL_PERMISSIONS.STOCK) ? (
                     <Link href="/stock" onClick={() => setIsOpen(false)}>
                     <li className="flex items-center space-x-3 hover:bg-stone-300 p-3 rounded-md cursor-pointer">
                         <FaBox  className="text-xl" />
                         <span className="text-lg font-medium">{t("sidebar.stock")}</span>
                     </li>
                     </Link>
-
-                    {user?.role === "ADMIN" ? (
-                    <Link href="/team" onClick={() => setIsOpen(false)}>
-                    <li className="flex items-center space-x-3 hover:bg-stone-300 p-3 rounded-md cursor-pointer">
-                        <HiOutlineUserGroup className="text-xl" />
-                        <span className="text-lg font-medium">{t("sidebar.team")}</span>
-                    </li>
-                    </Link>
                     ) : null}
 
+                    {user && userHasPanelPermission(user.role, user.permissions, PANEL_PERMISSIONS.SETTINGS) ? (
                     <Link href="/settings" onClick={() => setIsOpen(false)}>
                     <li className="flex items-center space-x-3 hover:bg-stone-300 p-3 rounded-md cursor-pointer">
                         <HiOutlineCog className="text-xl" />
                         <span className="text-lg font-medium">{t("sidebar.settings")}</span>
                     </li>
                     </Link>
-
-                    <li className="mt-2 w-full px-3">
-                        <LanguageSwitcher className="w-full justify-center" />
-                    </li>
+                    ) : null}
 
                     <li className="mt-4 pt-4 border-t border-stone-300">
                         <button

@@ -2,6 +2,8 @@
 
 import { useState, useCallback } from 'react'
 import { useLocaleContext } from 'i18n/LocaleContext'
+import { useRequirePanelPermission } from 'hooks/useRequirePanelPermission'
+import { PANEL_PERMISSIONS } from 'lib/panelPermissions'
 
 const productsMock = [
   { id: 1, name: 'Coca-Cola 2L', category: 'Bebidas', stock: 12, price: 9.5 },
@@ -11,6 +13,7 @@ const productsMock = [
 ]
 
 export default function StockManagementPage() {
+  useRequirePanelPermission(PANEL_PERMISSIONS.STOCK)
   const { t, localeTag } = useLocaleContext()
   const [search, setSearch] = useState('')
 
