@@ -18,6 +18,25 @@ export interface FinancialPoint {
   orderCount: number;
 }
 
+const ORDER_STATUSES = ['PENDING', 'PREPARING', 'READY', 'DELIVERED'] as const;
+
+export interface AttendanceHistoryRow {
+  uuid: string;
+  createdAt: string;
+  status: string;
+  tableUuid: string;
+  tableNumber: number;
+  itemsCount: number;
+  totalValue: number;
+}
+
+export interface AttendanceHistoryResult {
+  items: AttendanceHistoryRow[];
+  total: number;
+  page: number;
+  limit: number;
+}
+
 @Injectable()
 export class DashboardService {
   private readonly client: any;
@@ -120,6 +139,74 @@ export class DashboardService {
     };
   }
 
+  async getAttendanceHistory(
+    companyUuid: string,
+    opts: {
+      from?: string;
+      to?: string;
+      status?: string;
+      tableUuid?: string;
+      page?: number;
+      limit?: number;
+    },
+  ): Promise<AttendanceHistoryResult> {
+    const { start, end } = this.getHistoryDateRange(opts.from, opts.to);
+    const page = Math.max(1, opts.page ?? 1);
+    const limit = Math.min(100, Math.max(1, opts.limit ?? 20));
+    const where: Record<string, unknown> = {
+      createdAt: { gte: start, lte: end },
+      table: { companyUuid },
+    };
+    if (opts.status && ORDER_STATUSES.includes(opts.status as (typeof ORDER_STATUSES)[number])) {
+      where.status = opts.status;
+    }
+    if (opts.tableUuid) {
+      where.tableUuid = opts.tableUuid;
+    }
+    const [total, orders] = await Promise.all([
+      this.client.order.count({ where }),
+      this.client.order.findMany({
+        where,
+        orderBy: { createdAt: 'desc' },
+        skip: (page - 1) * limit,
+        take: limit,
+        select: {
+          uuid: true,
+          createdAt: true,
+          status: true,
+          tableUuid: true,
+          table: { select: { number: true } },
+          items: { select: { quantity: true, unitPrice: true } },
+        },
+      }),
+    ]);
+    const items: AttendanceHistoryRow[] = orders.map((o: any) => ({
+      uuid: o.uuid,
+      createdAt: o.createdAt.toISOString(),
+      status: o.status,
+      tableUuid: o.tableUuid,
+      tableNumber: o.table.number,
+      itemsCount: o.items.reduce((acc: number, i: { quantity: number }) => acc + i.quantity, 0),
+      totalValue:
+        Math.round(
+          o.items.reduce(
+            (acc: number, i: { quantity: number; unitPrice: number }) =>
+              acc + i.quantity * i.unitPrice,
+            0,
+          ) * 100,
+        ) / 100,
+    }));
+    return { items, total, page, limit };
+  }
+
+  async listAttendanceTableOptions(companyUuid: string): Promise<{ uuid: string; number: number }[]> {
+    return this.client.table.findMany({
+      where: { companyUuid },
+      select: { uuid: true, number: true },
+      orderBy: { number: 'asc' },
+    });
+  }
+
   async getFinancialSummary(
     from?: string,
     to?: string,
@@ -148,6 +235,20 @@ export class DashboardService {
       orderCount: orders.length,
       lastPeriodLabel: this.formatPeriodLabel('month', end),
     };
+  }
+
+  private getHistoryDateRange(from?: string, to?: string): { start: Date; end: Date } {
+    const end = to ? new Date(to) : new Date();
+    let start: Date;
+    if (from) {
+      start = new Date(from);
+    } else {
+      start = new Date(end);
+      start.setDate(start.getDate() - 30);
+    }
+    start.setHours(0, 0, 0, 0);
+    end.setHours(23, 59, 59, 999);
+    return { start, end };
   }
 
   private getDateRange(

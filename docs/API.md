@@ -534,6 +534,47 @@ Authorization: Bearer <token>
 
 ---
 
+### Atendimento (histórico com filtros)
+
+```http
+GET /dashboard/attendance/history?from=<date>&to=<date>&status=<PENDING|PREPARING|READY|DELIVERED>&tableUuid=<uuid>&page=1&limit=20
+Authorization: Bearer <token>
+```
+
+**Parâmetros:** `from` e `to` em formato de data (ex.: `YYYY-MM-DD`). Se omitidos, o intervalo padrão é dos últimos 30 dias até hoje. `status` e `tableUuid` são opcionais. `page` (mín. 1) e `limit` (1–100, default 20).
+
+**Resposta 200:**
+
+```json
+{
+  "items": [
+    {
+      "uuid": "...",
+      "createdAt": "2026-04-03T14:30:00.000Z",
+      "status": "DELIVERED",
+      "tableUuid": "...",
+      "tableNumber": 5,
+      "itemsCount": 3,
+      "totalValue": 45.5
+    }
+  ],
+  "total": 120,
+  "page": 1,
+  "limit": 20
+}
+```
+
+### Atendimento (opções de mesa para filtro)
+
+```http
+GET /dashboard/attendance/table-options
+Authorization: Bearer <token>
+```
+
+**Resposta 200:** array `{ "uuid": "...", "number": 1 }[]` ordenado por número da mesa.
+
+---
+
 ### Financeiro (estatísticas por período)
 
 ```http

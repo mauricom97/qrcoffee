@@ -1,4 +1,11 @@
-import { Controller, Get, Query, UseGuards } from '@nestjs/common';
+import {
+  Controller,
+  DefaultValuePipe,
+  Get,
+  ParseIntPipe,
+  Query,
+  UseGuards,
+} from '@nestjs/common';
 import { DashboardService } from '@application/dashboard/dashboard.service';
 import type { DashboardPeriod } from '@application/dashboard/dashboard.service';
 import { PANEL_PERMISSION_CODES } from '@application/permissions/panel-permissions';
@@ -31,6 +38,31 @@ export class DashboardController {
     @Query('to') to?: string,
   ) {
     return this.dashboardService.getAttendanceSummary(from, to, companyUuid);
+  }
+
+  @Get('attendance/history')
+  async getAttendanceHistory(
+    @CompanyUuid() companyUuid: string,
+    @Query('page', new DefaultValuePipe(1), ParseIntPipe) page: number,
+    @Query('limit', new DefaultValuePipe(20), ParseIntPipe) limit: number,
+    @Query('from') from?: string,
+    @Query('to') to?: string,
+    @Query('status') status?: string,
+    @Query('tableUuid') tableUuid?: string,
+  ) {
+    return this.dashboardService.getAttendanceHistory(companyUuid, {
+      from,
+      to,
+      status,
+      tableUuid,
+      page,
+      limit,
+    });
+  }
+
+  @Get('attendance/table-options')
+  async getAttendanceTableOptions(@CompanyUuid() companyUuid: string) {
+    return this.dashboardService.listAttendanceTableOptions(companyUuid);
   }
 
   @Get('financial')

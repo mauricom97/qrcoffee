@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useMemo, useCallback } from 'react';
 import {
   LineChart,
   Line,
@@ -23,6 +23,28 @@ import { PANEL_PERMISSIONS } from 'lib/panelPermissions';
 
 const API_URL =
   process.env.NEXT_PUBLIC_BASE_API_URL || 'http://localhost:3352';
+
+const HISTORY_PAGE_SIZE = 20;
+
+const HISTORY_STATUSES = [
+  'PENDING',
+  'PREPARING',
+  'READY',
+  'DELIVERED',
+] as const;
+
+function getDefaultHistoryRange() {
+  const to = new Date();
+  const from = new Date();
+  from.setDate(from.getDate() - 30);
+  const ymd = (d: Date) => {
+    const y = d.getFullYear();
+    const m = String(d.getMonth() + 1).padStart(2, '0');
+    const day = String(d.getDate()).padStart(2, '0');
+    return `${y}-${m}-${day}`;
+  };
+  return { from: ymd(from), to: ymd(to) };
+}
 
 /* =======================
    PERMISSÕES
@@ -63,6 +85,18 @@ type FinancialSummary = {
   lastPeriodLabel: string;
 };
 
+type AttendanceHistoryRow = {
+  uuid: string;
+  createdAt: string;
+  status: string;
+  tableUuid: string;
+  tableNumber: number;
+  itemsCount: number;
+  totalValue: number;
+};
+
+type TableOption = { uuid: string; number: number };
+
 export default function Dashboard() {
   useRequirePanelPermission(PANEL_PERMISSIONS.DASHBOARD);
   const { t, localeTag } = useLocaleContext();
@@ -88,6 +122,106 @@ export default function Dashboard() {
   const [loadingAttendance, setLoadingAttendance] = useState(true);
   const [loadingFinancial, setLoadingFinancial] = useState(true);
   const [error, setError] = useState<string | null>(null);
+
+  const historyDefaults = useMemo(() => getDefaultHistoryRange(), []);
+  const [histFilterFrom, setHistFilterFrom] = useState(historyDefaults.from);
+  const [histFilterTo, setHistFilterTo] = useState(historyDefaults.to);
+  const [histFilterStatus, setHistFilterStatus] = useState('');
+  const [histFilterTable, setHistFilterTable] = useState('');
+  const [histAppliedFrom, setHistAppliedFrom] = useState(historyDefaults.from);
+  const [histAppliedTo, setHistAppliedTo] = useState(historyDefaults.to);
+  const [histAppliedStatus, setHistAppliedStatus] = useState('');
+  const [histAppliedTable, setHistAppliedTable] = useState('');
+  const [historyPage, setHistoryPage] = useState(1);
+  const [historyRefreshKey, setHistoryRefreshKey] = useState(0);
+  const [historyRows, setHistoryRows] = useState<AttendanceHistoryRow[]>([]);
+  const [historyTotal, setHistoryTotal] = useState(0);
+  const [historyLoading, setHistoryLoading] = useState(false);
+  const [historyError, setHistoryError] = useState<string | null>(null);
+  const [tableOptions, setTableOptions] = useState<TableOption[]>([]);
+
+  const totalHistoryPages = Math.max(
+    1,
+    Math.ceil(historyTotal / HISTORY_PAGE_SIZE)
+  );
+
+  const fetchAttendanceHistory = useCallback(async () => {
+    if (!userPermission.canViewAttendance) return;
+    setHistoryLoading(true);
+    setHistoryError(null);
+    const params = new URLSearchParams();
+    params.set('from', histAppliedFrom);
+    params.set('to', histAppliedTo);
+    if (histAppliedStatus) params.set('status', histAppliedStatus);
+    if (histAppliedTable) params.set('tableUuid', histAppliedTable);
+    params.set('page', String(historyPage));
+    params.set('limit', String(HISTORY_PAGE_SIZE));
+    try {
+      const r = await fetch(
+        `${API_URL}/dashboard/attendance/history?${params}`,
+        { headers: getAuthHeaders() }
+      );
+      if (!r.ok) throw new Error(t('dashboard.errHistory'));
+      const data = await r.json();
+      setHistoryRows(data.items ?? []);
+      setHistoryTotal(data.total ?? 0);
+    } catch (e) {
+      setHistoryError((e as Error).message);
+      setHistoryRows([]);
+      setHistoryTotal(0);
+    } finally {
+      setHistoryLoading(false);
+    }
+  }, [
+    histAppliedFrom,
+    histAppliedTo,
+    histAppliedStatus,
+    histAppliedTable,
+    historyPage,
+    historyRefreshKey,
+    t,
+  ]);
+
+  useEffect(() => {
+    if (!userPermission.canViewAttendance || activeTab !== 'attendance') return;
+    void fetchAttendanceHistory();
+  }, [activeTab, fetchAttendanceHistory]);
+
+  useEffect(() => {
+    if (!userPermission.canViewAttendance || activeTab !== 'attendance') return;
+    fetch(`${API_URL}/dashboard/attendance/table-options`, {
+      headers: getAuthHeaders(),
+    })
+      .then((r) => (r.ok ? r.json() : []))
+      .then((data: TableOption[]) =>
+        setTableOptions(Array.isArray(data) ? data : [])
+      )
+      .catch(() => setTableOptions([]));
+  }, [activeTab]);
+
+  function applyHistoryFilters() {
+    setHistAppliedFrom(histFilterFrom);
+    setHistAppliedTo(histFilterTo);
+    setHistAppliedStatus(histFilterStatus);
+    setHistAppliedTable(histFilterTable);
+    setHistoryPage(1);
+    setHistoryRefreshKey((k) => k + 1);
+  }
+
+  const dateTimeFmt = useMemo(
+    () =>
+      new Intl.DateTimeFormat(localeTag, {
+        dateStyle: 'short',
+        timeStyle: 'short',
+      }),
+    [localeTag]
+  );
+
+  function statusLabel(status: string) {
+    const key = `orders.status.${status}`;
+    const label = t(key);
+    return label === key ? status : label;
+  }
 
   useEffect(() => {
     if (!userPermission.canViewAttendance) return;
@@ -314,6 +448,182 @@ export default function Dashboard() {
                   </ResponsiveContainer>
                 )}
               </div>
+            </div>
+
+            <div className="rounded-2xl bg-white p-4 md:p-6 shadow-sm border border-zinc-200 space-y-4">
+              <div>
+                <h2 className="text-lg font-medium text-zinc-800">
+                  {t('dashboard.attendanceHistory')}
+                </h2>
+                <p className="text-sm text-zinc-500 mt-1">
+                  {t('dashboard.historyHint')}
+                </p>
+              </div>
+
+              <div className="flex flex-col gap-3 lg:flex-row lg:flex-wrap lg:items-end">
+                <label className="flex flex-col gap-1 text-sm min-w-[140px]">
+                  <span className="text-zinc-600">{t('dashboard.filterFrom')}</span>
+                  <input
+                    type="date"
+                    value={histFilterFrom}
+                    onChange={(e) => setHistFilterFrom(e.target.value)}
+                    className="rounded-lg border border-zinc-200 px-3 py-2 text-zinc-800 bg-white"
+                  />
+                </label>
+                <label className="flex flex-col gap-1 text-sm min-w-[140px]">
+                  <span className="text-zinc-600">{t('dashboard.filterTo')}</span>
+                  <input
+                    type="date"
+                    value={histFilterTo}
+                    onChange={(e) => setHistFilterTo(e.target.value)}
+                    className="rounded-lg border border-zinc-200 px-3 py-2 text-zinc-800 bg-white"
+                  />
+                </label>
+                <label className="flex flex-col gap-1 text-sm min-w-[160px]">
+                  <span className="text-zinc-600">{t('dashboard.filterStatus')}</span>
+                  <select
+                    value={histFilterStatus}
+                    onChange={(e) => setHistFilterStatus(e.target.value)}
+                    className="rounded-lg border border-zinc-200 px-3 py-2 text-zinc-800 bg-white"
+                  >
+                    <option value="">{t('dashboard.allStatuses')}</option>
+                    {HISTORY_STATUSES.map((s) => (
+                      <option key={s} value={s}>
+                        {statusLabel(s)}
+                      </option>
+                    ))}
+                  </select>
+                </label>
+                <label className="flex flex-col gap-1 text-sm min-w-[160px]">
+                  <span className="text-zinc-600">{t('dashboard.filterTable')}</span>
+                  <select
+                    value={histFilterTable}
+                    onChange={(e) => setHistFilterTable(e.target.value)}
+                    className="rounded-lg border border-zinc-200 px-3 py-2 text-zinc-800 bg-white"
+                  >
+                    <option value="">{t('dashboard.allTables')}</option>
+                    {tableOptions.map((tb) => (
+                      <option key={tb.uuid} value={tb.uuid}>
+                        {t('orders.tablePrefix')} {tb.number}
+                      </option>
+                    ))}
+                  </select>
+                </label>
+                <button
+                  type="button"
+                  onClick={applyHistoryFilters}
+                  className="rounded-lg bg-zinc-900 text-white px-4 py-2 text-sm font-medium hover:bg-zinc-800 transition lg:mb-0.5"
+                >
+                  {t('dashboard.applyFilters')}
+                </button>
+              </div>
+
+              {historyError && (
+                <div className="rounded-lg bg-red-50 px-3 py-2 text-sm text-red-700">
+                  {historyError}
+                </div>
+              )}
+
+              <div className="overflow-x-auto rounded-xl border border-zinc-200">
+                {historyLoading ? (
+                  <div className="py-16 flex justify-center">
+                    <LoadingSpinner message={t('common.loading')} />
+                  </div>
+                ) : historyRows.length === 0 ? (
+                  <p className="py-12 text-center text-sm text-zinc-500 px-4">
+                    {t('dashboard.historyEmpty')}
+                  </p>
+                ) : (
+                  <table className="w-full text-sm text-left">
+                    <thead className="bg-zinc-50 text-zinc-600 border-b border-zinc-200">
+                      <tr>
+                        <th className="px-4 py-3 font-medium">
+                          {t('dashboard.colDateTime')}
+                        </th>
+                        <th className="px-4 py-3 font-medium">
+                          {t('dashboard.colTable')}
+                        </th>
+                        <th className="px-4 py-3 font-medium">
+                          {t('dashboard.colStatus')}
+                        </th>
+                        <th className="px-4 py-3 font-medium text-right">
+                          {t('dashboard.colItems')}
+                        </th>
+                        <th className="px-4 py-3 font-medium text-right">
+                          {t('dashboard.colTotal')}
+                        </th>
+                      </tr>
+                    </thead>
+                    <tbody className="divide-y divide-zinc-100">
+                      {historyRows.map((row) => (
+                        <tr key={row.uuid} className="hover:bg-zinc-50/80">
+                          <td className="px-4 py-3 text-zinc-800 whitespace-nowrap">
+                            {dateTimeFmt.format(new Date(row.createdAt))}
+                          </td>
+                          <td className="px-4 py-3 text-zinc-800">
+                            {t('orders.tablePrefix')} {row.tableNumber}
+                          </td>
+                          <td className="px-4 py-3">
+                            <span
+                              className={`inline-flex rounded-full px-2.5 py-0.5 text-xs font-medium ${
+                                row.status === 'DELIVERED'
+                                  ? 'bg-emerald-100 text-emerald-800'
+                                  : row.status === 'READY'
+                                    ? 'bg-sky-100 text-sky-800'
+                                    : row.status === 'PREPARING'
+                                      ? 'bg-amber-100 text-amber-800'
+                                      : 'bg-zinc-100 text-zinc-700'
+                              }`}
+                            >
+                              {statusLabel(row.status)}
+                            </span>
+                          </td>
+                          <td className="px-4 py-3 text-right text-zinc-700">
+                            {row.itemsCount}
+                          </td>
+                          <td className="px-4 py-3 text-right font-medium text-zinc-800">
+                            {formatCurrency(row.totalValue)}
+                          </td>
+                        </tr>
+                      ))}
+                    </tbody>
+                  </table>
+                )}
+              </div>
+
+              {!historyLoading && historyRows.length > 0 && (
+                <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between text-sm text-zinc-600">
+                  <p>
+                    {t('dashboard.pageInfo', {
+                      page: historyPage,
+                      totalPages: totalHistoryPages,
+                      total: historyTotal,
+                    })}
+                  </p>
+                  <div className="flex gap-2">
+                    <button
+                      type="button"
+                      disabled={historyPage <= 1}
+                      onClick={() => setHistoryPage((p) => Math.max(1, p - 1))}
+                      className="rounded-lg border border-zinc-200 px-3 py-1.5 font-medium text-zinc-700 disabled:opacity-40 disabled:pointer-events-none hover:bg-zinc-50"
+                    >
+                      {t('dashboard.pagePrev')}
+                    </button>
+                    <button
+                      type="button"
+                      disabled={historyPage >= totalHistoryPages}
+                      onClick={() =>
+                        setHistoryPage((p) =>
+                          Math.min(totalHistoryPages, p + 1)
+                        )
+                      }
+                      className="rounded-lg border border-zinc-200 px-3 py-1.5 font-medium text-zinc-700 disabled:opacity-40 disabled:pointer-events-none hover:bg-zinc-50"
+                    >
+                      {t('dashboard.pageNext')}
+                    </button>
+                  </div>
+                </div>
+              )}
             </div>
           </section>
         )}
