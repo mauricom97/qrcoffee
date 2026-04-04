@@ -179,7 +179,8 @@ exports.Prisma.OrderScalarFieldEnum = {
   uuid: 'uuid',
   tableUuid: 'tableUuid',
   status: 'status',
-  createdAt: 'createdAt'
+  createdAt: 'createdAt',
+  observacao: 'observacao'
 };
 
 exports.Prisma.OrderItemScalarFieldEnum = {

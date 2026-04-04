@@ -241,6 +241,9 @@ export const ptMessages = {
     noneFound: "Nenhum pedido encontrado.",
     seeAll: "Ver todos",
     tablePrefix: "Mesa",
+    observationLabel: "Observação",
+    observationPlaceholder:
+      "Ex.: sem cebola, ponto da carne, alergia… (opcional)",
     status: {
       PENDING: "Pendente",
       PREPARING: "Preparando",
@@ -404,6 +407,9 @@ export const ptMessages = {
     sending: "Enviando…",
     placeOrder: "Enviar pedido",
     sendError: "Erro ao enviar pedido.",
+    observationLabel: "Observação do pedido (opcional)",
+    observationPlaceholder:
+      "Ex.: pouco açúcar, sem lactose, observações para a cozinha…",
     table: "Mesa",
     fallbackLoading: "Carregando…",
   },

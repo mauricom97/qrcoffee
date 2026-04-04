@@ -8,6 +8,7 @@ export class Order {
     public tableUuid: string,
     public status: OrderStatus,
     public readonly createdAt: Date,
+    public observacao: string | null,
     public items: OrderItem[],
   ) {}
 }

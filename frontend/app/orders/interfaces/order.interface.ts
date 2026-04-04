@@ -12,6 +12,7 @@ export interface OrderDto {
   tableNumber: number;
   status: OrderStatus;
   createdAt: string;
+  observacao?: string | null;
   items: OrderItemDto[];
 }
 

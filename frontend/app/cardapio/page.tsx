@@ -70,6 +70,7 @@ function CardapioContent() {
   const [ordering, setOrdering] = useState(false);
   const [orderSent, setOrderSent] = useState(false);
   const [error, setError] = useState<string | null>(null);
+  const [orderObservacao, setOrderObservacao] = useState("");
 
   const loadMenu = useCallback(async () => {
     if (!mesaUuid) return;
@@ -146,6 +147,7 @@ function CardapioContent() {
             quantity: i.quantity,
             unitPrice: i.product.price,
           })),
+          observacao: orderObservacao.trim() || undefined,
         }),
       });
       if (!res.ok) {
@@ -154,6 +156,7 @@ function CardapioContent() {
       }
       setOrderSent(true);
       setCart([]);
+      setOrderObservacao("");
     } catch (e) {
       setError(e instanceof Error ? e.message : t("cardapio.sendError"));
     } finally {
@@ -431,6 +434,22 @@ function CardapioContent() {
                 </div>
               ))}
             </div>
+            <label className="block mb-2">
+              <span className="text-xs font-medium text-zinc-600">
+                {t("cardapio.observationLabel")}
+              </span>
+              <textarea
+                value={orderObservacao}
+                onChange={(e) =>
+                  setOrderObservacao(e.target.value.slice(0, 500))
+                }
+                rows={2}
+                maxLength={500}
+                placeholder={t("cardapio.observationPlaceholder")}
+                className="mt-1 w-full rounded-xl border bg-white text-zinc-800 placeholder-zinc-400 px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-zinc-400 resize-none"
+                style={{ borderColor: theme.accent }}
+              />
+            </label>
             <button
               onClick={handlePlaceOrder}
               disabled={ordering}

@@ -108,12 +108,13 @@ model Table {
 }
 
 model Order {
-  uuid      String      @id @default(uuid())
-  tableUuid String
-  table     Table       @relation(fields: [tableUuid], references: [uuid])
-  status    String      @default("PENDING") // PENDING | PREPARING | READY | DELIVERED
-  createdAt DateTime    @default(now())
-  items     OrderItem[]
+  uuid       String      @id @default(uuid())
+  tableUuid  String
+  table      Table       @relation(fields: [tableUuid], references: [uuid])
+  status     String      @default("PENDING") // PENDING | PREPARING | READY | DELIVERED
+  createdAt  DateTime    @default(now())
+  observacao String?     @db.VarChar(500)
+  items      OrderItem[]
 
   @@index([tableUuid])
   @@index([status])

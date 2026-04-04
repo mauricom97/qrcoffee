@@ -14,6 +14,7 @@ export interface OrderListDto {
   tableNumber: number;
   status: string;
   createdAt: Date;
+  observacao: string | null;
   items: OrderItemDto[];
 }
 

@@ -55,6 +55,7 @@ export default function OrdersPage() {
   const [newItems, setNewItems] = useState<NewOrderItem[]>([]);
   const [selectedProductUuid, setSelectedProductUuid] = useState("");
   const [itemQuantity, setItemQuantity] = useState(1);
+  const [newObservacao, setNewObservacao] = useState("");
   const [orderToDelete, setOrderToDelete] = useState<OrderDto | null>(null);
   const [soundOnOrderReady, setSoundOnOrderReady] = useState(true);
 
@@ -142,6 +143,7 @@ export default function OrdersPage() {
     setNewItems([]);
     setSelectedProductUuid("");
     setItemQuantity(1);
+    setNewObservacao("");
     setShowForm(false);
     setError(null);
   };
@@ -185,6 +187,7 @@ export default function OrdersPage() {
             quantity: i.quantity,
             unitPrice: i.unitPrice,
           })),
+          observacao: newObservacao.trim() || undefined,
         }),
       });
       if (!res.ok) {
@@ -389,6 +392,21 @@ export default function OrdersPage() {
                   </ul>
                 )}
               </div>
+              <div>
+                <label className="block text-sm font-medium text-zinc-700 mb-1">
+                  {t("orders.observationLabel")}
+                </label>
+                <textarea
+                  value={newObservacao}
+                  onChange={(e) =>
+                    setNewObservacao(e.target.value.slice(0, 500))
+                  }
+                  rows={2}
+                  maxLength={500}
+                  placeholder={t("orders.observationPlaceholder")}
+                  className="w-full border border-zinc-300 rounded-lg p-2 text-sm resize-none"
+                />
+              </div>
               <div className="flex gap-2 pt-2">
                 <button
                   onClick={handleCreateOrder}
@@ -438,6 +456,14 @@ export default function OrdersPage() {
                 <p className="text-xs text-zinc-500 mb-3">
                   {new Date(order.createdAt).toLocaleString(localeTag)}
                 </p>
+                {order.observacao?.trim() ? (
+                  <p className="text-sm text-zinc-700 mb-3 p-2 rounded-lg bg-amber-50 border border-amber-100">
+                    <span className="font-medium text-zinc-800">
+                      {t("orders.observationLabel")}:{" "}
+                    </span>
+                    {order.observacao.trim()}
+                  </p>
+                ) : null}
                 <ul className="space-y-2 mb-4">
                   {order.items.map((item) => (
                     <li
