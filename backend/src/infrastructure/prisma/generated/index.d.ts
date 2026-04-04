@@ -9874,6 +9874,7 @@ export namespace Prisma {
     tableUuid: string | null
     status: string | null
     createdAt: Date | null
+    observacao: string | null
   }
 
   export type OrderMaxAggregateOutputType = {
@@ -9881,6 +9882,7 @@ export namespace Prisma {
     tableUuid: string | null
     status: string | null
     createdAt: Date | null
+    observacao: string | null
   }
 
   export type OrderCountAggregateOutputType = {
@@ -9888,6 +9890,7 @@ export namespace Prisma {
     tableUuid: number
     status: number
     createdAt: number
+    observacao: number
     _all: number
   }
 
@@ -9897,6 +9900,7 @@ export namespace Prisma {
     tableUuid?: true
     status?: true
     createdAt?: true
+    observacao?: true
   }
 
   export type OrderMaxAggregateInputType = {
@@ -9904,6 +9908,7 @@ export namespace Prisma {
     tableUuid?: true
     status?: true
     createdAt?: true
+    observacao?: true
   }
 
   export type OrderCountAggregateInputType = {
@@ -9911,6 +9916,7 @@ export namespace Prisma {
     tableUuid?: true
     status?: true
     createdAt?: true
+    observacao?: true
     _all?: true
   }
 
@@ -9991,6 +9997,7 @@ export namespace Prisma {
     tableUuid: string
     status: string
     createdAt: Date
+    observacao: string | null
     _count: OrderCountAggregateOutputType | null
     _min: OrderMinAggregateOutputType | null
     _max: OrderMaxAggregateOutputType | null
@@ -10015,6 +10022,7 @@ export namespace Prisma {
     tableUuid?: boolean
     status?: boolean
     createdAt?: boolean
+    observacao?: boolean
     table?: boolean | TableDefaultArgs<ExtArgs>
     items?: boolean | Order$itemsArgs<ExtArgs>
     _count?: boolean | OrderCountOutputTypeDefaultArgs<ExtArgs>
@@ -10025,6 +10033,7 @@ export namespace Prisma {
     tableUuid?: boolean
     status?: boolean
     createdAt?: boolean
+    observacao?: boolean
     table?: boolean | TableDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["order"]>
 
@@ -10033,6 +10042,7 @@ export namespace Prisma {
     tableUuid?: boolean
     status?: boolean
     createdAt?: boolean
+    observacao?: boolean
     table?: boolean | TableDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["order"]>
 
@@ -10041,9 +10051,10 @@ export namespace Prisma {
     tableUuid?: boolean
     status?: boolean
     createdAt?: boolean
+    observacao?: boolean
   }
 
-  export type OrderOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"uuid" | "tableUuid" | "status" | "createdAt", ExtArgs["result"]["order"]>
+  export type OrderOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"uuid" | "tableUuid" | "status" | "createdAt" | "observacao", ExtArgs["result"]["order"]>
   export type OrderInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     table?: boolean | TableDefaultArgs<ExtArgs>
     items?: boolean | Order$itemsArgs<ExtArgs>
@@ -10067,6 +10078,7 @@ export namespace Prisma {
       tableUuid: string
       status: string
       createdAt: Date
+      observacao: string | null
     }, ExtArgs["result"]["order"]>
     composites: {}
   }
@@ -10496,6 +10508,7 @@ export namespace Prisma {
     readonly tableUuid: FieldRef<"Order", 'String'>
     readonly status: FieldRef<"Order", 'String'>
     readonly createdAt: FieldRef<"Order", 'DateTime'>
+    readonly observacao: FieldRef<"Order", 'String'>
   }
     
 
@@ -14389,7 +14402,8 @@ export namespace Prisma {
     uuid: 'uuid',
     tableUuid: 'tableUuid',
     status: 'status',
-    createdAt: 'createdAt'
+    createdAt: 'createdAt',
+    observacao: 'observacao'
   };
 
   export type OrderScalarFieldEnum = (typeof OrderScalarFieldEnum)[keyof typeof OrderScalarFieldEnum]
@@ -14970,6 +14984,7 @@ export namespace Prisma {
     tableUuid?: StringFilter<"Order"> | string
     status?: StringFilter<"Order"> | string
     createdAt?: DateTimeFilter<"Order"> | Date | string
+    observacao?: StringNullableFilter<"Order"> | string | null
     table?: XOR<TableScalarRelationFilter, TableWhereInput>
     items?: OrderItemListRelationFilter
   }
@@ -14979,6 +14994,7 @@ export namespace Prisma {
     tableUuid?: SortOrder
     status?: SortOrder
     createdAt?: SortOrder
+    observacao?: SortOrderInput | SortOrder
     table?: TableOrderByWithRelationInput
     items?: OrderItemOrderByRelationAggregateInput
   }
@@ -14991,6 +15007,7 @@ export namespace Prisma {
     tableUuid?: StringFilter<"Order"> | string
     status?: StringFilter<"Order"> | string
     createdAt?: DateTimeFilter<"Order"> | Date | string
+    observacao?: StringNullableFilter<"Order"> | string | null
     table?: XOR<TableScalarRelationFilter, TableWhereInput>
     items?: OrderItemListRelationFilter
   }, "uuid">
@@ -15000,6 +15017,7 @@ export namespace Prisma {
     tableUuid?: SortOrder
     status?: SortOrder
     createdAt?: SortOrder
+    observacao?: SortOrderInput | SortOrder
     _count?: OrderCountOrderByAggregateInput
     _max?: OrderMaxOrderByAggregateInput
     _min?: OrderMinOrderByAggregateInput
@@ -15013,6 +15031,7 @@ export namespace Prisma {
     tableUuid?: StringWithAggregatesFilter<"Order"> | string
     status?: StringWithAggregatesFilter<"Order"> | string
     createdAt?: DateTimeWithAggregatesFilter<"Order"> | Date | string
+    observacao?: StringNullableWithAggregatesFilter<"Order"> | string | null
   }
 
   export type OrderItemWhereInput = {
@@ -15633,6 +15652,7 @@ export namespace Prisma {
     uuid?: string
     status?: string
     createdAt?: Date | string
+    observacao?: string | null
     table: TableCreateNestedOneWithoutOrdersInput
     items?: OrderItemCreateNestedManyWithoutOrderInput
   }
@@ -15642,6 +15662,7 @@ export namespace Prisma {
     tableUuid: string
     status?: string
     createdAt?: Date | string
+    observacao?: string | null
     items?: OrderItemUncheckedCreateNestedManyWithoutOrderInput
   }
 
@@ -15649,6 +15670,7 @@ export namespace Prisma {
     uuid?: StringFieldUpdateOperationsInput | string
     status?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    observacao?: NullableStringFieldUpdateOperationsInput | string | null
     table?: TableUpdateOneRequiredWithoutOrdersNestedInput
     items?: OrderItemUpdateManyWithoutOrderNestedInput
   }
@@ -15658,6 +15680,7 @@ export namespace Prisma {
     tableUuid?: StringFieldUpdateOperationsInput | string
     status?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    observacao?: NullableStringFieldUpdateOperationsInput | string | null
     items?: OrderItemUncheckedUpdateManyWithoutOrderNestedInput
   }
 
@@ -15666,12 +15689,14 @@ export namespace Prisma {
     tableUuid: string
     status?: string
     createdAt?: Date | string
+    observacao?: string | null
   }
 
   export type OrderUpdateManyMutationInput = {
     uuid?: StringFieldUpdateOperationsInput | string
     status?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    observacao?: NullableStringFieldUpdateOperationsInput | string | null
   }
 
   export type OrderUncheckedUpdateManyInput = {
@@ -15679,6 +15704,7 @@ export namespace Prisma {
     tableUuid?: StringFieldUpdateOperationsInput | string
     status?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    observacao?: NullableStringFieldUpdateOperationsInput | string | null
   }
 
   export type OrderItemCreateInput = {
@@ -16367,6 +16393,7 @@ export namespace Prisma {
     tableUuid?: SortOrder
     status?: SortOrder
     createdAt?: SortOrder
+    observacao?: SortOrder
   }
 
   export type OrderMaxOrderByAggregateInput = {
@@ -16374,6 +16401,7 @@ export namespace Prisma {
     tableUuid?: SortOrder
     status?: SortOrder
     createdAt?: SortOrder
+    observacao?: SortOrder
   }
 
   export type OrderMinOrderByAggregateInput = {
@@ -16381,6 +16409,7 @@ export namespace Prisma {
     tableUuid?: SortOrder
     status?: SortOrder
     createdAt?: SortOrder
+    observacao?: SortOrder
   }
 
   export type OrderScalarRelationFilter = {
@@ -18542,6 +18571,7 @@ export namespace Prisma {
     uuid?: string
     status?: string
     createdAt?: Date | string
+    observacao?: string | null
     items?: OrderItemCreateNestedManyWithoutOrderInput
   }
 
@@ -18549,6 +18579,7 @@ export namespace Prisma {
     uuid?: string
     status?: string
     createdAt?: Date | string
+    observacao?: string | null
     items?: OrderItemUncheckedCreateNestedManyWithoutOrderInput
   }
 
@@ -18623,6 +18654,7 @@ export namespace Prisma {
     tableUuid?: StringFilter<"Order"> | string
     status?: StringFilter<"Order"> | string
     createdAt?: DateTimeFilter<"Order"> | Date | string
+    observacao?: StringNullableFilter<"Order"> | string | null
   }
 
   export type TableCreateWithoutOrdersInput = {
@@ -18717,6 +18749,7 @@ export namespace Prisma {
     uuid?: string
     status?: string
     createdAt?: Date | string
+    observacao?: string | null
     table: TableCreateNestedOneWithoutOrdersInput
   }
 
@@ -18725,6 +18758,7 @@ export namespace Prisma {
     tableUuid: string
     status?: string
     createdAt?: Date | string
+    observacao?: string | null
   }
 
   export type OrderCreateOrConnectWithoutItemsInput = {
@@ -18772,6 +18806,7 @@ export namespace Prisma {
     uuid?: StringFieldUpdateOperationsInput | string
     status?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    observacao?: NullableStringFieldUpdateOperationsInput | string | null
     table?: TableUpdateOneRequiredWithoutOrdersNestedInput
   }
 
@@ -18780,6 +18815,7 @@ export namespace Prisma {
     tableUuid?: StringFieldUpdateOperationsInput | string
     status?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    observacao?: NullableStringFieldUpdateOperationsInput | string | null
   }
 
   export type ProductUpsertWithoutOrderItemsInput = {
@@ -19289,12 +19325,14 @@ export namespace Prisma {
     uuid?: string
     status?: string
     createdAt?: Date | string
+    observacao?: string | null
   }
 
   export type OrderUpdateWithoutTableInput = {
     uuid?: StringFieldUpdateOperationsInput | string
     status?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    observacao?: NullableStringFieldUpdateOperationsInput | string | null
     items?: OrderItemUpdateManyWithoutOrderNestedInput
   }
 
@@ -19302,6 +19340,7 @@ export namespace Prisma {
     uuid?: StringFieldUpdateOperationsInput | string
     status?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    observacao?: NullableStringFieldUpdateOperationsInput | string | null
     items?: OrderItemUncheckedUpdateManyWithoutOrderNestedInput
   }
 
@@ -19309,6 +19348,7 @@ export namespace Prisma {
     uuid?: StringFieldUpdateOperationsInput | string
     status?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    observacao?: NullableStringFieldUpdateOperationsInput | string | null
   }
 
   export type OrderItemCreateManyOrderInput = {

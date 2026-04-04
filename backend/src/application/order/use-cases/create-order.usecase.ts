@@ -14,6 +14,17 @@ export interface CreateOrderInput {
   status?: OrderStatus;
   items: CreateOrderItemInput[];
   companyUuid?: string;
+  /** Texto livre opcional; normalizado e limitado a 500 caracteres. */
+  observacao?: string | null;
+}
+
+const MAX_OBSERVACAO_LEN = 500;
+
+export function normalizeObservacao(raw: unknown): string | null {
+  if (typeof raw !== 'string') return null;
+  const trimmed = raw.trim();
+  if (!trimmed) return null;
+  return trimmed.slice(0, MAX_OBSERVACAO_LEN);
 }
 
 export class CreateOrderUseCase {
@@ -37,6 +48,7 @@ export class CreateOrderUseCase {
       input.tableUuid,
       input.status ?? 'PENDING',
       new Date(),
+      normalizeObservacao(input.observacao),
       items,
     );
     return await this.orderRepository.save(order, companyUuid);

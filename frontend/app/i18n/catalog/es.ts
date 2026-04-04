@@ -241,6 +241,9 @@ export const esMessages = {
     noneFound: "No hay pedidos.",
     seeAll: "Ver todos",
     tablePrefix: "Mesa",
+    observationLabel: "Observación",
+    observationPlaceholder:
+      "Ej.: sin cebolla, punto de la carne, alergia… (opcional)",
     status: {
       PENDING: "Pendiente",
       PREPARING: "Preparando",
@@ -405,6 +408,9 @@ export const esMessages = {
     sending: "Enviando…",
     placeOrder: "Enviar pedido",
     sendError: "Error al enviar el pedido.",
+    observationLabel: "Observación del pedido (opcional)",
+    observationPlaceholder:
+      "Ej.: poco azúcar, sin lactosa, notas para cocina…",
     table: "Mesa",
     fallbackLoading: "Cargando…",
   },

@@ -45,6 +45,7 @@ export class OrderController {
       tableUuid: string;
       status?: OrderStatus;
       items: { productUuid: string; quantity: number; unitPrice: number }[];
+      observacao?: string | null;
     },
   ) {
     const order = await this.createOrderUseCase.execute({ ...body, companyUuid });

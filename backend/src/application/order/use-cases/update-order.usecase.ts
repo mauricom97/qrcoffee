@@ -22,6 +22,7 @@ export class UpdateOrderUseCase {
       existing.tableUuid,
       input.status ?? (existing.status as OrderStatus),
       existing.createdAt,
+      existing.observacao ?? null,
       items,
     );
     await this.orderRepository.update(order);

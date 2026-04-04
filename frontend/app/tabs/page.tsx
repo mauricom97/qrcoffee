@@ -277,6 +277,14 @@ export default function TabPage() {
                     <p className="px-5 py-1 text-xs text-zinc-600">
                       {new Date(order.createdAt).toLocaleString(localeTag)}
                     </p>
+                    {order.observacao?.trim() ? (
+                      <p className="px-5 py-2 text-sm text-zinc-800 bg-amber-50/90 border-y border-amber-100">
+                        <span className="font-medium">
+                          {t("orders.observationLabel")}:{" "}
+                        </span>
+                        {order.observacao.trim()}
+                      </p>
+                    ) : null}
                     <ul className="px-5 py-3 space-y-3">
                       {order.items.map((item) => (
                         <li

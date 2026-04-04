@@ -93,9 +93,10 @@ export class PublicController {
     body: {
       tableUuid: string;
       items: { productUuid: string; quantity: number; unitPrice: number }[];
+      observacao?: string | null;
     },
   ) {
-    const { tableUuid, items } = body;
+    const { tableUuid, items, observacao } = body;
     if (!tableUuid || !items?.length) {
       throw new BadRequestException('Informe a mesa e os itens do pedido.');
     }
@@ -109,6 +110,7 @@ export class PublicController {
       tableUuid,
       items,
       companyUuid: table.companyUuid,
+      observacao,
     });
 
     this.realtime.emitOrdersUpdate(table.companyUuid);

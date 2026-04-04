@@ -241,6 +241,9 @@ export const enMessages = {
     noneFound: "No orders found.",
     seeAll: "See all",
     tablePrefix: "Table",
+    observationLabel: "Note",
+    observationPlaceholder:
+      "E.g. no onions, cooking preference, allergy… (optional)",
     status: {
       PENDING: "Pending",
       PREPARING: "Preparing",
@@ -404,6 +407,9 @@ export const enMessages = {
     sending: "Sending…",
     placeOrder: "Send order",
     sendError: "Could not send order.",
+    observationLabel: "Order note (optional)",
+    observationPlaceholder:
+      "E.g. less sugar, dairy-free, notes for the kitchen…",
     table: "Table",
     fallbackLoading: "Loading…",
   },

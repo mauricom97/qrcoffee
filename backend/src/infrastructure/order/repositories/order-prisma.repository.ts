@@ -21,6 +21,7 @@ export class OrderPrismaRepository {
         uuid: order.uuid,
         tableUuid: order.tableUuid,
         status: order.status,
+        observacao: order.observacao,
         items: {
           create: order.items.map((item: any) => ({
             uuid: item.uuid,
@@ -87,6 +88,7 @@ export class OrderPrismaRepository {
       tableNumber: row.table?.number ?? 0,
       status: row.status,
       createdAt: row.createdAt,
+      observacao: row.observacao ?? null,
       items: (row.items || []).map((item: any) => ({
         uuid: item.uuid,
         productUuid: item.productUuid,
