@@ -2,6 +2,7 @@
 
 import { useEffect } from "react";
 import CardapioThemeForm from "components/CardapioThemeForm";
+import KitchenHoursForm from "components/KitchenHoursForm";
 import SoundOnOrderReadyToggle from "components/SoundOnOrderReadyToggle";
 import LanguageSwitcher from "components/LanguageSwitcher";
 import TeamSettingsSection from "components/TeamSettingsSection";
@@ -41,6 +42,13 @@ export default function SettingsPage() {
             {t("settings.ordersSection")}
           </h2>
           <SoundOnOrderReadyToggle />
+        </div>
+
+        <div className="bg-white rounded-2xl border border-zinc-200 p-6 shadow-sm">
+          <h2 className="text-lg font-semibold text-zinc-800 mb-2">
+            {t("settings.kitchenTitle")}
+          </h2>
+          <KitchenHoursForm />
         </div>
 
         <div className="bg-white rounded-2xl border border-zinc-200 p-6 shadow-sm">

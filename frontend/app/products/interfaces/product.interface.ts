@@ -5,6 +5,8 @@ export interface Product {
   description?: string;
   categoryUuid: string;
   active: boolean;
+  /** Exige horário da cozinha no cardápio público */
+  isKitchenProduct?: boolean;
   images?: string[];
   category?: {
     uuid: string;

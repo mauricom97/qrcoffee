@@ -151,6 +151,21 @@ export const ptMessages = {
       "Escolha o idioma da interface do painel (produtos, pedidos, configurações, etc.).",
     footerNote:
       "As alterações serão refletidas no cardápio online acessado pelos clientes via QR code.",
+    kitchenTitle: "Horário da cozinha (cardápio online)",
+    kitchenDesc:
+      "Itens marcados como preparados na cozinha só aparecem no cardápio do cliente enquanto a cozinha estiver aberta. Se você não marcar nenhum dia abaixo, não há restrição de horário para esses produtos.",
+    kitchenTimezone: "Fuso horário",
+    kitchenSaved: "Horários salvos.",
+    kitchenSaveError: "Não foi possível salvar os horários.",
+    kitchenWeekday: {
+      "0": "Domingo",
+      "1": "Segunda-feira",
+      "2": "Terça-feira",
+      "3": "Quarta-feira",
+      "4": "Quinta-feira",
+      "5": "Sexta-feira",
+      "6": "Sábado",
+    },
   },
   soundToggle: {
     label: "Reproduzir som quando pedido ficar pronto",
@@ -281,6 +296,10 @@ export const ptMessages = {
     confirmDeleteTitle: "Confirmar Exclusão",
     confirmDeleteMsg: "Tem certeza que deseja excluir o produto {name}?",
     imageAlt: "Imagem {n}",
+    kitchenLabel: "Preparado na cozinha",
+    kitchenHint:
+      "Fora do horário configurado em Configurações, não aparece no cardápio online.",
+    kitchenBadge: "Cozinha",
   },
   tables: {
     title: "Mesas",
@@ -412,6 +431,8 @@ export const ptMessages = {
       "Ex.: pouco açúcar, sem lactose, observações para a cozinha…",
     table: "Mesa",
     fallbackLoading: "Carregando…",
+    kitchenClosedBanner:
+      "A cozinha está fechada neste horário: pratos preparados na cozinha não aparecem no cardápio. Bebidas e outros itens seguem disponíveis, se houver.",
   },
   pricing: {
     title: "Planos simples para transformar seu atendimento",

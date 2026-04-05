@@ -38,6 +38,7 @@ export default function ProductsPage() {
     categoryUuid: "",
     active: true,
     description: "",
+    isKitchenProduct: false,
     images: [] as string[],
   });
   const [showImages, setShowImages] = useState<string | null>(null);
@@ -129,6 +130,7 @@ export default function ProductsPage() {
       categoryUuid: "",
       description: "",
       active: true,
+      isKitchenProduct: false,
       images: [],
     });
     setEditingProduct(null);
@@ -148,6 +150,7 @@ export default function ProductsPage() {
       categoryUuid: product.categoryUuid,
       description: product.description || "",
       active: product.active,
+      isKitchenProduct: Boolean(product.isKitchenProduct),
       images: product.images || [],
     });
     setShowForm(true);
@@ -180,25 +183,29 @@ export default function ProductsPage() {
     }));
   };
 
-  const handleSaveProduct = () => {
+  const handleSaveProduct = async () => {
     if (!newProduct.name || newProduct.price <= 0) return;
 
-    const productData = {
-      id: editingProduct ? editingProduct.uuid : Date.now(),
-      ...newProduct,
+    const payload = {
+      name: newProduct.name,
+      price: newProduct.price,
+      active: newProduct.active,
+      description: newProduct.description,
+      categoryUuid: newProduct.categoryUuid,
+      isKitchenProduct: newProduct.isKitchenProduct,
     };
 
-    if (editingProduct) {
-      setProducts((prev) =>
-        prev.map((p) => (p.uuid === editingProduct.uuid ? productData : p))
-      );
-      updateProduct(editingProduct.uuid, productData);
-    } else {
-      createProduct(productData);
-      setProducts((prev) => [...prev, productData]);
+    try {
+      if (editingProduct) {
+        await updateProduct(editingProduct.uuid, payload);
+      } else {
+        await createProduct(payload);
+      }
+      resetForm();
+      refetch();
+    } catch (e) {
+      console.error(e);
     }
-
-    resetForm();
   };
 
   const toggleStatus = (uuid: string) => {
@@ -214,30 +221,27 @@ export default function ProductsPage() {
     name: string;
     price: number;
     active: boolean;
+    description: string;
+    categoryUuid: string;
+    isKitchenProduct: boolean;
   }) => {
-    try {
-      const response = await fetch(
-        process.env.NEXT_PUBLIC_BASE_API_URL + "/products",
-        {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-            ...getAuthHeaders(),
-          },
-          body: JSON.stringify(product),
-        }
-      );
-
-      if (!response.ok) {
-        throw new Error(`Failed to create product: ${response.statusText}`);
+    const response = await fetch(
+      process.env.NEXT_PUBLIC_BASE_API_URL + "/products",
+      {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          ...getAuthHeaders(),
+        },
+        body: JSON.stringify(product),
       }
+    );
 
-      const data = await response.json();
-      console.log("Product created successfully:", data);
-      return data;
-    } catch (error) {
-      console.error("Error creating product:", error);
+    if (!response.ok) {
+      throw new Error(`Failed to create product: ${response.statusText}`);
     }
+
+    return response.json();
   };
 
   const updateProduct = async (uuid: string, updatedData: Partial<Product>) => {
@@ -266,6 +270,7 @@ export default function ProductsPage() {
       );
     } catch (error) {
       console.error("Failed to update product:", error);
+      throw error;
     }
   };
 
@@ -452,6 +457,26 @@ export default function ProductsPage() {
                 />
                 {t("products.activeLabel")}
               </label>
+
+              <label className="flex items-start gap-2 text-sm text-zinc-700 md:col-span-2">
+                <input
+                  type="checkbox"
+                  checked={newProduct.isKitchenProduct}
+                  onChange={(e) =>
+                    setNewProduct({
+                      ...newProduct,
+                      isKitchenProduct: e.target.checked,
+                    })
+                  }
+                  className="h-4 w-4 mt-0.5 rounded border-zinc-300 shrink-0"
+                />
+                <span>
+                  <span className="font-medium block">{t("products.kitchenLabel")}</span>
+                  <span className="text-zinc-500 text-xs block mt-0.5">
+                    {t("products.kitchenHint")}
+                  </span>
+                </span>
+              </label>
             </div>
 
             <div>
@@ -609,17 +634,24 @@ export default function ProductsPage() {
                     </div>
 
                     <div className="mt-4 flex items-center justify-between flex-wrap gap-2">
-                      <span
-                        className={`rounded-full px-3 py-1 text-xs font-medium ${
-                          product.active
-                            ? "bg-emerald-100 text-emerald-700"
-                            : "bg-zinc-100 text-zinc-500"
-                        }`}
-                      >
-                        {product.active
-                          ? t("common.active")
-                          : t("common.inactive")}
-                      </span>
+                      <div className="flex flex-wrap gap-1.5">
+                        <span
+                          className={`rounded-full px-3 py-1 text-xs font-medium ${
+                            product.active
+                              ? "bg-emerald-100 text-emerald-700"
+                              : "bg-zinc-100 text-zinc-500"
+                          }`}
+                        >
+                          {product.active
+                            ? t("common.active")
+                            : t("common.inactive")}
+                        </span>
+                        {product.isKitchenProduct ? (
+                          <span className="rounded-full px-3 py-1 text-xs font-medium bg-amber-100 text-amber-800">
+                            {t("products.kitchenBadge")}
+                          </span>
+                        ) : null}
+                      </div>
 
                       <div className="flex gap-2 flex-wrap">
                         <button

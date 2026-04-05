@@ -124,6 +124,7 @@ exports.Prisma.CompanyScalarFieldEnum = {
   uuid: 'uuid',
   name: 'name',
   menuTheme: 'menuTheme',
+  kitchenHours: 'kitchenHours',
   soundOnOrderReady: 'soundOnOrderReady',
   createdAt: 'createdAt'
 };
@@ -157,6 +158,7 @@ exports.Prisma.ProductScalarFieldEnum = {
   price: 'price',
   active: 'active',
   description: 'description',
+  isKitchenProduct: 'isKitchenProduct',
   categoryUuid: 'categoryUuid',
   companyUuid: 'companyUuid'
 };

@@ -151,6 +151,21 @@ export const esMessages = {
       "Elija el idioma del panel (productos, pedidos, ajustes, etc.).",
     footerNote:
       "Los cambios se reflejarán en el menú online que abren los clientes por QR.",
+    kitchenTitle: "Horario de cocina (menú online)",
+    kitchenDesc:
+      "Los ítems marcados como preparados en cocina solo aparecen en el menú del cliente mientras la cocina esté abierta. Si no activa ningún día abajo, no hay restricción de horario para esos productos.",
+    kitchenTimezone: "Zona horaria",
+    kitchenSaved: "Horario guardado.",
+    kitchenSaveError: "No se pudo guardar el horario.",
+    kitchenWeekday: {
+      "0": "Domingo",
+      "1": "Lunes",
+      "2": "Martes",
+      "3": "Miércoles",
+      "4": "Jueves",
+      "5": "Viernes",
+      "6": "Sábado",
+    },
   },
   soundToggle: {
     label: "Reproducir sonido cuando el pedido esté listo",
@@ -281,6 +296,10 @@ export const esMessages = {
     confirmDeleteTitle: "Confirmar eliminación",
     confirmDeleteMsg: "¿Seguro que desea eliminar {name}?",
     imageAlt: "Imagen {n}",
+    kitchenLabel: "Preparado en cocina",
+    kitchenHint:
+      "Fuera del horario configurado en Ajustes, no aparece en el menú online.",
+    kitchenBadge: "Cocina",
   },
   tables: {
     title: "Mesas",
@@ -413,6 +432,8 @@ export const esMessages = {
       "Ej.: poco azúcar, sin lactosa, notas para cocina…",
     table: "Mesa",
     fallbackLoading: "Cargando…",
+    kitchenClosedBanner:
+      "La cocina está cerrada en este horario: los platos preparados en cocina no aparecen en el menú. Bebidas y otros ítems pueden seguir disponibles.",
   },
   pricing: {
     title: "Planes simples para transformar su atención",

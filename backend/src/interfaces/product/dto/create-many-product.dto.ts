@@ -6,6 +6,7 @@ export class CreateManyProductDto extends Array<{
   description: string;
   categoryUuid: string;
   companyUuid: string;
+  isKitchenProduct?: boolean;
 }> {}
 
 export class CreateProductDto {
@@ -15,4 +16,5 @@ export class CreateProductDto {
   active: boolean;
   description: string;
   categoryUuid: string;
+  isKitchenProduct?: boolean;
 }

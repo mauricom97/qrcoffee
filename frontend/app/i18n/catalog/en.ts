@@ -151,6 +151,21 @@ export const enMessages = {
       "Choose the language for the admin panel (products, orders, settings, etc.).",
     footerNote:
       "Changes apply to the online menu customers open via QR code.",
+    kitchenTitle: "Kitchen hours (online menu)",
+    kitchenDesc:
+      "Items marked as kitchen-prepared only appear on the customer menu while the kitchen is open. If no days are enabled below, there is no time restriction for those products.",
+    kitchenTimezone: "Time zone",
+    kitchenSaved: "Hours saved.",
+    kitchenSaveError: "Could not save hours.",
+    kitchenWeekday: {
+      "0": "Sunday",
+      "1": "Monday",
+      "2": "Tuesday",
+      "3": "Wednesday",
+      "4": "Thursday",
+      "5": "Friday",
+      "6": "Saturday",
+    },
   },
   soundToggle: {
     label: "Play sound when an order is ready",
@@ -281,6 +296,10 @@ export const enMessages = {
     confirmDeleteTitle: "Confirm deletion",
     confirmDeleteMsg: "Are you sure you want to delete {name}?",
     imageAlt: "Image {n}",
+    kitchenLabel: "Kitchen-prepared item",
+    kitchenHint:
+      "Outside the hours set in Settings, it won’t appear on the online menu.",
+    kitchenBadge: "Kitchen",
   },
   tables: {
     title: "Tables",
@@ -412,6 +431,8 @@ export const enMessages = {
       "E.g. less sugar, dairy-free, notes for the kitchen…",
     table: "Table",
     fallbackLoading: "Loading…",
+    kitchenClosedBanner:
+      "The kitchen is closed right now: kitchen-prepared dishes are hidden from the menu. Drinks and other items may still be available.",
   },
   pricing: {
     title: "Simple plans to transform your service",

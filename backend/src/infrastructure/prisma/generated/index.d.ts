@@ -2095,6 +2095,7 @@ export namespace Prisma {
     uuid: string | null
     name: string | null
     menuTheme: string | null
+    kitchenHours: string | null
     soundOnOrderReady: boolean | null
     createdAt: Date | null
   }
@@ -2103,6 +2104,7 @@ export namespace Prisma {
     uuid: string | null
     name: string | null
     menuTheme: string | null
+    kitchenHours: string | null
     soundOnOrderReady: boolean | null
     createdAt: Date | null
   }
@@ -2111,6 +2113,7 @@ export namespace Prisma {
     uuid: number
     name: number
     menuTheme: number
+    kitchenHours: number
     soundOnOrderReady: number
     createdAt: number
     _all: number
@@ -2121,6 +2124,7 @@ export namespace Prisma {
     uuid?: true
     name?: true
     menuTheme?: true
+    kitchenHours?: true
     soundOnOrderReady?: true
     createdAt?: true
   }
@@ -2129,6 +2133,7 @@ export namespace Prisma {
     uuid?: true
     name?: true
     menuTheme?: true
+    kitchenHours?: true
     soundOnOrderReady?: true
     createdAt?: true
   }
@@ -2137,6 +2142,7 @@ export namespace Prisma {
     uuid?: true
     name?: true
     menuTheme?: true
+    kitchenHours?: true
     soundOnOrderReady?: true
     createdAt?: true
     _all?: true
@@ -2218,6 +2224,7 @@ export namespace Prisma {
     uuid: string
     name: string
     menuTheme: string | null
+    kitchenHours: string | null
     soundOnOrderReady: boolean
     createdAt: Date
     _count: CompanyCountAggregateOutputType | null
@@ -2243,6 +2250,7 @@ export namespace Prisma {
     uuid?: boolean
     name?: boolean
     menuTheme?: boolean
+    kitchenHours?: boolean
     soundOnOrderReady?: boolean
     createdAt?: boolean
     users?: boolean | Company$usersArgs<ExtArgs>
@@ -2258,6 +2266,7 @@ export namespace Prisma {
     uuid?: boolean
     name?: boolean
     menuTheme?: boolean
+    kitchenHours?: boolean
     soundOnOrderReady?: boolean
     createdAt?: boolean
   }, ExtArgs["result"]["company"]>
@@ -2266,6 +2275,7 @@ export namespace Prisma {
     uuid?: boolean
     name?: boolean
     menuTheme?: boolean
+    kitchenHours?: boolean
     soundOnOrderReady?: boolean
     createdAt?: boolean
   }, ExtArgs["result"]["company"]>
@@ -2274,11 +2284,12 @@ export namespace Prisma {
     uuid?: boolean
     name?: boolean
     menuTheme?: boolean
+    kitchenHours?: boolean
     soundOnOrderReady?: boolean
     createdAt?: boolean
   }
 
-  export type CompanyOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"uuid" | "name" | "menuTheme" | "soundOnOrderReady" | "createdAt", ExtArgs["result"]["company"]>
+  export type CompanyOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"uuid" | "name" | "menuTheme" | "kitchenHours" | "soundOnOrderReady" | "createdAt", ExtArgs["result"]["company"]>
   export type CompanyInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     users?: boolean | Company$usersArgs<ExtArgs>
     userGroups?: boolean | Company$userGroupsArgs<ExtArgs>
@@ -2305,6 +2316,10 @@ export namespace Prisma {
       uuid: string
       name: string
       menuTheme: string | null
+      /**
+       * * JSON: { timezone?: string, intervals?: { weekday: 0-6, open: "HH:mm", close: "HH:mm" }[] } — vazio = cozinha sem restrição de horário
+       */
+      kitchenHours: string | null
       soundOnOrderReady: boolean
       createdAt: Date
     }, ExtArgs["result"]["company"]>
@@ -2739,6 +2754,7 @@ export namespace Prisma {
     readonly uuid: FieldRef<"Company", 'String'>
     readonly name: FieldRef<"Company", 'String'>
     readonly menuTheme: FieldRef<"Company", 'String'>
+    readonly kitchenHours: FieldRef<"Company", 'String'>
     readonly soundOnOrderReady: FieldRef<"Company", 'Boolean'>
     readonly createdAt: FieldRef<"Company", 'DateTime'>
   }
@@ -6545,6 +6561,7 @@ export namespace Prisma {
     price: number | null
     active: boolean | null
     description: string | null
+    isKitchenProduct: boolean | null
     categoryUuid: string | null
     companyUuid: string | null
   }
@@ -6555,6 +6572,7 @@ export namespace Prisma {
     price: number | null
     active: boolean | null
     description: string | null
+    isKitchenProduct: boolean | null
     categoryUuid: string | null
     companyUuid: string | null
   }
@@ -6565,6 +6583,7 @@ export namespace Prisma {
     price: number
     active: number
     description: number
+    isKitchenProduct: number
     categoryUuid: number
     companyUuid: number
     _all: number
@@ -6585,6 +6604,7 @@ export namespace Prisma {
     price?: true
     active?: true
     description?: true
+    isKitchenProduct?: true
     categoryUuid?: true
     companyUuid?: true
   }
@@ -6595,6 +6615,7 @@ export namespace Prisma {
     price?: true
     active?: true
     description?: true
+    isKitchenProduct?: true
     categoryUuid?: true
     companyUuid?: true
   }
@@ -6605,6 +6626,7 @@ export namespace Prisma {
     price?: true
     active?: true
     description?: true
+    isKitchenProduct?: true
     categoryUuid?: true
     companyUuid?: true
     _all?: true
@@ -6702,6 +6724,7 @@ export namespace Prisma {
     price: number
     active: boolean
     description: string
+    isKitchenProduct: boolean
     categoryUuid: string
     companyUuid: string
     _count: ProductCountAggregateOutputType | null
@@ -6731,6 +6754,7 @@ export namespace Prisma {
     price?: boolean
     active?: boolean
     description?: boolean
+    isKitchenProduct?: boolean
     categoryUuid?: boolean
     companyUuid?: boolean
     category?: boolean | CategoryDefaultArgs<ExtArgs>
@@ -6745,6 +6769,7 @@ export namespace Prisma {
     price?: boolean
     active?: boolean
     description?: boolean
+    isKitchenProduct?: boolean
     categoryUuid?: boolean
     companyUuid?: boolean
     category?: boolean | CategoryDefaultArgs<ExtArgs>
@@ -6757,6 +6782,7 @@ export namespace Prisma {
     price?: boolean
     active?: boolean
     description?: boolean
+    isKitchenProduct?: boolean
     categoryUuid?: boolean
     companyUuid?: boolean
     category?: boolean | CategoryDefaultArgs<ExtArgs>
@@ -6769,11 +6795,12 @@ export namespace Prisma {
     price?: boolean
     active?: boolean
     description?: boolean
+    isKitchenProduct?: boolean
     categoryUuid?: boolean
     companyUuid?: boolean
   }
 
-  export type ProductOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"uuid" | "name" | "price" | "active" | "description" | "categoryUuid" | "companyUuid", ExtArgs["result"]["product"]>
+  export type ProductOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"uuid" | "name" | "price" | "active" | "description" | "isKitchenProduct" | "categoryUuid" | "companyUuid", ExtArgs["result"]["product"]>
   export type ProductInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     category?: boolean | CategoryDefaultArgs<ExtArgs>
     company?: boolean | CompanyDefaultArgs<ExtArgs>
@@ -6802,6 +6829,10 @@ export namespace Prisma {
       price: number
       active: boolean
       description: string
+      /**
+       * * Itens preparados na cozinha: fora do horário configurado somem do cardápio público
+       */
+      isKitchenProduct: boolean
       categoryUuid: string
       companyUuid: string
     }, ExtArgs["result"]["product"]>
@@ -7235,6 +7266,7 @@ export namespace Prisma {
     readonly price: FieldRef<"Product", 'Float'>
     readonly active: FieldRef<"Product", 'Boolean'>
     readonly description: FieldRef<"Product", 'String'>
+    readonly isKitchenProduct: FieldRef<"Product", 'Boolean'>
     readonly categoryUuid: FieldRef<"Product", 'String'>
     readonly companyUuid: FieldRef<"Product", 'String'>
   }
@@ -14326,6 +14358,7 @@ export namespace Prisma {
     uuid: 'uuid',
     name: 'name',
     menuTheme: 'menuTheme',
+    kitchenHours: 'kitchenHours',
     soundOnOrderReady: 'soundOnOrderReady',
     createdAt: 'createdAt'
   };
@@ -14371,6 +14404,7 @@ export namespace Prisma {
     price: 'price',
     active: 'active',
     description: 'description',
+    isKitchenProduct: 'isKitchenProduct',
     categoryUuid: 'categoryUuid',
     companyUuid: 'companyUuid'
   };
@@ -14561,6 +14595,7 @@ export namespace Prisma {
     uuid?: StringFilter<"Company"> | string
     name?: StringFilter<"Company"> | string
     menuTheme?: StringNullableFilter<"Company"> | string | null
+    kitchenHours?: StringNullableFilter<"Company"> | string | null
     soundOnOrderReady?: BoolFilter<"Company"> | boolean
     createdAt?: DateTimeFilter<"Company"> | Date | string
     users?: UserListRelationFilter
@@ -14575,6 +14610,7 @@ export namespace Prisma {
     uuid?: SortOrder
     name?: SortOrder
     menuTheme?: SortOrderInput | SortOrder
+    kitchenHours?: SortOrderInput | SortOrder
     soundOnOrderReady?: SortOrder
     createdAt?: SortOrder
     users?: UserOrderByRelationAggregateInput
@@ -14592,6 +14628,7 @@ export namespace Prisma {
     NOT?: CompanyWhereInput | CompanyWhereInput[]
     name?: StringFilter<"Company"> | string
     menuTheme?: StringNullableFilter<"Company"> | string | null
+    kitchenHours?: StringNullableFilter<"Company"> | string | null
     soundOnOrderReady?: BoolFilter<"Company"> | boolean
     createdAt?: DateTimeFilter<"Company"> | Date | string
     users?: UserListRelationFilter
@@ -14606,6 +14643,7 @@ export namespace Prisma {
     uuid?: SortOrder
     name?: SortOrder
     menuTheme?: SortOrderInput | SortOrder
+    kitchenHours?: SortOrderInput | SortOrder
     soundOnOrderReady?: SortOrder
     createdAt?: SortOrder
     _count?: CompanyCountOrderByAggregateInput
@@ -14620,6 +14658,7 @@ export namespace Prisma {
     uuid?: StringWithAggregatesFilter<"Company"> | string
     name?: StringWithAggregatesFilter<"Company"> | string
     menuTheme?: StringNullableWithAggregatesFilter<"Company"> | string | null
+    kitchenHours?: StringNullableWithAggregatesFilter<"Company"> | string | null
     soundOnOrderReady?: BoolWithAggregatesFilter<"Company"> | boolean
     createdAt?: DateTimeWithAggregatesFilter<"Company"> | Date | string
   }
@@ -14803,6 +14842,7 @@ export namespace Prisma {
     price?: FloatFilter<"Product"> | number
     active?: BoolFilter<"Product"> | boolean
     description?: StringFilter<"Product"> | string
+    isKitchenProduct?: BoolFilter<"Product"> | boolean
     categoryUuid?: StringFilter<"Product"> | string
     companyUuid?: StringFilter<"Product"> | string
     category?: XOR<CategoryScalarRelationFilter, CategoryWhereInput>
@@ -14816,6 +14856,7 @@ export namespace Prisma {
     price?: SortOrder
     active?: SortOrder
     description?: SortOrder
+    isKitchenProduct?: SortOrder
     categoryUuid?: SortOrder
     companyUuid?: SortOrder
     category?: CategoryOrderByWithRelationInput
@@ -14832,6 +14873,7 @@ export namespace Prisma {
     price?: FloatFilter<"Product"> | number
     active?: BoolFilter<"Product"> | boolean
     description?: StringFilter<"Product"> | string
+    isKitchenProduct?: BoolFilter<"Product"> | boolean
     categoryUuid?: StringFilter<"Product"> | string
     companyUuid?: StringFilter<"Product"> | string
     category?: XOR<CategoryScalarRelationFilter, CategoryWhereInput>
@@ -14845,6 +14887,7 @@ export namespace Prisma {
     price?: SortOrder
     active?: SortOrder
     description?: SortOrder
+    isKitchenProduct?: SortOrder
     categoryUuid?: SortOrder
     companyUuid?: SortOrder
     _count?: ProductCountOrderByAggregateInput
@@ -14863,6 +14906,7 @@ export namespace Prisma {
     price?: FloatWithAggregatesFilter<"Product"> | number
     active?: BoolWithAggregatesFilter<"Product"> | boolean
     description?: StringWithAggregatesFilter<"Product"> | string
+    isKitchenProduct?: BoolWithAggregatesFilter<"Product"> | boolean
     categoryUuid?: StringWithAggregatesFilter<"Product"> | string
     companyUuid?: StringWithAggregatesFilter<"Product"> | string
   }
@@ -15230,6 +15274,7 @@ export namespace Prisma {
     uuid?: string
     name: string
     menuTheme?: string | null
+    kitchenHours?: string | null
     soundOnOrderReady?: boolean
     createdAt?: Date | string
     users?: UserCreateNestedManyWithoutCompanyInput
@@ -15244,6 +15289,7 @@ export namespace Prisma {
     uuid?: string
     name: string
     menuTheme?: string | null
+    kitchenHours?: string | null
     soundOnOrderReady?: boolean
     createdAt?: Date | string
     users?: UserUncheckedCreateNestedManyWithoutCompanyInput
@@ -15258,6 +15304,7 @@ export namespace Prisma {
     uuid?: StringFieldUpdateOperationsInput | string
     name?: StringFieldUpdateOperationsInput | string
     menuTheme?: NullableStringFieldUpdateOperationsInput | string | null
+    kitchenHours?: NullableStringFieldUpdateOperationsInput | string | null
     soundOnOrderReady?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     users?: UserUpdateManyWithoutCompanyNestedInput
@@ -15272,6 +15319,7 @@ export namespace Prisma {
     uuid?: StringFieldUpdateOperationsInput | string
     name?: StringFieldUpdateOperationsInput | string
     menuTheme?: NullableStringFieldUpdateOperationsInput | string | null
+    kitchenHours?: NullableStringFieldUpdateOperationsInput | string | null
     soundOnOrderReady?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     users?: UserUncheckedUpdateManyWithoutCompanyNestedInput
@@ -15286,6 +15334,7 @@ export namespace Prisma {
     uuid?: string
     name: string
     menuTheme?: string | null
+    kitchenHours?: string | null
     soundOnOrderReady?: boolean
     createdAt?: Date | string
   }
@@ -15294,6 +15343,7 @@ export namespace Prisma {
     uuid?: StringFieldUpdateOperationsInput | string
     name?: StringFieldUpdateOperationsInput | string
     menuTheme?: NullableStringFieldUpdateOperationsInput | string | null
+    kitchenHours?: NullableStringFieldUpdateOperationsInput | string | null
     soundOnOrderReady?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
@@ -15302,6 +15352,7 @@ export namespace Prisma {
     uuid?: StringFieldUpdateOperationsInput | string
     name?: StringFieldUpdateOperationsInput | string
     menuTheme?: NullableStringFieldUpdateOperationsInput | string | null
+    kitchenHours?: NullableStringFieldUpdateOperationsInput | string | null
     soundOnOrderReady?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
@@ -15478,6 +15529,7 @@ export namespace Prisma {
     price: number
     active?: boolean
     description: string
+    isKitchenProduct?: boolean
     category: CategoryCreateNestedOneWithoutProductsInput
     company: CompanyCreateNestedOneWithoutProductsInput
     orderItems?: OrderItemCreateNestedManyWithoutProductInput
@@ -15489,6 +15541,7 @@ export namespace Prisma {
     price: number
     active?: boolean
     description: string
+    isKitchenProduct?: boolean
     categoryUuid: string
     companyUuid: string
     orderItems?: OrderItemUncheckedCreateNestedManyWithoutProductInput
@@ -15500,6 +15553,7 @@ export namespace Prisma {
     price?: FloatFieldUpdateOperationsInput | number
     active?: BoolFieldUpdateOperationsInput | boolean
     description?: StringFieldUpdateOperationsInput | string
+    isKitchenProduct?: BoolFieldUpdateOperationsInput | boolean
     category?: CategoryUpdateOneRequiredWithoutProductsNestedInput
     company?: CompanyUpdateOneRequiredWithoutProductsNestedInput
     orderItems?: OrderItemUpdateManyWithoutProductNestedInput
@@ -15511,6 +15565,7 @@ export namespace Prisma {
     price?: FloatFieldUpdateOperationsInput | number
     active?: BoolFieldUpdateOperationsInput | boolean
     description?: StringFieldUpdateOperationsInput | string
+    isKitchenProduct?: BoolFieldUpdateOperationsInput | boolean
     categoryUuid?: StringFieldUpdateOperationsInput | string
     companyUuid?: StringFieldUpdateOperationsInput | string
     orderItems?: OrderItemUncheckedUpdateManyWithoutProductNestedInput
@@ -15522,6 +15577,7 @@ export namespace Prisma {
     price: number
     active?: boolean
     description: string
+    isKitchenProduct?: boolean
     categoryUuid: string
     companyUuid: string
   }
@@ -15532,6 +15588,7 @@ export namespace Prisma {
     price?: FloatFieldUpdateOperationsInput | number
     active?: BoolFieldUpdateOperationsInput | boolean
     description?: StringFieldUpdateOperationsInput | string
+    isKitchenProduct?: BoolFieldUpdateOperationsInput | boolean
   }
 
   export type ProductUncheckedUpdateManyInput = {
@@ -15540,6 +15597,7 @@ export namespace Prisma {
     price?: FloatFieldUpdateOperationsInput | number
     active?: BoolFieldUpdateOperationsInput | boolean
     description?: StringFieldUpdateOperationsInput | string
+    isKitchenProduct?: BoolFieldUpdateOperationsInput | boolean
     categoryUuid?: StringFieldUpdateOperationsInput | string
     companyUuid?: StringFieldUpdateOperationsInput | string
   }
@@ -16011,6 +16069,7 @@ export namespace Prisma {
     uuid?: SortOrder
     name?: SortOrder
     menuTheme?: SortOrder
+    kitchenHours?: SortOrder
     soundOnOrderReady?: SortOrder
     createdAt?: SortOrder
   }
@@ -16019,6 +16078,7 @@ export namespace Prisma {
     uuid?: SortOrder
     name?: SortOrder
     menuTheme?: SortOrder
+    kitchenHours?: SortOrder
     soundOnOrderReady?: SortOrder
     createdAt?: SortOrder
   }
@@ -16027,6 +16087,7 @@ export namespace Prisma {
     uuid?: SortOrder
     name?: SortOrder
     menuTheme?: SortOrder
+    kitchenHours?: SortOrder
     soundOnOrderReady?: SortOrder
     createdAt?: SortOrder
   }
@@ -16243,6 +16304,7 @@ export namespace Prisma {
     price?: SortOrder
     active?: SortOrder
     description?: SortOrder
+    isKitchenProduct?: SortOrder
     categoryUuid?: SortOrder
     companyUuid?: SortOrder
   }
@@ -16257,6 +16319,7 @@ export namespace Prisma {
     price?: SortOrder
     active?: SortOrder
     description?: SortOrder
+    isKitchenProduct?: SortOrder
     categoryUuid?: SortOrder
     companyUuid?: SortOrder
   }
@@ -16267,6 +16330,7 @@ export namespace Prisma {
     price?: SortOrder
     active?: SortOrder
     description?: SortOrder
+    isKitchenProduct?: SortOrder
     categoryUuid?: SortOrder
     companyUuid?: SortOrder
   }
@@ -17727,6 +17791,7 @@ export namespace Prisma {
     price: number
     active?: boolean
     description: string
+    isKitchenProduct?: boolean
     category: CategoryCreateNestedOneWithoutProductsInput
     orderItems?: OrderItemCreateNestedManyWithoutProductInput
   }
@@ -17737,6 +17802,7 @@ export namespace Prisma {
     price: number
     active?: boolean
     description: string
+    isKitchenProduct?: boolean
     categoryUuid: string
     orderItems?: OrderItemUncheckedCreateNestedManyWithoutProductInput
   }
@@ -17914,6 +17980,7 @@ export namespace Prisma {
     price?: FloatFilter<"Product"> | number
     active?: BoolFilter<"Product"> | boolean
     description?: StringFilter<"Product"> | string
+    isKitchenProduct?: BoolFilter<"Product"> | boolean
     categoryUuid?: StringFilter<"Product"> | string
     companyUuid?: StringFilter<"Product"> | string
   }
@@ -17951,6 +18018,7 @@ export namespace Prisma {
     uuid?: string
     name: string
     menuTheme?: string | null
+    kitchenHours?: string | null
     soundOnOrderReady?: boolean
     createdAt?: Date | string
     userGroups?: UserGroupCreateNestedManyWithoutCompanyInput
@@ -17964,6 +18032,7 @@ export namespace Prisma {
     uuid?: string
     name: string
     menuTheme?: string | null
+    kitchenHours?: string | null
     soundOnOrderReady?: boolean
     createdAt?: Date | string
     userGroups?: UserGroupUncheckedCreateNestedManyWithoutCompanyInput
@@ -18011,6 +18080,7 @@ export namespace Prisma {
     uuid?: StringFieldUpdateOperationsInput | string
     name?: StringFieldUpdateOperationsInput | string
     menuTheme?: NullableStringFieldUpdateOperationsInput | string | null
+    kitchenHours?: NullableStringFieldUpdateOperationsInput | string | null
     soundOnOrderReady?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     userGroups?: UserGroupUpdateManyWithoutCompanyNestedInput
@@ -18024,6 +18094,7 @@ export namespace Prisma {
     uuid?: StringFieldUpdateOperationsInput | string
     name?: StringFieldUpdateOperationsInput | string
     menuTheme?: NullableStringFieldUpdateOperationsInput | string | null
+    kitchenHours?: NullableStringFieldUpdateOperationsInput | string | null
     soundOnOrderReady?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     userGroups?: UserGroupUncheckedUpdateManyWithoutCompanyNestedInput
@@ -18061,6 +18132,7 @@ export namespace Prisma {
     uuid?: string
     name: string
     menuTheme?: string | null
+    kitchenHours?: string | null
     soundOnOrderReady?: boolean
     createdAt?: Date | string
     users?: UserCreateNestedManyWithoutCompanyInput
@@ -18074,6 +18146,7 @@ export namespace Prisma {
     uuid?: string
     name: string
     menuTheme?: string | null
+    kitchenHours?: string | null
     soundOnOrderReady?: boolean
     createdAt?: Date | string
     users?: UserUncheckedCreateNestedManyWithoutCompanyInput
@@ -18121,6 +18194,7 @@ export namespace Prisma {
     uuid?: StringFieldUpdateOperationsInput | string
     name?: StringFieldUpdateOperationsInput | string
     menuTheme?: NullableStringFieldUpdateOperationsInput | string | null
+    kitchenHours?: NullableStringFieldUpdateOperationsInput | string | null
     soundOnOrderReady?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     users?: UserUpdateManyWithoutCompanyNestedInput
@@ -18134,6 +18208,7 @@ export namespace Prisma {
     uuid?: StringFieldUpdateOperationsInput | string
     name?: StringFieldUpdateOperationsInput | string
     menuTheme?: NullableStringFieldUpdateOperationsInput | string | null
+    kitchenHours?: NullableStringFieldUpdateOperationsInput | string | null
     soundOnOrderReady?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     users?: UserUncheckedUpdateManyWithoutCompanyNestedInput
@@ -18284,6 +18359,7 @@ export namespace Prisma {
     uuid?: string
     name: string
     menuTheme?: string | null
+    kitchenHours?: string | null
     soundOnOrderReady?: boolean
     createdAt?: Date | string
     users?: UserCreateNestedManyWithoutCompanyInput
@@ -18297,6 +18373,7 @@ export namespace Prisma {
     uuid?: string
     name: string
     menuTheme?: string | null
+    kitchenHours?: string | null
     soundOnOrderReady?: boolean
     createdAt?: Date | string
     users?: UserUncheckedCreateNestedManyWithoutCompanyInput
@@ -18373,6 +18450,7 @@ export namespace Prisma {
     uuid?: StringFieldUpdateOperationsInput | string
     name?: StringFieldUpdateOperationsInput | string
     menuTheme?: NullableStringFieldUpdateOperationsInput | string | null
+    kitchenHours?: NullableStringFieldUpdateOperationsInput | string | null
     soundOnOrderReady?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     users?: UserUpdateManyWithoutCompanyNestedInput
@@ -18386,6 +18464,7 @@ export namespace Prisma {
     uuid?: StringFieldUpdateOperationsInput | string
     name?: StringFieldUpdateOperationsInput | string
     menuTheme?: NullableStringFieldUpdateOperationsInput | string | null
+    kitchenHours?: NullableStringFieldUpdateOperationsInput | string | null
     soundOnOrderReady?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     users?: UserUncheckedUpdateManyWithoutCompanyNestedInput
@@ -18426,6 +18505,7 @@ export namespace Prisma {
     uuid?: string
     name: string
     menuTheme?: string | null
+    kitchenHours?: string | null
     soundOnOrderReady?: boolean
     createdAt?: Date | string
     users?: UserCreateNestedManyWithoutCompanyInput
@@ -18439,6 +18519,7 @@ export namespace Prisma {
     uuid?: string
     name: string
     menuTheme?: string | null
+    kitchenHours?: string | null
     soundOnOrderReady?: boolean
     createdAt?: Date | string
     users?: UserUncheckedCreateNestedManyWithoutCompanyInput
@@ -18459,6 +18540,7 @@ export namespace Prisma {
     price: number
     active?: boolean
     description: string
+    isKitchenProduct?: boolean
     company: CompanyCreateNestedOneWithoutProductsInput
     orderItems?: OrderItemCreateNestedManyWithoutProductInput
   }
@@ -18469,6 +18551,7 @@ export namespace Prisma {
     price: number
     active?: boolean
     description: string
+    isKitchenProduct?: boolean
     companyUuid: string
     orderItems?: OrderItemUncheckedCreateNestedManyWithoutProductInput
   }
@@ -18498,6 +18581,7 @@ export namespace Prisma {
     uuid?: StringFieldUpdateOperationsInput | string
     name?: StringFieldUpdateOperationsInput | string
     menuTheme?: NullableStringFieldUpdateOperationsInput | string | null
+    kitchenHours?: NullableStringFieldUpdateOperationsInput | string | null
     soundOnOrderReady?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     users?: UserUpdateManyWithoutCompanyNestedInput
@@ -18511,6 +18595,7 @@ export namespace Prisma {
     uuid?: StringFieldUpdateOperationsInput | string
     name?: StringFieldUpdateOperationsInput | string
     menuTheme?: NullableStringFieldUpdateOperationsInput | string | null
+    kitchenHours?: NullableStringFieldUpdateOperationsInput | string | null
     soundOnOrderReady?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     users?: UserUncheckedUpdateManyWithoutCompanyNestedInput
@@ -18540,6 +18625,7 @@ export namespace Prisma {
     uuid?: string
     name: string
     menuTheme?: string | null
+    kitchenHours?: string | null
     soundOnOrderReady?: boolean
     createdAt?: Date | string
     users?: UserCreateNestedManyWithoutCompanyInput
@@ -18553,6 +18639,7 @@ export namespace Prisma {
     uuid?: string
     name: string
     menuTheme?: string | null
+    kitchenHours?: string | null
     soundOnOrderReady?: boolean
     createdAt?: Date | string
     users?: UserUncheckedCreateNestedManyWithoutCompanyInput
@@ -18608,6 +18695,7 @@ export namespace Prisma {
     uuid?: StringFieldUpdateOperationsInput | string
     name?: StringFieldUpdateOperationsInput | string
     menuTheme?: NullableStringFieldUpdateOperationsInput | string | null
+    kitchenHours?: NullableStringFieldUpdateOperationsInput | string | null
     soundOnOrderReady?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     users?: UserUpdateManyWithoutCompanyNestedInput
@@ -18621,6 +18709,7 @@ export namespace Prisma {
     uuid?: StringFieldUpdateOperationsInput | string
     name?: StringFieldUpdateOperationsInput | string
     menuTheme?: NullableStringFieldUpdateOperationsInput | string | null
+    kitchenHours?: NullableStringFieldUpdateOperationsInput | string | null
     soundOnOrderReady?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     users?: UserUncheckedUpdateManyWithoutCompanyNestedInput
@@ -18772,6 +18861,7 @@ export namespace Prisma {
     price: number
     active?: boolean
     description: string
+    isKitchenProduct?: boolean
     category: CategoryCreateNestedOneWithoutProductsInput
     company: CompanyCreateNestedOneWithoutProductsInput
   }
@@ -18782,6 +18872,7 @@ export namespace Prisma {
     price: number
     active?: boolean
     description: string
+    isKitchenProduct?: boolean
     categoryUuid: string
     companyUuid: string
   }
@@ -18835,6 +18926,7 @@ export namespace Prisma {
     price?: FloatFieldUpdateOperationsInput | number
     active?: BoolFieldUpdateOperationsInput | boolean
     description?: StringFieldUpdateOperationsInput | string
+    isKitchenProduct?: BoolFieldUpdateOperationsInput | boolean
     category?: CategoryUpdateOneRequiredWithoutProductsNestedInput
     company?: CompanyUpdateOneRequiredWithoutProductsNestedInput
   }
@@ -18845,6 +18937,7 @@ export namespace Prisma {
     price?: FloatFieldUpdateOperationsInput | number
     active?: BoolFieldUpdateOperationsInput | boolean
     description?: StringFieldUpdateOperationsInput | string
+    isKitchenProduct?: BoolFieldUpdateOperationsInput | boolean
     categoryUuid?: StringFieldUpdateOperationsInput | string
     companyUuid?: StringFieldUpdateOperationsInput | string
   }
@@ -18853,6 +18946,7 @@ export namespace Prisma {
     uuid?: string
     name: string
     menuTheme?: string | null
+    kitchenHours?: string | null
     soundOnOrderReady?: boolean
     createdAt?: Date | string
     users?: UserCreateNestedManyWithoutCompanyInput
@@ -18866,6 +18960,7 @@ export namespace Prisma {
     uuid?: string
     name: string
     menuTheme?: string | null
+    kitchenHours?: string | null
     soundOnOrderReady?: boolean
     createdAt?: Date | string
     users?: UserUncheckedCreateNestedManyWithoutCompanyInput
@@ -18921,6 +19016,7 @@ export namespace Prisma {
     uuid?: StringFieldUpdateOperationsInput | string
     name?: StringFieldUpdateOperationsInput | string
     menuTheme?: NullableStringFieldUpdateOperationsInput | string | null
+    kitchenHours?: NullableStringFieldUpdateOperationsInput | string | null
     soundOnOrderReady?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     users?: UserUpdateManyWithoutCompanyNestedInput
@@ -18934,6 +19030,7 @@ export namespace Prisma {
     uuid?: StringFieldUpdateOperationsInput | string
     name?: StringFieldUpdateOperationsInput | string
     menuTheme?: NullableStringFieldUpdateOperationsInput | string | null
+    kitchenHours?: NullableStringFieldUpdateOperationsInput | string | null
     soundOnOrderReady?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     users?: UserUncheckedUpdateManyWithoutCompanyNestedInput
@@ -19061,6 +19158,7 @@ export namespace Prisma {
     price: number
     active?: boolean
     description: string
+    isKitchenProduct?: boolean
     categoryUuid: string
   }
 
@@ -19171,6 +19269,7 @@ export namespace Prisma {
     price?: FloatFieldUpdateOperationsInput | number
     active?: BoolFieldUpdateOperationsInput | boolean
     description?: StringFieldUpdateOperationsInput | string
+    isKitchenProduct?: BoolFieldUpdateOperationsInput | boolean
     category?: CategoryUpdateOneRequiredWithoutProductsNestedInput
     orderItems?: OrderItemUpdateManyWithoutProductNestedInput
   }
@@ -19181,6 +19280,7 @@ export namespace Prisma {
     price?: FloatFieldUpdateOperationsInput | number
     active?: BoolFieldUpdateOperationsInput | boolean
     description?: StringFieldUpdateOperationsInput | string
+    isKitchenProduct?: BoolFieldUpdateOperationsInput | boolean
     categoryUuid?: StringFieldUpdateOperationsInput | string
     orderItems?: OrderItemUncheckedUpdateManyWithoutProductNestedInput
   }
@@ -19191,6 +19291,7 @@ export namespace Prisma {
     price?: FloatFieldUpdateOperationsInput | number
     active?: BoolFieldUpdateOperationsInput | boolean
     description?: StringFieldUpdateOperationsInput | string
+    isKitchenProduct?: BoolFieldUpdateOperationsInput | boolean
     categoryUuid?: StringFieldUpdateOperationsInput | string
   }
 
@@ -19289,6 +19390,7 @@ export namespace Prisma {
     price: number
     active?: boolean
     description: string
+    isKitchenProduct?: boolean
     companyUuid: string
   }
 
@@ -19298,6 +19400,7 @@ export namespace Prisma {
     price?: FloatFieldUpdateOperationsInput | number
     active?: BoolFieldUpdateOperationsInput | boolean
     description?: StringFieldUpdateOperationsInput | string
+    isKitchenProduct?: BoolFieldUpdateOperationsInput | boolean
     company?: CompanyUpdateOneRequiredWithoutProductsNestedInput
     orderItems?: OrderItemUpdateManyWithoutProductNestedInput
   }
@@ -19308,6 +19411,7 @@ export namespace Prisma {
     price?: FloatFieldUpdateOperationsInput | number
     active?: BoolFieldUpdateOperationsInput | boolean
     description?: StringFieldUpdateOperationsInput | string
+    isKitchenProduct?: BoolFieldUpdateOperationsInput | boolean
     companyUuid?: StringFieldUpdateOperationsInput | string
     orderItems?: OrderItemUncheckedUpdateManyWithoutProductNestedInput
   }
@@ -19318,6 +19422,7 @@ export namespace Prisma {
     price?: FloatFieldUpdateOperationsInput | number
     active?: BoolFieldUpdateOperationsInput | boolean
     description?: StringFieldUpdateOperationsInput | string
+    isKitchenProduct?: BoolFieldUpdateOperationsInput | boolean
     companyUuid?: StringFieldUpdateOperationsInput | string
   }
 
