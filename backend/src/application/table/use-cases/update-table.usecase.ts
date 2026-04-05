@@ -19,6 +19,9 @@ export class UpdateTableUseCase {
             body.number ?? existing.number,
             body.description ?? existing.description,
             body.qrCode ?? existing.qrCode,
+            existing.companyUuid,
+            existing.attendantCallAt,
+            existing.attendantCallMessage,
         );
         await this.tableRepository.update(table);
         return table;

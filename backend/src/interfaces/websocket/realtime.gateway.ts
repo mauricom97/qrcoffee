@@ -13,7 +13,16 @@ export const SOCKET_EVENTS = {
   ORDERS_UPDATE: 'orders:update',
   TABLES_UPDATE: 'tables:update',
   MENU_UPDATE: 'menu:update',
+  ATTENDANT_CALL: 'attendant:call',
 } as const;
+
+export type AttendantCallSocketPayload = {
+  tableUuid: string;
+  tableNumber: number;
+  tableDescription: string | null;
+  message: string | null;
+  at: string;
+};
 
 const COMPANY_ROOM_PREFIX = 'company:';
 
@@ -54,9 +63,13 @@ export class RealtimeGateway implements OnGatewayConnection, OnGatewayDisconnect
     this.logger.log(`Client disconnected from room company:${client.data?.companyUuid ?? 'unknown'}`);
   }
 
-  emitToCompany(companyUuid: string, event: string) {
+  emitToCompany(companyUuid: string, event: string, data?: unknown) {
     const room = `${COMPANY_ROOM_PREFIX}${companyUuid}`;
-    this.server.to(room).emit(event);
+    if (data === undefined) {
+      this.server.to(room).emit(event);
+    } else {
+      this.server.to(room).emit(event, data);
+    }
   }
 
   emitProductsUpdate(companyUuid: string) {
@@ -73,5 +86,9 @@ export class RealtimeGateway implements OnGatewayConnection, OnGatewayDisconnect
 
   emitMenuUpdate(companyUuid: string) {
     this.emitToCompany(companyUuid, SOCKET_EVENTS.MENU_UPDATE);
+  }
+
+  emitAttendantCall(companyUuid: string, payload: AttendantCallSocketPayload) {
+    this.emitToCompany(companyUuid, SOCKET_EVENTS.ATTENDANT_CALL, payload);
   }
 }

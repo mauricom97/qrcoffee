@@ -10031,6 +10031,8 @@ export namespace Prisma {
     number: number | null
     qrCode: string | null
     description: string | null
+    attendantCallAt: Date | null
+    attendantCallMessage: string | null
     companyUuid: string | null
   }
 
@@ -10039,6 +10041,8 @@ export namespace Prisma {
     number: number | null
     qrCode: string | null
     description: string | null
+    attendantCallAt: Date | null
+    attendantCallMessage: string | null
     companyUuid: string | null
   }
 
@@ -10047,6 +10051,8 @@ export namespace Prisma {
     number: number
     qrCode: number
     description: number
+    attendantCallAt: number
+    attendantCallMessage: number
     companyUuid: number
     _all: number
   }
@@ -10065,6 +10071,8 @@ export namespace Prisma {
     number?: true
     qrCode?: true
     description?: true
+    attendantCallAt?: true
+    attendantCallMessage?: true
     companyUuid?: true
   }
 
@@ -10073,6 +10081,8 @@ export namespace Prisma {
     number?: true
     qrCode?: true
     description?: true
+    attendantCallAt?: true
+    attendantCallMessage?: true
     companyUuid?: true
   }
 
@@ -10081,6 +10091,8 @@ export namespace Prisma {
     number?: true
     qrCode?: true
     description?: true
+    attendantCallAt?: true
+    attendantCallMessage?: true
     companyUuid?: true
     _all?: true
   }
@@ -10176,6 +10188,8 @@ export namespace Prisma {
     number: number
     qrCode: string
     description: string
+    attendantCallAt: Date | null
+    attendantCallMessage: string | null
     companyUuid: string
     _count: TableCountAggregateOutputType | null
     _avg: TableAvgAggregateOutputType | null
@@ -10203,6 +10217,8 @@ export namespace Prisma {
     number?: boolean
     qrCode?: boolean
     description?: boolean
+    attendantCallAt?: boolean
+    attendantCallMessage?: boolean
     companyUuid?: boolean
     company?: boolean | CompanyDefaultArgs<ExtArgs>
     orders?: boolean | Table$ordersArgs<ExtArgs>
@@ -10214,6 +10230,8 @@ export namespace Prisma {
     number?: boolean
     qrCode?: boolean
     description?: boolean
+    attendantCallAt?: boolean
+    attendantCallMessage?: boolean
     companyUuid?: boolean
     company?: boolean | CompanyDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["table"]>
@@ -10223,6 +10241,8 @@ export namespace Prisma {
     number?: boolean
     qrCode?: boolean
     description?: boolean
+    attendantCallAt?: boolean
+    attendantCallMessage?: boolean
     companyUuid?: boolean
     company?: boolean | CompanyDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["table"]>
@@ -10232,10 +10252,12 @@ export namespace Prisma {
     number?: boolean
     qrCode?: boolean
     description?: boolean
+    attendantCallAt?: boolean
+    attendantCallMessage?: boolean
     companyUuid?: boolean
   }
 
-  export type TableOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"uuid" | "number" | "qrCode" | "description" | "companyUuid", ExtArgs["result"]["table"]>
+  export type TableOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"uuid" | "number" | "qrCode" | "description" | "attendantCallAt" | "attendantCallMessage" | "companyUuid", ExtArgs["result"]["table"]>
   export type TableInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     company?: boolean | CompanyDefaultArgs<ExtArgs>
     orders?: boolean | Table$ordersArgs<ExtArgs>
@@ -10259,6 +10281,11 @@ export namespace Prisma {
       number: number
       qrCode: string
       description: string
+      /**
+       * * Preenchido quando o cliente chama atendente pelo cardápio; limpo ao marcar como atendido.
+       */
+      attendantCallAt: Date | null
+      attendantCallMessage: string | null
       companyUuid: string
     }, ExtArgs["result"]["table"]>
     composites: {}
@@ -10689,6 +10716,8 @@ export namespace Prisma {
     readonly number: FieldRef<"Table", 'Int'>
     readonly qrCode: FieldRef<"Table", 'String'>
     readonly description: FieldRef<"Table", 'String'>
+    readonly attendantCallAt: FieldRef<"Table", 'DateTime'>
+    readonly attendantCallMessage: FieldRef<"Table", 'String'>
     readonly companyUuid: FieldRef<"Table", 'String'>
   }
     
@@ -15687,6 +15716,8 @@ export namespace Prisma {
     number: 'number',
     qrCode: 'qrCode',
     description: 'description',
+    attendantCallAt: 'attendantCallAt',
+    attendantCallMessage: 'attendantCallMessage',
     companyUuid: 'companyUuid'
   };
 
@@ -16325,6 +16356,8 @@ export namespace Prisma {
     number?: IntFilter<"Table"> | number
     qrCode?: StringFilter<"Table"> | string
     description?: StringFilter<"Table"> | string
+    attendantCallAt?: DateTimeNullableFilter<"Table"> | Date | string | null
+    attendantCallMessage?: StringNullableFilter<"Table"> | string | null
     companyUuid?: StringFilter<"Table"> | string
     company?: XOR<CompanyScalarRelationFilter, CompanyWhereInput>
     orders?: OrderListRelationFilter
@@ -16335,6 +16368,8 @@ export namespace Prisma {
     number?: SortOrder
     qrCode?: SortOrder
     description?: SortOrder
+    attendantCallAt?: SortOrderInput | SortOrder
+    attendantCallMessage?: SortOrderInput | SortOrder
     companyUuid?: SortOrder
     company?: CompanyOrderByWithRelationInput
     orders?: OrderOrderByRelationAggregateInput
@@ -16349,6 +16384,8 @@ export namespace Prisma {
     number?: IntFilter<"Table"> | number
     qrCode?: StringFilter<"Table"> | string
     description?: StringFilter<"Table"> | string
+    attendantCallAt?: DateTimeNullableFilter<"Table"> | Date | string | null
+    attendantCallMessage?: StringNullableFilter<"Table"> | string | null
     companyUuid?: StringFilter<"Table"> | string
     company?: XOR<CompanyScalarRelationFilter, CompanyWhereInput>
     orders?: OrderListRelationFilter
@@ -16359,6 +16396,8 @@ export namespace Prisma {
     number?: SortOrder
     qrCode?: SortOrder
     description?: SortOrder
+    attendantCallAt?: SortOrderInput | SortOrder
+    attendantCallMessage?: SortOrderInput | SortOrder
     companyUuid?: SortOrder
     _count?: TableCountOrderByAggregateInput
     _avg?: TableAvgOrderByAggregateInput
@@ -16375,6 +16414,8 @@ export namespace Prisma {
     number?: IntWithAggregatesFilter<"Table"> | number
     qrCode?: StringWithAggregatesFilter<"Table"> | string
     description?: StringWithAggregatesFilter<"Table"> | string
+    attendantCallAt?: DateTimeNullableWithAggregatesFilter<"Table"> | Date | string | null
+    attendantCallMessage?: StringNullableWithAggregatesFilter<"Table"> | string | null
     companyUuid?: StringWithAggregatesFilter<"Table"> | string
   }
 
@@ -17081,6 +17122,8 @@ export namespace Prisma {
     number: number
     qrCode?: string
     description?: string
+    attendantCallAt?: Date | string | null
+    attendantCallMessage?: string | null
     company: CompanyCreateNestedOneWithoutTablesInput
     orders?: OrderCreateNestedManyWithoutTableInput
   }
@@ -17090,6 +17133,8 @@ export namespace Prisma {
     number: number
     qrCode?: string
     description?: string
+    attendantCallAt?: Date | string | null
+    attendantCallMessage?: string | null
     companyUuid: string
     orders?: OrderUncheckedCreateNestedManyWithoutTableInput
   }
@@ -17099,6 +17144,8 @@ export namespace Prisma {
     number?: IntFieldUpdateOperationsInput | number
     qrCode?: StringFieldUpdateOperationsInput | string
     description?: StringFieldUpdateOperationsInput | string
+    attendantCallAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    attendantCallMessage?: NullableStringFieldUpdateOperationsInput | string | null
     company?: CompanyUpdateOneRequiredWithoutTablesNestedInput
     orders?: OrderUpdateManyWithoutTableNestedInput
   }
@@ -17108,6 +17155,8 @@ export namespace Prisma {
     number?: IntFieldUpdateOperationsInput | number
     qrCode?: StringFieldUpdateOperationsInput | string
     description?: StringFieldUpdateOperationsInput | string
+    attendantCallAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    attendantCallMessage?: NullableStringFieldUpdateOperationsInput | string | null
     companyUuid?: StringFieldUpdateOperationsInput | string
     orders?: OrderUncheckedUpdateManyWithoutTableNestedInput
   }
@@ -17117,6 +17166,8 @@ export namespace Prisma {
     number: number
     qrCode?: string
     description?: string
+    attendantCallAt?: Date | string | null
+    attendantCallMessage?: string | null
     companyUuid: string
   }
 
@@ -17125,6 +17176,8 @@ export namespace Prisma {
     number?: IntFieldUpdateOperationsInput | number
     qrCode?: StringFieldUpdateOperationsInput | string
     description?: StringFieldUpdateOperationsInput | string
+    attendantCallAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    attendantCallMessage?: NullableStringFieldUpdateOperationsInput | string | null
   }
 
   export type TableUncheckedUpdateManyInput = {
@@ -17132,6 +17185,8 @@ export namespace Prisma {
     number?: IntFieldUpdateOperationsInput | number
     qrCode?: StringFieldUpdateOperationsInput | string
     description?: StringFieldUpdateOperationsInput | string
+    attendantCallAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    attendantCallMessage?: NullableStringFieldUpdateOperationsInput | string | null
     companyUuid?: StringFieldUpdateOperationsInput | string
   }
 
@@ -17888,6 +17943,17 @@ export namespace Prisma {
     companyUuid?: SortOrder
   }
 
+  export type DateTimeNullableFilter<$PrismaModel = never> = {
+    equals?: Date | string | DateTimeFieldRefInput<$PrismaModel> | null
+    in?: Date[] | string[] | ListDateTimeFieldRefInput<$PrismaModel> | null
+    notIn?: Date[] | string[] | ListDateTimeFieldRefInput<$PrismaModel> | null
+    lt?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    lte?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    gt?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    gte?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    not?: NestedDateTimeNullableFilter<$PrismaModel> | Date | string | null
+  }
+
   export type OrderListRelationFilter = {
     every?: OrderWhereInput
     some?: OrderWhereInput
@@ -17908,6 +17974,8 @@ export namespace Prisma {
     number?: SortOrder
     qrCode?: SortOrder
     description?: SortOrder
+    attendantCallAt?: SortOrder
+    attendantCallMessage?: SortOrder
     companyUuid?: SortOrder
   }
 
@@ -17920,6 +17988,8 @@ export namespace Prisma {
     number?: SortOrder
     qrCode?: SortOrder
     description?: SortOrder
+    attendantCallAt?: SortOrder
+    attendantCallMessage?: SortOrder
     companyUuid?: SortOrder
   }
 
@@ -17928,11 +17998,27 @@ export namespace Prisma {
     number?: SortOrder
     qrCode?: SortOrder
     description?: SortOrder
+    attendantCallAt?: SortOrder
+    attendantCallMessage?: SortOrder
     companyUuid?: SortOrder
   }
 
   export type TableSumOrderByAggregateInput = {
     number?: SortOrder
+  }
+
+  export type DateTimeNullableWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: Date | string | DateTimeFieldRefInput<$PrismaModel> | null
+    in?: Date[] | string[] | ListDateTimeFieldRefInput<$PrismaModel> | null
+    notIn?: Date[] | string[] | ListDateTimeFieldRefInput<$PrismaModel> | null
+    lt?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    lte?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    gt?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    gte?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    not?: NestedDateTimeNullableWithAggregatesFilter<$PrismaModel> | Date | string | null
+    _count?: NestedIntNullableFilter<$PrismaModel>
+    _min?: NestedDateTimeNullableFilter<$PrismaModel>
+    _max?: NestedDateTimeNullableFilter<$PrismaModel>
   }
 
   export type TableScalarRelationFilter = {
@@ -18053,17 +18139,6 @@ export namespace Prisma {
     _max?: NestedJsonNullableFilter<$PrismaModel>
   }
 
-  export type DateTimeNullableFilter<$PrismaModel = never> = {
-    equals?: Date | string | DateTimeFieldRefInput<$PrismaModel> | null
-    in?: Date[] | string[] | ListDateTimeFieldRefInput<$PrismaModel> | null
-    notIn?: Date[] | string[] | ListDateTimeFieldRefInput<$PrismaModel> | null
-    lt?: Date | string | DateTimeFieldRefInput<$PrismaModel>
-    lte?: Date | string | DateTimeFieldRefInput<$PrismaModel>
-    gt?: Date | string | DateTimeFieldRefInput<$PrismaModel>
-    gte?: Date | string | DateTimeFieldRefInput<$PrismaModel>
-    not?: NestedDateTimeNullableFilter<$PrismaModel> | Date | string | null
-  }
-
   export type FloatNullableFilter<$PrismaModel = never> = {
     equals?: number | FloatFieldRefInput<$PrismaModel> | null
     in?: number[] | ListFloatFieldRefInput<$PrismaModel> | null
@@ -18123,20 +18198,6 @@ export namespace Prisma {
   export type CashierSessionSumOrderByAggregateInput = {
     openingBalance?: SortOrder
     closingBalance?: SortOrder
-  }
-
-  export type DateTimeNullableWithAggregatesFilter<$PrismaModel = never> = {
-    equals?: Date | string | DateTimeFieldRefInput<$PrismaModel> | null
-    in?: Date[] | string[] | ListDateTimeFieldRefInput<$PrismaModel> | null
-    notIn?: Date[] | string[] | ListDateTimeFieldRefInput<$PrismaModel> | null
-    lt?: Date | string | DateTimeFieldRefInput<$PrismaModel>
-    lte?: Date | string | DateTimeFieldRefInput<$PrismaModel>
-    gt?: Date | string | DateTimeFieldRefInput<$PrismaModel>
-    gte?: Date | string | DateTimeFieldRefInput<$PrismaModel>
-    not?: NestedDateTimeNullableWithAggregatesFilter<$PrismaModel> | Date | string | null
-    _count?: NestedIntNullableFilter<$PrismaModel>
-    _min?: NestedDateTimeNullableFilter<$PrismaModel>
-    _max?: NestedDateTimeNullableFilter<$PrismaModel>
   }
 
   export type FloatNullableWithAggregatesFilter<$PrismaModel = never> = {
@@ -18834,6 +18895,10 @@ export namespace Prisma {
     connect?: OrderWhereUniqueInput | OrderWhereUniqueInput[]
   }
 
+  export type NullableDateTimeFieldUpdateOperationsInput = {
+    set?: Date | string | null
+  }
+
   export type CompanyUpdateOneRequiredWithoutTablesNestedInput = {
     create?: XOR<CompanyCreateWithoutTablesInput, CompanyUncheckedCreateWithoutTablesInput>
     connectOrCreate?: CompanyCreateOrConnectWithoutTablesInput
@@ -18972,10 +19037,6 @@ export namespace Prisma {
     connectOrCreate?: CashierMovementCreateOrConnectWithoutSessionInput | CashierMovementCreateOrConnectWithoutSessionInput[]
     createMany?: CashierMovementCreateManySessionInputEnvelope
     connect?: CashierMovementWhereUniqueInput | CashierMovementWhereUniqueInput[]
-  }
-
-  export type NullableDateTimeFieldUpdateOperationsInput = {
-    set?: Date | string | null
   }
 
   export type NullableFloatFieldUpdateOperationsInput = {
@@ -19217,6 +19278,31 @@ export namespace Prisma {
     _min?: NestedIntFilter<$PrismaModel>
     _max?: NestedIntFilter<$PrismaModel>
   }
+
+  export type NestedDateTimeNullableFilter<$PrismaModel = never> = {
+    equals?: Date | string | DateTimeFieldRefInput<$PrismaModel> | null
+    in?: Date[] | string[] | ListDateTimeFieldRefInput<$PrismaModel> | null
+    notIn?: Date[] | string[] | ListDateTimeFieldRefInput<$PrismaModel> | null
+    lt?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    lte?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    gt?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    gte?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    not?: NestedDateTimeNullableFilter<$PrismaModel> | Date | string | null
+  }
+
+  export type NestedDateTimeNullableWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: Date | string | DateTimeFieldRefInput<$PrismaModel> | null
+    in?: Date[] | string[] | ListDateTimeFieldRefInput<$PrismaModel> | null
+    notIn?: Date[] | string[] | ListDateTimeFieldRefInput<$PrismaModel> | null
+    lt?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    lte?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    gt?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    gte?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    not?: NestedDateTimeNullableWithAggregatesFilter<$PrismaModel> | Date | string | null
+    _count?: NestedIntNullableFilter<$PrismaModel>
+    _min?: NestedDateTimeNullableFilter<$PrismaModel>
+    _max?: NestedDateTimeNullableFilter<$PrismaModel>
+  }
   export type NestedJsonNullableFilter<$PrismaModel = never> =
     | PatchUndefined<
         Either<Required<NestedJsonNullableFilterBase<$PrismaModel>>, Exclude<keyof Required<NestedJsonNullableFilterBase<$PrismaModel>>, 'path'>>,
@@ -19241,17 +19327,6 @@ export namespace Prisma {
     not?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | JsonNullValueFilter
   }
 
-  export type NestedDateTimeNullableFilter<$PrismaModel = never> = {
-    equals?: Date | string | DateTimeFieldRefInput<$PrismaModel> | null
-    in?: Date[] | string[] | ListDateTimeFieldRefInput<$PrismaModel> | null
-    notIn?: Date[] | string[] | ListDateTimeFieldRefInput<$PrismaModel> | null
-    lt?: Date | string | DateTimeFieldRefInput<$PrismaModel>
-    lte?: Date | string | DateTimeFieldRefInput<$PrismaModel>
-    gt?: Date | string | DateTimeFieldRefInput<$PrismaModel>
-    gte?: Date | string | DateTimeFieldRefInput<$PrismaModel>
-    not?: NestedDateTimeNullableFilter<$PrismaModel> | Date | string | null
-  }
-
   export type NestedFloatNullableFilter<$PrismaModel = never> = {
     equals?: number | FloatFieldRefInput<$PrismaModel> | null
     in?: number[] | ListFloatFieldRefInput<$PrismaModel> | null
@@ -19261,20 +19336,6 @@ export namespace Prisma {
     gt?: number | FloatFieldRefInput<$PrismaModel>
     gte?: number | FloatFieldRefInput<$PrismaModel>
     not?: NestedFloatNullableFilter<$PrismaModel> | number | null
-  }
-
-  export type NestedDateTimeNullableWithAggregatesFilter<$PrismaModel = never> = {
-    equals?: Date | string | DateTimeFieldRefInput<$PrismaModel> | null
-    in?: Date[] | string[] | ListDateTimeFieldRefInput<$PrismaModel> | null
-    notIn?: Date[] | string[] | ListDateTimeFieldRefInput<$PrismaModel> | null
-    lt?: Date | string | DateTimeFieldRefInput<$PrismaModel>
-    lte?: Date | string | DateTimeFieldRefInput<$PrismaModel>
-    gt?: Date | string | DateTimeFieldRefInput<$PrismaModel>
-    gte?: Date | string | DateTimeFieldRefInput<$PrismaModel>
-    not?: NestedDateTimeNullableWithAggregatesFilter<$PrismaModel> | Date | string | null
-    _count?: NestedIntNullableFilter<$PrismaModel>
-    _min?: NestedDateTimeNullableFilter<$PrismaModel>
-    _max?: NestedDateTimeNullableFilter<$PrismaModel>
   }
 
   export type NestedFloatNullableWithAggregatesFilter<$PrismaModel = never> = {
@@ -19354,6 +19415,8 @@ export namespace Prisma {
     number: number
     qrCode?: string
     description?: string
+    attendantCallAt?: Date | string | null
+    attendantCallMessage?: string | null
     orders?: OrderCreateNestedManyWithoutTableInput
   }
 
@@ -19362,6 +19425,8 @@ export namespace Prisma {
     number: number
     qrCode?: string
     description?: string
+    attendantCallAt?: Date | string | null
+    attendantCallMessage?: string | null
     orders?: OrderUncheckedCreateNestedManyWithoutTableInput
   }
 
@@ -19541,6 +19606,8 @@ export namespace Prisma {
     number?: IntFilter<"Table"> | number
     qrCode?: StringFilter<"Table"> | string
     description?: StringFilter<"Table"> | string
+    attendantCallAt?: DateTimeNullableFilter<"Table"> | Date | string | null
+    attendantCallMessage?: StringNullableFilter<"Table"> | string | null
     companyUuid?: StringFilter<"Table"> | string
   }
 
@@ -20488,6 +20555,8 @@ export namespace Prisma {
     number: number
     qrCode?: string
     description?: string
+    attendantCallAt?: Date | string | null
+    attendantCallMessage?: string | null
     company: CompanyCreateNestedOneWithoutTablesInput
   }
 
@@ -20496,6 +20565,8 @@ export namespace Prisma {
     number: number
     qrCode?: string
     description?: string
+    attendantCallAt?: Date | string | null
+    attendantCallMessage?: string | null
     companyUuid: string
   }
 
@@ -20546,6 +20617,8 @@ export namespace Prisma {
     number?: IntFieldUpdateOperationsInput | number
     qrCode?: StringFieldUpdateOperationsInput | string
     description?: StringFieldUpdateOperationsInput | string
+    attendantCallAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    attendantCallMessage?: NullableStringFieldUpdateOperationsInput | string | null
     company?: CompanyUpdateOneRequiredWithoutTablesNestedInput
   }
 
@@ -20554,6 +20627,8 @@ export namespace Prisma {
     number?: IntFieldUpdateOperationsInput | number
     qrCode?: StringFieldUpdateOperationsInput | string
     description?: StringFieldUpdateOperationsInput | string
+    attendantCallAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    attendantCallMessage?: NullableStringFieldUpdateOperationsInput | string | null
     companyUuid?: StringFieldUpdateOperationsInput | string
   }
 
@@ -20888,6 +20963,8 @@ export namespace Prisma {
     number: number
     qrCode?: string
     description?: string
+    attendantCallAt?: Date | string | null
+    attendantCallMessage?: string | null
   }
 
   export type CategoryCreateManyCompanyInput = {
@@ -20971,6 +21048,8 @@ export namespace Prisma {
     number?: IntFieldUpdateOperationsInput | number
     qrCode?: StringFieldUpdateOperationsInput | string
     description?: StringFieldUpdateOperationsInput | string
+    attendantCallAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    attendantCallMessage?: NullableStringFieldUpdateOperationsInput | string | null
     orders?: OrderUpdateManyWithoutTableNestedInput
   }
 
@@ -20979,6 +21058,8 @@ export namespace Prisma {
     number?: IntFieldUpdateOperationsInput | number
     qrCode?: StringFieldUpdateOperationsInput | string
     description?: StringFieldUpdateOperationsInput | string
+    attendantCallAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    attendantCallMessage?: NullableStringFieldUpdateOperationsInput | string | null
     orders?: OrderUncheckedUpdateManyWithoutTableNestedInput
   }
 
@@ -20987,6 +21068,8 @@ export namespace Prisma {
     number?: IntFieldUpdateOperationsInput | number
     qrCode?: StringFieldUpdateOperationsInput | string
     description?: StringFieldUpdateOperationsInput | string
+    attendantCallAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    attendantCallMessage?: NullableStringFieldUpdateOperationsInput | string | null
   }
 
   export type CategoryUpdateWithoutCompanyInput = {

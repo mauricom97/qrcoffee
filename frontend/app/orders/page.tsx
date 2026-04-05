@@ -2,7 +2,11 @@
 
 import { useState, useEffect, useCallback, useRef } from "react";
 import { useAuth } from "contexts/AuthContext";
-import { useRealtimeUpdates } from "hooks/useRealtimeUpdates";
+import {
+  useRealtimeUpdates,
+  type AttendantCallPayload,
+} from "hooks/useRealtimeUpdates";
+import AttendantCallBanner from "components/AttendantCallBanner";
 import {
   FaTable,
   FaCheckCircle,
@@ -22,6 +26,7 @@ import { PANEL_PERMISSIONS, userHasPanelPermission } from "lib/panelPermissions"
 
 const API_URL = process.env.NEXT_PUBLIC_BASE_API_URL || "http://localhost:3352";
 const SOUND_READY_URL = "/Ding - Sound Effect.mp3";
+const SOUND_ATTENDANT_CALL_URL = "/Ding - Sound Effect.mp3";
 
 interface ProductAddon {
   uuid: string;
@@ -78,6 +83,9 @@ export default function OrdersPage() {
     () => new Set()
   );
   const [addonPickerQuantity, setAddonPickerQuantity] = useState(1);
+  const [attendantCall, setAttendantCall] = useState<AttendantCallPayload | null>(
+    null
+  );
 
   const prevOrdersRef = useRef<OrderDto[]>([]);
   const soundOnOrderReadyRef = useRef(true);
@@ -155,6 +163,11 @@ export default function OrdersPage() {
 
   useRealtimeUpdates(user?.companyUuid ?? null, {
     onOrdersUpdate: loadOrders,
+    onAttendantCall: (payload) => {
+      setAttendantCall(payload);
+      const audio = new Audio(SOUND_ATTENDANT_CALL_URL);
+      audio.play().catch(() => {});
+    },
   });
 
   const resetForm = () => {
@@ -306,6 +319,12 @@ export default function OrdersPage() {
 
   return (
     <div className="min-h-screen bg-zinc-50 p-4 md:p-8">
+      {attendantCall ? (
+        <AttendantCallBanner
+          payload={attendantCall}
+          onDismiss={() => setAttendantCall(null)}
+        />
+      ) : null}
       <div className="mx-auto max-w-6xl space-y-8">
         <header>
           <h1 className="text-2xl font-semibold text-zinc-800">{t("orders.title")}</h1>

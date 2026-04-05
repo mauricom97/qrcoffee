@@ -10,13 +10,23 @@ export const SOCKET_EVENTS = {
   ORDERS_UPDATE: "orders:update",
   TABLES_UPDATE: "tables:update",
   MENU_UPDATE: "menu:update",
+  ATTENDANT_CALL: "attendant:call",
 } as const;
+
+export type AttendantCallPayload = {
+  tableUuid: string;
+  tableNumber: number;
+  tableDescription: string | null;
+  message: string | null;
+  at: string;
+};
 
 interface RealtimeCallbacks {
   onProductsUpdate?: () => void;
   onOrdersUpdate?: () => void;
   onTablesUpdate?: () => void;
   onMenuUpdate?: () => void;
+  onAttendantCall?: (payload: AttendantCallPayload) => void;
 }
 
 export function useRealtimeUpdates(
@@ -56,6 +66,9 @@ export function useRealtimeUpdates(
     });
     socket.on(SOCKET_EVENTS.MENU_UPDATE, () => {
       callbacksRef.current.onMenuUpdate?.();
+    });
+    socket.on(SOCKET_EVENTS.ATTENDANT_CALL, (payload: AttendantCallPayload) => {
+      callbacksRef.current.onAttendantCall?.(payload);
     });
 
     return () => {

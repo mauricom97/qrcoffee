@@ -5,4 +5,7 @@ export interface Mesa {
   description: string;
   comandas?: Comanda[];
   qrCode: string;
+  /** ISO; presente quando o cliente chamou atendente pelo cardápio */
+  attendantCallAt?: string | null;
+  attendantCallMessage?: string | null;
 }

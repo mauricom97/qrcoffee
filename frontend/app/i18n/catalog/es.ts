@@ -34,6 +34,11 @@ export const esMessages = {
     currencyBrlNote:
       "Valores en reales (BRL). En el plan anual paga el equivalente a 10 meses y usa el sistema todo el año.",
   },
+  realtime: {
+    attendantCallTitle: "Cliente llama",
+    attendantCallBody: "Mesa {table} pide atención del equipo.",
+    attendantCallNote: "Mensaje: {message}",
+  },
   language: {
     label: "Idioma",
     pt: "Português",
@@ -337,6 +342,11 @@ export const esMessages = {
     deleteTitle: "Eliminar mesa",
     deleteMsg: "¿Seguro que desea eliminar la mesa {n}?",
     noDesc: "Sin descripción.",
+    attendantCalling: "Cliente llama al personal",
+    attendantSince: "Desde {time}",
+    attendantNote: "Mensaje: {message}",
+    markAttendantDone: "Marcar como atendido",
+    attendantAckError: "No se pudo registrar el atendimiento. Intente de nuevo.",
   },
   tabs: {
     title: "Lista de comandas",
@@ -462,6 +472,14 @@ export const esMessages = {
     lineAddons: "Extras:",
     showImages: "Ver imágenes",
     closeGallery: "Cerrar galería",
+    callAttendant: "Llamar al personal",
+    callAttendantSending: "Enviando…",
+    callAttendantSent: "¡Aviso enviado! El equipo fue notificado.",
+    callAttendantError: "No se pudo enviar el aviso.",
+    callAttendantWait: "Espere un momento antes de volver a llamar.",
+    callAttendantModalTitle: "Llamar a un miembro del equipo",
+    callAttendantMessageOptional: "Nota opcional para el equipo (máx. 280 caracteres)",
+    callAttendantConfirm: "Enviar",
   },
   pricing: {
     title: "Planes simples para transformar su atención",

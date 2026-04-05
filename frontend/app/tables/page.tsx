@@ -7,6 +7,7 @@ import { useRealtimeUpdates } from "hooks/useRealtimeUpdates";
 import QRCode from "react-qr-code";
 import * as QRCodeLib from "qrcode";
 import { LuTableOfContents } from "react-icons/lu";
+import { FaBell } from "react-icons/fa";
 import { Mesa } from "./interfaces/table.interface";
 import { getAuthHeaders } from "contexts/AuthContext";
 import ConfirmModal from "components/ConfirmModal";
@@ -20,7 +21,7 @@ const API_URL = process.env.NEXT_PUBLIC_BASE_API_URL || "http://localhost:3352";
 const TableManager: React.FC = () => {
   useRequirePanelPermission(PANEL_PERMISSIONS.TABLES);
   const { user } = useAuth();
-  const { t } = useLocaleContext();
+  const { t, localeTag } = useLocaleContext();
   const [mesas, setMesas] = useState<Mesa[]>([]);
   const [loading, setLoading] = useState(true);
   const numeroMesa = mesas.length + 1;
@@ -29,6 +30,8 @@ const TableManager: React.FC = () => {
   const [editNumber, setEditNumber] = useState<number>(1);
   const [editDescricao, setEditDescricao] = useState<string>("");
   const [mesaToDelete, setMesaToDelete] = useState<Mesa | null>(null);
+  const [ackingAttendant, setAckingAttendant] = useState<string | null>(null);
+  const [attendantAckError, setAttendantAckError] = useState<string | null>(null);
 
   const loadMesas = useCallback(async () => {
     try {
@@ -49,7 +52,26 @@ const TableManager: React.FC = () => {
 
   useRealtimeUpdates(user?.companyUuid ?? null, {
     onTablesUpdate: loadMesas,
+    onAttendantCall: loadMesas,
   });
+
+  const acknowledgeAttendantCall = async (mesa: Mesa) => {
+    setAttendantAckError(null);
+    setAckingAttendant(mesa.uuid);
+    try {
+      const res = await fetch(`${API_URL}/tables/${mesa.uuid}/attendant-call`, {
+        method: "PATCH",
+        headers: getAuthHeaders(),
+      });
+      if (!res.ok) throw new Error("ack failed");
+      await loadMesas();
+    } catch (e) {
+      console.error(e);
+      setAttendantAckError(t("tables.attendantAckError"));
+    } finally {
+      setAckingAttendant(null);
+    }
+  };
 
   const addMesa = async () => {
     const baseUrl = process.env.NEXT_PUBLIC_BASE_FRONTEND_URL || (typeof window !== "undefined" ? window.location.origin : "");
@@ -148,6 +170,11 @@ const TableManager: React.FC = () => {
           <p className="text-sm text-zinc-500">
             {t("tables.subtitle")}
           </p>
+          {attendantAckError ? (
+            <p className="mt-2 text-sm text-red-600" role="alert">
+              {attendantAckError}
+            </p>
+          ) : null}
         </header>
 
         <div className="bg-white shadow-md rounded-lg p-6 mb-6 text-black">
@@ -181,11 +208,59 @@ const TableManager: React.FC = () => {
           <LoadingSpinner message={t("tables.loading")} />
         ) : (
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6 text-black">
-            {mesas.map((mesa) => (
+            {[...mesas]
+              .sort((a, b) => {
+                const pa = a.attendantCallAt ? 1 : 0;
+                const pb = b.attendantCallAt ? 1 : 0;
+                return pb - pa;
+              })
+              .map((mesa) => (
               <div
                 key={mesa.uuid}
-                className="bg-gray-100 shadow-md rounded-lg p-5 flex flex-col"
+                className={`bg-gray-100 shadow-md rounded-lg p-5 flex flex-col border-2 ${
+                  mesa.attendantCallAt
+                    ? "border-amber-400 ring-2 ring-amber-200/80"
+                    : "border-transparent"
+                }`}
               >
+                {mesa.attendantCallAt ? (
+                  <div className="mb-4 rounded-xl border border-amber-300 bg-amber-50 px-3 py-3 text-amber-950">
+                    <div className="flex items-start gap-2">
+                      <FaBell className="mt-0.5 shrink-0 text-amber-700" aria-hidden />
+                      <div className="min-w-0 flex-1 text-sm">
+                        <p className="font-semibold">{t("tables.attendantCalling")}</p>
+                        <p className="text-xs text-amber-900/85 mt-0.5">
+                          {t("tables.attendantSince", {
+                            time: new Date(mesa.attendantCallAt).toLocaleString(
+                              localeTag,
+                              {
+                                dateStyle: "short",
+                                timeStyle: "short",
+                              }
+                            ),
+                          })}
+                        </p>
+                        {mesa.attendantCallMessage ? (
+                          <p className="mt-2 text-xs border-t border-amber-200 pt-2 text-amber-900/90">
+                            {t("tables.attendantNote", {
+                              message: mesa.attendantCallMessage,
+                            })}
+                          </p>
+                        ) : null}
+                      </div>
+                    </div>
+                    <button
+                      type="button"
+                      onClick={() => acknowledgeAttendantCall(mesa)}
+                      disabled={ackingAttendant === mesa.uuid}
+                      className="mt-3 w-full rounded-lg bg-amber-700 px-3 py-2 text-sm font-semibold text-white hover:bg-amber-800 disabled:opacity-60"
+                    >
+                      {ackingAttendant === mesa.uuid
+                        ? t("common.saving")
+                        : t("tables.markAttendantDone")}
+                    </button>
+                  </div>
+                ) : null}
                 <div className="flex justify-between items-start gap-4 mb-3">
                   <div className="min-w-0 flex-1">
                     <h3 className="text-lg font-semibold text-zinc-800">

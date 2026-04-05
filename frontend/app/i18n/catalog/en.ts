@@ -34,6 +34,11 @@ export const enMessages = {
     currencyBrlNote:
       "Prices shown in BRL. On the annual plan you pay for 10 months and use the system all year.",
   },
+  realtime: {
+    attendantCallTitle: "Guest calling",
+    attendantCallBody: "Table {table} is asking for staff.",
+    attendantCallNote: "Note: {message}",
+  },
   language: {
     label: "Language",
     pt: "Português",
@@ -337,6 +342,11 @@ export const enMessages = {
     deleteTitle: "Delete table",
     deleteMsg: "Are you sure you want to delete table {n}?",
     noDesc: "No description provided.",
+    attendantCalling: "Guest calling for service",
+    attendantSince: "Since {time}",
+    attendantNote: "Note: {message}",
+    markAttendantDone: "Mark as served",
+    attendantAckError: "Could not record that the call was handled. Please try again.",
   },
   tabs: {
     title: "Tab list",
@@ -461,6 +471,14 @@ export const enMessages = {
     lineAddons: "Add-ons:",
     showImages: "View images",
     closeGallery: "Close gallery",
+    callAttendant: "Call server",
+    callAttendantSending: "Calling…",
+    callAttendantSent: "Request sent! A team member has been notified.",
+    callAttendantError: "Could not send the request.",
+    callAttendantWait: "Please wait before calling again.",
+    callAttendantModalTitle: "Call a team member",
+    callAttendantMessageOptional: "Optional note for staff (max. 280 characters)",
+    callAttendantConfirm: "Send",
   },
   pricing: {
     title: "Simple plans to transform your service",

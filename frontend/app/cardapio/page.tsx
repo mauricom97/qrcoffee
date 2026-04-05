@@ -10,6 +10,7 @@ import {
   FaSearch,
   FaImages,
   FaTimes,
+  FaBell,
 } from "react-icons/fa";
 import LoadingSpinner from "components/LoadingSpinner";
 import { useRealtimeUpdates } from "hooks/useRealtimeUpdates";
@@ -123,6 +124,10 @@ function CardapioContent() {
     title: string;
     urls: string[];
   } | null>(null);
+  const [callAttendantOpen, setCallAttendantOpen] = useState(false);
+  const [callAttendantMessage, setCallAttendantMessage] = useState("");
+  const [callAttendantSubmitting, setCallAttendantSubmitting] = useState(false);
+  const [callAttendantSuccess, setCallAttendantSuccess] = useState(false);
 
   const loadMenu = useCallback(async () => {
     if (!mesaUuid) return;
@@ -209,6 +214,7 @@ function CardapioContent() {
     if (!menu || cart.length === 0) return;
     setOrdering(true);
     setError(null);
+    setCallAttendantSuccess(false);
     try {
       const res = await fetch(`${API_URL}/public/orders`, {
         method: "POST",
@@ -245,6 +251,40 @@ function CardapioContent() {
       setError(e instanceof Error ? e.message : t("cardapio.sendError"));
     } finally {
       setOrdering(false);
+    }
+  };
+
+  const submitCallAttendant = async () => {
+    if (!menu) return;
+    setCallAttendantSubmitting(true);
+    setError(null);
+    setCallAttendantSuccess(false);
+    try {
+      const res = await fetch(
+        `${API_URL}/public/table/${encodeURIComponent(menu.table.uuid)}/call-attendant`,
+        {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({
+            message: callAttendantMessage.trim() || undefined,
+          }),
+        }
+      );
+      if (res.status === 429) {
+        throw new Error(t("cardapio.callAttendantWait"));
+      }
+      if (!res.ok) {
+        const err = await res.json().catch(() => ({}));
+        throw new Error(err?.message || t("cardapio.callAttendantError"));
+      }
+      setCallAttendantOpen(false);
+      setCallAttendantMessage("");
+      setCallAttendantSuccess(true);
+    } catch (e) {
+      setCallAttendantSuccess(false);
+      setError(e instanceof Error ? e.message : t("cardapio.callAttendantError"));
+    } finally {
+      setCallAttendantSubmitting(false);
     }
   };
 
@@ -359,16 +399,38 @@ function CardapioContent() {
         className="sticky top-0 z-10 text-white shadow-md"
         style={{ backgroundColor: theme.primary }}
       >
-        <div className="max-w-3xl mx-auto px-4 py-4">
-          <h1 className="text-xl font-bold">{t("cardapio.title")}</h1>
-          <p className="text-sm opacity-90">
-            {t("cardapio.table")} {menu?.table.number}
-            {menu?.table.description ? ` — ${menu.table.description}` : ""}
-          </p>
+        <div className="max-w-3xl mx-auto px-4 py-4 flex flex-col gap-3 sm:flex-row sm:items-start sm:justify-between">
+          <div className="min-w-0">
+            <h1 className="text-xl font-bold">{t("cardapio.title")}</h1>
+            <p className="text-sm opacity-90">
+              {t("cardapio.table")} {menu?.table.number}
+              {menu?.table.description ? ` — ${menu.table.description}` : ""}
+            </p>
+          </div>
+          <button
+            type="button"
+            onClick={() => {
+              setCallAttendantOpen(true);
+              setError(null);
+              setCallAttendantSuccess(false);
+            }}
+            className="shrink-0 inline-flex items-center justify-center gap-2 rounded-xl border border-white/40 bg-white/15 px-4 py-2.5 text-sm font-semibold hover:bg-white/25 transition"
+          >
+            <FaBell className="text-base" aria-hidden />
+            {t("cardapio.callAttendant")}
+          </button>
         </div>
       </header>
 
       <main className="max-w-3xl mx-auto px-4 py-6">
+        {callAttendantSuccess && (
+          <div
+            className="mb-4 p-4 rounded-xl text-sm bg-emerald-50 text-emerald-900 border border-emerald-200"
+            role="status"
+          >
+            {t("cardapio.callAttendantSent")}
+          </div>
+        )}
         {error && (
           <div className="mb-4 p-4 bg-red-50 text-red-700 rounded-xl text-sm">
             {error}
@@ -537,6 +599,61 @@ function CardapioContent() {
                 className="w-full rounded-xl object-contain bg-black/40 max-h-[70vh]"
               />
             ))}
+          </div>
+        </div>
+      ) : null}
+
+      {callAttendantOpen ? (
+        <div
+          className="fixed inset-0 z-40 flex items-end sm:items-center justify-center p-4 bg-black/45"
+          role="dialog"
+          aria-modal="true"
+          aria-labelledby="call-attendant-title"
+        >
+          <div className="bg-white rounded-t-2xl sm:rounded-2xl max-w-md w-full p-5 shadow-xl">
+            <h3
+              id="call-attendant-title"
+              className="text-lg font-semibold text-zinc-900"
+            >
+              {t("cardapio.callAttendantModalTitle")}
+            </h3>
+            <label className="block mt-4">
+              <span className="text-xs font-medium text-zinc-600">
+                {t("cardapio.callAttendantMessageOptional")}
+              </span>
+              <textarea
+                value={callAttendantMessage}
+                onChange={(e) =>
+                  setCallAttendantMessage(e.target.value.slice(0, 280))
+                }
+                rows={3}
+                maxLength={280}
+                className="mt-1 w-full rounded-xl border border-zinc-200 bg-white text-zinc-800 px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-zinc-400 resize-none"
+              />
+            </label>
+            <div className="flex gap-2 mt-6">
+              <button
+                type="button"
+                onClick={() => {
+                  setCallAttendantOpen(false);
+                  setCallAttendantMessage("");
+                }}
+                className="flex-1 rounded-xl border border-zinc-300 py-3 text-sm font-medium text-zinc-700 hover:bg-zinc-50"
+              >
+                {t("common.cancel")}
+              </button>
+              <button
+                type="button"
+                onClick={submitCallAttendant}
+                disabled={callAttendantSubmitting}
+                className="flex-1 rounded-xl py-3 text-sm font-medium text-white hover:opacity-90 disabled:opacity-50"
+                style={{ backgroundColor: theme.primary }}
+              >
+                {callAttendantSubmitting
+                  ? t("cardapio.callAttendantSending")
+                  : t("cardapio.callAttendantConfirm")}
+              </button>
+            </div>
           </div>
         </div>
       ) : null}
