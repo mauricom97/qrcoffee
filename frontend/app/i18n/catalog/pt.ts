@@ -188,6 +188,9 @@ export const ptMessages = {
       blue: "Azul",
       red: "Vermelho",
     },
+    showProductImagesLabel: "Exibir fotos dos produtos no cardápio online",
+    showProductImagesHint:
+      "Desative para ocultar o botão de ver imagens no cardápio. Vale para todo o menu (não é por produto).",
   },
   cardapioModal: {
     title: "Cardápio Online",
@@ -447,6 +450,8 @@ export const ptMessages = {
     customizeConfirm: "Adicionar ao carrinho",
     customizeCancel: "Cancelar",
     lineAddons: "Extras:",
+    showImages: "Ver imagens",
+    closeGallery: "Fechar galeria",
   },
   pricing: {
     title: "Planos simples para transformar seu atendimento",

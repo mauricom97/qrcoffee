@@ -188,6 +188,9 @@ export const enMessages = {
       blue: "Blue",
       red: "Red",
     },
+    showProductImagesLabel: "Show product photos on the online menu",
+    showProductImagesHint:
+      "Turn off to hide the “view images” button on the menu. Applies to the whole menu, not per product.",
   },
   cardapioModal: {
     title: "Online menu",
@@ -447,6 +450,8 @@ export const enMessages = {
     customizeConfirm: "Add to cart",
     customizeCancel: "Cancel",
     lineAddons: "Add-ons:",
+    showImages: "View images",
+    closeGallery: "Close gallery",
   },
   pricing: {
     title: "Simple plans to transform your service",

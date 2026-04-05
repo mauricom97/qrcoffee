@@ -15,6 +15,8 @@ export type MenuTheme = {
   accent?: string;
   textPrimary?: string;
   textMuted?: string;
+  /** Se `false`, o cardápio online não exibe opção de ver fotos dos produtos. Padrão: exibir quando houver imagens. */
+  showProductImages?: boolean;
 };
 
 @Controller('company')
@@ -51,6 +53,7 @@ export class CompanyController {
       where: { uuid: companyUuid },
       data: { menuTheme: themeJson },
     });
+    this.realtime.emitMenuUpdate(companyUuid);
     return { theme: body.theme };
   }
 

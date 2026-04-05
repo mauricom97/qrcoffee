@@ -82,11 +82,44 @@ export default function CardapioThemeForm({ onSave, compact = false }: CardapioT
         <h3 className="text-sm font-medium text-zinc-700 mb-2">{t("cardapioTheme.presetsTitle")}</h3>
         <div className="flex flex-wrap gap-2">
           {PRESETS.map((p) => (
-            <button key={p.presetKey} type="button" onClick={() => setTheme({ ...p.theme })} className="px-3 py-1.5 rounded-lg border border-zinc-200 text-xs font-medium text-zinc-700 hover:bg-zinc-50 transition">
+            <button
+              key={p.presetKey}
+              type="button"
+              onClick={() =>
+                setTheme((th) => ({
+                  ...p.theme,
+                  showProductImages: th?.showProductImages !== false,
+                }))
+              }
+              className="px-3 py-1.5 rounded-lg border border-zinc-200 text-xs font-medium text-zinc-700 hover:bg-zinc-50 transition"
+            >
               {t(`cardapioTheme.presets.${p.presetKey}`)}
             </button>
           ))}
         </div>
+      </div>
+      <div className="border-t border-zinc-200 pt-4">
+        <label className="flex items-start gap-3 rounded-xl border border-zinc-200 p-3 cursor-pointer hover:bg-zinc-50">
+          <input
+            type="checkbox"
+            className="h-4 w-4 mt-0.5 rounded border-zinc-300 shrink-0"
+            checked={currentTheme.showProductImages !== false}
+            onChange={(e) =>
+              setTheme((th) => ({
+                ...(th ?? DEFAULT_THEME),
+                showProductImages: e.target.checked,
+              }))
+            }
+          />
+          <span>
+            <span className="block text-sm font-medium text-zinc-800">
+              {t("cardapioTheme.showProductImagesLabel")}
+            </span>
+            <span className="block text-xs text-zinc-500 mt-0.5">
+              {t("cardapioTheme.showProductImagesHint")}
+            </span>
+          </span>
+        </label>
       </div>
       {!compact && (
         <div className="border-t border-zinc-200 pt-4 space-y-3">

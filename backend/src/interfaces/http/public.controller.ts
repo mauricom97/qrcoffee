@@ -82,6 +82,11 @@ export class PublicController {
       (p) => p.isKitchenProduct !== true || kitchenOpen,
     );
 
+    const hideProductImages =
+      theme &&
+      typeof theme === 'object' &&
+      (theme as { showProductImages?: boolean }).showProductImages === false;
+
     const categories = await this.prisma.client.category.findMany({
       where: { companyUuid: table.companyUuid },
       orderBy: { name: 'asc' },
@@ -89,7 +94,15 @@ export class PublicController {
 
     const grouped = categories.map((cat) => ({
       ...cat,
-      products: products.filter((p) => p.categoryUuid === cat.uuid),
+      products: products
+        .filter((p) => p.categoryUuid === cat.uuid)
+        .map((p) => {
+          if (!hideProductImages) return p;
+          const withMaybeImages = p as typeof p & { images?: unknown };
+          if (withMaybeImages.images == null) return p;
+          const { images: _i, ...rest } = withMaybeImages;
+          return rest as typeof p;
+        }),
     }));
 
     return {

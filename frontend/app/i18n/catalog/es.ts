@@ -188,6 +188,9 @@ export const esMessages = {
       blue: "Azul",
       red: "Rojo",
     },
+    showProductImagesLabel: "Mostrar fotos de productos en el menú online",
+    showProductImagesHint:
+      "Desactive para ocultar el botón de ver imágenes en el menú. Aplica a todo el menú, no por producto.",
   },
   cardapioModal: {
     title: "Menú online",
@@ -448,6 +451,8 @@ export const esMessages = {
     customizeConfirm: "Añadir al carrito",
     customizeCancel: "Cancelar",
     lineAddons: "Extras:",
+    showImages: "Ver imágenes",
+    closeGallery: "Cerrar galería",
   },
   pricing: {
     title: "Planes simples para transformar su atención",
