@@ -92,10 +92,12 @@ export const esMessages = {
       "Marque lo que los usuarios de este grupo pueden usar. Puede cambiarlo después.",
     perm: {
       DASHBOARD: "Panel",
+      DASHBOARD_FINANCE: "Panel — pestaña financiera (facturación)",
       PRODUCTS: "Productos y categorías",
       TABLES: "Mesas",
       TABS: "Comandas",
       ORDERS: "Pedidos",
+      ATTENDANCE_FINANCE: "Atención — ver importes (pedidos y comandas)",
       MENU: "Menú (QR y enlaces)",
       CASHIER: "Caja",
       STOCK: "Stock",

@@ -9,11 +9,11 @@ import { CompanyUuid } from './decorators/company.decorator';
 
 @Controller('dashboard')
 @UseGuards(JwtAuthGuard, PermissionsGuard)
-@RequirePanelPermission(PANEL_PERMISSION_CODES.DASHBOARD)
 export class DashboardController {
   constructor(private readonly dashboardService: DashboardService) {}
 
   @Get('attendance')
+  @RequirePanelPermission(PANEL_PERMISSION_CODES.DASHBOARD)
   async getAttendance(
     @CompanyUuid() companyUuid: string,
     @Query('period') period?: DashboardPeriod,
@@ -25,6 +25,7 @@ export class DashboardController {
   }
 
   @Get('attendance/summary')
+  @RequirePanelPermission(PANEL_PERMISSION_CODES.DASHBOARD)
   async getAttendanceSummary(
     @CompanyUuid() companyUuid: string,
     @Query('from') from?: string,
@@ -34,6 +35,10 @@ export class DashboardController {
   }
 
   @Get('financial')
+  @RequirePanelPermission(
+    PANEL_PERMISSION_CODES.DASHBOARD,
+    PANEL_PERMISSION_CODES.DASHBOARD_FINANCE,
+  )
   async getFinancial(
     @CompanyUuid() companyUuid: string,
     @Query('period') period?: DashboardPeriod,
@@ -45,6 +50,10 @@ export class DashboardController {
   }
 
   @Get('financial/summary')
+  @RequirePanelPermission(
+    PANEL_PERMISSION_CODES.DASHBOARD,
+    PANEL_PERMISSION_CODES.DASHBOARD_FINANCE,
+  )
   async getFinancialSummary(
     @CompanyUuid() companyUuid: string,
     @Query('from') from?: string,
