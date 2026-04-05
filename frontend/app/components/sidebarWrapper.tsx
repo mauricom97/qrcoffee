@@ -2,6 +2,7 @@
 
 import { usePathname } from "next/navigation";
 import Sidebar from "./sidebar";
+import PanelNotificationBell from "./PanelNotificationBell";
 
 const HIDE_SIDEBAR_ROUTES = ["/", "/login", "/register"];
 
@@ -12,5 +13,10 @@ export default function SidebarWrapper() {
     return null;
   }
 
-  return <Sidebar />;
+  return (
+    <>
+      <Sidebar />
+      <PanelNotificationBell />
+    </>
+  );
 }
