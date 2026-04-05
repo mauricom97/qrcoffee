@@ -166,6 +166,13 @@ export const ptMessages = {
       "5": "Sexta-feira",
       "6": "Sábado",
     },
+    tab: {
+      orders: "Pedidos",
+      kitchen: "Cozinha",
+      appearance: "Aparência",
+      language: "Idioma",
+      team: "Equipe",
+    },
   },
   soundToggle: {
     label: "Reproduzir som quando pedido ficar pronto",

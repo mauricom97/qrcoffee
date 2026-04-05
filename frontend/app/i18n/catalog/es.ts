@@ -166,6 +166,13 @@ export const esMessages = {
       "5": "Viernes",
       "6": "Sábado",
     },
+    tab: {
+      orders: "Pedidos",
+      kitchen: "Cocina",
+      appearance: "Apariencia",
+      language: "Idioma",
+      team: "Equipo",
+    },
   },
   soundToggle: {
     label: "Reproducir sonido cuando el pedido esté listo",

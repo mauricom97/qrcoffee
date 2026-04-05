@@ -166,6 +166,13 @@ export const enMessages = {
       "5": "Friday",
       "6": "Saturday",
     },
+    tab: {
+      orders: "Orders",
+      kitchen: "Kitchen",
+      appearance: "Appearance",
+      language: "Language",
+      team: "Team",
+    },
   },
   soundToggle: {
     label: "Play sound when an order is ready",
