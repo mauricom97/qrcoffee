@@ -3,5 +3,6 @@ import type { PanelPermissionCode } from '@application/permissions/panel-permiss
 
 export const PANEL_PERMISSION_METADATA_KEY = 'panelPermission';
 
-export const RequirePanelPermission = (code: PanelPermissionCode) =>
-  SetMetadata(PANEL_PERMISSION_METADATA_KEY, code);
+/** Todas as permissões listadas são exigidas (AND). */
+export const RequirePanelPermission = (...codes: PanelPermissionCode[]) =>
+  SetMetadata(PANEL_PERMISSION_METADATA_KEY, codes);

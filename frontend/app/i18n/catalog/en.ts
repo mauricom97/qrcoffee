@@ -92,10 +92,12 @@ export const enMessages = {
       "Choose what users in this group can use. You can change this later.",
     perm: {
       DASHBOARD: "Dashboard",
+      DASHBOARD_FINANCE: "Dashboard — financial tab (revenue)",
       PRODUCTS: "Products & categories",
       TABLES: "Tables",
       TABS: "Tabs (comandas)",
       ORDERS: "Orders",
+      ATTENDANCE_FINANCE: "Service — view amounts (orders & tabs)",
       MENU: "Menu (QR & links)",
       CASHIER: "Cashier",
       STOCK: "Stock",

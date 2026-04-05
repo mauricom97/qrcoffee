@@ -92,10 +92,12 @@ export const ptMessages = {
       "Marque o que os usuários deste grupo poderão usar. Você pode ajustar depois.",
     perm: {
       DASHBOARD: "Dashboard",
+      DASHBOARD_FINANCE: "Dashboard — aba financeira (faturamento)",
       PRODUCTS: "Produtos e categorias",
       TABLES: "Mesas",
       TABS: "Comandas",
       ORDERS: "Pedidos",
+      ATTENDANCE_FINANCE: "Atendimento — ver valores (pedidos e comandas)",
       MENU: "Cardápio (QR e links)",
       CASHIER: "Caixa",
       STOCK: "Estoque",

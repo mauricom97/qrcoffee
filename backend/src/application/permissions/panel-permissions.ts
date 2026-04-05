@@ -1,10 +1,14 @@
 /** Areas do painel que podem ser concedidas por grupo (usuarios STAFF). ADMIN ignora e tem acesso total. */
 export const PANEL_PERMISSION_CODES = {
   DASHBOARD: 'DASHBOARD',
+  /** Métricas financeiras (faturamento) na página do dashboard — exige também DASHBOARD nas rotas. */
+  DASHBOARD_FINANCE: 'DASHBOARD_FINANCE',
   PRODUCTS: 'PRODUCTS',
   TABLES: 'TABLES',
   TABS: 'TABS',
   ORDERS: 'ORDERS',
+  /** Valores monetários em pedidos e comandas (atendimento). */
+  ATTENDANCE_FINANCE: 'ATTENDANCE_FINANCE',
   MENU: 'MENU',
   CASHIER: 'CASHIER',
   STOCK: 'STOCK',

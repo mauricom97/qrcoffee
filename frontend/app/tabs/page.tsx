@@ -21,7 +21,7 @@ import LoadingSpinner from "components/LoadingSpinner";
 import { useRealtimeUpdates } from "hooks/useRealtimeUpdates";
 import { useLocaleContext } from "i18n/LocaleContext";
 import { useRequirePanelPermission } from "hooks/useRequirePanelPermission";
-import { PANEL_PERMISSIONS } from "lib/panelPermissions";
+import { PANEL_PERMISSIONS, userHasPanelPermission } from "lib/panelPermissions";
 
 const API_URL =
   process.env.NEXT_PUBLIC_BASE_API_URL || "http://localhost:3352";
@@ -56,6 +56,13 @@ export default function TabPage() {
   useRequirePanelPermission(PANEL_PERMISSIONS.TABS);
   const { user } = useAuth();
   const { t, localeTag } = useLocaleContext();
+  const canViewAttendanceFinance =
+    !!user &&
+    userHasPanelPermission(
+      user.role,
+      user.permissions,
+      PANEL_PERMISSIONS.ATTENDANCE_FINANCE,
+    );
   const statusLabel = (s: OrderStatus) => t(`tabs.status.${s}`);
 
   const [comandas, setComandas] = useState<OrderDto[]>([]);
@@ -120,13 +127,15 @@ export default function TabPage() {
     }
   };
 
-  const grandTotal = comandas.reduce((acc, order) => {
-    const orderTotal = order.items.reduce(
-      (sum, item) => sum + item.unitPrice * item.quantity,
-      0
-    );
-    return acc + orderTotal;
-  }, 0);
+  const grandTotal = canViewAttendanceFinance
+    ? comandas.reduce((acc, order) => {
+        const orderTotal = order.items.reduce(
+          (sum, item) => sum + item.unitPrice * item.quantity,
+          0
+        );
+        return acc + orderTotal;
+      }, 0)
+    : 0;
 
   const statusKeys = ["PENDING", "PREPARING", "READY", "DELIVERED"] as OrderStatus[];
 
@@ -247,10 +256,12 @@ export default function TabPage() {
           <>
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
               {comandas.map((order) => {
-                const orderTotal = order.items.reduce(
-                  (sum, item) => sum + item.unitPrice * item.quantity,
-                  0
-                );
+                const orderTotal = canViewAttendanceFinance
+                  ? order.items.reduce(
+                      (sum, item) => sum + item.unitPrice * item.quantity,
+                      0
+                    )
+                  : 0;
                 return (
                   <div
                     key={order.uuid}
@@ -302,21 +313,25 @@ export default function TabPage() {
                               </span>
                             ) : null}
                           </span>
-                          <span className="text-sm bg-zinc-100 px-2 py-1 rounded-lg text-zinc-600 shrink-0">
-                            R$ {(item.unitPrice * item.quantity).toFixed(2)}
-                          </span>
+                          {canViewAttendanceFinance ? (
+                            <span className="text-sm bg-zinc-100 px-2 py-1 rounded-lg text-zinc-600 shrink-0">
+                              R$ {(item.unitPrice * item.quantity).toFixed(2)}
+                            </span>
+                          ) : null}
                         </li>
                       ))}
                     </ul>
                     <div className="px-5 py-4 bg-zinc-50/80 border-t border-zinc-200 space-y-3">
-                      <div className="flex justify-between items-center">
-                        <span className="font-semibold text-zinc-900">
-                          {t("tabs.orderTotal")}
-                        </span>
-                        <span className="text-lg font-bold text-zinc-900">
-                          R$ {orderTotal.toFixed(2)}
-                        </span>
-                      </div>
+                      {canViewAttendanceFinance ? (
+                        <div className="flex justify-between items-center">
+                          <span className="font-semibold text-zinc-900">
+                            {t("tabs.orderTotal")}
+                          </span>
+                          <span className="text-lg font-bold text-zinc-900">
+                            R$ {orderTotal.toFixed(2)}
+                          </span>
+                        </div>
+                      ) : null}
                       <div className="flex flex-wrap gap-1">
                         {statusKeys
                           .filter((s) => s !== order.status)
@@ -339,16 +354,18 @@ export default function TabPage() {
               })}
             </div>
 
-            <div className="mt-8 p-6 rounded-2xl bg-zinc-900 text-white shadow-lg">
-              <div className="flex flex-wrap items-center justify-between gap-4">
-                <span className="text-lg font-semibold">
-                  {t("tabs.grandTotal")}
-                </span>
-                <span className="text-2xl font-bold">
-                  R$ {grandTotal.toFixed(2)}
-                </span>
+            {canViewAttendanceFinance ? (
+              <div className="mt-8 p-6 rounded-2xl bg-zinc-900 text-white shadow-lg">
+                <div className="flex flex-wrap items-center justify-between gap-4">
+                  <span className="text-lg font-semibold">
+                    {t("tabs.grandTotal")}
+                  </span>
+                  <span className="text-2xl font-bold">
+                    R$ {grandTotal.toFixed(2)}
+                  </span>
+                </div>
               </div>
-            </div>
+            ) : null}
           </>
         )}
       </div>

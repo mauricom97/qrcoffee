@@ -15,22 +15,14 @@ import {
   AreaChart,
   Area,
 } from 'recharts';
-import { getAuthHeaders } from 'contexts/AuthContext';
+import { getAuthHeaders, useAuth } from 'contexts/AuthContext';
 import LoadingSpinner from 'components/LoadingSpinner';
 import { useLocaleContext } from 'i18n/LocaleContext';
 import { useRequirePanelPermission } from 'hooks/useRequirePanelPermission';
-import { PANEL_PERMISSIONS } from 'lib/panelPermissions';
+import { PANEL_PERMISSIONS, userHasPanelPermission } from 'lib/panelPermissions';
 
 const API_URL =
   process.env.NEXT_PUBLIC_BASE_API_URL || 'http://localhost:3352';
-
-/* =======================
-   PERMISSÕES
-======================= */
-const userPermission = {
-  canViewAttendance: true,
-  canViewFinancial: true,
-};
 
 /* =======================
    TIPOS
@@ -65,7 +57,15 @@ type FinancialSummary = {
 
 export default function Dashboard() {
   useRequirePanelPermission(PANEL_PERMISSIONS.DASHBOARD);
+  const { user } = useAuth();
   const { t, localeTag } = useLocaleContext();
+  const canViewFinancial =
+    !!user &&
+    userHasPanelPermission(
+      user.role,
+      user.permissions,
+      PANEL_PERMISSIONS.DASHBOARD_FINANCE,
+    );
 
   function formatCurrency(value: number) {
     return new Intl.NumberFormat(localeTag, {
@@ -74,7 +74,7 @@ export default function Dashboard() {
     }).format(value);
   }
   const [activeTab, setActiveTab] = useState<'attendance' | 'financial'>(
-    userPermission.canViewAttendance ? 'attendance' : 'financial'
+    'attendance',
   );
   const [period, setPeriod] = useState<'day' | 'month'>('month');
 
@@ -90,7 +90,12 @@ export default function Dashboard() {
   const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {
-    if (!userPermission.canViewAttendance) return;
+    if (!canViewFinancial && activeTab === 'financial') {
+      setActiveTab('attendance');
+    }
+  }, [canViewFinancial, activeTab]);
+
+  useEffect(() => {
     setLoadingAttendance(true);
     setError(null);
     Promise.all([
@@ -109,10 +114,10 @@ export default function Dashboard() {
       })
       .catch((e) => setError(e.message))
       .finally(() => setLoadingAttendance(false));
-  }, [period, activeTab === 'attendance']);
+  }, [period, activeTab === 'attendance', t]);
 
   useEffect(() => {
-    if (!userPermission.canViewFinancial) return;
+    if (!canViewFinancial) return;
     setLoadingFinancial(true);
     setError(null);
     Promise.all([
@@ -131,7 +136,7 @@ export default function Dashboard() {
       })
       .catch((e) => setError(e.message))
       .finally(() => setLoadingFinancial(false));
-  }, [period, activeTab === 'financial']);
+  }, [period, activeTab === 'financial', canViewFinancial, t]);
 
   const loading =
     (activeTab === 'attendance' && loadingAttendance) ||
@@ -150,20 +155,20 @@ export default function Dashboard() {
         </header>
 
         <div className="flex flex-wrap items-center gap-2">
-          {userPermission.canViewAttendance && (
+          <button
+            type="button"
+            onClick={() => setActiveTab('attendance')}
+            className={`rounded-lg px-4 py-2 text-sm font-medium transition ${
+              activeTab === 'attendance'
+                ? 'bg-zinc-900 text-white'
+                : 'bg-white text-zinc-600 hover:bg-zinc-200'
+            }`}
+          >
+            {t('dashboard.tabAttendance')}
+          </button>
+          {canViewFinancial ? (
             <button
-              onClick={() => setActiveTab('attendance')}
-              className={`rounded-lg px-4 py-2 text-sm font-medium transition ${
-                activeTab === 'attendance'
-                  ? 'bg-zinc-900 text-white'
-                  : 'bg-white text-zinc-600 hover:bg-zinc-200'
-              }`}
-            >
-              {t('dashboard.tabAttendance')}
-            </button>
-          )}
-          {userPermission.canViewFinancial && (
-            <button
+              type="button"
               onClick={() => setActiveTab('financial')}
               className={`rounded-lg px-4 py-2 text-sm font-medium transition ${
                 activeTab === 'financial'
@@ -173,7 +178,7 @@ export default function Dashboard() {
             >
               {t('dashboard.tabFinancial')}
             </button>
-          )}
+          ) : null}
           <div className="ml-auto flex gap-1">
             <button
               onClick={() => setPeriod('day')}
@@ -207,7 +212,7 @@ export default function Dashboard() {
         {/* =======================
            ATENDIMENTO
         ======================= */}
-        {activeTab === 'attendance' && userPermission.canViewAttendance && (
+        {activeTab === 'attendance' && (
           <section className="space-y-6">
             {attendanceSummary && (
               <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
@@ -321,7 +326,7 @@ export default function Dashboard() {
         {/* =======================
            FINANCEIRO
         ======================= */}
-        {activeTab === 'financial' && userPermission.canViewFinancial && (
+        {activeTab === 'financial' && canViewFinancial && (
           <section className="space-y-6">
             {financialSummary && (
               <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
@@ -423,12 +428,6 @@ export default function Dashboard() {
           </section>
         )}
 
-        {!userPermission.canViewAttendance &&
-          !userPermission.canViewFinancial && (
-            <div className="rounded-xl bg-zinc-100 p-4 text-zinc-700">
-              {t('dashboard.noPermission')}
-            </div>
-          )}
       </div>
     </div>
   );

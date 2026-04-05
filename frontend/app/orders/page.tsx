@@ -18,7 +18,7 @@ import ConfirmModal from "components/ConfirmModal";
 import LoadingSpinner from "components/LoadingSpinner";
 import { useLocaleContext } from "i18n/LocaleContext";
 import { useRequirePanelPermission } from "hooks/useRequirePanelPermission";
-import { PANEL_PERMISSIONS } from "lib/panelPermissions";
+import { PANEL_PERMISSIONS, userHasPanelPermission } from "lib/panelPermissions";
 
 const API_URL = process.env.NEXT_PUBLIC_BASE_API_URL || "http://localhost:3352";
 const SOUND_READY_URL = "/Ding - Sound Effect.mp3";
@@ -48,6 +48,13 @@ export default function OrdersPage() {
   useRequirePanelPermission(PANEL_PERMISSIONS.ORDERS);
   const { user } = useAuth();
   const { t, localeTag } = useLocaleContext();
+  const canViewAttendanceFinance =
+    !!user &&
+    userHasPanelPermission(
+      user.role,
+      user.permissions,
+      PANEL_PERMISSIONS.ATTENDANCE_FINANCE,
+    );
   const statusLabel = (s: OrderStatus) => t(`orders.status.${s}`);
   const [orders, setOrders] = useState<OrderDto[]>([]);
   const [tables, setTables] = useState<Mesa[]>([]);
@@ -402,7 +409,9 @@ export default function OrdersPage() {
                     <option value="">{t("orders.productOption")}</option>
                     {products.map((p) => (
                       <option key={p.uuid} value={p.uuid}>
-                        {p.name} — R$ {p.price.toFixed(2)}
+                        {canViewAttendanceFinance
+                          ? `${p.name} — R$ ${p.price.toFixed(2)}`
+                          : p.name}
                       </option>
                     ))}
                   </select>
@@ -432,8 +441,10 @@ export default function OrdersPage() {
                       >
                         <span className="min-w-0">
                           <span className="block">
-                            {item.productName} × {item.quantity} — R${" "}
-                            {(item.unitPrice * item.quantity).toFixed(2)}
+                            {item.productName} × {item.quantity}
+                            {canViewAttendanceFinance
+                              ? ` — R$ ${(item.unitPrice * item.quantity).toFixed(2)}`
+                              : null}
                           </span>
                           {item.addonsSnapshot?.length ? (
                             <span className="block text-xs text-zinc-500 mt-0.5">
@@ -526,9 +537,11 @@ export default function OrdersPage() {
                       />
                       <span className="text-zinc-800 truncate">{a.name}</span>
                     </span>
-                    <span className="text-sm text-zinc-600 shrink-0">
-                      +R$ {(Number(a.extraPrice) || 0).toFixed(2)}
-                    </span>
+                    {canViewAttendanceFinance ? (
+                      <span className="text-sm text-zinc-600 shrink-0">
+                        +R$ {(Number(a.extraPrice) || 0).toFixed(2)}
+                      </span>
+                    ) : null}
                   </label>
                 ))}
               </ul>
@@ -607,9 +620,11 @@ export default function OrdersPage() {
                           </span>
                         ) : null}
                       </span>
-                      <span className="text-zinc-600 shrink-0">
-                        R$ {(item.unitPrice * item.quantity).toFixed(2)}
-                      </span>
+                      {canViewAttendanceFinance ? (
+                        <span className="text-zinc-600 shrink-0">
+                          R$ {(item.unitPrice * item.quantity).toFixed(2)}
+                        </span>
+                      ) : null}
                     </li>
                   ))}
                 </ul>

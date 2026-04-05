@@ -14,11 +14,11 @@ export class PermissionsGuard implements CanActivate {
   ) {}
 
   async canActivate(context: ExecutionContext): Promise<boolean> {
-    const code = this.reflector.getAllAndOverride<PanelPermissionCode | undefined>(
-      PANEL_PERMISSION_METADATA_KEY,
-      [context.getHandler(), context.getClass()],
-    );
-    if (!code) {
+    const raw = this.reflector.getAllAndOverride<
+      PanelPermissionCode | PanelPermissionCode[] | undefined
+    >(PANEL_PERMISSION_METADATA_KEY, [context.getHandler(), context.getClass()]);
+    const required = Array.isArray(raw) ? raw : raw != null ? [raw] : [];
+    if (required.length === 0) {
       return true;
     }
     const request = context.switchToHttp().getRequest<{ user: RequestUser }>();
@@ -30,9 +30,11 @@ export class PermissionsGuard implements CanActivate {
       return true;
     }
     const effective = await this.permissionsService.getEffectivePanelPermissions(user.uuid, user.role);
-    if (effective.includes(code)) {
-      return true;
+    for (const code of required) {
+      if (!effective.includes(code)) {
+        throw new ForbiddenException('Sem permissão para acessar este recurso.');
+      }
     }
-    throw new ForbiddenException('Sem permissão para acessar este recurso.');
+    return true;
   }
 }
