@@ -289,12 +289,20 @@ export default function TabPage() {
                       {order.items.map((item) => (
                         <li
                           key={item.uuid}
-                          className="flex justify-between items-center text-zinc-900 border-b border-zinc-200 pb-3 last:border-0 last:pb-0"
+                          className="flex justify-between items-start gap-2 text-zinc-900 border-b border-zinc-200 pb-3 last:border-0 last:pb-0"
                         >
-                          <span className="font-medium">
-                            {item.productName} (x{item.quantity})
+                          <span className="font-medium min-w-0">
+                            <span className="block">
+                              {item.productName} (x{item.quantity})
+                            </span>
+                            {item.addonsSnapshot?.length ? (
+                              <span className="block text-xs font-normal text-zinc-500 mt-1">
+                                {t("cardapio.lineAddons")}{" "}
+                                {item.addonsSnapshot.map((a) => a.name).join(", ")}
+                              </span>
+                            ) : null}
                           </span>
-                          <span className="text-sm bg-zinc-100 px-2 py-1 rounded-lg text-zinc-600">
+                          <span className="text-sm bg-zinc-100 px-2 py-1 rounded-lg text-zinc-600 shrink-0">
                             R$ {(item.unitPrice * item.quantity).toFixed(2)}
                           </span>
                         </li>

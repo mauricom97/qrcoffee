@@ -19,6 +19,6 @@ export class CreateProductUseCase {
       input.companyUuid,
       Boolean(input.isKitchenProduct),
     );
-    return await this.productRepository.save(product);
+    return await this.productRepository.save(product, input.addons);
   }
 }

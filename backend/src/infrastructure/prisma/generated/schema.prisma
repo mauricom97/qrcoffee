@@ -83,13 +83,29 @@ model Product {
   isKitchenProduct Boolean @default(false)
 
   categoryUuid String
-  category     Category    @relation(fields: [categoryUuid], references: [uuid])
+  category     Category       @relation(fields: [categoryUuid], references: [uuid])
   companyUuid  String
-  company      Company     @relation(fields: [companyUuid], references: [uuid], onDelete: Cascade)
+  company      Company        @relation(fields: [companyUuid], references: [uuid], onDelete: Cascade)
   orderItems   OrderItem[]
+  addons       ProductAddon[]
 
   @@index([categoryUuid])
   @@index([companyUuid])
+}
+
+/**
+ * Opcionais do produto (ex.: chantilly, shot extra) com valor adicional
+ */
+model ProductAddon {
+  uuid        String  @id @default(uuid())
+  productUuid String
+  product     Product @relation(fields: [productUuid], references: [uuid], onDelete: Cascade)
+  name        String
+  extraPrice  Float
+  active      Boolean @default(true)
+  sortOrder   Int     @default(0)
+
+  @@index([productUuid])
 }
 
 model Category {
@@ -129,13 +145,17 @@ model Order {
 }
 
 model OrderItem {
-  uuid        String  @id @default(uuid())
-  orderUuid   String
-  order       Order   @relation(fields: [orderUuid], references: [uuid], onDelete: Cascade)
-  productUuid String
-  product     Product @relation(fields: [productUuid], references: [uuid])
-  quantity    Int
-  unitPrice   Float // preço no momento do pedido
+  uuid           String  @id @default(uuid())
+  orderUuid      String
+  order          Order   @relation(fields: [orderUuid], references: [uuid], onDelete: Cascade)
+  productUuid    String
+  product        Product @relation(fields: [productUuid], references: [uuid])
+  quantity       Int
+  unitPrice      Float // preço no momento do pedido
+  /**
+   * Cópia dos adicionais escolhidos: [{ name, extraPrice }]
+   */
+  addonsSnapshot Json?
 
   @@index([orderUuid])
   @@index([productUuid])

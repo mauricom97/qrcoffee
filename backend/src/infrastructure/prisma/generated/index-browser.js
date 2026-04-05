@@ -163,6 +163,15 @@ exports.Prisma.ProductScalarFieldEnum = {
   companyUuid: 'companyUuid'
 };
 
+exports.Prisma.ProductAddonScalarFieldEnum = {
+  uuid: 'uuid',
+  productUuid: 'productUuid',
+  name: 'name',
+  extraPrice: 'extraPrice',
+  active: 'active',
+  sortOrder: 'sortOrder'
+};
+
 exports.Prisma.CategoryScalarFieldEnum = {
   uuid: 'uuid',
   name: 'name',
@@ -190,7 +199,8 @@ exports.Prisma.OrderItemScalarFieldEnum = {
   orderUuid: 'orderUuid',
   productUuid: 'productUuid',
   quantity: 'quantity',
-  unitPrice: 'unitPrice'
+  unitPrice: 'unitPrice',
+  addonsSnapshot: 'addonsSnapshot'
 };
 
 exports.Prisma.CashierSessionScalarFieldEnum = {
@@ -217,6 +227,11 @@ exports.Prisma.SortOrder = {
   desc: 'desc'
 };
 
+exports.Prisma.NullableJsonNullValueInput = {
+  DbNull: Prisma.DbNull,
+  JsonNull: Prisma.JsonNull
+};
+
 exports.Prisma.QueryMode = {
   default: 'default',
   insensitive: 'insensitive'
@@ -225,6 +240,12 @@ exports.Prisma.QueryMode = {
 exports.Prisma.NullsOrder = {
   first: 'first',
   last: 'last'
+};
+
+exports.Prisma.JsonNullValueFilter = {
+  DbNull: Prisma.DbNull,
+  JsonNull: Prisma.JsonNull,
+  AnyNull: Prisma.AnyNull
 };
 exports.UserRole = exports.$Enums.UserRole = {
   ADMIN: 'ADMIN',
@@ -237,6 +258,7 @@ exports.Prisma.ModelName = {
   UserGroup: 'UserGroup',
   UserGroupMember: 'UserGroupMember',
   Product: 'Product',
+  ProductAddon: 'ProductAddon',
   Category: 'Category',
   Table: 'Table',
   Order: 'Order',

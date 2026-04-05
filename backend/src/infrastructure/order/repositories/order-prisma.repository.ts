@@ -4,6 +4,18 @@ import { OrderListDto } from '@domain/order/repositories/order.repository';
 import { PrismaService } from '@infrastructure/prisma/prisma.service';
 import { Injectable } from '@nestjs/common';
 
+function parseAddonsSnapshot(raw: unknown): { name: string; extraPrice: number }[] | null {
+  if (raw == null) return null;
+  if (!Array.isArray(raw)) return null;
+  const out = raw
+    .filter((x: any) => x && typeof x.name === 'string')
+    .map((x: any) => ({
+      name: String(x.name).slice(0, 120),
+      extraPrice: Math.max(0, Number(x.extraPrice) || 0),
+    }));
+  return out.length ? out : null;
+}
+
 @Injectable()
 export class OrderPrismaRepository {
   constructor(private readonly prisma: PrismaService) {}
@@ -28,6 +40,10 @@ export class OrderPrismaRepository {
             productUuid: item.productUuid,
             quantity: item.quantity,
             unitPrice: item.unitPrice,
+            addonsSnapshot:
+              item.addonsSnapshot && item.addonsSnapshot.length > 0
+                ? item.addonsSnapshot
+                : undefined,
           })),
         },
       },
@@ -95,6 +111,7 @@ export class OrderPrismaRepository {
         productName: item.product?.name ?? '',
         quantity: item.quantity,
         unitPrice: item.unitPrice,
+        addonsSnapshot: parseAddonsSnapshot(item.addonsSnapshot),
       })),
     };
   }

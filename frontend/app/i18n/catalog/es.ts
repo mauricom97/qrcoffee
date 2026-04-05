@@ -300,6 +300,15 @@ export const esMessages = {
     kitchenHint:
       "Fuera del horario configurado en Ajustes, no aparece en el menú online.",
     kitchenBadge: "Cocina",
+    addonsSection: "Extras (opcional)",
+    addonsHint:
+      "Opciones con precio adicional sobre el precio base. Déjelo vacío si el producto no tiene extras.",
+    addonNamePh: "Nombre del extra",
+    addonExtraPrice: "Precio adicional",
+    addonActive: "Activo en el menú",
+    addAddonRow: "Añadir extra",
+    removeAddon: "Quitar",
+    addonsListLabel: "Extras:",
   },
   tables: {
     title: "Mesas",
@@ -434,6 +443,11 @@ export const esMessages = {
     fallbackLoading: "Cargando…",
     kitchenClosedBanner:
       "La cocina está cerrada en este horario: los platos preparados en cocina no aparecen en el menú. Bebidas y otros ítems pueden seguir disponibles.",
+    customizeTitle: "Personalizar",
+    customizeHint: "Marque los extras deseados (opcional).",
+    customizeConfirm: "Añadir al carrito",
+    customizeCancel: "Cancelar",
+    lineAddons: "Extras:",
   },
   pricing: {
     title: "Planes simples para transformar su atención",

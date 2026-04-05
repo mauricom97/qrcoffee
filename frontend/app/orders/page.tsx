@@ -23,10 +23,17 @@ import { PANEL_PERMISSIONS } from "lib/panelPermissions";
 const API_URL = process.env.NEXT_PUBLIC_BASE_API_URL || "http://localhost:3352";
 const SOUND_READY_URL = "/Ding - Sound Effect.mp3";
 
+interface ProductAddon {
+  uuid: string;
+  name: string;
+  extraPrice: number;
+}
+
 interface ProductOption {
   uuid: string;
   name: string;
   price: number;
+  addons?: ProductAddon[];
 }
 
 interface NewOrderItem {
@@ -34,6 +41,7 @@ interface NewOrderItem {
   productName: string;
   quantity: number;
   unitPrice: number;
+  addonsSnapshot?: { name: string; extraPrice: number }[];
 }
 
 export default function OrdersPage() {
@@ -58,6 +66,11 @@ export default function OrdersPage() {
   const [newObservacao, setNewObservacao] = useState("");
   const [orderToDelete, setOrderToDelete] = useState<OrderDto | null>(null);
   const [soundOnOrderReady, setSoundOnOrderReady] = useState(true);
+  const [addonPickerProduct, setAddonPickerProduct] = useState<ProductOption | null>(null);
+  const [addonPickerSelected, setAddonPickerSelected] = useState<Set<string>>(
+    () => new Set()
+  );
+  const [addonPickerQuantity, setAddonPickerQuantity] = useState(1);
 
   const prevOrdersRef = useRef<OrderDto[]>([]);
   const soundOnOrderReadyRef = useRef(true);
@@ -146,11 +159,19 @@ export default function OrdersPage() {
     setNewObservacao("");
     setShowForm(false);
     setError(null);
+    setAddonPickerProduct(null);
   };
 
   const addItem = () => {
     const product = products.find((p) => p.uuid === selectedProductUuid);
     if (!product || itemQuantity < 1) return;
+    const extras = product.addons ?? [];
+    if (extras.length > 0) {
+      setAddonPickerProduct(product);
+      setAddonPickerSelected(new Set());
+      setAddonPickerQuantity(itemQuantity);
+      return;
+    }
     setNewItems((prev) => [
       ...prev,
       {
@@ -160,6 +181,36 @@ export default function OrdersPage() {
         unitPrice: product.price,
       },
     ]);
+    setSelectedProductUuid("");
+    setItemQuantity(1);
+  };
+
+  const confirmAddonPicker = () => {
+    if (!addonPickerProduct) return;
+    const selected = (addonPickerProduct.addons ?? []).filter((a) =>
+      addonPickerSelected.has(a.uuid)
+    );
+    const unitPrice =
+      addonPickerProduct.price +
+      selected.reduce((s, a) => s + (Number(a.extraPrice) || 0), 0);
+    const addonsSnapshot =
+      selected.length > 0
+        ? selected.map((a) => ({
+            name: a.name,
+            extraPrice: Number(a.extraPrice) || 0,
+          }))
+        : undefined;
+    setNewItems((prev) => [
+      ...prev,
+      {
+        productUuid: addonPickerProduct.uuid,
+        productName: addonPickerProduct.name,
+        quantity: addonPickerQuantity,
+        unitPrice,
+        ...(addonsSnapshot ? { addonsSnapshot } : {}),
+      },
+    ]);
+    setAddonPickerProduct(null);
     setSelectedProductUuid("");
     setItemQuantity(1);
   };
@@ -186,6 +237,9 @@ export default function OrdersPage() {
             productUuid: i.productUuid,
             quantity: i.quantity,
             unitPrice: i.unitPrice,
+            ...(i.addonsSnapshot?.length
+              ? { addonsSnapshot: i.addonsSnapshot }
+              : {}),
           })),
           observacao: newObservacao.trim() || undefined,
         }),
@@ -374,16 +428,24 @@ export default function OrdersPage() {
                     {newItems.map((item, i) => (
                       <li
                         key={i}
-                        className="flex justify-between items-center px-3 py-2 text-sm"
+                        className="flex justify-between items-start gap-2 px-3 py-2 text-sm"
                       >
-                        <span>
-                          {item.productName} × {item.quantity} — R${" "}
-                          {(item.unitPrice * item.quantity).toFixed(2)}
+                        <span className="min-w-0">
+                          <span className="block">
+                            {item.productName} × {item.quantity} — R${" "}
+                            {(item.unitPrice * item.quantity).toFixed(2)}
+                          </span>
+                          {item.addonsSnapshot?.length ? (
+                            <span className="block text-xs text-zinc-500 mt-0.5">
+                              {t("cardapio.lineAddons")}{" "}
+                              {item.addonsSnapshot.map((a) => a.name).join(", ")}
+                            </span>
+                          ) : null}
                         </span>
                         <button
                           type="button"
                           onClick={() => removeItem(i)}
-                          className="text-red-600 hover:text-red-700"
+                          className="text-red-600 hover:text-red-700 shrink-0"
                         >
                           {t("orders.remove")}
                         </button>
@@ -425,6 +487,70 @@ export default function OrdersPage() {
             </div>
           </div>
         )}
+
+        {addonPickerProduct ? (
+          <div
+            className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/45"
+            role="dialog"
+            aria-modal="true"
+          >
+            <div className="bg-white rounded-xl max-w-md w-full p-5 shadow-xl max-h-[90vh] overflow-y-auto">
+              <h3 className="text-lg font-semibold text-zinc-900">
+                {t("cardapio.customizeTitle")}: {addonPickerProduct.name}
+              </h3>
+              <p className="text-sm text-zinc-500 mt-1">
+                {t("cardapio.customizeHint")}
+              </p>
+              <p className="text-xs text-zinc-500 mt-2">
+                {t("orders.items")}: ×{addonPickerQuantity}
+              </p>
+              <ul className="mt-4 space-y-2">
+                {(addonPickerProduct.addons ?? []).map((a) => (
+                  <label
+                    key={a.uuid}
+                    className="flex items-center justify-between gap-2 border border-zinc-200 rounded-lg p-3 cursor-pointer hover:bg-zinc-50"
+                  >
+                    <span className="flex items-center gap-3 min-w-0">
+                      <input
+                        type="checkbox"
+                        className="h-4 w-4 rounded border-zinc-300 shrink-0"
+                        checked={addonPickerSelected.has(a.uuid)}
+                        onChange={() => {
+                          setAddonPickerSelected((prev) => {
+                            const next = new Set(prev);
+                            if (next.has(a.uuid)) next.delete(a.uuid);
+                            else next.add(a.uuid);
+                            return next;
+                          });
+                        }}
+                      />
+                      <span className="text-zinc-800 truncate">{a.name}</span>
+                    </span>
+                    <span className="text-sm text-zinc-600 shrink-0">
+                      +R$ {(Number(a.extraPrice) || 0).toFixed(2)}
+                    </span>
+                  </label>
+                ))}
+              </ul>
+              <div className="flex gap-2 mt-6">
+                <button
+                  type="button"
+                  onClick={() => setAddonPickerProduct(null)}
+                  className="flex-1 rounded-lg border border-zinc-300 py-2.5 text-sm font-medium text-zinc-700 hover:bg-zinc-50"
+                >
+                  {t("cardapio.customizeCancel")}
+                </button>
+                <button
+                  type="button"
+                  onClick={confirmAddonPicker}
+                  className="flex-1 rounded-lg bg-black py-2.5 text-sm font-medium text-white hover:bg-zinc-800"
+                >
+                  {t("cardapio.customizeConfirm")}
+                </button>
+              </div>
+            </div>
+          </div>
+        ) : null}
 
         {loading ? (
           <LoadingSpinner message={t("orders.loading")} />
@@ -468,12 +594,20 @@ export default function OrdersPage() {
                   {order.items.map((item) => (
                     <li
                       key={item.uuid}
-                      className="flex justify-between text-sm border-b border-zinc-100 pb-2 last:border-0"
+                      className="flex justify-between gap-2 text-sm border-b border-zinc-100 pb-2 last:border-0"
                     >
-                      <span>
-                        {item.productName} × {item.quantity}
+                      <span className="min-w-0">
+                        <span className="block">
+                          {item.productName} × {item.quantity}
+                        </span>
+                        {item.addonsSnapshot?.length ? (
+                          <span className="block text-xs text-zinc-500 mt-0.5">
+                            {t("cardapio.lineAddons")}{" "}
+                            {item.addonsSnapshot.map((a) => a.name).join(", ")}
+                          </span>
+                        ) : null}
                       </span>
-                      <span className="text-zinc-600">
+                      <span className="text-zinc-600 shrink-0">
                         R$ {(item.unitPrice * item.quantity).toFixed(2)}
                       </span>
                     </li>

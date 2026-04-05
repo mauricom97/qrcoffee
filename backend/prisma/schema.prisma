@@ -81,9 +81,23 @@ model Product {
   companyUuid  String
   company      Company    @relation(fields: [companyUuid], references: [uuid], onDelete: Cascade)
   orderItems   OrderItem[]
+  addons       ProductAddon[]
 
   @@index([categoryUuid])
   @@index([companyUuid])
+}
+
+/** Opcionais do produto (ex.: chantilly, shot extra) com valor adicional */
+model ProductAddon {
+  uuid         String  @id @default(uuid())
+  productUuid  String
+  product      Product @relation(fields: [productUuid], references: [uuid], onDelete: Cascade)
+  name         String
+  extraPrice   Float
+  active       Boolean @default(true)
+  sortOrder    Int     @default(0)
+
+  @@index([productUuid])
 }
 
 model Category {
@@ -130,6 +144,8 @@ model OrderItem {
   product    Product @relation(fields: [productUuid], references: [uuid])
   quantity   Int
   unitPrice  Float   // preço no momento do pedido
+  /** Cópia dos adicionais escolhidos: [{ name, extraPrice }] */
+  addonsSnapshot Json?
 
   @@index([orderUuid])
   @@index([productUuid])

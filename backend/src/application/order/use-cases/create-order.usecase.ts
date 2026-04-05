@@ -7,6 +7,7 @@ export interface CreateOrderItemInput {
   productUuid: string;
   quantity: number;
   unitPrice: number;
+  addonsSnapshot?: { name: string; extraPrice: number }[];
 }
 
 export interface CreateOrderInput {
@@ -33,16 +34,27 @@ export class CreateOrderUseCase {
   async execute(input: CreateOrderInput): Promise<Order> {
     const companyUuid = input.companyUuid;
     const orderUuid = crypto.randomUUID();
-    const items = input.items.map(
-      (item) =>
-        new OrderItem(
-          crypto.randomUUID(),
-          orderUuid,
-          item.productUuid,
-          item.quantity,
-          item.unitPrice,
-        ),
-    );
+    const items = input.items.map((item) => {
+      const snap =
+        item.addonsSnapshot?.filter(
+          (a) => a && typeof a.name === 'string' && a.name.trim().length > 0,
+        ) ?? [];
+      const normalized =
+        snap.length > 0
+          ? snap.map((a) => ({
+              name: a.name.trim().slice(0, 120),
+              extraPrice: Math.max(0, Number(a.extraPrice) || 0),
+            }))
+          : null;
+      return new OrderItem(
+        crypto.randomUUID(),
+        orderUuid,
+        item.productUuid,
+        item.quantity,
+        item.unitPrice,
+        normalized,
+      );
+    });
     const order = new Order(
       orderUuid,
       input.tableUuid,

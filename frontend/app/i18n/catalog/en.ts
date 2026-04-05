@@ -300,6 +300,15 @@ export const enMessages = {
     kitchenHint:
       "Outside the hours set in Settings, it won’t appear on the online menu.",
     kitchenBadge: "Kitchen",
+    addonsSection: "Add-ons (optional)",
+    addonsHint:
+      "Optional extras with an additional price on top of the base price. Leave empty if the product has no add-ons.",
+    addonNamePh: "Add-on name",
+    addonExtraPrice: "Extra amount",
+    addonActive: "Active on menu",
+    addAddonRow: "Add add-on",
+    removeAddon: "Remove",
+    addonsListLabel: "Add-ons:",
   },
   tables: {
     title: "Tables",
@@ -433,6 +442,11 @@ export const enMessages = {
     fallbackLoading: "Loading…",
     kitchenClosedBanner:
       "The kitchen is closed right now: kitchen-prepared dishes are hidden from the menu. Drinks and other items may still be available.",
+    customizeTitle: "Customize",
+    customizeHint: "Select add-ons (optional).",
+    customizeConfirm: "Add to cart",
+    customizeCancel: "Cancel",
+    lineAddons: "Add-ons:",
   },
   pricing: {
     title: "Simple plans to transform your service",

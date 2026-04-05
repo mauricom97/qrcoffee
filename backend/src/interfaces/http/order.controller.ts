@@ -44,7 +44,12 @@ export class OrderController {
     body: {
       tableUuid: string;
       status?: OrderStatus;
-      items: { productUuid: string; quantity: number; unitPrice: number }[];
+      items: {
+        productUuid: string;
+        quantity: number;
+        unitPrice: number;
+        addonsSnapshot?: { name: string; extraPrice: number }[];
+      }[];
       observacao?: string | null;
     },
   ) {

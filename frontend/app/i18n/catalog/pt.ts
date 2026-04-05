@@ -300,6 +300,15 @@ export const ptMessages = {
     kitchenHint:
       "Fora do horário configurado em Configurações, não aparece no cardápio online.",
     kitchenBadge: "Cozinha",
+    addonsSection: "Adicionais (opcional)",
+    addonsHint:
+      "Defina opcionais com valor extra sobre o preço base. Deixe vazio se o produto não tiver adicionais.",
+    addonNamePh: "Nome do adicional",
+    addonExtraPrice: "Valor extra",
+    addonActive: "Ativo no cardápio",
+    addAddonRow: "Adicionar adicional",
+    removeAddon: "Remover",
+    addonsListLabel: "Adicionais:",
   },
   tables: {
     title: "Mesas",
@@ -433,6 +442,11 @@ export const ptMessages = {
     fallbackLoading: "Carregando…",
     kitchenClosedBanner:
       "A cozinha está fechada neste horário: pratos preparados na cozinha não aparecem no cardápio. Bebidas e outros itens seguem disponíveis, se houver.",
+    customizeTitle: "Personalizar",
+    customizeHint: "Marque os adicionais desejados (opcional).",
+    customizeConfirm: "Adicionar ao carrinho",
+    customizeCancel: "Cancelar",
+    lineAddons: "Extras:",
   },
   pricing: {
     title: "Planos simples para transformar seu atendimento",
