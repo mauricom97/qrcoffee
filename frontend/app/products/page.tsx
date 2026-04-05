@@ -40,6 +40,7 @@ export default function ProductsPage() {
     description: "",
     isKitchenProduct: false,
     images: [] as string[],
+    addons: [] as { name: string; extraPrice: number; active: boolean }[],
   });
   const [showImages, setShowImages] = useState<string | null>(null);
   const [showDeleteModal, setShowDeleteModal] = useState(false);
@@ -132,6 +133,7 @@ export default function ProductsPage() {
       active: true,
       isKitchenProduct: false,
       images: [],
+      addons: [],
     });
     setEditingProduct(null);
     setShowForm(false);
@@ -152,6 +154,11 @@ export default function ProductsPage() {
       active: product.active,
       isKitchenProduct: Boolean(product.isKitchenProduct),
       images: product.images || [],
+      addons: (product.addons ?? []).map((a) => ({
+        name: a.name,
+        extraPrice: a.extraPrice,
+        active: a.active !== false,
+      })),
     });
     setShowForm(true);
   };
@@ -193,6 +200,14 @@ export default function ProductsPage() {
       description: newProduct.description,
       categoryUuid: newProduct.categoryUuid,
       isKitchenProduct: newProduct.isKitchenProduct,
+      addons: newProduct.addons
+        .filter((a) => a.name.trim().length > 0)
+        .map((a, i) => ({
+          name: a.name.trim(),
+          extraPrice: Math.max(0, Number(a.extraPrice) || 0),
+          active: a.active,
+          sortOrder: i,
+        })),
     };
 
     try {
@@ -224,6 +239,7 @@ export default function ProductsPage() {
     description: string;
     categoryUuid: string;
     isKitchenProduct: boolean;
+    addons: { name: string; extraPrice: number; active: boolean; sortOrder: number }[];
   }) => {
     const response = await fetch(
       process.env.NEXT_PUBLIC_BASE_API_URL + "/products",
@@ -244,7 +260,17 @@ export default function ProductsPage() {
     return response.json();
   };
 
-  const updateProduct = async (uuid: string, updatedData: Partial<Product>) => {
+  const updateProduct = async (
+    uuid: string,
+    updatedData: Partial<Omit<Product, "addons">> & {
+      addons?: {
+        name: string;
+        extraPrice: number;
+        active: boolean;
+        sortOrder: number;
+      }[];
+    }
+  ) => {
     try {
       const response = await fetch(
         `${process.env.NEXT_PUBLIC_BASE_API_URL}/products?uuid=${uuid}`,
@@ -490,6 +516,105 @@ export default function ProductsPage() {
               />
             </div>
 
+            <div className="mt-6 rounded-xl border border-zinc-200 p-4 space-y-3">
+              <div>
+                <h3 className="text-sm font-medium text-zinc-800">
+                  {t("products.addonsSection")}
+                </h3>
+                <p className="text-xs text-zinc-500 mt-1">{t("products.addonsHint")}</p>
+              </div>
+              <div className="space-y-3">
+                {newProduct.addons.map((addon, idx) => (
+                  <div
+                    key={idx}
+                    className="flex flex-wrap gap-2 items-end border-b border-zinc-100 pb-3 last:border-0 last:pb-0"
+                  >
+                    <input
+                      type="text"
+                      placeholder={t("products.addonNamePh")}
+                      value={addon.name}
+                      onChange={(e) => {
+                        const v = e.target.value;
+                        setNewProduct((prev) => ({
+                          ...prev,
+                          addons: prev.addons.map((x, i) =>
+                            i === idx ? { ...x, name: v } : x
+                          ),
+                        }));
+                      }}
+                      className="flex-1 min-w-[140px] rounded-lg border border-zinc-200 px-3 py-2 text-sm focus:outline-none focus:border-zinc-400"
+                    />
+                    <div className="flex items-center gap-1">
+                      <span className="text-xs text-zinc-500 whitespace-nowrap">
+                        {t("products.addonExtraPrice")}
+                      </span>
+                      <input
+                        type="number"
+                        min={0}
+                        step={0.01}
+                        value={addon.extraPrice}
+                        onChange={(e) => {
+                          const v = parseFloat(e.target.value);
+                          setNewProduct((prev) => ({
+                            ...prev,
+                            addons: prev.addons.map((x, i) =>
+                              i === idx
+                                ? { ...x, extraPrice: Number.isFinite(v) ? v : 0 }
+                                : x
+                            ),
+                          }));
+                        }}
+                        className="w-28 rounded-lg border border-zinc-200 px-3 py-2 text-sm focus:outline-none focus:border-zinc-400"
+                      />
+                    </div>
+                    <label className="flex items-center gap-2 text-xs text-zinc-600">
+                      <input
+                        type="checkbox"
+                        checked={addon.active}
+                        onChange={(e) => {
+                          setNewProduct((prev) => ({
+                            ...prev,
+                            addons: prev.addons.map((x, i) =>
+                              i === idx ? { ...x, active: e.target.checked } : x
+                            ),
+                          }));
+                        }}
+                        className="h-4 w-4 rounded border-zinc-300"
+                      />
+                      {t("products.addonActive")}
+                    </label>
+                    <button
+                      type="button"
+                      onClick={() =>
+                        setNewProduct((prev) => ({
+                          ...prev,
+                          addons: prev.addons.filter((_, i) => i !== idx),
+                        }))
+                      }
+                      className="text-xs text-red-600 hover:text-red-700 px-2 py-1"
+                    >
+                      {t("products.removeAddon")}
+                    </button>
+                  </div>
+                ))}
+              </div>
+              <button
+                type="button"
+                onClick={() =>
+                  setNewProduct((prev) => ({
+                    ...prev,
+                    addons: [
+                      ...prev.addons,
+                      { name: "", extraPrice: 0, active: true },
+                    ],
+                  }))
+                }
+                className="rounded-lg border border-zinc-300 px-3 py-1.5 text-sm text-zinc-700 hover:bg-zinc-50"
+              >
+                {t("products.addAddonRow")}
+              </button>
+            </div>
+
             <div className="mt-4">
               <label className="block text-sm font-medium text-zinc-800 mb-2">
                 {t("products.imageUpload")}
@@ -631,6 +756,23 @@ export default function ProductsPage() {
                       <p className="text-lg font-semibold text-zinc-900">
                         {formatPrice(product.price)}
                       </p>
+                      {product.addons && product.addons.length > 0 ? (
+                        <ul className="text-xs text-zinc-600 mt-2 space-y-0.5">
+                          <li className="font-medium text-zinc-500">
+                            {t("products.addonsListLabel")}
+                          </li>
+                          {product.addons.map((a) => (
+                            <li key={a.uuid}>
+                              {a.name}
+                              {a.active === false ? (
+                                <span className="text-zinc-400"> ({t("common.inactive")})</span>
+                              ) : null}
+                              {" — "}
+                              +{formatPrice(a.extraPrice)}
+                            </li>
+                          ))}
+                        </ul>
+                      ) : null}
                     </div>
 
                     <div className="mt-4 flex items-center justify-between flex-wrap gap-2">

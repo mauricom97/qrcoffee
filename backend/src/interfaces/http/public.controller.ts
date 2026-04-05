@@ -70,6 +70,10 @@ export class PublicController {
             name: true,
           },
         },
+        addons: {
+          where: { active: true },
+          orderBy: { sortOrder: 'asc' },
+        },
       },
       orderBy: { name: 'asc' },
     });
@@ -107,7 +111,12 @@ export class PublicController {
     @Body()
     body: {
       tableUuid: string;
-      items: { productUuid: string; quantity: number; unitPrice: number }[];
+      items: {
+        productUuid: string;
+        quantity: number;
+        unitPrice: number;
+        addonsSnapshot?: { name: string; extraPrice: number }[];
+      }[];
       observacao?: string | null;
     },
   ) {

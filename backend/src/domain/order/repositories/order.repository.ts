@@ -6,6 +6,7 @@ export interface OrderItemDto {
   productName: string;
   quantity: number;
   unitPrice: number;
+  addonsSnapshot?: { name: string; extraPrice: number }[] | null;
 }
 
 export interface OrderListDto {

@@ -15,7 +15,15 @@ export class UpdateOrderUseCase {
     if (!existing) return null;
 
     const items = existing.items.map(
-      (i) => new OrderItem(i.uuid, existing.uuid, i.productUuid, i.quantity, i.unitPrice),
+      (i) =>
+        new OrderItem(
+          i.uuid,
+          existing.uuid,
+          i.productUuid,
+          i.quantity,
+          i.unitPrice,
+          i.addonsSnapshot ?? null,
+        ),
     );
     const order = new Order(
       existing.uuid,

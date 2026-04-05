@@ -9,6 +9,12 @@ import { useLocaleContext } from "i18n/LocaleContext";
 
 const API_URL = process.env.NEXT_PUBLIC_BASE_API_URL || "http://localhost:3352";
 
+interface ProductAddon {
+  uuid: string;
+  name: string;
+  extraPrice: number;
+}
+
 interface Product {
   uuid: string;
   name: string;
@@ -16,6 +22,7 @@ interface Product {
   description?: string;
   categoryUuid: string;
   active: boolean;
+  addons?: ProductAddon[];
   category?: { uuid: string; name: string };
 }
 
@@ -56,8 +63,25 @@ function mergeTheme(theme?: MenuTheme | null): MenuTheme {
   return { ...DEFAULT_THEME, ...theme };
 }
 
-interface CartItem {
+function lineKey(productUuid: string, addons: ProductAddon[]) {
+  const u = addons
+    .map((a) => a.uuid)
+    .sort()
+    .join("|");
+  return `${productUuid}::${u}`;
+}
+
+function unitLinePrice(product: Product, addons: ProductAddon[]) {
+  return (
+    product.price +
+    addons.reduce((s, a) => s + (Number(a.extraPrice) || 0), 0)
+  );
+}
+
+interface CartLine {
+  key: string;
   product: Product;
+  selectedAddons: ProductAddon[];
   quantity: number;
 }
 
@@ -67,7 +91,11 @@ function CardapioContent() {
   const mesaUuid = searchParams.get("mesa");
 
   const [menu, setMenu] = useState<MenuResponse | null>(null);
-  const [cart, setCart] = useState<CartItem[]>([]);
+  const [cart, setCart] = useState<CartLine[]>([]);
+  const [pickerProduct, setPickerProduct] = useState<Product | null>(null);
+  const [pickerSelectedUuids, setPickerSelectedUuids] = useState<Set<string>>(
+    () => new Set()
+  );
   const [loading, setLoading] = useState(true);
   const [searchText, setSearchText] = useState("");
   const [selectedCategoryUuid, setSelectedCategoryUuid] = useState<string>("");
@@ -104,35 +132,56 @@ function CardapioContent() {
     onMenuUpdate: loadMenu,
   });
 
-  const addToCart = (product: Product) => {
+  const addOrIncrementLine = (product: Product, selectedAddons: ProductAddon[]) => {
+    const key = lineKey(product.uuid, selectedAddons);
     setCart((prev) => {
-      const existing = prev.find((i) => i.product.uuid === product.uuid);
+      const existing = prev.find((i) => i.key === key);
       if (existing) {
         return prev.map((i) =>
-          i.product.uuid === product.uuid
-            ? { ...i, quantity: i.quantity + 1 }
-            : i
+          i.key === key ? { ...i, quantity: i.quantity + 1 } : i
         );
       }
-      return [...prev, { product, quantity: 1 }];
+      return [...prev, { key, product, selectedAddons, quantity: 1 }];
     });
   };
 
-  const removeFromCart = (productUuid: string) => {
+  const requestAddProduct = (product: Product) => {
+    const list = product.addons ?? [];
+    if (list.length === 0) {
+      addOrIncrementLine(product, []);
+      return;
+    }
+    setPickerProduct(product);
+    setPickerSelectedUuids(new Set());
+  };
+
+  const confirmPicker = () => {
+    if (!pickerProduct) return;
+    const list = pickerProduct.addons ?? [];
+    const selected = list.filter((a) => pickerSelectedUuids.has(a.uuid));
+    addOrIncrementLine(pickerProduct, selected);
+    setPickerProduct(null);
+  };
+
+  const removeFromCart = (key: string) => {
     setCart((prev) => {
-      const item = prev.find((i) => i.product.uuid === productUuid);
+      const item = prev.find((i) => i.key === key);
       if (!item) return prev;
-      if (item.quantity <= 1) return prev.filter((i) => i.product.uuid !== productUuid);
+      if (item.quantity <= 1) return prev.filter((i) => i.key !== key);
       return prev.map((i) =>
-        i.product.uuid === productUuid
-          ? { ...i, quantity: i.quantity - 1 }
-          : i
+        i.key === key ? { ...i, quantity: i.quantity - 1 } : i
       );
     });
   };
 
+  const incrementLine = (key: string) => {
+    setCart((prev) =>
+      prev.map((i) => (i.key === key ? { ...i, quantity: i.quantity + 1 } : i))
+    );
+  };
+
   const totalCart = cart.reduce(
-    (acc, i) => acc + i.product.price * i.quantity,
+    (acc, i) => acc + unitLinePrice(i.product, i.selectedAddons) * i.quantity,
     0
   );
 
@@ -146,11 +195,22 @@ function CardapioContent() {
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
           tableUuid: menu.table.uuid,
-          items: cart.map((i) => ({
-            productUuid: i.product.uuid,
-            quantity: i.quantity,
-            unitPrice: i.product.price,
-          })),
+          items: cart.map((i) => {
+            const unit = unitLinePrice(i.product, i.selectedAddons);
+            const addonsSnapshot =
+              i.selectedAddons.length > 0
+                ? i.selectedAddons.map((a) => ({
+                    name: a.name,
+                    extraPrice: Number(a.extraPrice) || 0,
+                  }))
+                : undefined;
+            return {
+              productUuid: i.product.uuid,
+              quantity: i.quantity,
+              unitPrice: unit,
+              ...(addonsSnapshot ? { addonsSnapshot } : {}),
+            };
+          }),
           observacao: orderObservacao.trim() || undefined,
         }),
       });
@@ -387,7 +447,7 @@ function CardapioContent() {
                         R$ {product.price.toFixed(2)}
                       </span>
                       <button
-                        onClick={() => addToCart(product)}
+                        onClick={() => requestAddProduct(product)}
                         className="flex items-center gap-2 text-white rounded-lg px-4 py-2 text-sm font-medium hover:opacity-90 transition"
                         style={{ backgroundColor: theme.primary }}
                       >
@@ -402,6 +462,70 @@ function CardapioContent() {
           )}
         </div>
       </main>
+
+      {pickerProduct ? (
+        <div
+          className="fixed inset-0 z-40 flex items-end sm:items-center justify-center p-4 bg-black/45"
+          role="dialog"
+          aria-modal="true"
+          aria-labelledby="addon-picker-title"
+        >
+          <div className="bg-white rounded-t-2xl sm:rounded-2xl max-w-md w-full p-5 shadow-xl max-h-[85vh] overflow-y-auto">
+            <h3
+              id="addon-picker-title"
+              className="text-lg font-semibold text-zinc-900"
+            >
+              {t("cardapio.customizeTitle")}: {pickerProduct.name}
+            </h3>
+            <p className="text-sm text-zinc-500 mt-1">{t("cardapio.customizeHint")}</p>
+            <ul className="mt-4 space-y-2">
+              {(pickerProduct.addons ?? []).map((a) => (
+                <label
+                  key={a.uuid}
+                  className="flex items-center justify-between gap-2 border border-zinc-200 rounded-xl p-3 cursor-pointer hover:bg-zinc-50"
+                >
+                  <span className="flex items-center gap-3 min-w-0">
+                    <input
+                      type="checkbox"
+                      className="h-4 w-4 rounded border-zinc-300 shrink-0"
+                      checked={pickerSelectedUuids.has(a.uuid)}
+                      onChange={() => {
+                        setPickerSelectedUuids((prev) => {
+                          const next = new Set(prev);
+                          if (next.has(a.uuid)) next.delete(a.uuid);
+                          else next.add(a.uuid);
+                          return next;
+                        });
+                      }}
+                    />
+                    <span className="text-zinc-800 truncate">{a.name}</span>
+                  </span>
+                  <span className="text-sm text-zinc-600 shrink-0">
+                    +R$ {(Number(a.extraPrice) || 0).toFixed(2)}
+                  </span>
+                </label>
+              ))}
+            </ul>
+            <div className="flex gap-2 mt-6">
+              <button
+                type="button"
+                onClick={() => setPickerProduct(null)}
+                className="flex-1 rounded-xl border border-zinc-300 py-3 text-sm font-medium text-zinc-700 hover:bg-zinc-50"
+              >
+                {t("cardapio.customizeCancel")}
+              </button>
+              <button
+                type="button"
+                onClick={confirmPicker}
+                className="flex-1 rounded-xl py-3 text-sm font-medium text-white hover:opacity-90"
+                style={{ backgroundColor: theme.primary }}
+              >
+                {t("cardapio.customizeConfirm")}
+              </button>
+            </div>
+          </div>
+        </div>
+      ) : null}
 
       {cart.length > 0 && (
         <div
@@ -423,22 +547,32 @@ function CardapioContent() {
             <div className="max-h-24 overflow-y-auto mb-3 space-y-1">
               {cart.map((item) => (
                 <div
-                  key={item.product.uuid}
-                  className="flex items-center justify-between text-sm"
+                  key={item.key}
+                  className="flex items-center justify-between text-sm gap-2"
                 >
-                  <span className="text-zinc-700">
-                    {item.product.name} × {item.quantity}
+                  <span className="text-zinc-700 min-w-0">
+                    <span className="block truncate">
+                      {item.product.name} × {item.quantity}
+                    </span>
+                    {item.selectedAddons.length > 0 ? (
+                      <span className="block text-xs text-zinc-500 truncate">
+                        {t("cardapio.lineAddons")}{" "}
+                        {item.selectedAddons.map((a) => a.name).join(", ")}
+                      </span>
+                    ) : null}
                   </span>
-                  <div className="flex items-center gap-2">
+                  <div className="flex items-center gap-2 shrink-0">
                     <button
-                      onClick={() => removeFromCart(item.product.uuid)}
+                      type="button"
+                      onClick={() => removeFromCart(item.key)}
                       className="p-1 rounded bg-zinc-100 hover:bg-zinc-200"
                     >
                       <FaMinus className="text-xs" />
                     </button>
                     <span>{item.quantity}</span>
                     <button
-                      onClick={() => addToCart(item.product)}
+                      type="button"
+                      onClick={() => incrementLine(item.key)}
                       className="p-1 rounded bg-zinc-100 hover:bg-zinc-200"
                     >
                       <FaPlus className="text-xs" />
