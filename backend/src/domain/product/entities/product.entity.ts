@@ -7,6 +7,7 @@ export class Product {
     public description: string,
     public categoryUuid: string,
     public companyUuid: string,
+    public readonly isKitchenProduct: boolean = false,
   ) {
     if (!name) {
       throw new Error('Product name is required');

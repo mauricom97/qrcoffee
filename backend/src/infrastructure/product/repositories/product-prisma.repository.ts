@@ -14,6 +14,7 @@ export class ProductPrismaRepository {
         active: product.active,
         categoryUuid: product.categoryUuid,
         companyUuid: product.companyUuid,
+        isKitchenProduct: product.isKitchenProduct,
       },
     });
   }
@@ -27,6 +28,7 @@ export class ProductPrismaRepository {
       active: product.active,
       categoryUuid: product.categoryUuid,
       companyUuid: product.companyUuid,
+      isKitchenProduct: product.isKitchenProduct,
     }));
     return await prisma.client.product.createMany({ data });
   }
@@ -69,6 +71,7 @@ export class ProductPrismaRepository {
         description: dataForUpdate.description,
         active: dataForUpdate.active,
         categoryUuid: dataForUpdate.categoryUuid,
+        isKitchenProduct: dataForUpdate.isKitchenProduct,
       },
     });
   }

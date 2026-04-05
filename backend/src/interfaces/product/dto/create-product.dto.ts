@@ -6,5 +6,6 @@ export class CreateProductDto {
   description: string;
   categoryUuid: string;
   companyUuid: string;
+  isKitchenProduct?: boolean;
 }
   

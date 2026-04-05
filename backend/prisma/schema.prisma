@@ -17,6 +17,8 @@ model Company {
   uuid               String          @id @default(uuid())
   name               String
   menuTheme          String?         // JSON: { primary, primaryHover, background, accent, textPrimary, textMuted }
+  /** JSON: { timezone?: string, intervals?: { weekday: 0-6, open: "HH:mm", close: "HH:mm" }[] } — vazio = cozinha sem restrição de horário */
+  kitchenHours       String?
   soundOnOrderReady  Boolean         @default(true)
   createdAt          DateTime        @default(now())
   users           User[]
@@ -71,6 +73,8 @@ model Product {
   price       Float
   active      Boolean     @default(true)
   description String
+  /** Itens preparados na cozinha: fora do horário configurado somem do cardápio público */
+  isKitchenProduct Boolean @default(false)
 
   categoryUuid String
   category     Category   @relation(fields: [categoryUuid], references: [uuid])

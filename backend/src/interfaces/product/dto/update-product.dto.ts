@@ -5,4 +5,5 @@ export class UpdateProductDTO {
     description?: string;
     stock?: number;
     categoryUuid?: string;
+    isKitchenProduct?: boolean;
 }

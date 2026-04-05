@@ -36,6 +36,10 @@ interface MenuResponse {
     products: Product[];
   }>;
   theme?: MenuTheme | null;
+  /** Indica se há horário da cozinha salvo (intervalos). */
+  kitchenHoursConfigured?: boolean;
+  /** Cozinha aberta agora, segundo o fuso configurado. */
+  kitchenOpen?: boolean;
 }
 
 const DEFAULT_THEME: MenuTheme = {
@@ -287,6 +291,15 @@ function CardapioContent() {
         {error && (
           <div className="mb-4 p-4 bg-red-50 text-red-700 rounded-xl text-sm">
             {error}
+          </div>
+        )}
+
+        {menu?.kitchenHoursConfigured && menu.kitchenOpen === false && (
+          <div
+            className="mb-4 p-3 rounded-xl text-sm border bg-amber-50 text-amber-950 border-amber-200"
+            role="status"
+          >
+            {t("cardapio.kitchenClosedBanner")}
           </div>
         )}
 
