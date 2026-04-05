@@ -111,13 +111,16 @@ model Category {
 }
 
 model Table {
-  uuid        String  @id @default(uuid())
-  number      Int
-  qrCode      String  @default("")
-  description String  @default("")
-  companyUuid String
-  company     Company @relation(fields: [companyUuid], references: [uuid], onDelete: Cascade)
-  orders      Order[]
+  uuid                  String    @id @default(uuid())
+  number                Int
+  qrCode                String    @default("")
+  description           String    @default("")
+  /** Preenchido quando o cliente chama atendente pelo cardápio; limpo ao marcar como atendido. */
+  attendantCallAt       DateTime?
+  attendantCallMessage  String?   @db.VarChar(500)
+  companyUuid           String
+  company               Company   @relation(fields: [companyUuid], references: [uuid], onDelete: Cascade)
+  orders                Order[]
 
   @@unique([companyUuid, number])
   @@index([companyUuid])

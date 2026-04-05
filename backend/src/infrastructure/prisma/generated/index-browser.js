@@ -183,6 +183,8 @@ exports.Prisma.TableScalarFieldEnum = {
   number: 'number',
   qrCode: 'qrCode',
   description: 'description',
+  attendantCallAt: 'attendantCallAt',
+  attendantCallMessage: 'attendantCallMessage',
   companyUuid: 'companyUuid'
 };
 

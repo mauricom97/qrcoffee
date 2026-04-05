@@ -6,6 +6,8 @@ import {
   Param,
   NotFoundException,
   BadRequestException,
+  HttpException,
+  HttpStatus,
 } from '@nestjs/common';
 import { PrismaService } from '@infrastructure/prisma/prisma.service';
 import { CreateOrderUseCase } from '@application/order/use-cases/create-order.usecase';
@@ -15,8 +17,13 @@ import {
   kitchenHoursDefinesSchedule,
 } from '@domain/company/kitchen-hours';
 
+const ATTENDANT_CALL_COOLDOWN_MS = 45_000;
+
 @Controller('public')
 export class PublicController {
+  /** Limite simples por instância (evita spam do cardápio). */
+  private readonly attendantCallLastByTable = new Map<string, number>();
+
   constructor(
     private readonly prisma: PrismaService,
     private readonly createOrderUseCase: CreateOrderUseCase,
@@ -185,5 +192,62 @@ export class PublicController {
     });
 
     return full;
+  }
+
+  /** Corpo com `tableUuid` OU rota `table/:tableUuid/...` (mesmo padrão do menu). */
+  @Post(['call-attendant', 'table/:tableUuid/call-attendant'])
+  async callAttendant(
+    @Param('tableUuid') paramTableUuid: string | undefined,
+    @Body()
+    body: {
+      tableUuid?: string;
+      message?: string | null;
+    },
+  ) {
+    const tableUuid = (paramTableUuid ?? body.tableUuid ?? '').trim();
+    const { message } = body;
+    if (!tableUuid) {
+      throw new BadRequestException('Informe a mesa.');
+    }
+
+    const now = Date.now();
+    const last = this.attendantCallLastByTable.get(tableUuid) ?? 0;
+    if (now - last < ATTENDANT_CALL_COOLDOWN_MS) {
+      throw new HttpException(
+        'Aguarde alguns segundos antes de chamar novamente.',
+        HttpStatus.TOO_MANY_REQUESTS,
+      );
+    }
+
+    const table = await this.prisma.client.table.findUnique({
+      where: { uuid: tableUuid },
+    });
+    if (!table) throw new NotFoundException('Mesa não encontrada');
+
+    const trimmed =
+      typeof message === 'string' ? message.trim().slice(0, 280) : '';
+    const messageOut = trimmed.length > 0 ? trimmed : null;
+
+    this.attendantCallLastByTable.set(tableUuid, now);
+
+    const at = new Date();
+    await this.prisma.client.table.update({
+      where: { uuid: tableUuid },
+      data: {
+        attendantCallAt: at,
+        attendantCallMessage: messageOut,
+      },
+    });
+
+    this.realtime.emitAttendantCall(table.companyUuid, {
+      tableUuid: table.uuid,
+      tableNumber: table.number,
+      tableDescription: table.description,
+      message: messageOut,
+      at: at.toISOString(),
+    });
+    this.realtime.emitTablesUpdate(table.companyUuid);
+
+    return { ok: true as const };
   }
 }

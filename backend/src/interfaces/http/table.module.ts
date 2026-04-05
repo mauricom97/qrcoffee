@@ -5,6 +5,7 @@ import { FindAllTableUseCase } from '@application/table/use-cases/find-table.use
 import { FindOneTableUseCase } from '@application/table/use-cases/find-one-table.usecase';
 import { UpdateTableUseCase } from '@application/table/use-cases/update-table.usecase';
 import { DeleteTableUseCase } from '@application/table/use-cases/delete-table.usecase';
+import { AcknowledgeAttendantCallUseCase } from '@application/table/use-cases/acknowledge-attendant-call.usecase';
 import { TablePrismaRepository } from '@infrastructure/table/repositories/table-prisma.repository';
 import { PrismaService } from '@infrastructure/prisma/prisma.service';
 import { RealtimeModule } from '@interfaces/websocket/realtime.module';
@@ -42,6 +43,11 @@ import { PermissionsModule } from './permissions.module';
         {
             provide: DeleteTableUseCase,
             useFactory: (repo) => new DeleteTableUseCase(repo),
+            inject: ['TableRepository'],
+        },
+        {
+            provide: AcknowledgeAttendantCallUseCase,
+            useFactory: (repo) => new AcknowledgeAttendantCallUseCase(repo),
             inject: ['TableRepository'],
         },
     ],

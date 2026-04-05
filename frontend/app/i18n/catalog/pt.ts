@@ -34,6 +34,11 @@ export const ptMessages = {
     currencyBrlNote:
       "Valores exibidos em reais (BRL). No plano anual, você paga o equivalente a 10 meses e usa o sistema o ano inteiro.",
   },
+  realtime: {
+    attendantCallTitle: "Cliente chamando",
+    attendantCallBody: "Mesa {table} pediu atenção da equipe.",
+    attendantCallNote: "Recado: {message}",
+  },
   language: {
     label: "Idioma",
     pt: "Português",
@@ -337,6 +342,11 @@ export const ptMessages = {
     deleteTitle: "Excluir mesa",
     deleteMsg: "Tem certeza que deseja excluir a mesa {n}?",
     noDesc: "Nenhuma descrição informada.",
+    attendantCalling: "Cliente chamando atendente",
+    attendantSince: "Desde {time}",
+    attendantNote: "Recado: {message}",
+    markAttendantDone: "Marcar como atendido",
+    attendantAckError: "Não foi possível registrar o atendimento. Tente de novo.",
   },
   tabs: {
     title: "Lista de Comandas",
@@ -461,6 +471,14 @@ export const ptMessages = {
     lineAddons: "Extras:",
     showImages: "Ver imagens",
     closeGallery: "Fechar galeria",
+    callAttendant: "Chamar atendente",
+    callAttendantSending: "Chamando…",
+    callAttendantSent: "Chamado enviado! Um atendente foi avisado.",
+    callAttendantError: "Não foi possível enviar o chamado.",
+    callAttendantWait: "Aguarde antes de chamar novamente.",
+    callAttendantModalTitle: "Chamar um atendente",
+    callAttendantMessageOptional: "Recado opcional para a equipe (máx. 280 caracteres)",
+    callAttendantConfirm: "Enviar",
   },
   pricing: {
     title: "Planos simples para transformar seu atendimento",

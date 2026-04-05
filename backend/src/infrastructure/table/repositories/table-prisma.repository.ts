@@ -22,7 +22,18 @@ export class TablePrismaRepository {
     async findAll(filters?: { companyUuid?: string }): Promise<Table[]> {
         const where = filters?.companyUuid ? { companyUuid: filters.companyUuid } : {};
         const rows = await this.prisma.client.table.findMany({ where, orderBy: { number: 'asc' } });
-        return rows.map((row) => new Table(row.uuid, row.number, row.description ?? undefined, row.qrCode ?? undefined, row.companyUuid));
+        return rows.map(
+            (row) =>
+                new Table(
+                    row.uuid,
+                    row.number,
+                    row.description ?? undefined,
+                    row.qrCode ?? undefined,
+                    row.companyUuid,
+                    row.attendantCallAt,
+                    row.attendantCallMessage,
+                ),
+        );
     }
 
     async findById(uuid: string, companyUuid?: string): Promise<Table | null> {
@@ -30,7 +41,15 @@ export class TablePrismaRepository {
         if (companyUuid) where.companyUuid = companyUuid;
         const row = await this.prisma.client.table.findFirst({ where });
         if (!row) return null;
-        return new Table(row.uuid, row.number, row.description ?? undefined, row.qrCode ?? undefined, row.companyUuid);
+        return new Table(
+            row.uuid,
+            row.number,
+            row.description ?? undefined,
+            row.qrCode ?? undefined,
+            row.companyUuid,
+            row.attendantCallAt,
+            row.attendantCallMessage,
+        );
     }
 
     async update(table: Table): Promise<void> {
@@ -48,6 +67,26 @@ export class TablePrismaRepository {
         const where: any = { uuid };
         if (companyUuid) where.companyUuid = companyUuid;
         await this.prisma.client.table.deleteMany({ where });
+    }
+
+    async clearAttendantCall(uuid: string, companyUuid: string): Promise<Table | null> {
+        const existing = await this.prisma.client.table.findFirst({
+            where: { uuid, companyUuid },
+        });
+        if (!existing) return null;
+        const row = await this.prisma.client.table.update({
+            where: { uuid },
+            data: { attendantCallAt: null, attendantCallMessage: null },
+        });
+        return new Table(
+            row.uuid,
+            row.number,
+            row.description ?? undefined,
+            row.qrCode ?? undefined,
+            row.companyUuid,
+            row.attendantCallAt,
+            row.attendantCallMessage,
+        );
     }
 }
 

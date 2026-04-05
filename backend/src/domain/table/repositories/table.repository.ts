@@ -7,4 +7,5 @@ export interface TableRepository {
     findAll(filters?: { companyUuid?: string }): Promise<Table[]>;
     findById(uuid: string, companyUuid?: string): Promise<Table | null>;
     destroy(uuid: string, companyUuid?: string): Promise<void>;
+    clearAttendantCall(uuid: string, companyUuid: string): Promise<Table | null>;
 }

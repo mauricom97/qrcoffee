@@ -5,6 +5,7 @@ import { FindAllTableUseCase } from '@application/table/use-cases/find-table.use
 import { FindOneTableUseCase } from '@application/table/use-cases/find-one-table.usecase';
 import { UpdateTableUseCase } from '@application/table/use-cases/update-table.usecase';
 import { DeleteTableUseCase } from '@application/table/use-cases/delete-table.usecase';
+import { AcknowledgeAttendantCallUseCase } from '@application/table/use-cases/acknowledge-attendant-call.usecase';
 import { PANEL_PERMISSION_CODES } from '@application/permissions/panel-permissions';
 import { JwtAuthGuard } from './guards/jwt-auth.guard';
 import { PermissionsGuard } from './guards/permissions.guard';
@@ -22,6 +23,7 @@ export class TableController {
     private readonly findOneTableUseCase: FindOneTableUseCase,
     private readonly updateTableUseCase: UpdateTableUseCase,
     private readonly deleteTableUseCase: DeleteTableUseCase,
+    private readonly acknowledgeAttendantCallUseCase: AcknowledgeAttendantCallUseCase,
     private readonly realtime: RealtimeGateway,
   ) {}
 
@@ -47,6 +49,17 @@ export class TableController {
   ) {
     const table = await this.findOneTableUseCase.execute(uuid, companyUuid);
     if (!table) throw new NotFoundException('Mesa não encontrada');
+    return table;
+  }
+
+  @Patch(':uuid/attendant-call')
+  async acknowledgeAttendantCall(
+    @Param('uuid', ParseUUIDPipe) uuid: string,
+    @CompanyUuid() companyUuid: string,
+  ) {
+    const table = await this.acknowledgeAttendantCallUseCase.execute(uuid, companyUuid);
+    if (!table) throw new NotFoundException('Mesa não encontrada');
+    this.realtime.emitTablesUpdate(companyUuid);
     return table;
   }
 

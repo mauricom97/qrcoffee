@@ -18,13 +18,18 @@ import { Mesa } from "../tables/interfaces/table.interface";
 import { getAuthHeaders } from "contexts/AuthContext";
 import { useAuth } from "contexts/AuthContext";
 import LoadingSpinner from "components/LoadingSpinner";
-import { useRealtimeUpdates } from "hooks/useRealtimeUpdates";
+import {
+  useRealtimeUpdates,
+  type AttendantCallPayload,
+} from "hooks/useRealtimeUpdates";
+import AttendantCallBanner from "components/AttendantCallBanner";
 import { useLocaleContext } from "i18n/LocaleContext";
 import { useRequirePanelPermission } from "hooks/useRequirePanelPermission";
 import { PANEL_PERMISSIONS, userHasPanelPermission } from "lib/panelPermissions";
 
 const API_URL =
   process.env.NEXT_PUBLIC_BASE_API_URL || "http://localhost:3352";
+const SOUND_ATTENDANT_CALL_URL = "/Ding - Sound Effect.mp3";
 
 function statusIcon(status: OrderStatus) {
   switch (status) {
@@ -72,6 +77,9 @@ export default function TabPage() {
   const [statusFilter, setStatusFilter] = useState<string>("");
   const [tableFilter, setTableFilter] = useState<string>("");
   const [showFilters, setShowFilters] = useState(false);
+  const [attendantCall, setAttendantCall] = useState<AttendantCallPayload | null>(
+    null
+  );
 
   const loadComandas = useCallback(async () => {
     try {
@@ -111,6 +119,11 @@ export default function TabPage() {
 
   useRealtimeUpdates(user?.companyUuid ?? null, {
     onOrdersUpdate: loadComandas,
+    onAttendantCall: (payload) => {
+      setAttendantCall(payload);
+      const audio = new Audio(SOUND_ATTENDANT_CALL_URL);
+      audio.play().catch(() => {});
+    },
   });
 
   const handleUpdateStatus = async (comanda: OrderDto, status: OrderStatus) => {
@@ -141,6 +154,12 @@ export default function TabPage() {
 
   return (
     <div className="min-h-screen bg-zinc-100 p-4 md:p-8">
+      {attendantCall ? (
+        <AttendantCallBanner
+          payload={attendantCall}
+          onDismiss={() => setAttendantCall(null)}
+        />
+      ) : null}
       <div className="max-w-6xl mx-auto">
         <header className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 mb-8">
           <h1 className="text-3xl md:text-4xl font-bold text-zinc-900 flex items-center gap-3">
