@@ -16,7 +16,7 @@ enum UserRole {
 model Company {
   uuid              String           @id @default(uuid())
   name              String
-  menuTheme         String? // JSON: { primary, primaryHover, background, accent, textPrimary, textMuted }
+  menuTheme         String? // JSON: { primary, …, showProductImages?: boolean }
   /**
    * JSON: { timezone?: string, intervals?: { weekday: 0-6, open: "HH:mm", close: "HH:mm" }[] } — vazio = cozinha sem restrição de horário
    */

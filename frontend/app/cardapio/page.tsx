@@ -2,7 +2,15 @@
 
 import { useState, useEffect, useCallback, Suspense } from "react";
 import { useSearchParams } from "next/navigation";
-import { FaShoppingCart, FaPlus, FaMinus, FaCheckCircle, FaSearch } from "react-icons/fa";
+import {
+  FaShoppingCart,
+  FaPlus,
+  FaMinus,
+  FaCheckCircle,
+  FaSearch,
+  FaImages,
+  FaTimes,
+} from "react-icons/fa";
 import LoadingSpinner from "components/LoadingSpinner";
 import { useRealtimeUpdates } from "hooks/useRealtimeUpdates";
 import { useLocaleContext } from "i18n/LocaleContext";
@@ -23,6 +31,8 @@ interface Product {
   categoryUuid: string;
   active: boolean;
   addons?: ProductAddon[];
+  /** URLs ou data URLs; omitido pela API se a empresa desativou imagens no cardápio */
+  images?: string[];
   category?: { uuid: string; name: string };
 }
 
@@ -33,6 +43,8 @@ export interface MenuTheme {
   accent?: string;
   textPrimary?: string;
   textMuted?: string;
+  /** Padrão: true. Se false, não exibe opção de ver fotos no cardápio. */
+  showProductImages?: boolean;
 }
 
 interface MenuResponse {
@@ -61,6 +73,10 @@ const DEFAULT_THEME: MenuTheme = {
 function mergeTheme(theme?: MenuTheme | null): MenuTheme {
   if (!theme) return DEFAULT_THEME;
   return { ...DEFAULT_THEME, ...theme };
+}
+
+function allowProductImagesOnMenu(theme: MenuTheme): boolean {
+  return theme.showProductImages !== false;
 }
 
 function lineKey(productUuid: string, addons: ProductAddon[]) {
@@ -103,6 +119,10 @@ function CardapioContent() {
   const [orderSent, setOrderSent] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [orderObservacao, setOrderObservacao] = useState("");
+  const [imageGallery, setImageGallery] = useState<{
+    title: string;
+    urls: string[];
+  } | null>(null);
 
   const loadMenu = useCallback(async () => {
     if (!mesaUuid) return;
@@ -229,6 +249,7 @@ function CardapioContent() {
   };
 
   const theme = mergeTheme(menu?.theme);
+  const showProductImagesOnMenu = allowProductImagesOnMenu(theme);
 
   const filteredCategories = menu
     ? menu.categories
@@ -439,20 +460,44 @@ function CardapioContent() {
                         {product.description}
                       </p>
                     )}
-                    <div className="mt-3 flex items-center justify-between">
+                    <div className="mt-3 flex items-center justify-between gap-2 flex-wrap">
                       <span
                         className="text-lg font-bold"
                         style={{ color: theme.textPrimary }}
                       >
                         R$ {product.price.toFixed(2)}
                       </span>
-                      <button
-                        onClick={() => requestAddProduct(product)}
-                        className="flex items-center gap-2 text-white rounded-lg px-4 py-2 text-sm font-medium hover:opacity-90 transition"
-                        style={{ backgroundColor: theme.primary }}
-                      >
-                        <FaPlus className="text-xs" /> {t("cardapio.add")}
-                      </button>
+                      <div className="flex items-center gap-2 flex-wrap justify-end">
+                        {showProductImagesOnMenu &&
+                        product.images &&
+                        product.images.length > 0 ? (
+                          <button
+                            type="button"
+                            onClick={() =>
+                              setImageGallery({
+                                title: product.name,
+                                urls: product.images!,
+                              })
+                            }
+                            className="flex items-center gap-1.5 text-sm font-medium rounded-lg px-3 py-2 border bg-white hover:bg-zinc-50 transition"
+                            style={{
+                              borderColor: theme.accent,
+                              color: theme.textPrimary,
+                            }}
+                          >
+                            <FaImages className="text-xs" />{" "}
+                            {t("cardapio.showImages")}
+                          </button>
+                        ) : null}
+                        <button
+                          type="button"
+                          onClick={() => requestAddProduct(product)}
+                          className="flex items-center gap-2 text-white rounded-lg px-4 py-2 text-sm font-medium hover:opacity-90 transition"
+                          style={{ backgroundColor: theme.primary }}
+                        >
+                          <FaPlus className="text-xs" /> {t("cardapio.add")}
+                        </button>
+                      </div>
                     </div>
                   </div>
                 ))}
@@ -462,6 +507,39 @@ function CardapioContent() {
           )}
         </div>
       </main>
+
+      {imageGallery ? (
+        <div
+          className="fixed inset-0 z-50 flex flex-col bg-black/80 p-4"
+          role="dialog"
+          aria-modal="true"
+          aria-labelledby="gallery-title"
+        >
+          <div className="flex items-center justify-between gap-2 text-white mb-3 max-w-3xl mx-auto w-full">
+            <h3 id="gallery-title" className="text-lg font-semibold truncate pr-2">
+              {imageGallery.title}
+            </h3>
+            <button
+              type="button"
+              onClick={() => setImageGallery(null)}
+              className="shrink-0 p-2 rounded-lg bg-white/10 hover:bg-white/20"
+              aria-label={t("cardapio.closeGallery")}
+            >
+              <FaTimes className="w-5 h-5" />
+            </button>
+          </div>
+          <div className="flex-1 overflow-y-auto max-w-3xl mx-auto w-full space-y-4 pb-8">
+            {imageGallery.urls.map((src, idx) => (
+              <img
+                key={idx}
+                src={src}
+                alt=""
+                className="w-full rounded-xl object-contain bg-black/40 max-h-[70vh]"
+              />
+            ))}
+          </div>
+        </div>
+      ) : null}
 
       {pickerProduct ? (
         <div
