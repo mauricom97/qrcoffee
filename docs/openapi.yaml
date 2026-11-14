@@ -23,6 +23,8 @@ tags:
     description: Comandas (pedidos por mesa / resumo)
   - name: Dashboard
     description: Estatísticas de atendimento e financeiro
+  - name: Ifood
+    description: Integração iFood (config, simulate, webhook)
 
 components:
   securitySchemes:
@@ -90,6 +92,7 @@ components:
         active: { type: boolean }
         description: { type: string }
         categoryUuid: { type: string, format: uuid }
+        ifoodExternalCode: { type: string, nullable: true }
     UpdateProductInput:
       type: object
       properties:
@@ -99,6 +102,7 @@ components:
         description: { type: string }
         stock: { type: number }
         categoryUuid: { type: string, format: uuid }
+        ifoodExternalCode: { type: string, nullable: true }
     Table:
       type: object
       properties:
@@ -137,6 +141,9 @@ components:
         productName: { type: string }
         quantity: { type: number }
         unitPrice: { type: number }
+    OrderSource:
+      type: string
+      enum: [INTERNAL, IFOOD]
     Order:
       type: object
       properties:
@@ -144,10 +151,54 @@ components:
         tableUuid: { type: string, format: uuid }
         tableNumber: { type: number }
         status: { $ref: '#/components/schemas/OrderStatus' }
+        source: { $ref: '#/components/schemas/OrderSource' }
+        externalId: { type: string, nullable: true }
+        observacao: { type: string, nullable: true }
         createdAt: { type: string, format: date-time }
         items:
           type: array
           items: { $ref: '#/components/schemas/OrderItemDto' }
+    IfoodSettings:
+      type: object
+      properties:
+        enabled: { type: boolean }
+        merchantId: { type: string, nullable: true }
+        clientId: { type: string, nullable: true }
+        hasClientSecret: { type: boolean }
+        hasWebhookSecret: { type: boolean }
+        configured: { type: boolean }
+    IfoodSettingsInput:
+      type: object
+      properties:
+        enabled: { type: boolean }
+        merchantId: { type: string, nullable: true }
+        clientId: { type: string, nullable: true }
+        clientSecret: { type: string, nullable: true }
+        webhookSecret: { type: string, nullable: true }
+    IfoodSimulateItem:
+      type: object
+      required: [externalCode, quantity]
+      properties:
+        externalCode: { type: string }
+        quantity: { type: number }
+        unitPrice: { type: number }
+    IfoodSimulateInput:
+      type: object
+      required: [items]
+      properties:
+        externalId: { type: string }
+        observacao: { type: string, nullable: true }
+        items:
+          type: array
+          items: { $ref: '#/components/schemas/IfoodSimulateItem' }
+    IfoodWebhookEvent:
+      type: object
+      properties:
+        code: { type: string }
+        fullCode: { type: string }
+        orderId: { type: string }
+        merchantId: { type: string }
+        id: { type: string }
     CreateOrderInput:
       type: object
       required: [tableUuid, items]
@@ -680,3 +731,60 @@ paths:
           content:
             application/json:
               schema: { $ref: '#/components/schemas/FinancialSummary' }
+
+  /integrations/ifood:
+    get:
+      tags: [Ifood]
+      summary: Obter configuração iFood
+      security: [{ bearerAuth: [] }]
+      responses:
+        '200':
+          description: Configuração (secrets mascarados)
+          content:
+            application/json:
+              schema: { $ref: '#/components/schemas/IfoodSettings' }
+    put:
+      tags: [Ifood]
+      summary: Salvar configuração iFood
+      security: [{ bearerAuth: [] }]
+      requestBody:
+        content:
+          application/json:
+            schema: { $ref: '#/components/schemas/IfoodSettingsInput' }
+      responses:
+        '200':
+          description: Configuração atualizada
+          content:
+            application/json:
+              schema: { $ref: '#/components/schemas/IfoodSettings' }
+  /integrations/ifood/simulate:
+    post:
+      tags: [Ifood]
+      summary: Simular pedido iFood (dev)
+      security: [{ bearerAuth: [] }]
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema: { $ref: '#/components/schemas/IfoodSimulateInput' }
+      responses:
+        '200':
+          description: Pedido criado ou já existente
+          content:
+            application/json:
+              schema: { $ref: '#/components/schemas/Order' }
+        '400':
+          description: Itens sem mapeamento ou body inválido
+  /integrations/ifood/webhook:
+    post:
+      tags: [Ifood]
+      summary: Webhook de eventos iFood
+      requestBody:
+        content:
+          application/json:
+            schema: { $ref: '#/components/schemas/IfoodWebhookEvent' }
+      responses:
+        '200':
+          description: Evento aceito (ou ignorado no MVP)
+        '401':
+          description: Webhook secret inválido

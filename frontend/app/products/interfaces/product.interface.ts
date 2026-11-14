@@ -15,6 +15,8 @@ export interface Product {
   active: boolean;
   /** Exige horário da cozinha no cardápio público */
   isKitchenProduct?: boolean;
+  /** Código do item no cardápio iFood (externalCode) */
+  ifoodExternalCode?: string | null;
   images?: string[];
   /** Opcionais com valor extra (vazio = produto sem adicionais) */
   addons?: ProductAddon[];

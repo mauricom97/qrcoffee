@@ -9,6 +9,10 @@ export class CreateProductUseCase {
 
   async execute(input: CreateProductDto): Promise<void> {
     const uuid = input.uuid?.trim() ? input.uuid : randomUUID();
+    const ifoodExternalCode =
+      typeof input.ifoodExternalCode === 'string' && input.ifoodExternalCode.trim()
+        ? input.ifoodExternalCode.trim()
+        : null;
     const product = new Product(
       uuid,
       input.name,
@@ -18,6 +22,7 @@ export class CreateProductUseCase {
       input.categoryUuid,
       input.companyUuid,
       Boolean(input.isKitchenProduct),
+      ifoodExternalCode,
     );
     return await this.productRepository.save(product, input.addons);
   }

@@ -1,6 +1,6 @@
 import { OrderRepository, OrderListDto } from '@domain/order/repositories/order.repository';
 import { Order } from '@domain/order/entities/order.entity';
-import { OrderStatus } from '@domain/order/entities/order.entity';
+import { OrderSource, OrderStatus } from '@domain/order/entities/order.entity';
 import { OrderItem } from '@domain/order/entities/order-item.entity';
 
 export interface UpdateOrderInput {
@@ -32,6 +32,8 @@ export class UpdateOrderUseCase {
       existing.createdAt,
       existing.observacao ?? null,
       items,
+      (existing.source as OrderSource) ?? 'INTERNAL',
+      existing.externalId ?? null,
     );
     await this.orderRepository.update(order);
     return await this.orderRepository.findById(uuid, companyUuid);

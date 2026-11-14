@@ -194,6 +194,31 @@ export const enMessages = {
       appearance: "Appearance",
       language: "Language",
       team: "Team",
+      integrations: "Integrations",
+    },
+    ifood: {
+      title: "iFood",
+      desc: "Receive iFood orders in the panel. Map each product to its iFood item code and use simulation to test without the live API.",
+      enabled: "Integration enabled",
+      merchantId: "Merchant ID",
+      clientId: "Client ID",
+      clientSecret: "Client Secret",
+      webhookSecret: "Webhook secret",
+      secretConfigured: "already set",
+      secretPlaceholder: "Leave blank to keep current",
+      save: "Save integration",
+      saved: "iFood integration saved.",
+      saveError: "Could not save iFood integration.",
+      loadError: "Could not load iFood integration.",
+      simulateTitle: "Simulate order",
+      simulateDesc:
+        "Creates an order with iFood source using an external code from a registered product.",
+      simulateCode: "Product iFood code",
+      simulateQty: "Qty",
+      simulate: "Simulate order",
+      simulateOk: "Simulated iFood order — check Orders.",
+      simulateError: "Failed to simulate iFood order.",
+      simulateNeedCode: "Enter the product iFood code.",
     },
   },
   soundToggle: {
@@ -288,6 +313,8 @@ export const enMessages = {
     noneFound: "No orders found.",
     seeAll: "See all",
     tablePrefix: "Table",
+    ifoodBadge: "iFood",
+    ifoodTableLabel: "iFood",
     observationLabel: "Note",
     observationPlaceholder:
       "E.g. no onions, cooking preference, allergy… (optional)",
@@ -332,6 +359,10 @@ export const enMessages = {
     kitchenHint:
       "Outside the hours set in Settings, it won’t appear on the online menu.",
     kitchenBadge: "Kitchen",
+    ifoodCodeLabel: "iFood code",
+    ifoodCodeHint:
+      "Same code (externalCode) as the item in the iFood menu. Required to receive orders.",
+    ifoodCodePh: "E.g. espresso-coffee",
     addonsSection: "Add-ons (optional)",
     addonsHint:
       "Optional extras with an additional price on top of the base price. Leave empty if the product has no add-ons.",

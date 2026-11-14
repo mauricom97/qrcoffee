@@ -59,6 +59,11 @@ export type Table = $Result.DefaultSelection<Prisma.$TablePayload>
  */
 export type Order = $Result.DefaultSelection<Prisma.$OrderPayload>
 /**
+ * Model IfoodIntegration
+ * * Credenciais e estado da integração iFood (1:1 com Company)
+ */
+export type IfoodIntegration = $Result.DefaultSelection<Prisma.$IfoodIntegrationPayload>
+/**
  * Model OrderItem
  * 
  */
@@ -297,6 +302,16 @@ export class PrismaClient<
     * ```
     */
   get order(): Prisma.OrderDelegate<ExtArgs, ClientOptions>;
+
+  /**
+   * `prisma.ifoodIntegration`: Exposes CRUD operations for the **IfoodIntegration** model.
+    * Example usage:
+    * ```ts
+    * // Fetch zero or more IfoodIntegrations
+    * const ifoodIntegrations = await prisma.ifoodIntegration.findMany()
+    * ```
+    */
+  get ifoodIntegration(): Prisma.IfoodIntegrationDelegate<ExtArgs, ClientOptions>;
 
   /**
    * `prisma.orderItem`: Exposes CRUD operations for the **OrderItem** model.
@@ -770,6 +785,7 @@ export namespace Prisma {
     Category: 'Category',
     Table: 'Table',
     Order: 'Order',
+    IfoodIntegration: 'IfoodIntegration',
     OrderItem: 'OrderItem',
     CashierSession: 'CashierSession',
     CashierMovement: 'CashierMovement'
@@ -788,7 +804,7 @@ export namespace Prisma {
       omit: GlobalOmitOptions
     }
     meta: {
-      modelProps: "company" | "user" | "userGroup" | "userGroupMember" | "product" | "productAddon" | "category" | "table" | "order" | "orderItem" | "cashierSession" | "cashierMovement"
+      modelProps: "company" | "user" | "userGroup" | "userGroupMember" | "product" | "productAddon" | "category" | "table" | "order" | "ifoodIntegration" | "orderItem" | "cashierSession" | "cashierMovement"
       txIsolationLevel: Prisma.TransactionIsolationLevel
     }
     model: {
@@ -1458,6 +1474,80 @@ export namespace Prisma {
           }
         }
       }
+      IfoodIntegration: {
+        payload: Prisma.$IfoodIntegrationPayload<ExtArgs>
+        fields: Prisma.IfoodIntegrationFieldRefs
+        operations: {
+          findUnique: {
+            args: Prisma.IfoodIntegrationFindUniqueArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$IfoodIntegrationPayload> | null
+          }
+          findUniqueOrThrow: {
+            args: Prisma.IfoodIntegrationFindUniqueOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$IfoodIntegrationPayload>
+          }
+          findFirst: {
+            args: Prisma.IfoodIntegrationFindFirstArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$IfoodIntegrationPayload> | null
+          }
+          findFirstOrThrow: {
+            args: Prisma.IfoodIntegrationFindFirstOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$IfoodIntegrationPayload>
+          }
+          findMany: {
+            args: Prisma.IfoodIntegrationFindManyArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$IfoodIntegrationPayload>[]
+          }
+          create: {
+            args: Prisma.IfoodIntegrationCreateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$IfoodIntegrationPayload>
+          }
+          createMany: {
+            args: Prisma.IfoodIntegrationCreateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          createManyAndReturn: {
+            args: Prisma.IfoodIntegrationCreateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$IfoodIntegrationPayload>[]
+          }
+          delete: {
+            args: Prisma.IfoodIntegrationDeleteArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$IfoodIntegrationPayload>
+          }
+          update: {
+            args: Prisma.IfoodIntegrationUpdateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$IfoodIntegrationPayload>
+          }
+          deleteMany: {
+            args: Prisma.IfoodIntegrationDeleteManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateMany: {
+            args: Prisma.IfoodIntegrationUpdateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateManyAndReturn: {
+            args: Prisma.IfoodIntegrationUpdateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$IfoodIntegrationPayload>[]
+          }
+          upsert: {
+            args: Prisma.IfoodIntegrationUpsertArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$IfoodIntegrationPayload>
+          }
+          aggregate: {
+            args: Prisma.IfoodIntegrationAggregateArgs<ExtArgs>
+            result: $Utils.Optional<AggregateIfoodIntegration>
+          }
+          groupBy: {
+            args: Prisma.IfoodIntegrationGroupByArgs<ExtArgs>
+            result: $Utils.Optional<IfoodIntegrationGroupByOutputType>[]
+          }
+          count: {
+            args: Prisma.IfoodIntegrationCountArgs<ExtArgs>
+            result: $Utils.Optional<IfoodIntegrationCountAggregateOutputType> | number
+          }
+        }
+      }
       OrderItem: {
         payload: Prisma.$OrderItemPayload<ExtArgs>
         fields: Prisma.OrderItemFieldRefs
@@ -1797,6 +1887,7 @@ export namespace Prisma {
     category?: CategoryOmit
     table?: TableOmit
     order?: OrderOmit
+    ifoodIntegration?: IfoodIntegrationOmit
     orderItem?: OrderItemOmit
     cashierSession?: CashierSessionOmit
     cashierMovement?: CashierMovementOmit
@@ -2359,6 +2450,7 @@ export namespace Prisma {
     categories?: boolean | Company$categoriesArgs<ExtArgs>
     products?: boolean | Company$productsArgs<ExtArgs>
     cashierSessions?: boolean | Company$cashierSessionsArgs<ExtArgs>
+    ifoodIntegration?: boolean | Company$ifoodIntegrationArgs<ExtArgs>
     _count?: boolean | CompanyCountOutputTypeDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["company"]>
 
@@ -2397,6 +2489,7 @@ export namespace Prisma {
     categories?: boolean | Company$categoriesArgs<ExtArgs>
     products?: boolean | Company$productsArgs<ExtArgs>
     cashierSessions?: boolean | Company$cashierSessionsArgs<ExtArgs>
+    ifoodIntegration?: boolean | Company$ifoodIntegrationArgs<ExtArgs>
     _count?: boolean | CompanyCountOutputTypeDefaultArgs<ExtArgs>
   }
   export type CompanyIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {}
@@ -2411,6 +2504,7 @@ export namespace Prisma {
       categories: Prisma.$CategoryPayload<ExtArgs>[]
       products: Prisma.$ProductPayload<ExtArgs>[]
       cashierSessions: Prisma.$CashierSessionPayload<ExtArgs>[]
+      ifoodIntegration: Prisma.$IfoodIntegrationPayload<ExtArgs> | null
     }
     scalars: $Extensions.GetPayloadResult<{
       uuid: string
@@ -2822,6 +2916,7 @@ export namespace Prisma {
     categories<T extends Company$categoriesArgs<ExtArgs> = {}>(args?: Subset<T, Company$categoriesArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$CategoryPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     products<T extends Company$productsArgs<ExtArgs> = {}>(args?: Subset<T, Company$productsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$ProductPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     cashierSessions<T extends Company$cashierSessionsArgs<ExtArgs> = {}>(args?: Subset<T, Company$cashierSessionsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$CashierSessionPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+    ifoodIntegration<T extends Company$ifoodIntegrationArgs<ExtArgs> = {}>(args?: Subset<T, Company$ifoodIntegrationArgs<ExtArgs>>): Prisma__IfoodIntegrationClient<$Result.GetResult<Prisma.$IfoodIntegrationPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
     /**
      * Attaches callbacks for the resolution and/or rejection of the Promise.
      * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -3386,6 +3481,25 @@ export namespace Prisma {
     take?: number
     skip?: number
     distinct?: CashierSessionScalarFieldEnum | CashierSessionScalarFieldEnum[]
+  }
+
+  /**
+   * Company.ifoodIntegration
+   */
+  export type Company$ifoodIntegrationArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the IfoodIntegration
+     */
+    select?: IfoodIntegrationSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the IfoodIntegration
+     */
+    omit?: IfoodIntegrationOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: IfoodIntegrationInclude<ExtArgs> | null
+    where?: IfoodIntegrationWhereInput
   }
 
   /**
@@ -6662,6 +6776,7 @@ export namespace Prisma {
     active: boolean | null
     description: string | null
     isKitchenProduct: boolean | null
+    ifoodExternalCode: string | null
     categoryUuid: string | null
     companyUuid: string | null
   }
@@ -6673,6 +6788,7 @@ export namespace Prisma {
     active: boolean | null
     description: string | null
     isKitchenProduct: boolean | null
+    ifoodExternalCode: string | null
     categoryUuid: string | null
     companyUuid: string | null
   }
@@ -6684,6 +6800,7 @@ export namespace Prisma {
     active: number
     description: number
     isKitchenProduct: number
+    ifoodExternalCode: number
     categoryUuid: number
     companyUuid: number
     _all: number
@@ -6705,6 +6822,7 @@ export namespace Prisma {
     active?: true
     description?: true
     isKitchenProduct?: true
+    ifoodExternalCode?: true
     categoryUuid?: true
     companyUuid?: true
   }
@@ -6716,6 +6834,7 @@ export namespace Prisma {
     active?: true
     description?: true
     isKitchenProduct?: true
+    ifoodExternalCode?: true
     categoryUuid?: true
     companyUuid?: true
   }
@@ -6727,6 +6846,7 @@ export namespace Prisma {
     active?: true
     description?: true
     isKitchenProduct?: true
+    ifoodExternalCode?: true
     categoryUuid?: true
     companyUuid?: true
     _all?: true
@@ -6825,6 +6945,7 @@ export namespace Prisma {
     active: boolean
     description: string
     isKitchenProduct: boolean
+    ifoodExternalCode: string | null
     categoryUuid: string
     companyUuid: string
     _count: ProductCountAggregateOutputType | null
@@ -6855,6 +6976,7 @@ export namespace Prisma {
     active?: boolean
     description?: boolean
     isKitchenProduct?: boolean
+    ifoodExternalCode?: boolean
     categoryUuid?: boolean
     companyUuid?: boolean
     category?: boolean | CategoryDefaultArgs<ExtArgs>
@@ -6871,6 +6993,7 @@ export namespace Prisma {
     active?: boolean
     description?: boolean
     isKitchenProduct?: boolean
+    ifoodExternalCode?: boolean
     categoryUuid?: boolean
     companyUuid?: boolean
     category?: boolean | CategoryDefaultArgs<ExtArgs>
@@ -6884,6 +7007,7 @@ export namespace Prisma {
     active?: boolean
     description?: boolean
     isKitchenProduct?: boolean
+    ifoodExternalCode?: boolean
     categoryUuid?: boolean
     companyUuid?: boolean
     category?: boolean | CategoryDefaultArgs<ExtArgs>
@@ -6897,11 +7021,12 @@ export namespace Prisma {
     active?: boolean
     description?: boolean
     isKitchenProduct?: boolean
+    ifoodExternalCode?: boolean
     categoryUuid?: boolean
     companyUuid?: boolean
   }
 
-  export type ProductOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"uuid" | "name" | "price" | "active" | "description" | "isKitchenProduct" | "categoryUuid" | "companyUuid", ExtArgs["result"]["product"]>
+  export type ProductOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"uuid" | "name" | "price" | "active" | "description" | "isKitchenProduct" | "ifoodExternalCode" | "categoryUuid" | "companyUuid", ExtArgs["result"]["product"]>
   export type ProductInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     category?: boolean | CategoryDefaultArgs<ExtArgs>
     company?: boolean | CompanyDefaultArgs<ExtArgs>
@@ -6936,6 +7061,10 @@ export namespace Prisma {
        * * Itens preparados na cozinha: fora do horário configurado somem do cardápio público
        */
       isKitchenProduct: boolean
+      /**
+       * * Código do item no cardápio iFood (externalCode) para mapear pedidos externos
+       */
+      ifoodExternalCode: string | null
       categoryUuid: string
       companyUuid: string
     }, ExtArgs["result"]["product"]>
@@ -7371,6 +7500,7 @@ export namespace Prisma {
     readonly active: FieldRef<"Product", 'Boolean'>
     readonly description: FieldRef<"Product", 'String'>
     readonly isKitchenProduct: FieldRef<"Product", 'Boolean'>
+    readonly ifoodExternalCode: FieldRef<"Product", 'String'>
     readonly categoryUuid: FieldRef<"Product", 'String'>
     readonly companyUuid: FieldRef<"Product", 'String'>
   }
@@ -11171,6 +11301,8 @@ export namespace Prisma {
     uuid: string | null
     tableUuid: string | null
     status: string | null
+    source: string | null
+    externalId: string | null
     createdAt: Date | null
     observacao: string | null
   }
@@ -11179,6 +11311,8 @@ export namespace Prisma {
     uuid: string | null
     tableUuid: string | null
     status: string | null
+    source: string | null
+    externalId: string | null
     createdAt: Date | null
     observacao: string | null
   }
@@ -11187,6 +11321,8 @@ export namespace Prisma {
     uuid: number
     tableUuid: number
     status: number
+    source: number
+    externalId: number
     createdAt: number
     observacao: number
     _all: number
@@ -11197,6 +11333,8 @@ export namespace Prisma {
     uuid?: true
     tableUuid?: true
     status?: true
+    source?: true
+    externalId?: true
     createdAt?: true
     observacao?: true
   }
@@ -11205,6 +11343,8 @@ export namespace Prisma {
     uuid?: true
     tableUuid?: true
     status?: true
+    source?: true
+    externalId?: true
     createdAt?: true
     observacao?: true
   }
@@ -11213,6 +11353,8 @@ export namespace Prisma {
     uuid?: true
     tableUuid?: true
     status?: true
+    source?: true
+    externalId?: true
     createdAt?: true
     observacao?: true
     _all?: true
@@ -11294,6 +11436,8 @@ export namespace Prisma {
     uuid: string
     tableUuid: string
     status: string
+    source: string
+    externalId: string | null
     createdAt: Date
     observacao: string | null
     _count: OrderCountAggregateOutputType | null
@@ -11319,6 +11463,8 @@ export namespace Prisma {
     uuid?: boolean
     tableUuid?: boolean
     status?: boolean
+    source?: boolean
+    externalId?: boolean
     createdAt?: boolean
     observacao?: boolean
     table?: boolean | TableDefaultArgs<ExtArgs>
@@ -11330,6 +11476,8 @@ export namespace Prisma {
     uuid?: boolean
     tableUuid?: boolean
     status?: boolean
+    source?: boolean
+    externalId?: boolean
     createdAt?: boolean
     observacao?: boolean
     table?: boolean | TableDefaultArgs<ExtArgs>
@@ -11339,6 +11487,8 @@ export namespace Prisma {
     uuid?: boolean
     tableUuid?: boolean
     status?: boolean
+    source?: boolean
+    externalId?: boolean
     createdAt?: boolean
     observacao?: boolean
     table?: boolean | TableDefaultArgs<ExtArgs>
@@ -11348,11 +11498,13 @@ export namespace Prisma {
     uuid?: boolean
     tableUuid?: boolean
     status?: boolean
+    source?: boolean
+    externalId?: boolean
     createdAt?: boolean
     observacao?: boolean
   }
 
-  export type OrderOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"uuid" | "tableUuid" | "status" | "createdAt" | "observacao", ExtArgs["result"]["order"]>
+  export type OrderOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"uuid" | "tableUuid" | "status" | "source" | "externalId" | "createdAt" | "observacao", ExtArgs["result"]["order"]>
   export type OrderInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     table?: boolean | TableDefaultArgs<ExtArgs>
     items?: boolean | Order$itemsArgs<ExtArgs>
@@ -11375,6 +11527,14 @@ export namespace Prisma {
       uuid: string
       tableUuid: string
       status: string
+      /**
+       * * Canal de origem: INTERNAL (QR/garçom) | IFOOD
+       */
+      source: string
+      /**
+       * * Id externo (ex.: pedido iFood); null para pedidos internos
+       */
+      externalId: string | null
       createdAt: Date
       observacao: string | null
     }, ExtArgs["result"]["order"]>
@@ -11805,6 +11965,8 @@ export namespace Prisma {
     readonly uuid: FieldRef<"Order", 'String'>
     readonly tableUuid: FieldRef<"Order", 'String'>
     readonly status: FieldRef<"Order", 'String'>
+    readonly source: FieldRef<"Order", 'String'>
+    readonly externalId: FieldRef<"Order", 'String'>
     readonly createdAt: FieldRef<"Order", 'DateTime'>
     readonly observacao: FieldRef<"Order", 'String'>
   }
@@ -12242,6 +12404,1155 @@ export namespace Prisma {
      * Choose, which related nodes to fetch as well
      */
     include?: OrderInclude<ExtArgs> | null
+  }
+
+
+  /**
+   * Model IfoodIntegration
+   */
+
+  export type AggregateIfoodIntegration = {
+    _count: IfoodIntegrationCountAggregateOutputType | null
+    _min: IfoodIntegrationMinAggregateOutputType | null
+    _max: IfoodIntegrationMaxAggregateOutputType | null
+  }
+
+  export type IfoodIntegrationMinAggregateOutputType = {
+    uuid: string | null
+    companyUuid: string | null
+    merchantId: string | null
+    clientId: string | null
+    clientSecret: string | null
+    accessToken: string | null
+    refreshToken: string | null
+    tokenExpiresAt: Date | null
+    enabled: boolean | null
+    webhookSecret: string | null
+    createdAt: Date | null
+    updatedAt: Date | null
+  }
+
+  export type IfoodIntegrationMaxAggregateOutputType = {
+    uuid: string | null
+    companyUuid: string | null
+    merchantId: string | null
+    clientId: string | null
+    clientSecret: string | null
+    accessToken: string | null
+    refreshToken: string | null
+    tokenExpiresAt: Date | null
+    enabled: boolean | null
+    webhookSecret: string | null
+    createdAt: Date | null
+    updatedAt: Date | null
+  }
+
+  export type IfoodIntegrationCountAggregateOutputType = {
+    uuid: number
+    companyUuid: number
+    merchantId: number
+    clientId: number
+    clientSecret: number
+    accessToken: number
+    refreshToken: number
+    tokenExpiresAt: number
+    enabled: number
+    webhookSecret: number
+    createdAt: number
+    updatedAt: number
+    _all: number
+  }
+
+
+  export type IfoodIntegrationMinAggregateInputType = {
+    uuid?: true
+    companyUuid?: true
+    merchantId?: true
+    clientId?: true
+    clientSecret?: true
+    accessToken?: true
+    refreshToken?: true
+    tokenExpiresAt?: true
+    enabled?: true
+    webhookSecret?: true
+    createdAt?: true
+    updatedAt?: true
+  }
+
+  export type IfoodIntegrationMaxAggregateInputType = {
+    uuid?: true
+    companyUuid?: true
+    merchantId?: true
+    clientId?: true
+    clientSecret?: true
+    accessToken?: true
+    refreshToken?: true
+    tokenExpiresAt?: true
+    enabled?: true
+    webhookSecret?: true
+    createdAt?: true
+    updatedAt?: true
+  }
+
+  export type IfoodIntegrationCountAggregateInputType = {
+    uuid?: true
+    companyUuid?: true
+    merchantId?: true
+    clientId?: true
+    clientSecret?: true
+    accessToken?: true
+    refreshToken?: true
+    tokenExpiresAt?: true
+    enabled?: true
+    webhookSecret?: true
+    createdAt?: true
+    updatedAt?: true
+    _all?: true
+  }
+
+  export type IfoodIntegrationAggregateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which IfoodIntegration to aggregate.
+     */
+    where?: IfoodIntegrationWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of IfoodIntegrations to fetch.
+     */
+    orderBy?: IfoodIntegrationOrderByWithRelationInput | IfoodIntegrationOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the start position
+     */
+    cursor?: IfoodIntegrationWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` IfoodIntegrations from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` IfoodIntegrations.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Count returned IfoodIntegrations
+    **/
+    _count?: true | IfoodIntegrationCountAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the minimum value
+    **/
+    _min?: IfoodIntegrationMinAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the maximum value
+    **/
+    _max?: IfoodIntegrationMaxAggregateInputType
+  }
+
+  export type GetIfoodIntegrationAggregateType<T extends IfoodIntegrationAggregateArgs> = {
+        [P in keyof T & keyof AggregateIfoodIntegration]: P extends '_count' | 'count'
+      ? T[P] extends true
+        ? number
+        : GetScalarType<T[P], AggregateIfoodIntegration[P]>
+      : GetScalarType<T[P], AggregateIfoodIntegration[P]>
+  }
+
+
+
+
+  export type IfoodIntegrationGroupByArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: IfoodIntegrationWhereInput
+    orderBy?: IfoodIntegrationOrderByWithAggregationInput | IfoodIntegrationOrderByWithAggregationInput[]
+    by: IfoodIntegrationScalarFieldEnum[] | IfoodIntegrationScalarFieldEnum
+    having?: IfoodIntegrationScalarWhereWithAggregatesInput
+    take?: number
+    skip?: number
+    _count?: IfoodIntegrationCountAggregateInputType | true
+    _min?: IfoodIntegrationMinAggregateInputType
+    _max?: IfoodIntegrationMaxAggregateInputType
+  }
+
+  export type IfoodIntegrationGroupByOutputType = {
+    uuid: string
+    companyUuid: string
+    merchantId: string | null
+    clientId: string | null
+    clientSecret: string | null
+    accessToken: string | null
+    refreshToken: string | null
+    tokenExpiresAt: Date | null
+    enabled: boolean
+    webhookSecret: string | null
+    createdAt: Date
+    updatedAt: Date
+    _count: IfoodIntegrationCountAggregateOutputType | null
+    _min: IfoodIntegrationMinAggregateOutputType | null
+    _max: IfoodIntegrationMaxAggregateOutputType | null
+  }
+
+  type GetIfoodIntegrationGroupByPayload<T extends IfoodIntegrationGroupByArgs> = Prisma.PrismaPromise<
+    Array<
+      PickEnumerable<IfoodIntegrationGroupByOutputType, T['by']> &
+        {
+          [P in ((keyof T) & (keyof IfoodIntegrationGroupByOutputType))]: P extends '_count'
+            ? T[P] extends boolean
+              ? number
+              : GetScalarType<T[P], IfoodIntegrationGroupByOutputType[P]>
+            : GetScalarType<T[P], IfoodIntegrationGroupByOutputType[P]>
+        }
+      >
+    >
+
+
+  export type IfoodIntegrationSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    uuid?: boolean
+    companyUuid?: boolean
+    merchantId?: boolean
+    clientId?: boolean
+    clientSecret?: boolean
+    accessToken?: boolean
+    refreshToken?: boolean
+    tokenExpiresAt?: boolean
+    enabled?: boolean
+    webhookSecret?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+    company?: boolean | CompanyDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["ifoodIntegration"]>
+
+  export type IfoodIntegrationSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    uuid?: boolean
+    companyUuid?: boolean
+    merchantId?: boolean
+    clientId?: boolean
+    clientSecret?: boolean
+    accessToken?: boolean
+    refreshToken?: boolean
+    tokenExpiresAt?: boolean
+    enabled?: boolean
+    webhookSecret?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+    company?: boolean | CompanyDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["ifoodIntegration"]>
+
+  export type IfoodIntegrationSelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    uuid?: boolean
+    companyUuid?: boolean
+    merchantId?: boolean
+    clientId?: boolean
+    clientSecret?: boolean
+    accessToken?: boolean
+    refreshToken?: boolean
+    tokenExpiresAt?: boolean
+    enabled?: boolean
+    webhookSecret?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+    company?: boolean | CompanyDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["ifoodIntegration"]>
+
+  export type IfoodIntegrationSelectScalar = {
+    uuid?: boolean
+    companyUuid?: boolean
+    merchantId?: boolean
+    clientId?: boolean
+    clientSecret?: boolean
+    accessToken?: boolean
+    refreshToken?: boolean
+    tokenExpiresAt?: boolean
+    enabled?: boolean
+    webhookSecret?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+  }
+
+  export type IfoodIntegrationOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"uuid" | "companyUuid" | "merchantId" | "clientId" | "clientSecret" | "accessToken" | "refreshToken" | "tokenExpiresAt" | "enabled" | "webhookSecret" | "createdAt" | "updatedAt", ExtArgs["result"]["ifoodIntegration"]>
+  export type IfoodIntegrationInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    company?: boolean | CompanyDefaultArgs<ExtArgs>
+  }
+  export type IfoodIntegrationIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    company?: boolean | CompanyDefaultArgs<ExtArgs>
+  }
+  export type IfoodIntegrationIncludeUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    company?: boolean | CompanyDefaultArgs<ExtArgs>
+  }
+
+  export type $IfoodIntegrationPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    name: "IfoodIntegration"
+    objects: {
+      company: Prisma.$CompanyPayload<ExtArgs>
+    }
+    scalars: $Extensions.GetPayloadResult<{
+      uuid: string
+      companyUuid: string
+      merchantId: string | null
+      clientId: string | null
+      clientSecret: string | null
+      accessToken: string | null
+      refreshToken: string | null
+      tokenExpiresAt: Date | null
+      enabled: boolean
+      webhookSecret: string | null
+      createdAt: Date
+      updatedAt: Date
+    }, ExtArgs["result"]["ifoodIntegration"]>
+    composites: {}
+  }
+
+  type IfoodIntegrationGetPayload<S extends boolean | null | undefined | IfoodIntegrationDefaultArgs> = $Result.GetResult<Prisma.$IfoodIntegrationPayload, S>
+
+  type IfoodIntegrationCountArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> =
+    Omit<IfoodIntegrationFindManyArgs, 'select' | 'include' | 'distinct' | 'omit'> & {
+      select?: IfoodIntegrationCountAggregateInputType | true
+    }
+
+  export interface IfoodIntegrationDelegate<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> {
+    [K: symbol]: { types: Prisma.TypeMap<ExtArgs>['model']['IfoodIntegration'], meta: { name: 'IfoodIntegration' } }
+    /**
+     * Find zero or one IfoodIntegration that matches the filter.
+     * @param {IfoodIntegrationFindUniqueArgs} args - Arguments to find a IfoodIntegration
+     * @example
+     * // Get one IfoodIntegration
+     * const ifoodIntegration = await prisma.ifoodIntegration.findUnique({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUnique<T extends IfoodIntegrationFindUniqueArgs>(args: SelectSubset<T, IfoodIntegrationFindUniqueArgs<ExtArgs>>): Prisma__IfoodIntegrationClient<$Result.GetResult<Prisma.$IfoodIntegrationPayload<ExtArgs>, T, "findUnique", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find one IfoodIntegration that matches the filter or throw an error with `error.code='P2025'`
+     * if no matches were found.
+     * @param {IfoodIntegrationFindUniqueOrThrowArgs} args - Arguments to find a IfoodIntegration
+     * @example
+     * // Get one IfoodIntegration
+     * const ifoodIntegration = await prisma.ifoodIntegration.findUniqueOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUniqueOrThrow<T extends IfoodIntegrationFindUniqueOrThrowArgs>(args: SelectSubset<T, IfoodIntegrationFindUniqueOrThrowArgs<ExtArgs>>): Prisma__IfoodIntegrationClient<$Result.GetResult<Prisma.$IfoodIntegrationPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first IfoodIntegration that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {IfoodIntegrationFindFirstArgs} args - Arguments to find a IfoodIntegration
+     * @example
+     * // Get one IfoodIntegration
+     * const ifoodIntegration = await prisma.ifoodIntegration.findFirst({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirst<T extends IfoodIntegrationFindFirstArgs>(args?: SelectSubset<T, IfoodIntegrationFindFirstArgs<ExtArgs>>): Prisma__IfoodIntegrationClient<$Result.GetResult<Prisma.$IfoodIntegrationPayload<ExtArgs>, T, "findFirst", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first IfoodIntegration that matches the filter or
+     * throw `PrismaKnownClientError` with `P2025` code if no matches were found.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {IfoodIntegrationFindFirstOrThrowArgs} args - Arguments to find a IfoodIntegration
+     * @example
+     * // Get one IfoodIntegration
+     * const ifoodIntegration = await prisma.ifoodIntegration.findFirstOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirstOrThrow<T extends IfoodIntegrationFindFirstOrThrowArgs>(args?: SelectSubset<T, IfoodIntegrationFindFirstOrThrowArgs<ExtArgs>>): Prisma__IfoodIntegrationClient<$Result.GetResult<Prisma.$IfoodIntegrationPayload<ExtArgs>, T, "findFirstOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find zero or more IfoodIntegrations that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {IfoodIntegrationFindManyArgs} args - Arguments to filter and select certain fields only.
+     * @example
+     * // Get all IfoodIntegrations
+     * const ifoodIntegrations = await prisma.ifoodIntegration.findMany()
+     * 
+     * // Get first 10 IfoodIntegrations
+     * const ifoodIntegrations = await prisma.ifoodIntegration.findMany({ take: 10 })
+     * 
+     * // Only select the `uuid`
+     * const ifoodIntegrationWithUuidOnly = await prisma.ifoodIntegration.findMany({ select: { uuid: true } })
+     * 
+     */
+    findMany<T extends IfoodIntegrationFindManyArgs>(args?: SelectSubset<T, IfoodIntegrationFindManyArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$IfoodIntegrationPayload<ExtArgs>, T, "findMany", GlobalOmitOptions>>
+
+    /**
+     * Create a IfoodIntegration.
+     * @param {IfoodIntegrationCreateArgs} args - Arguments to create a IfoodIntegration.
+     * @example
+     * // Create one IfoodIntegration
+     * const IfoodIntegration = await prisma.ifoodIntegration.create({
+     *   data: {
+     *     // ... data to create a IfoodIntegration
+     *   }
+     * })
+     * 
+     */
+    create<T extends IfoodIntegrationCreateArgs>(args: SelectSubset<T, IfoodIntegrationCreateArgs<ExtArgs>>): Prisma__IfoodIntegrationClient<$Result.GetResult<Prisma.$IfoodIntegrationPayload<ExtArgs>, T, "create", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Create many IfoodIntegrations.
+     * @param {IfoodIntegrationCreateManyArgs} args - Arguments to create many IfoodIntegrations.
+     * @example
+     * // Create many IfoodIntegrations
+     * const ifoodIntegration = await prisma.ifoodIntegration.createMany({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     *     
+     */
+    createMany<T extends IfoodIntegrationCreateManyArgs>(args?: SelectSubset<T, IfoodIntegrationCreateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Create many IfoodIntegrations and returns the data saved in the database.
+     * @param {IfoodIntegrationCreateManyAndReturnArgs} args - Arguments to create many IfoodIntegrations.
+     * @example
+     * // Create many IfoodIntegrations
+     * const ifoodIntegration = await prisma.ifoodIntegration.createManyAndReturn({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Create many IfoodIntegrations and only return the `uuid`
+     * const ifoodIntegrationWithUuidOnly = await prisma.ifoodIntegration.createManyAndReturn({
+     *   select: { uuid: true },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    createManyAndReturn<T extends IfoodIntegrationCreateManyAndReturnArgs>(args?: SelectSubset<T, IfoodIntegrationCreateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$IfoodIntegrationPayload<ExtArgs>, T, "createManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Delete a IfoodIntegration.
+     * @param {IfoodIntegrationDeleteArgs} args - Arguments to delete one IfoodIntegration.
+     * @example
+     * // Delete one IfoodIntegration
+     * const IfoodIntegration = await prisma.ifoodIntegration.delete({
+     *   where: {
+     *     // ... filter to delete one IfoodIntegration
+     *   }
+     * })
+     * 
+     */
+    delete<T extends IfoodIntegrationDeleteArgs>(args: SelectSubset<T, IfoodIntegrationDeleteArgs<ExtArgs>>): Prisma__IfoodIntegrationClient<$Result.GetResult<Prisma.$IfoodIntegrationPayload<ExtArgs>, T, "delete", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Update one IfoodIntegration.
+     * @param {IfoodIntegrationUpdateArgs} args - Arguments to update one IfoodIntegration.
+     * @example
+     * // Update one IfoodIntegration
+     * const ifoodIntegration = await prisma.ifoodIntegration.update({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    update<T extends IfoodIntegrationUpdateArgs>(args: SelectSubset<T, IfoodIntegrationUpdateArgs<ExtArgs>>): Prisma__IfoodIntegrationClient<$Result.GetResult<Prisma.$IfoodIntegrationPayload<ExtArgs>, T, "update", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Delete zero or more IfoodIntegrations.
+     * @param {IfoodIntegrationDeleteManyArgs} args - Arguments to filter IfoodIntegrations to delete.
+     * @example
+     * // Delete a few IfoodIntegrations
+     * const { count } = await prisma.ifoodIntegration.deleteMany({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     * 
+     */
+    deleteMany<T extends IfoodIntegrationDeleteManyArgs>(args?: SelectSubset<T, IfoodIntegrationDeleteManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more IfoodIntegrations.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {IfoodIntegrationUpdateManyArgs} args - Arguments to update one or more rows.
+     * @example
+     * // Update many IfoodIntegrations
+     * const ifoodIntegration = await prisma.ifoodIntegration.updateMany({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    updateMany<T extends IfoodIntegrationUpdateManyArgs>(args: SelectSubset<T, IfoodIntegrationUpdateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more IfoodIntegrations and returns the data updated in the database.
+     * @param {IfoodIntegrationUpdateManyAndReturnArgs} args - Arguments to update many IfoodIntegrations.
+     * @example
+     * // Update many IfoodIntegrations
+     * const ifoodIntegration = await prisma.ifoodIntegration.updateManyAndReturn({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Update zero or more IfoodIntegrations and only return the `uuid`
+     * const ifoodIntegrationWithUuidOnly = await prisma.ifoodIntegration.updateManyAndReturn({
+     *   select: { uuid: true },
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    updateManyAndReturn<T extends IfoodIntegrationUpdateManyAndReturnArgs>(args: SelectSubset<T, IfoodIntegrationUpdateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$IfoodIntegrationPayload<ExtArgs>, T, "updateManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Create or update one IfoodIntegration.
+     * @param {IfoodIntegrationUpsertArgs} args - Arguments to update or create a IfoodIntegration.
+     * @example
+     * // Update or create a IfoodIntegration
+     * const ifoodIntegration = await prisma.ifoodIntegration.upsert({
+     *   create: {
+     *     // ... data to create a IfoodIntegration
+     *   },
+     *   update: {
+     *     // ... in case it already exists, update
+     *   },
+     *   where: {
+     *     // ... the filter for the IfoodIntegration we want to update
+     *   }
+     * })
+     */
+    upsert<T extends IfoodIntegrationUpsertArgs>(args: SelectSubset<T, IfoodIntegrationUpsertArgs<ExtArgs>>): Prisma__IfoodIntegrationClient<$Result.GetResult<Prisma.$IfoodIntegrationPayload<ExtArgs>, T, "upsert", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+
+    /**
+     * Count the number of IfoodIntegrations.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {IfoodIntegrationCountArgs} args - Arguments to filter IfoodIntegrations to count.
+     * @example
+     * // Count the number of IfoodIntegrations
+     * const count = await prisma.ifoodIntegration.count({
+     *   where: {
+     *     // ... the filter for the IfoodIntegrations we want to count
+     *   }
+     * })
+    **/
+    count<T extends IfoodIntegrationCountArgs>(
+      args?: Subset<T, IfoodIntegrationCountArgs>,
+    ): Prisma.PrismaPromise<
+      T extends $Utils.Record<'select', any>
+        ? T['select'] extends true
+          ? number
+          : GetScalarType<T['select'], IfoodIntegrationCountAggregateOutputType>
+        : number
+    >
+
+    /**
+     * Allows you to perform aggregations operations on a IfoodIntegration.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {IfoodIntegrationAggregateArgs} args - Select which aggregations you would like to apply and on what fields.
+     * @example
+     * // Ordered by age ascending
+     * // Where email contains prisma.io
+     * // Limited to the 10 users
+     * const aggregations = await prisma.user.aggregate({
+     *   _avg: {
+     *     age: true,
+     *   },
+     *   where: {
+     *     email: {
+     *       contains: "prisma.io",
+     *     },
+     *   },
+     *   orderBy: {
+     *     age: "asc",
+     *   },
+     *   take: 10,
+     * })
+    **/
+    aggregate<T extends IfoodIntegrationAggregateArgs>(args: Subset<T, IfoodIntegrationAggregateArgs>): Prisma.PrismaPromise<GetIfoodIntegrationAggregateType<T>>
+
+    /**
+     * Group by IfoodIntegration.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {IfoodIntegrationGroupByArgs} args - Group by arguments.
+     * @example
+     * // Group by city, order by createdAt, get count
+     * const result = await prisma.user.groupBy({
+     *   by: ['city', 'createdAt'],
+     *   orderBy: {
+     *     createdAt: true
+     *   },
+     *   _count: {
+     *     _all: true
+     *   },
+     * })
+     * 
+    **/
+    groupBy<
+      T extends IfoodIntegrationGroupByArgs,
+      HasSelectOrTake extends Or<
+        Extends<'skip', Keys<T>>,
+        Extends<'take', Keys<T>>
+      >,
+      OrderByArg extends True extends HasSelectOrTake
+        ? { orderBy: IfoodIntegrationGroupByArgs['orderBy'] }
+        : { orderBy?: IfoodIntegrationGroupByArgs['orderBy'] },
+      OrderFields extends ExcludeUnderscoreKeys<Keys<MaybeTupleToUnion<T['orderBy']>>>,
+      ByFields extends MaybeTupleToUnion<T['by']>,
+      ByValid extends Has<ByFields, OrderFields>,
+      HavingFields extends GetHavingFields<T['having']>,
+      HavingValid extends Has<ByFields, HavingFields>,
+      ByEmpty extends T['by'] extends never[] ? True : False,
+      InputErrors extends ByEmpty extends True
+      ? `Error: "by" must not be empty.`
+      : HavingValid extends False
+      ? {
+          [P in HavingFields]: P extends ByFields
+            ? never
+            : P extends string
+            ? `Error: Field "${P}" used in "having" needs to be provided in "by".`
+            : [
+                Error,
+                'Field ',
+                P,
+                ` in "having" needs to be provided in "by"`,
+              ]
+        }[HavingFields]
+      : 'take' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "take", you also need to provide "orderBy"'
+      : 'skip' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "skip", you also need to provide "orderBy"'
+      : ByValid extends True
+      ? {}
+      : {
+          [P in OrderFields]: P extends ByFields
+            ? never
+            : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+        }[OrderFields]
+    >(args: SubsetIntersection<T, IfoodIntegrationGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetIfoodIntegrationGroupByPayload<T> : Prisma.PrismaPromise<InputErrors>
+  /**
+   * Fields of the IfoodIntegration model
+   */
+  readonly fields: IfoodIntegrationFieldRefs;
+  }
+
+  /**
+   * The delegate class that acts as a "Promise-like" for IfoodIntegration.
+   * Why is this prefixed with `Prisma__`?
+   * Because we want to prevent naming conflicts as mentioned in
+   * https://github.com/prisma/prisma-client-js/issues/707
+   */
+  export interface Prisma__IfoodIntegrationClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
+    readonly [Symbol.toStringTag]: "PrismaPromise"
+    company<T extends CompanyDefaultArgs<ExtArgs> = {}>(args?: Subset<T, CompanyDefaultArgs<ExtArgs>>): Prisma__CompanyClient<$Result.GetResult<Prisma.$CompanyPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+    /**
+     * Attaches callbacks for the resolution and/or rejection of the Promise.
+     * @param onfulfilled The callback to execute when the Promise is resolved.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of which ever callback is executed.
+     */
+    then<TResult1 = T, TResult2 = never>(onfulfilled?: ((value: T) => TResult1 | PromiseLike<TResult1>) | undefined | null, onrejected?: ((reason: any) => TResult2 | PromiseLike<TResult2>) | undefined | null): $Utils.JsPromise<TResult1 | TResult2>
+    /**
+     * Attaches a callback for only the rejection of the Promise.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of the callback.
+     */
+    catch<TResult = never>(onrejected?: ((reason: any) => TResult | PromiseLike<TResult>) | undefined | null): $Utils.JsPromise<T | TResult>
+    /**
+     * Attaches a callback that is invoked when the Promise is settled (fulfilled or rejected). The
+     * resolved value cannot be modified from the callback.
+     * @param onfinally The callback to execute when the Promise is settled (fulfilled or rejected).
+     * @returns A Promise for the completion of the callback.
+     */
+    finally(onfinally?: (() => void) | undefined | null): $Utils.JsPromise<T>
+  }
+
+
+
+
+  /**
+   * Fields of the IfoodIntegration model
+   */
+  interface IfoodIntegrationFieldRefs {
+    readonly uuid: FieldRef<"IfoodIntegration", 'String'>
+    readonly companyUuid: FieldRef<"IfoodIntegration", 'String'>
+    readonly merchantId: FieldRef<"IfoodIntegration", 'String'>
+    readonly clientId: FieldRef<"IfoodIntegration", 'String'>
+    readonly clientSecret: FieldRef<"IfoodIntegration", 'String'>
+    readonly accessToken: FieldRef<"IfoodIntegration", 'String'>
+    readonly refreshToken: FieldRef<"IfoodIntegration", 'String'>
+    readonly tokenExpiresAt: FieldRef<"IfoodIntegration", 'DateTime'>
+    readonly enabled: FieldRef<"IfoodIntegration", 'Boolean'>
+    readonly webhookSecret: FieldRef<"IfoodIntegration", 'String'>
+    readonly createdAt: FieldRef<"IfoodIntegration", 'DateTime'>
+    readonly updatedAt: FieldRef<"IfoodIntegration", 'DateTime'>
+  }
+    
+
+  // Custom InputTypes
+  /**
+   * IfoodIntegration findUnique
+   */
+  export type IfoodIntegrationFindUniqueArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the IfoodIntegration
+     */
+    select?: IfoodIntegrationSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the IfoodIntegration
+     */
+    omit?: IfoodIntegrationOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: IfoodIntegrationInclude<ExtArgs> | null
+    /**
+     * Filter, which IfoodIntegration to fetch.
+     */
+    where: IfoodIntegrationWhereUniqueInput
+  }
+
+  /**
+   * IfoodIntegration findUniqueOrThrow
+   */
+  export type IfoodIntegrationFindUniqueOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the IfoodIntegration
+     */
+    select?: IfoodIntegrationSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the IfoodIntegration
+     */
+    omit?: IfoodIntegrationOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: IfoodIntegrationInclude<ExtArgs> | null
+    /**
+     * Filter, which IfoodIntegration to fetch.
+     */
+    where: IfoodIntegrationWhereUniqueInput
+  }
+
+  /**
+   * IfoodIntegration findFirst
+   */
+  export type IfoodIntegrationFindFirstArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the IfoodIntegration
+     */
+    select?: IfoodIntegrationSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the IfoodIntegration
+     */
+    omit?: IfoodIntegrationOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: IfoodIntegrationInclude<ExtArgs> | null
+    /**
+     * Filter, which IfoodIntegration to fetch.
+     */
+    where?: IfoodIntegrationWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of IfoodIntegrations to fetch.
+     */
+    orderBy?: IfoodIntegrationOrderByWithRelationInput | IfoodIntegrationOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for IfoodIntegrations.
+     */
+    cursor?: IfoodIntegrationWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` IfoodIntegrations from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` IfoodIntegrations.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of IfoodIntegrations.
+     */
+    distinct?: IfoodIntegrationScalarFieldEnum | IfoodIntegrationScalarFieldEnum[]
+  }
+
+  /**
+   * IfoodIntegration findFirstOrThrow
+   */
+  export type IfoodIntegrationFindFirstOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the IfoodIntegration
+     */
+    select?: IfoodIntegrationSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the IfoodIntegration
+     */
+    omit?: IfoodIntegrationOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: IfoodIntegrationInclude<ExtArgs> | null
+    /**
+     * Filter, which IfoodIntegration to fetch.
+     */
+    where?: IfoodIntegrationWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of IfoodIntegrations to fetch.
+     */
+    orderBy?: IfoodIntegrationOrderByWithRelationInput | IfoodIntegrationOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for IfoodIntegrations.
+     */
+    cursor?: IfoodIntegrationWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` IfoodIntegrations from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` IfoodIntegrations.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of IfoodIntegrations.
+     */
+    distinct?: IfoodIntegrationScalarFieldEnum | IfoodIntegrationScalarFieldEnum[]
+  }
+
+  /**
+   * IfoodIntegration findMany
+   */
+  export type IfoodIntegrationFindManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the IfoodIntegration
+     */
+    select?: IfoodIntegrationSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the IfoodIntegration
+     */
+    omit?: IfoodIntegrationOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: IfoodIntegrationInclude<ExtArgs> | null
+    /**
+     * Filter, which IfoodIntegrations to fetch.
+     */
+    where?: IfoodIntegrationWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of IfoodIntegrations to fetch.
+     */
+    orderBy?: IfoodIntegrationOrderByWithRelationInput | IfoodIntegrationOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for listing IfoodIntegrations.
+     */
+    cursor?: IfoodIntegrationWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` IfoodIntegrations from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` IfoodIntegrations.
+     */
+    skip?: number
+    distinct?: IfoodIntegrationScalarFieldEnum | IfoodIntegrationScalarFieldEnum[]
+  }
+
+  /**
+   * IfoodIntegration create
+   */
+  export type IfoodIntegrationCreateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the IfoodIntegration
+     */
+    select?: IfoodIntegrationSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the IfoodIntegration
+     */
+    omit?: IfoodIntegrationOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: IfoodIntegrationInclude<ExtArgs> | null
+    /**
+     * The data needed to create a IfoodIntegration.
+     */
+    data: XOR<IfoodIntegrationCreateInput, IfoodIntegrationUncheckedCreateInput>
+  }
+
+  /**
+   * IfoodIntegration createMany
+   */
+  export type IfoodIntegrationCreateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to create many IfoodIntegrations.
+     */
+    data: IfoodIntegrationCreateManyInput | IfoodIntegrationCreateManyInput[]
+    skipDuplicates?: boolean
+  }
+
+  /**
+   * IfoodIntegration createManyAndReturn
+   */
+  export type IfoodIntegrationCreateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the IfoodIntegration
+     */
+    select?: IfoodIntegrationSelectCreateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the IfoodIntegration
+     */
+    omit?: IfoodIntegrationOmit<ExtArgs> | null
+    /**
+     * The data used to create many IfoodIntegrations.
+     */
+    data: IfoodIntegrationCreateManyInput | IfoodIntegrationCreateManyInput[]
+    skipDuplicates?: boolean
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: IfoodIntegrationIncludeCreateManyAndReturn<ExtArgs> | null
+  }
+
+  /**
+   * IfoodIntegration update
+   */
+  export type IfoodIntegrationUpdateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the IfoodIntegration
+     */
+    select?: IfoodIntegrationSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the IfoodIntegration
+     */
+    omit?: IfoodIntegrationOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: IfoodIntegrationInclude<ExtArgs> | null
+    /**
+     * The data needed to update a IfoodIntegration.
+     */
+    data: XOR<IfoodIntegrationUpdateInput, IfoodIntegrationUncheckedUpdateInput>
+    /**
+     * Choose, which IfoodIntegration to update.
+     */
+    where: IfoodIntegrationWhereUniqueInput
+  }
+
+  /**
+   * IfoodIntegration updateMany
+   */
+  export type IfoodIntegrationUpdateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to update IfoodIntegrations.
+     */
+    data: XOR<IfoodIntegrationUpdateManyMutationInput, IfoodIntegrationUncheckedUpdateManyInput>
+    /**
+     * Filter which IfoodIntegrations to update
+     */
+    where?: IfoodIntegrationWhereInput
+    /**
+     * Limit how many IfoodIntegrations to update.
+     */
+    limit?: number
+  }
+
+  /**
+   * IfoodIntegration updateManyAndReturn
+   */
+  export type IfoodIntegrationUpdateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the IfoodIntegration
+     */
+    select?: IfoodIntegrationSelectUpdateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the IfoodIntegration
+     */
+    omit?: IfoodIntegrationOmit<ExtArgs> | null
+    /**
+     * The data used to update IfoodIntegrations.
+     */
+    data: XOR<IfoodIntegrationUpdateManyMutationInput, IfoodIntegrationUncheckedUpdateManyInput>
+    /**
+     * Filter which IfoodIntegrations to update
+     */
+    where?: IfoodIntegrationWhereInput
+    /**
+     * Limit how many IfoodIntegrations to update.
+     */
+    limit?: number
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: IfoodIntegrationIncludeUpdateManyAndReturn<ExtArgs> | null
+  }
+
+  /**
+   * IfoodIntegration upsert
+   */
+  export type IfoodIntegrationUpsertArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the IfoodIntegration
+     */
+    select?: IfoodIntegrationSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the IfoodIntegration
+     */
+    omit?: IfoodIntegrationOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: IfoodIntegrationInclude<ExtArgs> | null
+    /**
+     * The filter to search for the IfoodIntegration to update in case it exists.
+     */
+    where: IfoodIntegrationWhereUniqueInput
+    /**
+     * In case the IfoodIntegration found by the `where` argument doesn't exist, create a new IfoodIntegration with this data.
+     */
+    create: XOR<IfoodIntegrationCreateInput, IfoodIntegrationUncheckedCreateInput>
+    /**
+     * In case the IfoodIntegration was found with the provided `where` argument, update it with this data.
+     */
+    update: XOR<IfoodIntegrationUpdateInput, IfoodIntegrationUncheckedUpdateInput>
+  }
+
+  /**
+   * IfoodIntegration delete
+   */
+  export type IfoodIntegrationDeleteArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the IfoodIntegration
+     */
+    select?: IfoodIntegrationSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the IfoodIntegration
+     */
+    omit?: IfoodIntegrationOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: IfoodIntegrationInclude<ExtArgs> | null
+    /**
+     * Filter which IfoodIntegration to delete.
+     */
+    where: IfoodIntegrationWhereUniqueInput
+  }
+
+  /**
+   * IfoodIntegration deleteMany
+   */
+  export type IfoodIntegrationDeleteManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which IfoodIntegrations to delete
+     */
+    where?: IfoodIntegrationWhereInput
+    /**
+     * Limit how many IfoodIntegrations to delete.
+     */
+    limit?: number
+  }
+
+  /**
+   * IfoodIntegration without action
+   */
+  export type IfoodIntegrationDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the IfoodIntegration
+     */
+    select?: IfoodIntegrationSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the IfoodIntegration
+     */
+    omit?: IfoodIntegrationOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: IfoodIntegrationInclude<ExtArgs> | null
   }
 
 
@@ -15683,6 +16994,7 @@ export namespace Prisma {
     active: 'active',
     description: 'description',
     isKitchenProduct: 'isKitchenProduct',
+    ifoodExternalCode: 'ifoodExternalCode',
     categoryUuid: 'categoryUuid',
     companyUuid: 'companyUuid'
   };
@@ -15728,11 +17040,31 @@ export namespace Prisma {
     uuid: 'uuid',
     tableUuid: 'tableUuid',
     status: 'status',
+    source: 'source',
+    externalId: 'externalId',
     createdAt: 'createdAt',
     observacao: 'observacao'
   };
 
   export type OrderScalarFieldEnum = (typeof OrderScalarFieldEnum)[keyof typeof OrderScalarFieldEnum]
+
+
+  export const IfoodIntegrationScalarFieldEnum: {
+    uuid: 'uuid',
+    companyUuid: 'companyUuid',
+    merchantId: 'merchantId',
+    clientId: 'clientId',
+    clientSecret: 'clientSecret',
+    accessToken: 'accessToken',
+    refreshToken: 'refreshToken',
+    tokenExpiresAt: 'tokenExpiresAt',
+    enabled: 'enabled',
+    webhookSecret: 'webhookSecret',
+    createdAt: 'createdAt',
+    updatedAt: 'updatedAt'
+  };
+
+  export type IfoodIntegrationScalarFieldEnum = (typeof IfoodIntegrationScalarFieldEnum)[keyof typeof IfoodIntegrationScalarFieldEnum]
 
 
   export const OrderItemScalarFieldEnum: {
@@ -15928,6 +17260,7 @@ export namespace Prisma {
     categories?: CategoryListRelationFilter
     products?: ProductListRelationFilter
     cashierSessions?: CashierSessionListRelationFilter
+    ifoodIntegration?: XOR<IfoodIntegrationNullableScalarRelationFilter, IfoodIntegrationWhereInput> | null
   }
 
   export type CompanyOrderByWithRelationInput = {
@@ -15943,6 +17276,7 @@ export namespace Prisma {
     categories?: CategoryOrderByRelationAggregateInput
     products?: ProductOrderByRelationAggregateInput
     cashierSessions?: CashierSessionOrderByRelationAggregateInput
+    ifoodIntegration?: IfoodIntegrationOrderByWithRelationInput
   }
 
   export type CompanyWhereUniqueInput = Prisma.AtLeast<{
@@ -15961,6 +17295,7 @@ export namespace Prisma {
     categories?: CategoryListRelationFilter
     products?: ProductListRelationFilter
     cashierSessions?: CashierSessionListRelationFilter
+    ifoodIntegration?: XOR<IfoodIntegrationNullableScalarRelationFilter, IfoodIntegrationWhereInput> | null
   }, "uuid">
 
   export type CompanyOrderByWithAggregationInput = {
@@ -16167,6 +17502,7 @@ export namespace Prisma {
     active?: BoolFilter<"Product"> | boolean
     description?: StringFilter<"Product"> | string
     isKitchenProduct?: BoolFilter<"Product"> | boolean
+    ifoodExternalCode?: StringNullableFilter<"Product"> | string | null
     categoryUuid?: StringFilter<"Product"> | string
     companyUuid?: StringFilter<"Product"> | string
     category?: XOR<CategoryScalarRelationFilter, CategoryWhereInput>
@@ -16182,6 +17518,7 @@ export namespace Prisma {
     active?: SortOrder
     description?: SortOrder
     isKitchenProduct?: SortOrder
+    ifoodExternalCode?: SortOrderInput | SortOrder
     categoryUuid?: SortOrder
     companyUuid?: SortOrder
     category?: CategoryOrderByWithRelationInput
@@ -16200,6 +17537,7 @@ export namespace Prisma {
     active?: BoolFilter<"Product"> | boolean
     description?: StringFilter<"Product"> | string
     isKitchenProduct?: BoolFilter<"Product"> | boolean
+    ifoodExternalCode?: StringNullableFilter<"Product"> | string | null
     categoryUuid?: StringFilter<"Product"> | string
     companyUuid?: StringFilter<"Product"> | string
     category?: XOR<CategoryScalarRelationFilter, CategoryWhereInput>
@@ -16215,6 +17553,7 @@ export namespace Prisma {
     active?: SortOrder
     description?: SortOrder
     isKitchenProduct?: SortOrder
+    ifoodExternalCode?: SortOrderInput | SortOrder
     categoryUuid?: SortOrder
     companyUuid?: SortOrder
     _count?: ProductCountOrderByAggregateInput
@@ -16234,6 +17573,7 @@ export namespace Prisma {
     active?: BoolWithAggregatesFilter<"Product"> | boolean
     description?: StringWithAggregatesFilter<"Product"> | string
     isKitchenProduct?: BoolWithAggregatesFilter<"Product"> | boolean
+    ifoodExternalCode?: StringNullableWithAggregatesFilter<"Product"> | string | null
     categoryUuid?: StringWithAggregatesFilter<"Product"> | string
     companyUuid?: StringWithAggregatesFilter<"Product"> | string
   }
@@ -16426,6 +17766,8 @@ export namespace Prisma {
     uuid?: StringFilter<"Order"> | string
     tableUuid?: StringFilter<"Order"> | string
     status?: StringFilter<"Order"> | string
+    source?: StringFilter<"Order"> | string
+    externalId?: StringNullableFilter<"Order"> | string | null
     createdAt?: DateTimeFilter<"Order"> | Date | string
     observacao?: StringNullableFilter<"Order"> | string | null
     table?: XOR<TableScalarRelationFilter, TableWhereInput>
@@ -16436,6 +17778,8 @@ export namespace Prisma {
     uuid?: SortOrder
     tableUuid?: SortOrder
     status?: SortOrder
+    source?: SortOrder
+    externalId?: SortOrderInput | SortOrder
     createdAt?: SortOrder
     observacao?: SortOrderInput | SortOrder
     table?: TableOrderByWithRelationInput
@@ -16444,21 +17788,26 @@ export namespace Prisma {
 
   export type OrderWhereUniqueInput = Prisma.AtLeast<{
     uuid?: string
+    source_externalId?: OrderSourceExternalIdCompoundUniqueInput
     AND?: OrderWhereInput | OrderWhereInput[]
     OR?: OrderWhereInput[]
     NOT?: OrderWhereInput | OrderWhereInput[]
     tableUuid?: StringFilter<"Order"> | string
     status?: StringFilter<"Order"> | string
+    source?: StringFilter<"Order"> | string
+    externalId?: StringNullableFilter<"Order"> | string | null
     createdAt?: DateTimeFilter<"Order"> | Date | string
     observacao?: StringNullableFilter<"Order"> | string | null
     table?: XOR<TableScalarRelationFilter, TableWhereInput>
     items?: OrderItemListRelationFilter
-  }, "uuid">
+  }, "uuid" | "source_externalId">
 
   export type OrderOrderByWithAggregationInput = {
     uuid?: SortOrder
     tableUuid?: SortOrder
     status?: SortOrder
+    source?: SortOrder
+    externalId?: SortOrderInput | SortOrder
     createdAt?: SortOrder
     observacao?: SortOrderInput | SortOrder
     _count?: OrderCountOrderByAggregateInput
@@ -16473,8 +17822,100 @@ export namespace Prisma {
     uuid?: StringWithAggregatesFilter<"Order"> | string
     tableUuid?: StringWithAggregatesFilter<"Order"> | string
     status?: StringWithAggregatesFilter<"Order"> | string
+    source?: StringWithAggregatesFilter<"Order"> | string
+    externalId?: StringNullableWithAggregatesFilter<"Order"> | string | null
     createdAt?: DateTimeWithAggregatesFilter<"Order"> | Date | string
     observacao?: StringNullableWithAggregatesFilter<"Order"> | string | null
+  }
+
+  export type IfoodIntegrationWhereInput = {
+    AND?: IfoodIntegrationWhereInput | IfoodIntegrationWhereInput[]
+    OR?: IfoodIntegrationWhereInput[]
+    NOT?: IfoodIntegrationWhereInput | IfoodIntegrationWhereInput[]
+    uuid?: StringFilter<"IfoodIntegration"> | string
+    companyUuid?: StringFilter<"IfoodIntegration"> | string
+    merchantId?: StringNullableFilter<"IfoodIntegration"> | string | null
+    clientId?: StringNullableFilter<"IfoodIntegration"> | string | null
+    clientSecret?: StringNullableFilter<"IfoodIntegration"> | string | null
+    accessToken?: StringNullableFilter<"IfoodIntegration"> | string | null
+    refreshToken?: StringNullableFilter<"IfoodIntegration"> | string | null
+    tokenExpiresAt?: DateTimeNullableFilter<"IfoodIntegration"> | Date | string | null
+    enabled?: BoolFilter<"IfoodIntegration"> | boolean
+    webhookSecret?: StringNullableFilter<"IfoodIntegration"> | string | null
+    createdAt?: DateTimeFilter<"IfoodIntegration"> | Date | string
+    updatedAt?: DateTimeFilter<"IfoodIntegration"> | Date | string
+    company?: XOR<CompanyScalarRelationFilter, CompanyWhereInput>
+  }
+
+  export type IfoodIntegrationOrderByWithRelationInput = {
+    uuid?: SortOrder
+    companyUuid?: SortOrder
+    merchantId?: SortOrderInput | SortOrder
+    clientId?: SortOrderInput | SortOrder
+    clientSecret?: SortOrderInput | SortOrder
+    accessToken?: SortOrderInput | SortOrder
+    refreshToken?: SortOrderInput | SortOrder
+    tokenExpiresAt?: SortOrderInput | SortOrder
+    enabled?: SortOrder
+    webhookSecret?: SortOrderInput | SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+    company?: CompanyOrderByWithRelationInput
+  }
+
+  export type IfoodIntegrationWhereUniqueInput = Prisma.AtLeast<{
+    uuid?: string
+    companyUuid?: string
+    AND?: IfoodIntegrationWhereInput | IfoodIntegrationWhereInput[]
+    OR?: IfoodIntegrationWhereInput[]
+    NOT?: IfoodIntegrationWhereInput | IfoodIntegrationWhereInput[]
+    merchantId?: StringNullableFilter<"IfoodIntegration"> | string | null
+    clientId?: StringNullableFilter<"IfoodIntegration"> | string | null
+    clientSecret?: StringNullableFilter<"IfoodIntegration"> | string | null
+    accessToken?: StringNullableFilter<"IfoodIntegration"> | string | null
+    refreshToken?: StringNullableFilter<"IfoodIntegration"> | string | null
+    tokenExpiresAt?: DateTimeNullableFilter<"IfoodIntegration"> | Date | string | null
+    enabled?: BoolFilter<"IfoodIntegration"> | boolean
+    webhookSecret?: StringNullableFilter<"IfoodIntegration"> | string | null
+    createdAt?: DateTimeFilter<"IfoodIntegration"> | Date | string
+    updatedAt?: DateTimeFilter<"IfoodIntegration"> | Date | string
+    company?: XOR<CompanyScalarRelationFilter, CompanyWhereInput>
+  }, "uuid" | "companyUuid">
+
+  export type IfoodIntegrationOrderByWithAggregationInput = {
+    uuid?: SortOrder
+    companyUuid?: SortOrder
+    merchantId?: SortOrderInput | SortOrder
+    clientId?: SortOrderInput | SortOrder
+    clientSecret?: SortOrderInput | SortOrder
+    accessToken?: SortOrderInput | SortOrder
+    refreshToken?: SortOrderInput | SortOrder
+    tokenExpiresAt?: SortOrderInput | SortOrder
+    enabled?: SortOrder
+    webhookSecret?: SortOrderInput | SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+    _count?: IfoodIntegrationCountOrderByAggregateInput
+    _max?: IfoodIntegrationMaxOrderByAggregateInput
+    _min?: IfoodIntegrationMinOrderByAggregateInput
+  }
+
+  export type IfoodIntegrationScalarWhereWithAggregatesInput = {
+    AND?: IfoodIntegrationScalarWhereWithAggregatesInput | IfoodIntegrationScalarWhereWithAggregatesInput[]
+    OR?: IfoodIntegrationScalarWhereWithAggregatesInput[]
+    NOT?: IfoodIntegrationScalarWhereWithAggregatesInput | IfoodIntegrationScalarWhereWithAggregatesInput[]
+    uuid?: StringWithAggregatesFilter<"IfoodIntegration"> | string
+    companyUuid?: StringWithAggregatesFilter<"IfoodIntegration"> | string
+    merchantId?: StringNullableWithAggregatesFilter<"IfoodIntegration"> | string | null
+    clientId?: StringNullableWithAggregatesFilter<"IfoodIntegration"> | string | null
+    clientSecret?: StringNullableWithAggregatesFilter<"IfoodIntegration"> | string | null
+    accessToken?: StringNullableWithAggregatesFilter<"IfoodIntegration"> | string | null
+    refreshToken?: StringNullableWithAggregatesFilter<"IfoodIntegration"> | string | null
+    tokenExpiresAt?: DateTimeNullableWithAggregatesFilter<"IfoodIntegration"> | Date | string | null
+    enabled?: BoolWithAggregatesFilter<"IfoodIntegration"> | boolean
+    webhookSecret?: StringNullableWithAggregatesFilter<"IfoodIntegration"> | string | null
+    createdAt?: DateTimeWithAggregatesFilter<"IfoodIntegration"> | Date | string
+    updatedAt?: DateTimeWithAggregatesFilter<"IfoodIntegration"> | Date | string
   }
 
   export type OrderItemWhereInput = {
@@ -16687,6 +18128,7 @@ export namespace Prisma {
     categories?: CategoryCreateNestedManyWithoutCompanyInput
     products?: ProductCreateNestedManyWithoutCompanyInput
     cashierSessions?: CashierSessionCreateNestedManyWithoutCompanyInput
+    ifoodIntegration?: IfoodIntegrationCreateNestedOneWithoutCompanyInput
   }
 
   export type CompanyUncheckedCreateInput = {
@@ -16702,6 +18144,7 @@ export namespace Prisma {
     categories?: CategoryUncheckedCreateNestedManyWithoutCompanyInput
     products?: ProductUncheckedCreateNestedManyWithoutCompanyInput
     cashierSessions?: CashierSessionUncheckedCreateNestedManyWithoutCompanyInput
+    ifoodIntegration?: IfoodIntegrationUncheckedCreateNestedOneWithoutCompanyInput
   }
 
   export type CompanyUpdateInput = {
@@ -16717,6 +18160,7 @@ export namespace Prisma {
     categories?: CategoryUpdateManyWithoutCompanyNestedInput
     products?: ProductUpdateManyWithoutCompanyNestedInput
     cashierSessions?: CashierSessionUpdateManyWithoutCompanyNestedInput
+    ifoodIntegration?: IfoodIntegrationUpdateOneWithoutCompanyNestedInput
   }
 
   export type CompanyUncheckedUpdateInput = {
@@ -16732,6 +18176,7 @@ export namespace Prisma {
     categories?: CategoryUncheckedUpdateManyWithoutCompanyNestedInput
     products?: ProductUncheckedUpdateManyWithoutCompanyNestedInput
     cashierSessions?: CashierSessionUncheckedUpdateManyWithoutCompanyNestedInput
+    ifoodIntegration?: IfoodIntegrationUncheckedUpdateOneWithoutCompanyNestedInput
   }
 
   export type CompanyCreateManyInput = {
@@ -16934,6 +18379,7 @@ export namespace Prisma {
     active?: boolean
     description: string
     isKitchenProduct?: boolean
+    ifoodExternalCode?: string | null
     category: CategoryCreateNestedOneWithoutProductsInput
     company: CompanyCreateNestedOneWithoutProductsInput
     orderItems?: OrderItemCreateNestedManyWithoutProductInput
@@ -16947,6 +18393,7 @@ export namespace Prisma {
     active?: boolean
     description: string
     isKitchenProduct?: boolean
+    ifoodExternalCode?: string | null
     categoryUuid: string
     companyUuid: string
     orderItems?: OrderItemUncheckedCreateNestedManyWithoutProductInput
@@ -16960,6 +18407,7 @@ export namespace Prisma {
     active?: BoolFieldUpdateOperationsInput | boolean
     description?: StringFieldUpdateOperationsInput | string
     isKitchenProduct?: BoolFieldUpdateOperationsInput | boolean
+    ifoodExternalCode?: NullableStringFieldUpdateOperationsInput | string | null
     category?: CategoryUpdateOneRequiredWithoutProductsNestedInput
     company?: CompanyUpdateOneRequiredWithoutProductsNestedInput
     orderItems?: OrderItemUpdateManyWithoutProductNestedInput
@@ -16973,6 +18421,7 @@ export namespace Prisma {
     active?: BoolFieldUpdateOperationsInput | boolean
     description?: StringFieldUpdateOperationsInput | string
     isKitchenProduct?: BoolFieldUpdateOperationsInput | boolean
+    ifoodExternalCode?: NullableStringFieldUpdateOperationsInput | string | null
     categoryUuid?: StringFieldUpdateOperationsInput | string
     companyUuid?: StringFieldUpdateOperationsInput | string
     orderItems?: OrderItemUncheckedUpdateManyWithoutProductNestedInput
@@ -16986,6 +18435,7 @@ export namespace Prisma {
     active?: boolean
     description: string
     isKitchenProduct?: boolean
+    ifoodExternalCode?: string | null
     categoryUuid: string
     companyUuid: string
   }
@@ -16997,6 +18447,7 @@ export namespace Prisma {
     active?: BoolFieldUpdateOperationsInput | boolean
     description?: StringFieldUpdateOperationsInput | string
     isKitchenProduct?: BoolFieldUpdateOperationsInput | boolean
+    ifoodExternalCode?: NullableStringFieldUpdateOperationsInput | string | null
   }
 
   export type ProductUncheckedUpdateManyInput = {
@@ -17006,6 +18457,7 @@ export namespace Prisma {
     active?: BoolFieldUpdateOperationsInput | boolean
     description?: StringFieldUpdateOperationsInput | string
     isKitchenProduct?: BoolFieldUpdateOperationsInput | boolean
+    ifoodExternalCode?: NullableStringFieldUpdateOperationsInput | string | null
     categoryUuid?: StringFieldUpdateOperationsInput | string
     companyUuid?: StringFieldUpdateOperationsInput | string
   }
@@ -17193,6 +18645,8 @@ export namespace Prisma {
   export type OrderCreateInput = {
     uuid?: string
     status?: string
+    source?: string
+    externalId?: string | null
     createdAt?: Date | string
     observacao?: string | null
     table: TableCreateNestedOneWithoutOrdersInput
@@ -17203,6 +18657,8 @@ export namespace Prisma {
     uuid?: string
     tableUuid: string
     status?: string
+    source?: string
+    externalId?: string | null
     createdAt?: Date | string
     observacao?: string | null
     items?: OrderItemUncheckedCreateNestedManyWithoutOrderInput
@@ -17211,6 +18667,8 @@ export namespace Prisma {
   export type OrderUpdateInput = {
     uuid?: StringFieldUpdateOperationsInput | string
     status?: StringFieldUpdateOperationsInput | string
+    source?: StringFieldUpdateOperationsInput | string
+    externalId?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     observacao?: NullableStringFieldUpdateOperationsInput | string | null
     table?: TableUpdateOneRequiredWithoutOrdersNestedInput
@@ -17221,6 +18679,8 @@ export namespace Prisma {
     uuid?: StringFieldUpdateOperationsInput | string
     tableUuid?: StringFieldUpdateOperationsInput | string
     status?: StringFieldUpdateOperationsInput | string
+    source?: StringFieldUpdateOperationsInput | string
+    externalId?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     observacao?: NullableStringFieldUpdateOperationsInput | string | null
     items?: OrderItemUncheckedUpdateManyWithoutOrderNestedInput
@@ -17230,6 +18690,8 @@ export namespace Prisma {
     uuid?: string
     tableUuid: string
     status?: string
+    source?: string
+    externalId?: string | null
     createdAt?: Date | string
     observacao?: string | null
   }
@@ -17237,6 +18699,8 @@ export namespace Prisma {
   export type OrderUpdateManyMutationInput = {
     uuid?: StringFieldUpdateOperationsInput | string
     status?: StringFieldUpdateOperationsInput | string
+    source?: StringFieldUpdateOperationsInput | string
+    externalId?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     observacao?: NullableStringFieldUpdateOperationsInput | string | null
   }
@@ -17245,8 +18709,114 @@ export namespace Prisma {
     uuid?: StringFieldUpdateOperationsInput | string
     tableUuid?: StringFieldUpdateOperationsInput | string
     status?: StringFieldUpdateOperationsInput | string
+    source?: StringFieldUpdateOperationsInput | string
+    externalId?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     observacao?: NullableStringFieldUpdateOperationsInput | string | null
+  }
+
+  export type IfoodIntegrationCreateInput = {
+    uuid?: string
+    merchantId?: string | null
+    clientId?: string | null
+    clientSecret?: string | null
+    accessToken?: string | null
+    refreshToken?: string | null
+    tokenExpiresAt?: Date | string | null
+    enabled?: boolean
+    webhookSecret?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    company: CompanyCreateNestedOneWithoutIfoodIntegrationInput
+  }
+
+  export type IfoodIntegrationUncheckedCreateInput = {
+    uuid?: string
+    companyUuid: string
+    merchantId?: string | null
+    clientId?: string | null
+    clientSecret?: string | null
+    accessToken?: string | null
+    refreshToken?: string | null
+    tokenExpiresAt?: Date | string | null
+    enabled?: boolean
+    webhookSecret?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type IfoodIntegrationUpdateInput = {
+    uuid?: StringFieldUpdateOperationsInput | string
+    merchantId?: NullableStringFieldUpdateOperationsInput | string | null
+    clientId?: NullableStringFieldUpdateOperationsInput | string | null
+    clientSecret?: NullableStringFieldUpdateOperationsInput | string | null
+    accessToken?: NullableStringFieldUpdateOperationsInput | string | null
+    refreshToken?: NullableStringFieldUpdateOperationsInput | string | null
+    tokenExpiresAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    enabled?: BoolFieldUpdateOperationsInput | boolean
+    webhookSecret?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    company?: CompanyUpdateOneRequiredWithoutIfoodIntegrationNestedInput
+  }
+
+  export type IfoodIntegrationUncheckedUpdateInput = {
+    uuid?: StringFieldUpdateOperationsInput | string
+    companyUuid?: StringFieldUpdateOperationsInput | string
+    merchantId?: NullableStringFieldUpdateOperationsInput | string | null
+    clientId?: NullableStringFieldUpdateOperationsInput | string | null
+    clientSecret?: NullableStringFieldUpdateOperationsInput | string | null
+    accessToken?: NullableStringFieldUpdateOperationsInput | string | null
+    refreshToken?: NullableStringFieldUpdateOperationsInput | string | null
+    tokenExpiresAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    enabled?: BoolFieldUpdateOperationsInput | boolean
+    webhookSecret?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type IfoodIntegrationCreateManyInput = {
+    uuid?: string
+    companyUuid: string
+    merchantId?: string | null
+    clientId?: string | null
+    clientSecret?: string | null
+    accessToken?: string | null
+    refreshToken?: string | null
+    tokenExpiresAt?: Date | string | null
+    enabled?: boolean
+    webhookSecret?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type IfoodIntegrationUpdateManyMutationInput = {
+    uuid?: StringFieldUpdateOperationsInput | string
+    merchantId?: NullableStringFieldUpdateOperationsInput | string | null
+    clientId?: NullableStringFieldUpdateOperationsInput | string | null
+    clientSecret?: NullableStringFieldUpdateOperationsInput | string | null
+    accessToken?: NullableStringFieldUpdateOperationsInput | string | null
+    refreshToken?: NullableStringFieldUpdateOperationsInput | string | null
+    tokenExpiresAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    enabled?: BoolFieldUpdateOperationsInput | boolean
+    webhookSecret?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type IfoodIntegrationUncheckedUpdateManyInput = {
+    uuid?: StringFieldUpdateOperationsInput | string
+    companyUuid?: StringFieldUpdateOperationsInput | string
+    merchantId?: NullableStringFieldUpdateOperationsInput | string | null
+    clientId?: NullableStringFieldUpdateOperationsInput | string | null
+    clientSecret?: NullableStringFieldUpdateOperationsInput | string | null
+    accessToken?: NullableStringFieldUpdateOperationsInput | string | null
+    refreshToken?: NullableStringFieldUpdateOperationsInput | string | null
+    tokenExpiresAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    enabled?: BoolFieldUpdateOperationsInput | boolean
+    webhookSecret?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
   export type OrderItemCreateInput = {
@@ -17525,6 +19095,11 @@ export namespace Prisma {
     every?: CashierSessionWhereInput
     some?: CashierSessionWhereInput
     none?: CashierSessionWhereInput
+  }
+
+  export type IfoodIntegrationNullableScalarRelationFilter = {
+    is?: IfoodIntegrationWhereInput | null
+    isNot?: IfoodIntegrationWhereInput | null
   }
 
   export type SortOrderInput = {
@@ -17806,6 +19381,7 @@ export namespace Prisma {
     active?: SortOrder
     description?: SortOrder
     isKitchenProduct?: SortOrder
+    ifoodExternalCode?: SortOrder
     categoryUuid?: SortOrder
     companyUuid?: SortOrder
   }
@@ -17821,6 +19397,7 @@ export namespace Prisma {
     active?: SortOrder
     description?: SortOrder
     isKitchenProduct?: SortOrder
+    ifoodExternalCode?: SortOrder
     categoryUuid?: SortOrder
     companyUuid?: SortOrder
   }
@@ -17832,6 +19409,7 @@ export namespace Prisma {
     active?: SortOrder
     description?: SortOrder
     isKitchenProduct?: SortOrder
+    ifoodExternalCode?: SortOrder
     categoryUuid?: SortOrder
     companyUuid?: SortOrder
   }
@@ -18026,10 +19604,17 @@ export namespace Prisma {
     isNot?: TableWhereInput
   }
 
+  export type OrderSourceExternalIdCompoundUniqueInput = {
+    source: string
+    externalId: string
+  }
+
   export type OrderCountOrderByAggregateInput = {
     uuid?: SortOrder
     tableUuid?: SortOrder
     status?: SortOrder
+    source?: SortOrder
+    externalId?: SortOrder
     createdAt?: SortOrder
     observacao?: SortOrder
   }
@@ -18038,6 +19623,8 @@ export namespace Prisma {
     uuid?: SortOrder
     tableUuid?: SortOrder
     status?: SortOrder
+    source?: SortOrder
+    externalId?: SortOrder
     createdAt?: SortOrder
     observacao?: SortOrder
   }
@@ -18046,8 +19633,55 @@ export namespace Prisma {
     uuid?: SortOrder
     tableUuid?: SortOrder
     status?: SortOrder
+    source?: SortOrder
+    externalId?: SortOrder
     createdAt?: SortOrder
     observacao?: SortOrder
+  }
+
+  export type IfoodIntegrationCountOrderByAggregateInput = {
+    uuid?: SortOrder
+    companyUuid?: SortOrder
+    merchantId?: SortOrder
+    clientId?: SortOrder
+    clientSecret?: SortOrder
+    accessToken?: SortOrder
+    refreshToken?: SortOrder
+    tokenExpiresAt?: SortOrder
+    enabled?: SortOrder
+    webhookSecret?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+  }
+
+  export type IfoodIntegrationMaxOrderByAggregateInput = {
+    uuid?: SortOrder
+    companyUuid?: SortOrder
+    merchantId?: SortOrder
+    clientId?: SortOrder
+    clientSecret?: SortOrder
+    accessToken?: SortOrder
+    refreshToken?: SortOrder
+    tokenExpiresAt?: SortOrder
+    enabled?: SortOrder
+    webhookSecret?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+  }
+
+  export type IfoodIntegrationMinOrderByAggregateInput = {
+    uuid?: SortOrder
+    companyUuid?: SortOrder
+    merchantId?: SortOrder
+    clientId?: SortOrder
+    clientSecret?: SortOrder
+    accessToken?: SortOrder
+    refreshToken?: SortOrder
+    tokenExpiresAt?: SortOrder
+    enabled?: SortOrder
+    webhookSecret?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
   }
   export type JsonNullableFilter<$PrismaModel = never> =
     | PatchUndefined<
@@ -18298,6 +19932,12 @@ export namespace Prisma {
     connect?: CashierSessionWhereUniqueInput | CashierSessionWhereUniqueInput[]
   }
 
+  export type IfoodIntegrationCreateNestedOneWithoutCompanyInput = {
+    create?: XOR<IfoodIntegrationCreateWithoutCompanyInput, IfoodIntegrationUncheckedCreateWithoutCompanyInput>
+    connectOrCreate?: IfoodIntegrationCreateOrConnectWithoutCompanyInput
+    connect?: IfoodIntegrationWhereUniqueInput
+  }
+
   export type UserUncheckedCreateNestedManyWithoutCompanyInput = {
     create?: XOR<UserCreateWithoutCompanyInput, UserUncheckedCreateWithoutCompanyInput> | UserCreateWithoutCompanyInput[] | UserUncheckedCreateWithoutCompanyInput[]
     connectOrCreate?: UserCreateOrConnectWithoutCompanyInput | UserCreateOrConnectWithoutCompanyInput[]
@@ -18338,6 +19978,12 @@ export namespace Prisma {
     connectOrCreate?: CashierSessionCreateOrConnectWithoutCompanyInput | CashierSessionCreateOrConnectWithoutCompanyInput[]
     createMany?: CashierSessionCreateManyCompanyInputEnvelope
     connect?: CashierSessionWhereUniqueInput | CashierSessionWhereUniqueInput[]
+  }
+
+  export type IfoodIntegrationUncheckedCreateNestedOneWithoutCompanyInput = {
+    create?: XOR<IfoodIntegrationCreateWithoutCompanyInput, IfoodIntegrationUncheckedCreateWithoutCompanyInput>
+    connectOrCreate?: IfoodIntegrationCreateOrConnectWithoutCompanyInput
+    connect?: IfoodIntegrationWhereUniqueInput
   }
 
   export type StringFieldUpdateOperationsInput = {
@@ -18440,6 +20086,16 @@ export namespace Prisma {
     deleteMany?: CashierSessionScalarWhereInput | CashierSessionScalarWhereInput[]
   }
 
+  export type IfoodIntegrationUpdateOneWithoutCompanyNestedInput = {
+    create?: XOR<IfoodIntegrationCreateWithoutCompanyInput, IfoodIntegrationUncheckedCreateWithoutCompanyInput>
+    connectOrCreate?: IfoodIntegrationCreateOrConnectWithoutCompanyInput
+    upsert?: IfoodIntegrationUpsertWithoutCompanyInput
+    disconnect?: IfoodIntegrationWhereInput | boolean
+    delete?: IfoodIntegrationWhereInput | boolean
+    connect?: IfoodIntegrationWhereUniqueInput
+    update?: XOR<XOR<IfoodIntegrationUpdateToOneWithWhereWithoutCompanyInput, IfoodIntegrationUpdateWithoutCompanyInput>, IfoodIntegrationUncheckedUpdateWithoutCompanyInput>
+  }
+
   export type UserUncheckedUpdateManyWithoutCompanyNestedInput = {
     create?: XOR<UserCreateWithoutCompanyInput, UserUncheckedCreateWithoutCompanyInput> | UserCreateWithoutCompanyInput[] | UserUncheckedCreateWithoutCompanyInput[]
     connectOrCreate?: UserCreateOrConnectWithoutCompanyInput | UserCreateOrConnectWithoutCompanyInput[]
@@ -18522,6 +20178,16 @@ export namespace Prisma {
     update?: CashierSessionUpdateWithWhereUniqueWithoutCompanyInput | CashierSessionUpdateWithWhereUniqueWithoutCompanyInput[]
     updateMany?: CashierSessionUpdateManyWithWhereWithoutCompanyInput | CashierSessionUpdateManyWithWhereWithoutCompanyInput[]
     deleteMany?: CashierSessionScalarWhereInput | CashierSessionScalarWhereInput[]
+  }
+
+  export type IfoodIntegrationUncheckedUpdateOneWithoutCompanyNestedInput = {
+    create?: XOR<IfoodIntegrationCreateWithoutCompanyInput, IfoodIntegrationUncheckedCreateWithoutCompanyInput>
+    connectOrCreate?: IfoodIntegrationCreateOrConnectWithoutCompanyInput
+    upsert?: IfoodIntegrationUpsertWithoutCompanyInput
+    disconnect?: IfoodIntegrationWhereInput | boolean
+    delete?: IfoodIntegrationWhereInput | boolean
+    connect?: IfoodIntegrationWhereUniqueInput
+    update?: XOR<XOR<IfoodIntegrationUpdateToOneWithWhereWithoutCompanyInput, IfoodIntegrationUpdateWithoutCompanyInput>, IfoodIntegrationUncheckedUpdateWithoutCompanyInput>
   }
 
   export type CompanyCreateNestedOneWithoutUsersInput = {
@@ -18989,6 +20655,20 @@ export namespace Prisma {
     update?: OrderItemUpdateWithWhereUniqueWithoutOrderInput | OrderItemUpdateWithWhereUniqueWithoutOrderInput[]
     updateMany?: OrderItemUpdateManyWithWhereWithoutOrderInput | OrderItemUpdateManyWithWhereWithoutOrderInput[]
     deleteMany?: OrderItemScalarWhereInput | OrderItemScalarWhereInput[]
+  }
+
+  export type CompanyCreateNestedOneWithoutIfoodIntegrationInput = {
+    create?: XOR<CompanyCreateWithoutIfoodIntegrationInput, CompanyUncheckedCreateWithoutIfoodIntegrationInput>
+    connectOrCreate?: CompanyCreateOrConnectWithoutIfoodIntegrationInput
+    connect?: CompanyWhereUniqueInput
+  }
+
+  export type CompanyUpdateOneRequiredWithoutIfoodIntegrationNestedInput = {
+    create?: XOR<CompanyCreateWithoutIfoodIntegrationInput, CompanyUncheckedCreateWithoutIfoodIntegrationInput>
+    connectOrCreate?: CompanyCreateOrConnectWithoutIfoodIntegrationInput
+    upsert?: CompanyUpsertWithoutIfoodIntegrationInput
+    connect?: CompanyWhereUniqueInput
+    update?: XOR<XOR<CompanyUpdateToOneWithWhereWithoutIfoodIntegrationInput, CompanyUpdateWithoutIfoodIntegrationInput>, CompanyUncheckedUpdateWithoutIfoodIntegrationInput>
   }
 
   export type OrderCreateNestedOneWithoutItemsInput = {
@@ -19469,6 +21149,7 @@ export namespace Prisma {
     active?: boolean
     description: string
     isKitchenProduct?: boolean
+    ifoodExternalCode?: string | null
     category: CategoryCreateNestedOneWithoutProductsInput
     orderItems?: OrderItemCreateNestedManyWithoutProductInput
     addons?: ProductAddonCreateNestedManyWithoutProductInput
@@ -19481,6 +21162,7 @@ export namespace Prisma {
     active?: boolean
     description: string
     isKitchenProduct?: boolean
+    ifoodExternalCode?: string | null
     categoryUuid: string
     orderItems?: OrderItemUncheckedCreateNestedManyWithoutProductInput
     addons?: ProductAddonUncheckedCreateNestedManyWithoutProductInput
@@ -19524,6 +21206,39 @@ export namespace Prisma {
   export type CashierSessionCreateManyCompanyInputEnvelope = {
     data: CashierSessionCreateManyCompanyInput | CashierSessionCreateManyCompanyInput[]
     skipDuplicates?: boolean
+  }
+
+  export type IfoodIntegrationCreateWithoutCompanyInput = {
+    uuid?: string
+    merchantId?: string | null
+    clientId?: string | null
+    clientSecret?: string | null
+    accessToken?: string | null
+    refreshToken?: string | null
+    tokenExpiresAt?: Date | string | null
+    enabled?: boolean
+    webhookSecret?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type IfoodIntegrationUncheckedCreateWithoutCompanyInput = {
+    uuid?: string
+    merchantId?: string | null
+    clientId?: string | null
+    clientSecret?: string | null
+    accessToken?: string | null
+    refreshToken?: string | null
+    tokenExpiresAt?: Date | string | null
+    enabled?: boolean
+    webhookSecret?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type IfoodIntegrationCreateOrConnectWithoutCompanyInput = {
+    where: IfoodIntegrationWhereUniqueInput
+    create: XOR<IfoodIntegrationCreateWithoutCompanyInput, IfoodIntegrationUncheckedCreateWithoutCompanyInput>
   }
 
   export type UserUpsertWithWhereUniqueWithoutCompanyInput = {
@@ -19662,6 +21377,7 @@ export namespace Prisma {
     active?: BoolFilter<"Product"> | boolean
     description?: StringFilter<"Product"> | string
     isKitchenProduct?: BoolFilter<"Product"> | boolean
+    ifoodExternalCode?: StringNullableFilter<"Product"> | string | null
     categoryUuid?: StringFilter<"Product"> | string
     companyUuid?: StringFilter<"Product"> | string
   }
@@ -19695,6 +21411,45 @@ export namespace Prisma {
     status?: StringFilter<"CashierSession"> | string
   }
 
+  export type IfoodIntegrationUpsertWithoutCompanyInput = {
+    update: XOR<IfoodIntegrationUpdateWithoutCompanyInput, IfoodIntegrationUncheckedUpdateWithoutCompanyInput>
+    create: XOR<IfoodIntegrationCreateWithoutCompanyInput, IfoodIntegrationUncheckedCreateWithoutCompanyInput>
+    where?: IfoodIntegrationWhereInput
+  }
+
+  export type IfoodIntegrationUpdateToOneWithWhereWithoutCompanyInput = {
+    where?: IfoodIntegrationWhereInput
+    data: XOR<IfoodIntegrationUpdateWithoutCompanyInput, IfoodIntegrationUncheckedUpdateWithoutCompanyInput>
+  }
+
+  export type IfoodIntegrationUpdateWithoutCompanyInput = {
+    uuid?: StringFieldUpdateOperationsInput | string
+    merchantId?: NullableStringFieldUpdateOperationsInput | string | null
+    clientId?: NullableStringFieldUpdateOperationsInput | string | null
+    clientSecret?: NullableStringFieldUpdateOperationsInput | string | null
+    accessToken?: NullableStringFieldUpdateOperationsInput | string | null
+    refreshToken?: NullableStringFieldUpdateOperationsInput | string | null
+    tokenExpiresAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    enabled?: BoolFieldUpdateOperationsInput | boolean
+    webhookSecret?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type IfoodIntegrationUncheckedUpdateWithoutCompanyInput = {
+    uuid?: StringFieldUpdateOperationsInput | string
+    merchantId?: NullableStringFieldUpdateOperationsInput | string | null
+    clientId?: NullableStringFieldUpdateOperationsInput | string | null
+    clientSecret?: NullableStringFieldUpdateOperationsInput | string | null
+    accessToken?: NullableStringFieldUpdateOperationsInput | string | null
+    refreshToken?: NullableStringFieldUpdateOperationsInput | string | null
+    tokenExpiresAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    enabled?: BoolFieldUpdateOperationsInput | boolean
+    webhookSecret?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
   export type CompanyCreateWithoutUsersInput = {
     uuid?: string
     name: string
@@ -19707,6 +21462,7 @@ export namespace Prisma {
     categories?: CategoryCreateNestedManyWithoutCompanyInput
     products?: ProductCreateNestedManyWithoutCompanyInput
     cashierSessions?: CashierSessionCreateNestedManyWithoutCompanyInput
+    ifoodIntegration?: IfoodIntegrationCreateNestedOneWithoutCompanyInput
   }
 
   export type CompanyUncheckedCreateWithoutUsersInput = {
@@ -19721,6 +21477,7 @@ export namespace Prisma {
     categories?: CategoryUncheckedCreateNestedManyWithoutCompanyInput
     products?: ProductUncheckedCreateNestedManyWithoutCompanyInput
     cashierSessions?: CashierSessionUncheckedCreateNestedManyWithoutCompanyInput
+    ifoodIntegration?: IfoodIntegrationUncheckedCreateNestedOneWithoutCompanyInput
   }
 
   export type CompanyCreateOrConnectWithoutUsersInput = {
@@ -19769,6 +21526,7 @@ export namespace Prisma {
     categories?: CategoryUpdateManyWithoutCompanyNestedInput
     products?: ProductUpdateManyWithoutCompanyNestedInput
     cashierSessions?: CashierSessionUpdateManyWithoutCompanyNestedInput
+    ifoodIntegration?: IfoodIntegrationUpdateOneWithoutCompanyNestedInput
   }
 
   export type CompanyUncheckedUpdateWithoutUsersInput = {
@@ -19783,6 +21541,7 @@ export namespace Prisma {
     categories?: CategoryUncheckedUpdateManyWithoutCompanyNestedInput
     products?: ProductUncheckedUpdateManyWithoutCompanyNestedInput
     cashierSessions?: CashierSessionUncheckedUpdateManyWithoutCompanyNestedInput
+    ifoodIntegration?: IfoodIntegrationUncheckedUpdateOneWithoutCompanyNestedInput
   }
 
   export type UserGroupMemberUpsertWithWhereUniqueWithoutUserInput = {
@@ -19821,6 +21580,7 @@ export namespace Prisma {
     categories?: CategoryCreateNestedManyWithoutCompanyInput
     products?: ProductCreateNestedManyWithoutCompanyInput
     cashierSessions?: CashierSessionCreateNestedManyWithoutCompanyInput
+    ifoodIntegration?: IfoodIntegrationCreateNestedOneWithoutCompanyInput
   }
 
   export type CompanyUncheckedCreateWithoutUserGroupsInput = {
@@ -19835,6 +21595,7 @@ export namespace Prisma {
     categories?: CategoryUncheckedCreateNestedManyWithoutCompanyInput
     products?: ProductUncheckedCreateNestedManyWithoutCompanyInput
     cashierSessions?: CashierSessionUncheckedCreateNestedManyWithoutCompanyInput
+    ifoodIntegration?: IfoodIntegrationUncheckedCreateNestedOneWithoutCompanyInput
   }
 
   export type CompanyCreateOrConnectWithoutUserGroupsInput = {
@@ -19883,6 +21644,7 @@ export namespace Prisma {
     categories?: CategoryUpdateManyWithoutCompanyNestedInput
     products?: ProductUpdateManyWithoutCompanyNestedInput
     cashierSessions?: CashierSessionUpdateManyWithoutCompanyNestedInput
+    ifoodIntegration?: IfoodIntegrationUpdateOneWithoutCompanyNestedInput
   }
 
   export type CompanyUncheckedUpdateWithoutUserGroupsInput = {
@@ -19897,6 +21659,7 @@ export namespace Prisma {
     categories?: CategoryUncheckedUpdateManyWithoutCompanyNestedInput
     products?: ProductUncheckedUpdateManyWithoutCompanyNestedInput
     cashierSessions?: CashierSessionUncheckedUpdateManyWithoutCompanyNestedInput
+    ifoodIntegration?: IfoodIntegrationUncheckedUpdateOneWithoutCompanyNestedInput
   }
 
   export type UserGroupMemberUpsertWithWhereUniqueWithoutGroupInput = {
@@ -20048,6 +21811,7 @@ export namespace Prisma {
     tables?: TableCreateNestedManyWithoutCompanyInput
     categories?: CategoryCreateNestedManyWithoutCompanyInput
     cashierSessions?: CashierSessionCreateNestedManyWithoutCompanyInput
+    ifoodIntegration?: IfoodIntegrationCreateNestedOneWithoutCompanyInput
   }
 
   export type CompanyUncheckedCreateWithoutProductsInput = {
@@ -20062,6 +21826,7 @@ export namespace Prisma {
     tables?: TableUncheckedCreateNestedManyWithoutCompanyInput
     categories?: CategoryUncheckedCreateNestedManyWithoutCompanyInput
     cashierSessions?: CashierSessionUncheckedCreateNestedManyWithoutCompanyInput
+    ifoodIntegration?: IfoodIntegrationUncheckedCreateNestedOneWithoutCompanyInput
   }
 
   export type CompanyCreateOrConnectWithoutProductsInput = {
@@ -20167,6 +21932,7 @@ export namespace Prisma {
     tables?: TableUpdateManyWithoutCompanyNestedInput
     categories?: CategoryUpdateManyWithoutCompanyNestedInput
     cashierSessions?: CashierSessionUpdateManyWithoutCompanyNestedInput
+    ifoodIntegration?: IfoodIntegrationUpdateOneWithoutCompanyNestedInput
   }
 
   export type CompanyUncheckedUpdateWithoutProductsInput = {
@@ -20181,6 +21947,7 @@ export namespace Prisma {
     tables?: TableUncheckedUpdateManyWithoutCompanyNestedInput
     categories?: CategoryUncheckedUpdateManyWithoutCompanyNestedInput
     cashierSessions?: CashierSessionUncheckedUpdateManyWithoutCompanyNestedInput
+    ifoodIntegration?: IfoodIntegrationUncheckedUpdateOneWithoutCompanyNestedInput
   }
 
   export type OrderItemUpsertWithWhereUniqueWithoutProductInput = {
@@ -20246,6 +22013,7 @@ export namespace Prisma {
     active?: boolean
     description: string
     isKitchenProduct?: boolean
+    ifoodExternalCode?: string | null
     category: CategoryCreateNestedOneWithoutProductsInput
     company: CompanyCreateNestedOneWithoutProductsInput
     orderItems?: OrderItemCreateNestedManyWithoutProductInput
@@ -20258,6 +22026,7 @@ export namespace Prisma {
     active?: boolean
     description: string
     isKitchenProduct?: boolean
+    ifoodExternalCode?: string | null
     categoryUuid: string
     companyUuid: string
     orderItems?: OrderItemUncheckedCreateNestedManyWithoutProductInput
@@ -20286,6 +22055,7 @@ export namespace Prisma {
     active?: BoolFieldUpdateOperationsInput | boolean
     description?: StringFieldUpdateOperationsInput | string
     isKitchenProduct?: BoolFieldUpdateOperationsInput | boolean
+    ifoodExternalCode?: NullableStringFieldUpdateOperationsInput | string | null
     category?: CategoryUpdateOneRequiredWithoutProductsNestedInput
     company?: CompanyUpdateOneRequiredWithoutProductsNestedInput
     orderItems?: OrderItemUpdateManyWithoutProductNestedInput
@@ -20298,6 +22068,7 @@ export namespace Prisma {
     active?: BoolFieldUpdateOperationsInput | boolean
     description?: StringFieldUpdateOperationsInput | string
     isKitchenProduct?: BoolFieldUpdateOperationsInput | boolean
+    ifoodExternalCode?: NullableStringFieldUpdateOperationsInput | string | null
     categoryUuid?: StringFieldUpdateOperationsInput | string
     companyUuid?: StringFieldUpdateOperationsInput | string
     orderItems?: OrderItemUncheckedUpdateManyWithoutProductNestedInput
@@ -20315,6 +22086,7 @@ export namespace Prisma {
     tables?: TableCreateNestedManyWithoutCompanyInput
     products?: ProductCreateNestedManyWithoutCompanyInput
     cashierSessions?: CashierSessionCreateNestedManyWithoutCompanyInput
+    ifoodIntegration?: IfoodIntegrationCreateNestedOneWithoutCompanyInput
   }
 
   export type CompanyUncheckedCreateWithoutCategoriesInput = {
@@ -20329,6 +22101,7 @@ export namespace Prisma {
     tables?: TableUncheckedCreateNestedManyWithoutCompanyInput
     products?: ProductUncheckedCreateNestedManyWithoutCompanyInput
     cashierSessions?: CashierSessionUncheckedCreateNestedManyWithoutCompanyInput
+    ifoodIntegration?: IfoodIntegrationUncheckedCreateNestedOneWithoutCompanyInput
   }
 
   export type CompanyCreateOrConnectWithoutCategoriesInput = {
@@ -20343,6 +22116,7 @@ export namespace Prisma {
     active?: boolean
     description: string
     isKitchenProduct?: boolean
+    ifoodExternalCode?: string | null
     company: CompanyCreateNestedOneWithoutProductsInput
     orderItems?: OrderItemCreateNestedManyWithoutProductInput
     addons?: ProductAddonCreateNestedManyWithoutProductInput
@@ -20355,6 +22129,7 @@ export namespace Prisma {
     active?: boolean
     description: string
     isKitchenProduct?: boolean
+    ifoodExternalCode?: string | null
     companyUuid: string
     orderItems?: OrderItemUncheckedCreateNestedManyWithoutProductInput
     addons?: ProductAddonUncheckedCreateNestedManyWithoutProductInput
@@ -20393,6 +22168,7 @@ export namespace Prisma {
     tables?: TableUpdateManyWithoutCompanyNestedInput
     products?: ProductUpdateManyWithoutCompanyNestedInput
     cashierSessions?: CashierSessionUpdateManyWithoutCompanyNestedInput
+    ifoodIntegration?: IfoodIntegrationUpdateOneWithoutCompanyNestedInput
   }
 
   export type CompanyUncheckedUpdateWithoutCategoriesInput = {
@@ -20407,6 +22183,7 @@ export namespace Prisma {
     tables?: TableUncheckedUpdateManyWithoutCompanyNestedInput
     products?: ProductUncheckedUpdateManyWithoutCompanyNestedInput
     cashierSessions?: CashierSessionUncheckedUpdateManyWithoutCompanyNestedInput
+    ifoodIntegration?: IfoodIntegrationUncheckedUpdateOneWithoutCompanyNestedInput
   }
 
   export type ProductUpsertWithWhereUniqueWithoutCategoryInput = {
@@ -20437,6 +22214,7 @@ export namespace Prisma {
     categories?: CategoryCreateNestedManyWithoutCompanyInput
     products?: ProductCreateNestedManyWithoutCompanyInput
     cashierSessions?: CashierSessionCreateNestedManyWithoutCompanyInput
+    ifoodIntegration?: IfoodIntegrationCreateNestedOneWithoutCompanyInput
   }
 
   export type CompanyUncheckedCreateWithoutTablesInput = {
@@ -20451,6 +22229,7 @@ export namespace Prisma {
     categories?: CategoryUncheckedCreateNestedManyWithoutCompanyInput
     products?: ProductUncheckedCreateNestedManyWithoutCompanyInput
     cashierSessions?: CashierSessionUncheckedCreateNestedManyWithoutCompanyInput
+    ifoodIntegration?: IfoodIntegrationUncheckedCreateNestedOneWithoutCompanyInput
   }
 
   export type CompanyCreateOrConnectWithoutTablesInput = {
@@ -20461,6 +22240,8 @@ export namespace Prisma {
   export type OrderCreateWithoutTableInput = {
     uuid?: string
     status?: string
+    source?: string
+    externalId?: string | null
     createdAt?: Date | string
     observacao?: string | null
     items?: OrderItemCreateNestedManyWithoutOrderInput
@@ -20469,6 +22250,8 @@ export namespace Prisma {
   export type OrderUncheckedCreateWithoutTableInput = {
     uuid?: string
     status?: string
+    source?: string
+    externalId?: string | null
     createdAt?: Date | string
     observacao?: string | null
     items?: OrderItemUncheckedCreateNestedManyWithoutOrderInput
@@ -20507,6 +22290,7 @@ export namespace Prisma {
     categories?: CategoryUpdateManyWithoutCompanyNestedInput
     products?: ProductUpdateManyWithoutCompanyNestedInput
     cashierSessions?: CashierSessionUpdateManyWithoutCompanyNestedInput
+    ifoodIntegration?: IfoodIntegrationUpdateOneWithoutCompanyNestedInput
   }
 
   export type CompanyUncheckedUpdateWithoutTablesInput = {
@@ -20521,6 +22305,7 @@ export namespace Prisma {
     categories?: CategoryUncheckedUpdateManyWithoutCompanyNestedInput
     products?: ProductUncheckedUpdateManyWithoutCompanyNestedInput
     cashierSessions?: CashierSessionUncheckedUpdateManyWithoutCompanyNestedInput
+    ifoodIntegration?: IfoodIntegrationUncheckedUpdateOneWithoutCompanyNestedInput
   }
 
   export type OrderUpsertWithWhereUniqueWithoutTableInput = {
@@ -20546,6 +22331,8 @@ export namespace Prisma {
     uuid?: StringFilter<"Order"> | string
     tableUuid?: StringFilter<"Order"> | string
     status?: StringFilter<"Order"> | string
+    source?: StringFilter<"Order"> | string
+    externalId?: StringNullableFilter<"Order"> | string | null
     createdAt?: DateTimeFilter<"Order"> | Date | string
     observacao?: StringNullableFilter<"Order"> | string | null
   }
@@ -20648,9 +22435,87 @@ export namespace Prisma {
     data: XOR<OrderItemUpdateManyMutationInput, OrderItemUncheckedUpdateManyWithoutOrderInput>
   }
 
+  export type CompanyCreateWithoutIfoodIntegrationInput = {
+    uuid?: string
+    name: string
+    menuTheme?: string | null
+    kitchenHours?: string | null
+    soundOnOrderReady?: boolean
+    createdAt?: Date | string
+    users?: UserCreateNestedManyWithoutCompanyInput
+    userGroups?: UserGroupCreateNestedManyWithoutCompanyInput
+    tables?: TableCreateNestedManyWithoutCompanyInput
+    categories?: CategoryCreateNestedManyWithoutCompanyInput
+    products?: ProductCreateNestedManyWithoutCompanyInput
+    cashierSessions?: CashierSessionCreateNestedManyWithoutCompanyInput
+  }
+
+  export type CompanyUncheckedCreateWithoutIfoodIntegrationInput = {
+    uuid?: string
+    name: string
+    menuTheme?: string | null
+    kitchenHours?: string | null
+    soundOnOrderReady?: boolean
+    createdAt?: Date | string
+    users?: UserUncheckedCreateNestedManyWithoutCompanyInput
+    userGroups?: UserGroupUncheckedCreateNestedManyWithoutCompanyInput
+    tables?: TableUncheckedCreateNestedManyWithoutCompanyInput
+    categories?: CategoryUncheckedCreateNestedManyWithoutCompanyInput
+    products?: ProductUncheckedCreateNestedManyWithoutCompanyInput
+    cashierSessions?: CashierSessionUncheckedCreateNestedManyWithoutCompanyInput
+  }
+
+  export type CompanyCreateOrConnectWithoutIfoodIntegrationInput = {
+    where: CompanyWhereUniqueInput
+    create: XOR<CompanyCreateWithoutIfoodIntegrationInput, CompanyUncheckedCreateWithoutIfoodIntegrationInput>
+  }
+
+  export type CompanyUpsertWithoutIfoodIntegrationInput = {
+    update: XOR<CompanyUpdateWithoutIfoodIntegrationInput, CompanyUncheckedUpdateWithoutIfoodIntegrationInput>
+    create: XOR<CompanyCreateWithoutIfoodIntegrationInput, CompanyUncheckedCreateWithoutIfoodIntegrationInput>
+    where?: CompanyWhereInput
+  }
+
+  export type CompanyUpdateToOneWithWhereWithoutIfoodIntegrationInput = {
+    where?: CompanyWhereInput
+    data: XOR<CompanyUpdateWithoutIfoodIntegrationInput, CompanyUncheckedUpdateWithoutIfoodIntegrationInput>
+  }
+
+  export type CompanyUpdateWithoutIfoodIntegrationInput = {
+    uuid?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    menuTheme?: NullableStringFieldUpdateOperationsInput | string | null
+    kitchenHours?: NullableStringFieldUpdateOperationsInput | string | null
+    soundOnOrderReady?: BoolFieldUpdateOperationsInput | boolean
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    users?: UserUpdateManyWithoutCompanyNestedInput
+    userGroups?: UserGroupUpdateManyWithoutCompanyNestedInput
+    tables?: TableUpdateManyWithoutCompanyNestedInput
+    categories?: CategoryUpdateManyWithoutCompanyNestedInput
+    products?: ProductUpdateManyWithoutCompanyNestedInput
+    cashierSessions?: CashierSessionUpdateManyWithoutCompanyNestedInput
+  }
+
+  export type CompanyUncheckedUpdateWithoutIfoodIntegrationInput = {
+    uuid?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    menuTheme?: NullableStringFieldUpdateOperationsInput | string | null
+    kitchenHours?: NullableStringFieldUpdateOperationsInput | string | null
+    soundOnOrderReady?: BoolFieldUpdateOperationsInput | boolean
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    users?: UserUncheckedUpdateManyWithoutCompanyNestedInput
+    userGroups?: UserGroupUncheckedUpdateManyWithoutCompanyNestedInput
+    tables?: TableUncheckedUpdateManyWithoutCompanyNestedInput
+    categories?: CategoryUncheckedUpdateManyWithoutCompanyNestedInput
+    products?: ProductUncheckedUpdateManyWithoutCompanyNestedInput
+    cashierSessions?: CashierSessionUncheckedUpdateManyWithoutCompanyNestedInput
+  }
+
   export type OrderCreateWithoutItemsInput = {
     uuid?: string
     status?: string
+    source?: string
+    externalId?: string | null
     createdAt?: Date | string
     observacao?: string | null
     table: TableCreateNestedOneWithoutOrdersInput
@@ -20660,6 +22525,8 @@ export namespace Prisma {
     uuid?: string
     tableUuid: string
     status?: string
+    source?: string
+    externalId?: string | null
     createdAt?: Date | string
     observacao?: string | null
   }
@@ -20676,6 +22543,7 @@ export namespace Prisma {
     active?: boolean
     description: string
     isKitchenProduct?: boolean
+    ifoodExternalCode?: string | null
     category: CategoryCreateNestedOneWithoutProductsInput
     company: CompanyCreateNestedOneWithoutProductsInput
     addons?: ProductAddonCreateNestedManyWithoutProductInput
@@ -20688,6 +22556,7 @@ export namespace Prisma {
     active?: boolean
     description: string
     isKitchenProduct?: boolean
+    ifoodExternalCode?: string | null
     categoryUuid: string
     companyUuid: string
     addons?: ProductAddonUncheckedCreateNestedManyWithoutProductInput
@@ -20712,6 +22581,8 @@ export namespace Prisma {
   export type OrderUpdateWithoutItemsInput = {
     uuid?: StringFieldUpdateOperationsInput | string
     status?: StringFieldUpdateOperationsInput | string
+    source?: StringFieldUpdateOperationsInput | string
+    externalId?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     observacao?: NullableStringFieldUpdateOperationsInput | string | null
     table?: TableUpdateOneRequiredWithoutOrdersNestedInput
@@ -20721,6 +22592,8 @@ export namespace Prisma {
     uuid?: StringFieldUpdateOperationsInput | string
     tableUuid?: StringFieldUpdateOperationsInput | string
     status?: StringFieldUpdateOperationsInput | string
+    source?: StringFieldUpdateOperationsInput | string
+    externalId?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     observacao?: NullableStringFieldUpdateOperationsInput | string | null
   }
@@ -20743,6 +22616,7 @@ export namespace Prisma {
     active?: BoolFieldUpdateOperationsInput | boolean
     description?: StringFieldUpdateOperationsInput | string
     isKitchenProduct?: BoolFieldUpdateOperationsInput | boolean
+    ifoodExternalCode?: NullableStringFieldUpdateOperationsInput | string | null
     category?: CategoryUpdateOneRequiredWithoutProductsNestedInput
     company?: CompanyUpdateOneRequiredWithoutProductsNestedInput
     addons?: ProductAddonUpdateManyWithoutProductNestedInput
@@ -20755,6 +22629,7 @@ export namespace Prisma {
     active?: BoolFieldUpdateOperationsInput | boolean
     description?: StringFieldUpdateOperationsInput | string
     isKitchenProduct?: BoolFieldUpdateOperationsInput | boolean
+    ifoodExternalCode?: NullableStringFieldUpdateOperationsInput | string | null
     categoryUuid?: StringFieldUpdateOperationsInput | string
     companyUuid?: StringFieldUpdateOperationsInput | string
     addons?: ProductAddonUncheckedUpdateManyWithoutProductNestedInput
@@ -20772,6 +22647,7 @@ export namespace Prisma {
     tables?: TableCreateNestedManyWithoutCompanyInput
     categories?: CategoryCreateNestedManyWithoutCompanyInput
     products?: ProductCreateNestedManyWithoutCompanyInput
+    ifoodIntegration?: IfoodIntegrationCreateNestedOneWithoutCompanyInput
   }
 
   export type CompanyUncheckedCreateWithoutCashierSessionsInput = {
@@ -20786,6 +22662,7 @@ export namespace Prisma {
     tables?: TableUncheckedCreateNestedManyWithoutCompanyInput
     categories?: CategoryUncheckedCreateNestedManyWithoutCompanyInput
     products?: ProductUncheckedCreateNestedManyWithoutCompanyInput
+    ifoodIntegration?: IfoodIntegrationUncheckedCreateNestedOneWithoutCompanyInput
   }
 
   export type CompanyCreateOrConnectWithoutCashierSessionsInput = {
@@ -20842,6 +22719,7 @@ export namespace Prisma {
     tables?: TableUpdateManyWithoutCompanyNestedInput
     categories?: CategoryUpdateManyWithoutCompanyNestedInput
     products?: ProductUpdateManyWithoutCompanyNestedInput
+    ifoodIntegration?: IfoodIntegrationUpdateOneWithoutCompanyNestedInput
   }
 
   export type CompanyUncheckedUpdateWithoutCashierSessionsInput = {
@@ -20856,6 +22734,7 @@ export namespace Prisma {
     tables?: TableUncheckedUpdateManyWithoutCompanyNestedInput
     categories?: CategoryUncheckedUpdateManyWithoutCompanyNestedInput
     products?: ProductUncheckedUpdateManyWithoutCompanyNestedInput
+    ifoodIntegration?: IfoodIntegrationUncheckedUpdateOneWithoutCompanyNestedInput
   }
 
   export type CashierMovementUpsertWithWhereUniqueWithoutSessionInput = {
@@ -20979,6 +22858,7 @@ export namespace Prisma {
     active?: boolean
     description: string
     isKitchenProduct?: boolean
+    ifoodExternalCode?: string | null
     categoryUuid: string
   }
 
@@ -21096,6 +22976,7 @@ export namespace Prisma {
     active?: BoolFieldUpdateOperationsInput | boolean
     description?: StringFieldUpdateOperationsInput | string
     isKitchenProduct?: BoolFieldUpdateOperationsInput | boolean
+    ifoodExternalCode?: NullableStringFieldUpdateOperationsInput | string | null
     category?: CategoryUpdateOneRequiredWithoutProductsNestedInput
     orderItems?: OrderItemUpdateManyWithoutProductNestedInput
     addons?: ProductAddonUpdateManyWithoutProductNestedInput
@@ -21108,6 +22989,7 @@ export namespace Prisma {
     active?: BoolFieldUpdateOperationsInput | boolean
     description?: StringFieldUpdateOperationsInput | string
     isKitchenProduct?: BoolFieldUpdateOperationsInput | boolean
+    ifoodExternalCode?: NullableStringFieldUpdateOperationsInput | string | null
     categoryUuid?: StringFieldUpdateOperationsInput | string
     orderItems?: OrderItemUncheckedUpdateManyWithoutProductNestedInput
     addons?: ProductAddonUncheckedUpdateManyWithoutProductNestedInput
@@ -21120,6 +23002,7 @@ export namespace Prisma {
     active?: BoolFieldUpdateOperationsInput | boolean
     description?: StringFieldUpdateOperationsInput | string
     isKitchenProduct?: BoolFieldUpdateOperationsInput | boolean
+    ifoodExternalCode?: NullableStringFieldUpdateOperationsInput | string | null
     categoryUuid?: StringFieldUpdateOperationsInput | string
   }
 
@@ -21255,6 +23138,7 @@ export namespace Prisma {
     active?: boolean
     description: string
     isKitchenProduct?: boolean
+    ifoodExternalCode?: string | null
     companyUuid: string
   }
 
@@ -21265,6 +23149,7 @@ export namespace Prisma {
     active?: BoolFieldUpdateOperationsInput | boolean
     description?: StringFieldUpdateOperationsInput | string
     isKitchenProduct?: BoolFieldUpdateOperationsInput | boolean
+    ifoodExternalCode?: NullableStringFieldUpdateOperationsInput | string | null
     company?: CompanyUpdateOneRequiredWithoutProductsNestedInput
     orderItems?: OrderItemUpdateManyWithoutProductNestedInput
     addons?: ProductAddonUpdateManyWithoutProductNestedInput
@@ -21277,6 +23162,7 @@ export namespace Prisma {
     active?: BoolFieldUpdateOperationsInput | boolean
     description?: StringFieldUpdateOperationsInput | string
     isKitchenProduct?: BoolFieldUpdateOperationsInput | boolean
+    ifoodExternalCode?: NullableStringFieldUpdateOperationsInput | string | null
     companyUuid?: StringFieldUpdateOperationsInput | string
     orderItems?: OrderItemUncheckedUpdateManyWithoutProductNestedInput
     addons?: ProductAddonUncheckedUpdateManyWithoutProductNestedInput
@@ -21289,12 +23175,15 @@ export namespace Prisma {
     active?: BoolFieldUpdateOperationsInput | boolean
     description?: StringFieldUpdateOperationsInput | string
     isKitchenProduct?: BoolFieldUpdateOperationsInput | boolean
+    ifoodExternalCode?: NullableStringFieldUpdateOperationsInput | string | null
     companyUuid?: StringFieldUpdateOperationsInput | string
   }
 
   export type OrderCreateManyTableInput = {
     uuid?: string
     status?: string
+    source?: string
+    externalId?: string | null
     createdAt?: Date | string
     observacao?: string | null
   }
@@ -21302,6 +23191,8 @@ export namespace Prisma {
   export type OrderUpdateWithoutTableInput = {
     uuid?: StringFieldUpdateOperationsInput | string
     status?: StringFieldUpdateOperationsInput | string
+    source?: StringFieldUpdateOperationsInput | string
+    externalId?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     observacao?: NullableStringFieldUpdateOperationsInput | string | null
     items?: OrderItemUpdateManyWithoutOrderNestedInput
@@ -21310,6 +23201,8 @@ export namespace Prisma {
   export type OrderUncheckedUpdateWithoutTableInput = {
     uuid?: StringFieldUpdateOperationsInput | string
     status?: StringFieldUpdateOperationsInput | string
+    source?: StringFieldUpdateOperationsInput | string
+    externalId?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     observacao?: NullableStringFieldUpdateOperationsInput | string | null
     items?: OrderItemUncheckedUpdateManyWithoutOrderNestedInput
@@ -21318,6 +23211,8 @@ export namespace Prisma {
   export type OrderUncheckedUpdateManyWithoutTableInput = {
     uuid?: StringFieldUpdateOperationsInput | string
     status?: StringFieldUpdateOperationsInput | string
+    source?: StringFieldUpdateOperationsInput | string
+    externalId?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     observacao?: NullableStringFieldUpdateOperationsInput | string | null
   }

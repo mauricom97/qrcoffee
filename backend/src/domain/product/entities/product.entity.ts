@@ -8,6 +8,7 @@ export class Product {
     public categoryUuid: string,
     public companyUuid: string,
     public readonly isKitchenProduct: boolean = false,
+    public ifoodExternalCode: string | null = null,
   ) {
     if (!name) {
       throw new Error('Product name is required');

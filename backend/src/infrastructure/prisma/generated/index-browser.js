@@ -159,6 +159,7 @@ exports.Prisma.ProductScalarFieldEnum = {
   active: 'active',
   description: 'description',
   isKitchenProduct: 'isKitchenProduct',
+  ifoodExternalCode: 'ifoodExternalCode',
   categoryUuid: 'categoryUuid',
   companyUuid: 'companyUuid'
 };
@@ -192,8 +193,25 @@ exports.Prisma.OrderScalarFieldEnum = {
   uuid: 'uuid',
   tableUuid: 'tableUuid',
   status: 'status',
+  source: 'source',
+  externalId: 'externalId',
   createdAt: 'createdAt',
   observacao: 'observacao'
+};
+
+exports.Prisma.IfoodIntegrationScalarFieldEnum = {
+  uuid: 'uuid',
+  companyUuid: 'companyUuid',
+  merchantId: 'merchantId',
+  clientId: 'clientId',
+  clientSecret: 'clientSecret',
+  accessToken: 'accessToken',
+  refreshToken: 'refreshToken',
+  tokenExpiresAt: 'tokenExpiresAt',
+  enabled: 'enabled',
+  webhookSecret: 'webhookSecret',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
 };
 
 exports.Prisma.OrderItemScalarFieldEnum = {
@@ -264,6 +282,7 @@ exports.Prisma.ModelName = {
   Category: 'Category',
   Table: 'Table',
   Order: 'Order',
+  IfoodIntegration: 'IfoodIntegration',
   OrderItem: 'OrderItem',
   CashierSession: 'CashierSession',
   CashierMovement: 'CashierMovement'

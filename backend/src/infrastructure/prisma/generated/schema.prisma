@@ -14,21 +14,22 @@ enum UserRole {
 }
 
 model Company {
-  uuid              String           @id @default(uuid())
+  uuid              String            @id @default(uuid())
   name              String
   menuTheme         String? // JSON: { primary, …, showProductImages?: boolean }
   /**
    * JSON: { timezone?: string, intervals?: { weekday: 0-6, open: "HH:mm", close: "HH:mm" }[] } — vazio = cozinha sem restrição de horário
    */
   kitchenHours      String?
-  soundOnOrderReady Boolean          @default(true)
-  createdAt         DateTime         @default(now())
+  soundOnOrderReady Boolean           @default(true)
+  createdAt         DateTime          @default(now())
   users             User[]
   userGroups        UserGroup[]
   tables            Table[]
   categories        Category[]
   products          Product[]
   cashierSessions   CashierSession[]
+  ifoodIntegration  IfoodIntegration?
 }
 
 model User {
@@ -72,15 +73,19 @@ model UserGroupMember {
 }
 
 model Product {
-  uuid             String  @id @default(uuid())
-  name             String
-  price            Float
-  active           Boolean @default(true)
-  description      String
+  uuid              String  @id @default(uuid())
+  name              String
+  price             Float
+  active            Boolean @default(true)
+  description       String
   /**
    * Itens preparados na cozinha: fora do horário configurado somem do cardápio público
    */
-  isKitchenProduct Boolean @default(false)
+  isKitchenProduct  Boolean @default(false)
+  /**
+   * Código do item no cardápio iFood (externalCode) para mapear pedidos externos
+   */
+  ifoodExternalCode String?
 
   categoryUuid String
   category     Category       @relation(fields: [categoryUuid], references: [uuid])
@@ -91,6 +96,7 @@ model Product {
 
   @@index([categoryUuid])
   @@index([companyUuid])
+  @@index([companyUuid, ifoodExternalCode])
 }
 
 /**
@@ -141,12 +147,43 @@ model Order {
   tableUuid  String
   table      Table       @relation(fields: [tableUuid], references: [uuid])
   status     String      @default("PENDING") // PENDING | PREPARING | READY | DELIVERED
+  /**
+   * Canal de origem: INTERNAL (QR/garçom) | IFOOD
+   */
+  source     String      @default("INTERNAL")
+  /**
+   * Id externo (ex.: pedido iFood); null para pedidos internos
+   */
+  externalId String?
   createdAt  DateTime    @default(now())
   observacao String?     @db.VarChar(500)
   items      OrderItem[]
 
+  @@unique([source, externalId])
   @@index([tableUuid])
   @@index([status])
+  @@index([source])
+}
+
+/**
+ * Credenciais e estado da integração iFood (1:1 com Company)
+ */
+model IfoodIntegration {
+  uuid           String    @id @default(uuid())
+  companyUuid    String    @unique
+  company        Company   @relation(fields: [companyUuid], references: [uuid], onDelete: Cascade)
+  merchantId     String?
+  clientId       String?
+  clientSecret   String?
+  accessToken    String?
+  refreshToken   String?
+  tokenExpiresAt DateTime?
+  enabled        Boolean   @default(false)
+  webhookSecret  String?
+  createdAt      DateTime  @default(now())
+  updatedAt      DateTime  @updatedAt
+
+  @@index([merchantId])
 }
 
 model OrderItem {

@@ -15,6 +15,7 @@ API REST do backend **QR Coffee**, porta **3352**. A maioria dos endpoints exige
 5. [Pedidos (Orders)](#pedidos-orders)
 6. [Comandas](#comandas)
 7. [Dashboard](#dashboard)
+8. [Integração iFood](#integração-ifood)
 
 ---
 
@@ -147,14 +148,15 @@ Content-Type: application/json
 
 **Body:**
 
-| Campo        | Tipo    | Obrigatório | Descrição          |
-|--------------|---------|-------------|--------------------|
-| uuid         | string  | Sim         | UUID do produto    |
-| name         | string  | Sim         | Nome               |
-| price        | number  | Sim         | Preço              |
-| active       | boolean | Sim         | Ativo              |
-| description  | string  | Sim         | Descrição          |
-| categoryUuid | string  | Sim         | UUID da categoria  |
+| Campo             | Tipo    | Obrigatório | Descrição                                      |
+|-------------------|---------|-------------|------------------------------------------------|
+| uuid              | string  | Sim         | UUID do produto                                |
+| name              | string  | Sim         | Nome                                           |
+| price             | number  | Sim         | Preço                                          |
+| active            | boolean | Sim         | Ativo                                          |
+| description       | string  | Sim         | Descrição                                      |
+| categoryUuid      | string  | Sim         | UUID da categoria                              |
+| ifoodExternalCode | string  | Não         | Código do item no cardápio iFood (externalCode)|
 
 **Resposta 201:** objeto do produto criado.
 
@@ -202,14 +204,15 @@ Content-Type: application/json
 
 **Body (todos opcionais):**
 
-| Campo        | Tipo    | Descrição          |
-|--------------|---------|--------------------|
-| name         | string  | Nome               |
-| price        | string  | Preço              |
-| active       | boolean | Ativo              |
-| description  | string  | Descrição          |
-| stock        | number  | Estoque            |
-| categoryUuid | string  | UUID da categoria  |
+| Campo             | Tipo    | Descrição                                      |
+|-------------------|---------|------------------------------------------------|
+| name              | string  | Nome                                           |
+| price             | string  | Preço                                          |
+| active            | boolean | Ativo                                          |
+| description       | string  | Descrição                                      |
+| stock             | number  | Estoque                                        |
+| categoryUuid      | string  | UUID da categoria                              |
+| ifoodExternalCode | string  | Código iFood; `null` limpa o mapeamento        |
 
 **Resposta 200:** produto atualizado.
 
@@ -314,6 +317,8 @@ Authorization: Bearer <token>
 Base: `/orders`. Todos os endpoints requerem JWT.
 
 **Status possíveis:** `PENDING` | `PREPARING` | `READY` | `DELIVERED`
+
+**Origem (`source`):** `INTERNAL` (QR/garçom) | `IFOOD`. Pedidos externos trazem `externalId` (id no iFood).
 
 ### Criar pedido
 
@@ -575,9 +580,67 @@ Authorization: Bearer <token>
 
 ---
 
+## Integração iFood
+
+Base: `/integrations/ifood`. MVP: receber pedidos (webhook ou simulação), mapear itens por `Product.ifoodExternalCode`, confirmar no iFood após ingestão. Pedidos usam mesa sintética número `0` (descrição `iFood`).
+
+### Obter configuração
+
+```http
+GET /integrations/ifood
+Authorization: Bearer <token>
+```
+
+Requer permissão `SETTINGS`.
+
+**Resposta 200:** `{ enabled, merchantId, clientId, hasClientSecret, hasWebhookSecret, configured }`
+
+### Salvar configuração
+
+```http
+PUT /integrations/ifood
+Authorization: Bearer <token>
+Content-Type: application/json
+```
+
+**Body (todos opcionais):** `enabled`, `merchantId`, `clientId`, `clientSecret`, `webhookSecret`. Secrets: omita ou string vazia para manter; `null` limpa.
+
+### Simular pedido (dev)
+
+```http
+POST /integrations/ifood/simulate
+Authorization: Bearer <token>
+Content-Type: application/json
+```
+
+**Body:**
+
+| Campo      | Tipo   | Obrigatório | Descrição |
+|------------|--------|-------------|-----------|
+| externalId | string | Não         | Id externo (default gerado) |
+| items      | array  | Sim         | `{ externalCode, quantity, unitPrice? }` |
+| observacao | string | Não         | Observação |
+
+Idempotente por `(source=IFOOD, externalId)`. Emite `orders:update`.
+
+### Webhook iFood
+
+```http
+POST /integrations/ifood/webhook
+Content-Type: application/json
+```
+
+Público. Se `IFOOD_WEBHOOK_SECRET` estiver definido, exige o mesmo valor em `x-ifood-signature` ou `Authorization: Bearer …`.
+
+Trata eventos `PLACED` / `PLC` / `ORDER_PLACED`: busca o pedido na API iFood, cria localmente e confirma. Demais eventos: `{ ok: true, ignored: true }`.
+
+**Env (opcional):** `IFOOD_API_BASE_URL`, `IFOOD_CLIENT_ID`, `IFOOD_CLIENT_SECRET`, `IFOOD_WEBHOOK_SECRET`.
+
+---
+
 ## Autenticação nas requisições
 
-Para todos os endpoints exceto `POST /auth/register` e `POST /auth/login`, envie o token JWT no header:
+Para todos os endpoints exceto `POST /auth/register`, `POST /auth/login` e `POST /integrations/ifood/webhook`, envie o token JWT no header:
 
 ```http
 Authorization: Bearer <seu-access-token>
