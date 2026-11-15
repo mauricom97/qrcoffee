@@ -286,6 +286,11 @@ export const enMessages = {
     period: "Period",
     ordersDeliveredByPeriod: "Delivered orders by period",
     ordersLabel: "Orders",
+    topProducts: "Best-selling products",
+    topProductsHint: "Quantity from delivered orders",
+    topProductsEmpty: "No products sold in this period.",
+    errTopProducts: "Could not load best-selling products",
+    units: "units",
     noPermission: "You do not have permission to view metrics.",
   },
   orders: {

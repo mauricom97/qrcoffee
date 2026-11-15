@@ -115,6 +115,8 @@ Sem `ATTENDANCE_FINANCE` (e não sendo ADMIN), preços são ocultados por `redac
 
 **Caixa.** Sessão independente do pedido. Faturamento do dashboard usa pedidos `DELIVERED`, não o movimento de caixa. Ver `application/dashboard/dashboard.service.ts` e `application/cashier/cashier.service.ts`.
 
+**Produtos mais vendidos.** `GET /dashboard/top-products` soma a quantidade dos itens de pedidos `DELIVERED` no mesmo recorte das outras séries (`day` = 7 dias, `month` = 6 meses). Permissão `DASHBOARD`. A receita do ranking só entra na resposta com `DASHBOARD_FINANCE`.
+
 **Estoque.** `frontend/app/stock/page.tsx` é tela com dados mock. Não há modelo nem endpoint de estoque.
 
 ## HTTP (prefixos)
@@ -129,7 +131,7 @@ Base `http://localhost:3352`. Guards: `JwtAuthGuard` + `PermissionsGuard` + `@Re
 | `/tables` | sim | `TABLES` | CRUD + `PATCH :uuid/attendant-call` |
 | `/orders` | sim | `ORDERS` | CRUD da fila. Criação pelo garçom |
 | `/comandas` | sim | `TABS` | mesma entidade, visão de comanda |
-| `/dashboard/attendance`, `/dashboard/financial` | sim | `DASHBOARD`; financeiro também `DASHBOARD_FINANCE` | métricas |
+| `/dashboard/attendance`, `/dashboard/financial`, `/dashboard/top-products` | sim | `DASHBOARD`; financeiro e a receita do ranking também `DASHBOARD_FINANCE` | métricas |
 | `/cashier` | sim | `CASHIER` | `status`, `open`, `close`, `movement`, `history` |
 | `/company` | sim | `SETTINGS` | tema, som, horário da cozinha |
 | `/integrations/ifood` | sim | `SETTINGS` | config + simulate; webhook público em `POST .../webhook` |

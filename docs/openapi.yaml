@@ -252,6 +252,15 @@ components:
         totalRevenue: { type: number }
         orderCount: { type: number }
         lastPeriodLabel: { type: string }
+    TopProduct:
+      type: object
+      properties:
+        productUuid: { type: string, format: uuid }
+        name: { type: string }
+        quantity: { type: integer }
+        revenue:
+          type: number
+          description: Omitido sem a permissão DASHBOARD_FINANCE
 
 paths:
   /auth/register:
@@ -731,6 +740,32 @@ paths:
           content:
             application/json:
               schema: { $ref: '#/components/schemas/FinancialSummary' }
+  /dashboard/top-products:
+    get:
+      tags: [Dashboard]
+      summary: Produtos mais vendidos (pedidos entregues)
+      security: [{ bearerAuth: [] }]
+      parameters:
+        - name: period
+          in: query
+          schema: { type: string, enum: [day, month] }
+        - name: from
+          in: query
+          schema: { type: string }
+        - name: to
+          in: query
+          schema: { type: string }
+        - name: limit
+          in: query
+          schema: { type: integer, minimum: 1, maximum: 20, default: 8 }
+      responses:
+        '200':
+          description: Ranking por quantidade vendida
+          content:
+            application/json:
+              schema:
+                type: array
+                items: { $ref: '#/components/schemas/TopProduct' }
 
   /integrations/ifood:
     get:

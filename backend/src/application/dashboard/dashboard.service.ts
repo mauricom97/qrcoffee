@@ -18,6 +18,13 @@ export interface FinancialPoint {
   orderCount: number;
 }
 
+export interface TopProductPoint {
+  productUuid: string;
+  name: string;
+  quantity: number;
+  revenue: number;
+}
+
 @Injectable()
 export class DashboardService {
   private readonly client: any;
@@ -148,6 +155,60 @@ export class DashboardService {
       orderCount: orders.length,
       lastPeriodLabel: this.formatPeriodLabel('month', end),
     };
+  }
+
+  async getTopProducts(
+    period: DashboardPeriod = 'month',
+    from?: string,
+    to?: string,
+    companyUuid?: string,
+    limit = 8,
+  ): Promise<TopProductPoint[]> {
+    const { start, end } = this.getDateRange(period, from, to);
+    const safeLimit = Math.min(Math.max(Math.trunc(limit) || 8, 1), 20);
+    const where: any = {
+      order: {
+        createdAt: { gte: start, lte: end },
+        status: 'DELIVERED',
+        ...(companyUuid ? { table: { companyUuid } } : {}),
+      },
+    };
+    const items = await this.client.orderItem.findMany({
+      where,
+      select: {
+        quantity: true,
+        unitPrice: true,
+        productUuid: true,
+        product: { select: { name: true } },
+      },
+    });
+
+    const grouped = new Map<string, { name: string; quantity: number; revenue: number }>();
+    for (const item of items) {
+      const current = grouped.get(item.productUuid) ?? {
+        name: item.product?.name ?? '',
+        quantity: 0,
+        revenue: 0,
+      };
+      current.quantity += item.quantity;
+      current.revenue += item.quantity * item.unitPrice;
+      grouped.set(item.productUuid, current);
+    }
+
+    return [...grouped.entries()]
+      .map(([productUuid, value]) => ({
+        productUuid,
+        name: value.name,
+        quantity: value.quantity,
+        revenue: Math.round(value.revenue * 100) / 100,
+      }))
+      .sort(
+        (a, b) =>
+          b.quantity - a.quantity ||
+          b.revenue - a.revenue ||
+          a.name.localeCompare(b.name),
+      )
+      .slice(0, safeLimit);
   }
 
   private getDateRange(

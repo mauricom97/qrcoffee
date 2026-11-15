@@ -580,6 +580,32 @@ Authorization: Bearer <token>
 
 ---
 
+### Produtos mais vendidos
+
+Quantidade somada dos itens de pedidos `DELIVERED` no mesmo recorte de `period` (`day` = 7 dias, `month` = 6 meses, ou `from`/`to`). Requer `DASHBOARD`. O campo `revenue` só entra na resposta com `DASHBOARD_FINANCE`.
+
+```http
+GET /dashboard/top-products?period=day|month&from=<date>&to=<date>&limit=8
+Authorization: Bearer <token>
+```
+
+`limit` opcional, de 1 a 20 (padrão 8). Ordenação: quantidade, depois receita, depois nome.
+
+**Resposta 200:**
+
+```json
+[
+  {
+    "productUuid": "3f1c2a40-1b2e-4c3d-9a8b-111111111111",
+    "name": "Café expresso",
+    "quantity": 128,
+    "revenue": 640.00
+  }
+]
+```
+
+---
+
 ## Integração iFood
 
 Base: `/integrations/ifood`. MVP: receber pedidos (webhook ou simulação), mapear itens por `Product.ifoodExternalCode`, confirmar no iFood após ingestão. Pedidos usam mesa sintética número `0` (descrição `iFood`).

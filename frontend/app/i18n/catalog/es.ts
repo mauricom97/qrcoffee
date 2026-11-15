@@ -286,6 +286,11 @@ export const esMessages = {
     period: "Período",
     ordersDeliveredByPeriod: "Pedidos entregados por período",
     ordersLabel: "Pedidos",
+    topProducts: "Productos más vendidos",
+    topProductsHint: "Cantidad en pedidos entregados",
+    topProductsEmpty: "Ningún producto vendido en este período.",
+    errTopProducts: "Error al cargar los productos más vendidos",
+    units: "ud.",
     noPermission: "No tiene permiso para ver las métricas.",
   },
   orders: {

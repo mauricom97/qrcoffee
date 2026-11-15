@@ -286,6 +286,11 @@ export const ptMessages = {
     period: "Período",
     ordersDeliveredByPeriod: "Pedidos entregues por período",
     ordersLabel: "Pedidos",
+    topProducts: "Produtos mais vendidos",
+    topProductsHint: "Quantidade em pedidos entregues",
+    topProductsEmpty: "Nenhum produto vendido neste período.",
+    errTopProducts: "Erro ao carregar produtos mais vendidos",
+    units: "un.",
     noPermission: "Você não possui permissão para visualizar métricas.",
   },
   orders: {

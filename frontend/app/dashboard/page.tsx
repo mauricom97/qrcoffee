@@ -55,6 +55,13 @@ type FinancialSummary = {
   lastPeriodLabel: string;
 };
 
+type TopProduct = {
+  productUuid: string;
+  name: string;
+  quantity: number;
+  revenue?: number;
+};
+
 export default function Dashboard() {
   useRequirePanelPermission(PANEL_PERMISSIONS.DASHBOARD);
   const { user } = useAuth();
@@ -85,8 +92,10 @@ export default function Dashboard() {
   const [financialSummary, setFinancialSummary] =
     useState<FinancialSummary | null>(null);
 
+  const [topProducts, setTopProducts] = useState<TopProduct[]>([]);
   const [loadingAttendance, setLoadingAttendance] = useState(true);
   const [loadingFinancial, setLoadingFinancial] = useState(true);
+  const [loadingTopProducts, setLoadingTopProducts] = useState(true);
   const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {
@@ -137,6 +146,19 @@ export default function Dashboard() {
       .catch((e) => setError(e.message))
       .finally(() => setLoadingFinancial(false));
   }, [period, activeTab === 'financial', canViewFinancial, t]);
+
+  useEffect(() => {
+    setLoadingTopProducts(true);
+    fetch(`${API_URL}/dashboard/top-products?period=${period}`, {
+      headers: getAuthHeaders(),
+    })
+      .then((r) =>
+        r.ok ? r.json() : Promise.reject(new Error(t('dashboard.errTopProducts'))),
+      )
+      .then((rows: TopProduct[]) => setTopProducts(rows))
+      .catch((e) => setError(e.message))
+      .finally(() => setLoadingTopProducts(false));
+  }, [period, t]);
 
   const loading =
     (activeTab === 'attendance' && loadingAttendance) ||
@@ -427,6 +449,63 @@ export default function Dashboard() {
             </div>
           </section>
         )}
+
+        <section className="rounded-2xl bg-white p-4 shadow-sm border border-zinc-200">
+          <div className="mb-4 flex flex-wrap items-baseline justify-between gap-2">
+            <h2 className="text-lg font-medium text-zinc-800">
+              {t('dashboard.topProducts')}
+            </h2>
+            <p className="text-xs text-zinc-500">{t('dashboard.topProductsHint')}</p>
+          </div>
+          {loadingTopProducts ? (
+            <div className="h-[180px] flex items-center justify-center">
+              <LoadingSpinner message={t('common.loading')} />
+            </div>
+          ) : topProducts.length === 0 ? (
+            <p className="py-8 text-center text-sm text-zinc-500">
+              {t('dashboard.topProductsEmpty')}
+            </p>
+          ) : (
+            <ol className="space-y-3">
+              {topProducts.map((product, index) => {
+                const maxQuantity = topProducts[0]?.quantity || 1;
+                const width = Math.max(
+                  4,
+                  Math.round((product.quantity / maxQuantity) * 100),
+                );
+                return (
+                  <li key={product.productUuid} className="space-y-1">
+                    <div className="flex items-center justify-between gap-3 text-sm">
+                      <span className="flex min-w-0 items-center gap-2">
+                        <span className="w-5 shrink-0 text-xs font-medium text-zinc-400">
+                          {index + 1}
+                        </span>
+                        <span
+                          className="truncate font-medium text-zinc-800"
+                          title={product.name}
+                        >
+                          {product.name}
+                        </span>
+                      </span>
+                      <span className="shrink-0 text-zinc-600">
+                        {product.quantity} {t('dashboard.units')}
+                        {product.revenue != null
+                          ? ` · ${formatCurrency(product.revenue)}`
+                          : ''}
+                      </span>
+                    </div>
+                    <div className="ml-7 h-1.5 overflow-hidden rounded-full bg-zinc-100">
+                      <div
+                        className="h-full rounded-full bg-indigo-500"
+                        style={{ width: `${width}%` }}
+                      />
+                    </div>
+                  </li>
+                );
+              })}
+            </ol>
+          )}
+        </section>
 
       </div>
     </div>
