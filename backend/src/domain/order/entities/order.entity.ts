@@ -2,6 +2,8 @@ import { OrderItem } from './order-item.entity';
 
 export type OrderStatus = 'PENDING' | 'PREPARING' | 'READY' | 'DELIVERED';
 
+export type OrderSource = 'INTERNAL' | 'IFOOD';
+
 export class Order {
   constructor(
     public readonly uuid: string,
@@ -10,5 +12,7 @@ export class Order {
     public readonly createdAt: Date,
     public observacao: string | null,
     public items: OrderItem[],
+    public source: OrderSource = 'INTERNAL',
+    public externalId: string | null = null,
   ) {}
 }

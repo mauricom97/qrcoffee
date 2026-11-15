@@ -9,6 +9,8 @@ export class CreateProductDto {
   categoryUuid: string;
   companyUuid: string;
   isKitchenProduct?: boolean;
+  /** Código do item no cardápio iFood (externalCode) */
+  ifoodExternalCode?: string | null;
   /** Adicionais opcionais (nome + valor extra sobre o preço base) */
   addons?: ProductAddonInput[];
 }

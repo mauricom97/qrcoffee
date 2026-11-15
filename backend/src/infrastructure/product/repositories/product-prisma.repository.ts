@@ -34,6 +34,7 @@ export class ProductPrismaRepository {
           categoryUuid: product.categoryUuid,
           companyUuid: product.companyUuid,
           isKitchenProduct: product.isKitchenProduct,
+          ifoodExternalCode: product.ifoodExternalCode ?? null,
         },
       });
       if (rows.length) {
@@ -111,6 +112,13 @@ export class ProductPrismaRepository {
     if (dataForUpdate.categoryUuid !== undefined) data.categoryUuid = dataForUpdate.categoryUuid;
     if (dataForUpdate.isKitchenProduct !== undefined)
       data.isKitchenProduct = dataForUpdate.isKitchenProduct;
+    if (dataForUpdate.ifoodExternalCode !== undefined) {
+      data.ifoodExternalCode =
+        typeof dataForUpdate.ifoodExternalCode === 'string' &&
+        dataForUpdate.ifoodExternalCode.trim()
+          ? dataForUpdate.ifoodExternalCode.trim()
+          : null;
+    }
     if (
       dataForUpdate.price !== undefined &&
       dataForUpdate.price !== '' &&

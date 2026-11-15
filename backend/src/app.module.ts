@@ -13,10 +13,26 @@ import { CashierModule } from '@interfaces/http/cashier.module';
 import { CompanyModule } from '@interfaces/http/company.module';
 import { TeamModule } from '@interfaces/http/team.module';
 import { RealtimeModule } from '@interfaces/websocket/realtime.module';
+import { IfoodModule } from '@interfaces/http/ifood.module';
 
 @Module({
-  imports: [AuthModule, RealtimeModule, ProductModule, CategoryModule, TableModule, OrderModule, ComandaModule, DashboardModule, CashierModule, PublicModule, CompanyModule, TeamModule],
+  imports: [
+    AuthModule,
+    RealtimeModule,
+    ProductModule,
+    CategoryModule,
+    TableModule,
+    OrderModule,
+    ComandaModule,
+    DashboardModule,
+    CashierModule,
+    PublicModule,
+    CompanyModule,
+    TeamModule,
+    IfoodModule,
+  ],
   controllers: [AppController],
   providers: [AppService],
 })
 export class AppModule {}
+

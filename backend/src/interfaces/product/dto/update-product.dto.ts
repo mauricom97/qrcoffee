@@ -8,6 +8,8 @@ export class UpdateProductDTO {
     stock?: number;
     categoryUuid?: string;
     isKitchenProduct?: boolean;
+    /** Código do item no cardápio iFood (externalCode); null limpa */
+    ifoodExternalCode?: string | null;
     /** Se enviado, substitui a lista de adicionais do produto (use [] para remover todos) */
     addons?: ProductAddonInput[];
 }

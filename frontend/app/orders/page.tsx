@@ -594,9 +594,18 @@ export default function OrdersPage() {
                 className="bg-white shadow-md rounded-lg p-5 border border-zinc-200 text-black"
               >
                 <div className="flex justify-between items-start mb-4">
-                  <div className="flex items-center gap-2">
+                  <div className="flex items-center gap-2 flex-wrap">
                     <FaTable className="text-zinc-500" />
-                    <span className="font-semibold">{t("orders.tablePrefix")} {order.tableNumber}</span>
+                    <span className="font-semibold">
+                      {order.source === "IFOOD" || order.tableNumber === 0
+                        ? t("orders.ifoodTableLabel")
+                        : `${t("orders.tablePrefix")} ${order.tableNumber}`}
+                    </span>
+                    {order.source === "IFOOD" ? (
+                      <span className="px-2 py-0.5 rounded text-[11px] font-semibold uppercase tracking-wide bg-red-50 text-red-700 border border-red-100">
+                        {t("orders.ifoodBadge")}
+                      </span>
+                    ) : null}
                   </div>
                   <span
                     className={`px-3 py-1 rounded-full text-xs font-medium ${statusColor(

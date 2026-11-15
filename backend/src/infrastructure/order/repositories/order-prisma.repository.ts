@@ -1,5 +1,4 @@
 import { Order } from '@domain/order/entities/order.entity';
-import { OrderItem } from '@domain/order/entities/order-item.entity';
 import { OrderListDto } from '@domain/order/repositories/order.repository';
 import { PrismaService } from '@infrastructure/prisma/prisma.service';
 import { Injectable } from '@nestjs/common';
@@ -34,6 +33,8 @@ export class OrderPrismaRepository {
         tableUuid: order.tableUuid,
         status: order.status,
         observacao: order.observacao,
+        source: order.source ?? 'INTERNAL',
+        externalId: order.externalId ?? null,
         items: {
           create: order.items.map((item: any) => ({
             uuid: item.uuid,
@@ -78,6 +79,22 @@ export class OrderPrismaRepository {
     return this.toListDto(row);
   }
 
+  async findByExternalId(
+    source: string,
+    externalId: string,
+    companyUuid?: string,
+  ): Promise<OrderListDto | null> {
+    const client = this.prisma.client as any;
+    const where: any = { source, externalId };
+    if (companyUuid) where.table = { companyUuid };
+    const row = await client.order.findFirst({
+      where,
+      include: { table: true, items: { include: { product: true } } },
+    });
+    if (!row) return null;
+    return this.toListDto(row);
+  }
+
   async update(order: Order): Promise<void> {
     const client = this.prisma.client as any;
     await client.order.update({
@@ -105,6 +122,8 @@ export class OrderPrismaRepository {
       status: row.status,
       createdAt: row.createdAt,
       observacao: row.observacao ?? null,
+      source: row.source ?? 'INTERNAL',
+      externalId: row.externalId ?? null,
       items: (row.items || []).map((item: any) => ({
         uuid: item.uuid,
         productUuid: item.productUuid,

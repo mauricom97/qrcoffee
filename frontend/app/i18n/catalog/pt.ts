@@ -194,6 +194,31 @@ export const ptMessages = {
       appearance: "Aparência",
       language: "Idioma",
       team: "Equipe",
+      integrations: "Integrações",
+    },
+    ifood: {
+      title: "iFood",
+      desc: "Receba pedidos do iFood no painel. Mapeie cada produto com o código do item no iFood e use a simulação para testar sem a API real.",
+      enabled: "Integração ativa",
+      merchantId: "Merchant ID",
+      clientId: "Client ID",
+      clientSecret: "Client Secret",
+      webhookSecret: "Webhook secret",
+      secretConfigured: "já configurado",
+      secretPlaceholder: "Deixe em branco para manter",
+      save: "Salvar integração",
+      saved: "Integração iFood salva.",
+      saveError: "Não foi possível salvar a integração iFood.",
+      loadError: "Não foi possível carregar a integração iFood.",
+      simulateTitle: "Simular pedido",
+      simulateDesc:
+        "Cria um pedido com origem iFood usando o código externo de um produto cadastrado.",
+      simulateCode: "Código iFood do produto",
+      simulateQty: "Qtd.",
+      simulate: "Simular pedido",
+      simulateOk: "Pedido iFood simulado — veja em Pedidos.",
+      simulateError: "Falha ao simular pedido iFood.",
+      simulateNeedCode: "Informe o código iFood do produto.",
     },
   },
   soundToggle: {
@@ -288,6 +313,8 @@ export const ptMessages = {
     noneFound: "Nenhum pedido encontrado.",
     seeAll: "Ver todos",
     tablePrefix: "Mesa",
+    ifoodBadge: "iFood",
+    ifoodTableLabel: "iFood",
     observationLabel: "Observação",
     observationPlaceholder:
       "Ex.: sem cebola, ponto da carne, alergia… (opcional)",
@@ -332,6 +359,10 @@ export const ptMessages = {
     kitchenHint:
       "Fora do horário configurado em Configurações, não aparece no cardápio online.",
     kitchenBadge: "Cozinha",
+    ifoodCodeLabel: "Código iFood",
+    ifoodCodeHint:
+      "Mesmo código (externalCode) do item no cardápio do iFood. Necessário para receber pedidos.",
+    ifoodCodePh: "Ex.: cafe-expresso",
     addonsSection: "Adicionais (opcional)",
     addonsHint:
       "Defina opcionais com valor extra sobre o preço base. Deixe vazio se o produto não tiver adicionais.",

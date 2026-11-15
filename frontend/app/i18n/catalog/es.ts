@@ -194,6 +194,31 @@ export const esMessages = {
       appearance: "Apariencia",
       language: "Idioma",
       team: "Equipo",
+      integrations: "Integraciones",
+    },
+    ifood: {
+      title: "iFood",
+      desc: "Reciba pedidos de iFood en el panel. Asigne a cada producto el código del ítem en iFood y use la simulación para probar sin la API real.",
+      enabled: "Integración activa",
+      merchantId: "Merchant ID",
+      clientId: "Client ID",
+      clientSecret: "Client Secret",
+      webhookSecret: "Webhook secret",
+      secretConfigured: "ya configurado",
+      secretPlaceholder: "Déjelo en blanco para mantener",
+      save: "Guardar integración",
+      saved: "Integración iFood guardada.",
+      saveError: "No se pudo guardar la integración iFood.",
+      loadError: "No se pudo cargar la integración iFood.",
+      simulateTitle: "Simular pedido",
+      simulateDesc:
+        "Crea un pedido con origen iFood usando el código externo de un producto registrado.",
+      simulateCode: "Código iFood del producto",
+      simulateQty: "Cant.",
+      simulate: "Simular pedido",
+      simulateOk: "Pedido iFood simulado — véalo en Pedidos.",
+      simulateError: "Error al simular el pedido iFood.",
+      simulateNeedCode: "Indique el código iFood del producto.",
     },
   },
   soundToggle: {
@@ -288,6 +313,8 @@ export const esMessages = {
     noneFound: "No hay pedidos.",
     seeAll: "Ver todos",
     tablePrefix: "Mesa",
+    ifoodBadge: "iFood",
+    ifoodTableLabel: "iFood",
     observationLabel: "Observación",
     observationPlaceholder:
       "Ej.: sin cebolla, punto de la carne, alergia… (opcional)",
@@ -332,6 +359,10 @@ export const esMessages = {
     kitchenHint:
       "Fuera del horario configurado en Ajustes, no aparece en el menú online.",
     kitchenBadge: "Cocina",
+    ifoodCodeLabel: "Código iFood",
+    ifoodCodeHint:
+      "El mismo código (externalCode) del ítem en el menú de iFood. Necesario para recibir pedidos.",
+    ifoodCodePh: "Ej.: cafe-espresso",
     addonsSection: "Extras (opcional)",
     addonsHint:
       "Opciones con precio adicional sobre el precio base. Déjelo vacío si el producto no tiene extras.",

@@ -4,6 +4,7 @@ import { useCallback, useEffect, useMemo, useState } from "react";
 import CardapioThemeForm from "components/CardapioThemeForm";
 import KitchenHoursForm from "components/KitchenHoursForm";
 import SoundOnOrderReadyToggle from "components/SoundOnOrderReadyToggle";
+import IfoodSettingsForm from "components/IfoodSettingsForm";
 import LanguageSwitcher from "components/LanguageSwitcher";
 import TeamSettingsSection from "components/TeamSettingsSection";
 import { useAuth } from "contexts/AuthContext";
@@ -11,7 +12,13 @@ import { useLocaleContext } from "i18n/LocaleContext";
 import { useRequirePanelPermission } from "hooks/useRequirePanelPermission";
 import { PANEL_PERMISSIONS } from "lib/panelPermissions";
 
-type SettingsTab = "orders" | "kitchen" | "appearance" | "language" | "team";
+type SettingsTab =
+  | "orders"
+  | "kitchen"
+  | "appearance"
+  | "language"
+  | "integrations"
+  | "team";
 
 export default function SettingsPage() {
   useRequirePanelPermission(PANEL_PERMISSIONS.SETTINGS);
@@ -27,6 +34,7 @@ export default function SettingsPage() {
       { id: "kitchen", label: t("settings.tab.kitchen") },
       { id: "appearance", label: t("settings.tab.appearance") },
       { id: "language", label: t("settings.tab.language") },
+      { id: "integrations", label: t("settings.tab.integrations") },
     ];
     if (isAdmin) list.push({ id: "team", label: t("settings.tab.team") });
     return list;
@@ -159,6 +167,19 @@ export default function SettingsPage() {
                 hideLabel
                 className="flex flex-col sm:flex-row sm:items-center gap-2 w-full max-w-xs"
               />
+            </section>
+
+            <section
+              role="tabpanel"
+              id="settings-panel-integrations"
+              aria-labelledby="settings-tab-integrations"
+              hidden={activeTab !== "integrations"}
+              className={activeTab === "integrations" ? "space-y-3" : undefined}
+            >
+              <h2 className="text-lg font-semibold text-zinc-800">
+                {t("settings.ifood.title")}
+              </h2>
+              <IfoodSettingsForm />
             </section>
 
             {isAdmin ? (

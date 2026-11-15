@@ -39,6 +39,7 @@ export default function ProductsPage() {
     active: true,
     description: "",
     isKitchenProduct: false,
+    ifoodExternalCode: "",
     images: [] as string[],
     addons: [] as { name: string; extraPrice: number; active: boolean }[],
   });
@@ -132,6 +133,7 @@ export default function ProductsPage() {
       description: "",
       active: true,
       isKitchenProduct: false,
+      ifoodExternalCode: "",
       images: [],
       addons: [],
     });
@@ -153,6 +155,7 @@ export default function ProductsPage() {
       description: product.description || "",
       active: product.active,
       isKitchenProduct: Boolean(product.isKitchenProduct),
+      ifoodExternalCode: product.ifoodExternalCode || "",
       images: product.images || [],
       addons: (product.addons ?? []).map((a) => ({
         name: a.name,
@@ -200,6 +203,7 @@ export default function ProductsPage() {
       description: newProduct.description,
       categoryUuid: newProduct.categoryUuid,
       isKitchenProduct: newProduct.isKitchenProduct,
+      ifoodExternalCode: newProduct.ifoodExternalCode.trim() || null,
       addons: newProduct.addons
         .filter((a) => a.name.trim().length > 0)
         .map((a, i) => ({
@@ -239,6 +243,7 @@ export default function ProductsPage() {
     description: string;
     categoryUuid: string;
     isKitchenProduct: boolean;
+    ifoodExternalCode?: string | null;
     addons: { name: string; extraPrice: number; active: boolean; sortOrder: number }[];
   }) => {
     const response = await fetch(
@@ -502,6 +507,27 @@ export default function ProductsPage() {
                     {t("products.kitchenHint")}
                   </span>
                 </span>
+              </label>
+
+              <label className="block text-sm space-y-1 md:col-span-2">
+                <span className="font-medium text-zinc-700">
+                  {t("products.ifoodCodeLabel")}
+                </span>
+                <span className="text-zinc-500 text-xs block">
+                  {t("products.ifoodCodeHint")}
+                </span>
+                <input
+                  type="text"
+                  value={newProduct.ifoodExternalCode}
+                  onChange={(e) =>
+                    setNewProduct({
+                      ...newProduct,
+                      ifoodExternalCode: e.target.value,
+                    })
+                  }
+                  placeholder={t("products.ifoodCodePh")}
+                  className="mt-1 w-full rounded-lg border border-zinc-200 px-3 py-2 text-sm focus:outline-none focus:border-zinc-400"
+                />
               </label>
             </div>
 

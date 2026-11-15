@@ -1,7 +1,7 @@
 import { OrderRepository } from '@domain/order/repositories/order.repository';
 import { Order } from '@domain/order/entities/order.entity';
 import { OrderItem } from '@domain/order/entities/order-item.entity';
-import { OrderStatus } from '@domain/order/entities/order.entity';
+import { OrderSource, OrderStatus } from '@domain/order/entities/order.entity';
 
 export interface CreateOrderItemInput {
   productUuid: string;
@@ -17,6 +17,8 @@ export interface CreateOrderInput {
   companyUuid?: string;
   /** Texto livre opcional; normalizado e limitado a 500 caracteres. */
   observacao?: string | null;
+  source?: OrderSource;
+  externalId?: string | null;
 }
 
 const MAX_OBSERVACAO_LEN = 500;
@@ -62,6 +64,8 @@ export class CreateOrderUseCase {
       new Date(),
       normalizeObservacao(input.observacao),
       items,
+      input.source ?? 'INTERNAL',
+      input.externalId?.trim() ? input.externalId.trim() : null,
     );
     return await this.orderRepository.save(order, companyUuid);
   }

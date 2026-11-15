@@ -7,6 +7,8 @@ export interface OrderItemDto {
   addonsSnapshot?: { name: string; extraPrice: number }[] | null;
 }
 
+export type OrderSource = "INTERNAL" | "IFOOD";
+
 export interface OrderDto {
   uuid: string;
   tableUuid: string;
@@ -14,6 +16,8 @@ export interface OrderDto {
   status: OrderStatus;
   createdAt: string;
   observacao?: string | null;
+  source?: OrderSource | string;
+  externalId?: string | null;
   items: OrderItemDto[];
 }
 
