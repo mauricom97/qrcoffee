@@ -15,6 +15,7 @@
 
 # next.js
 /.next/
+/.next-ifood-test/
 /out/
 
 # production
